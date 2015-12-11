@@ -8,36 +8,33 @@ var KEYCODE = {
 
 window.addEventListener('load', function() {
 
-  var radiobuttons = document.querySelectorAll('[role=radio]');
+  var combobox = document.querySelectorAll('[role=option]');
+  for(var i = 0; i < combobox.length; i++ ) {
+    var cb = combobox[i];
 
-  for(var i = 0; i < radiobuttons.length; i++ ) {
-    var rb = radiobuttons[i];
-
-    console.log(rb.tagName + " " + rb.id)
-
-    rb.addEventListener('click', clickRadioGroup);
-    rb.addEventListener('keydown', keyDownRadioGroup);
-    rb.addEventListener('focus', focusRadioButton);
-    rb.addEventListener('blur', blurRadioButton);
+    cb.addEventListener('click', clickComboBox);
+    cb.addEventListener('keydown', keyDownComboBox);
+    cb.addEventListener('focus', focusComboItem);
+    cb.addEventListener('blur', blurComboItem);
   }
 
 });
 
 /* 
-* @function firstRadioButton
+* @function firstComboItem
 *
 * @desc Returns the first radio button
 *
 * @param   {Object}  event  =  Standard W3C event object
 */
 
-function firstRadioButton(node) {
+function firstComboItem(node) {
   
   var first = node.parentNode.firstChild;
   
   while(first) {
     if (first.nodeType === Node.ELEMENT_NODE) {
-      if (first.getAttribute("role") === 'radio') return first;
+      if (first.getAttribute("role") === 'option') return first;
     }
     first = first.nextSibling;
   }
@@ -46,20 +43,20 @@ function firstRadioButton(node) {
 }
 
 /* 
-* @function lastRadioButton
+* @function lastComboItem
 *
 * @desc Returns the last radio button
 *
 * @param   {Object}  event  =  Standard W3C event object
 */
 
-function lastRadioButton(node) {
+function lastComboItem(node) {
   
   var last = node.parentNode.lastChild;
 
   while(last) {
     if (last.nodeType === Node.ELEMENT_NODE) {
-      if (last.getAttribute("role") === 'radio') return last;
+      if (last.getAttribute("role") === 'option') return last;
     }
     last = last.previousSibling;
   }
@@ -68,20 +65,20 @@ function lastRadioButton(node) {
 }
 
 /* 
-* @function nextRadioButton
+* @function nextComboItem
 *
 * @desc Returns the next radio button
 *
 * @param   {Object}  event  =  Standard W3C event object
 */
 
-function nextRadioButton(node) {
+function nextComboItem(node) {
   
   var next = node.nextSibling;
   
   while(next) {
     if (next.nodeType === Node.ELEMENT_NODE) {
-      if (next.getAttribute("role") === 'radio') return next;
+      if (next.getAttribute("role") === 'option') return next;
     }
     next = next.nextSibling;
   }
@@ -90,20 +87,20 @@ function nextRadioButton(node) {
 }
 
 /* 
-* @function previousRadioButton
+* @function previousComboItem
 *
 * @desc Returns the previous radio button
 *
 * @param   {Object}  event  =  Standard W3C event object
 */
 
-function previousRadioButton(node) {
+function previousComboItem(node) {
   
   var prev = node.previousSibling;
   
   while(prev) {
     if (prev.nodeType === Node.ELEMENT_NODE) {
-      if (prev.getAttribute("role") === 'radio') return prev;
+      if (prev.getAttribute("role") === 'option') return prev;
     }
     prev = prev.previousSibling;
   }
@@ -111,30 +108,8 @@ function previousRadioButton(node) {
   return null;
 }
 
-/* 
-* @function getImage
-*
-* @desc Gets the image for radio box
-*
-* @param   {Object}  event  =  Standard W3C event object
-*/
-
-function getImage(node) {
-  
-  var child = node.firstChild;
-  
-  while(child) {
-    if (child.nodeType === Node.ELEMENT_NODE) {
-      if (child.tagName === 'IMG') return child;
-    }
-    child = child.nextSibling;
-  }
-  
-  return null;
-}
-
 /*
-* @function setRadioButton
+* @function setComboItem
 *
 * @desc Toogles the state of a radio button
 *
@@ -142,46 +117,39 @@ function getImage(node) {
 *
 */
 
-function setRadioButton(node, state) {
-  var image = getImage(node);
-
+function setComboItem(node, state) {
   if (state == 'true') {
-    node.setAttribute('aria-checked', 'true')
-    image.src = './images/radio-checked.png';
-    node.tabIndex = 0;
-    node.focus()
+    node.className += ' selected';
+    node.focus();
   }
   else {
-    node.setAttribute('aria-checked', 'false')
-    image.src = './images/radio-unchecked.png';   
-    node.tabIndex = -1;
+    node.className = node.className.replace(' selected', '');
+    node.className = node.className.replace(' focus', '');
   }  
 }
 
 /*
-* @function clickRadioGroup
+* @function clickComboBox
 *
 * @desc 
 *
 * @param   {Object}  node  -  DOM node of updated group radio buttons
 */
 
-function clickRadioGroup(event) {
+function clickComboBox(event) {
   var type = event.type;
   
   if (type === 'click') {
-    // If either enter or space is pressed, execute the funtion
-
     var node = event.currentTarget;
 
-    var radioButton = firstRadioButton(node);
+    var comboItem = firstComboItem(node);
 
-    while (radioButton) {
-      setRadioButton(radioButton, "false");
-      radioButton = nextRadioButton(radioButton);
+    while (comboItem) {
+      setComboItem(comboItem, "false");
+      comboItem = nextComboItem(comboItem);
     } 
 
-    setRadioButton(node, "true");
+    setComboItem(node, "true");
 
     event.preventDefault();
     event.stopPropagation();
@@ -189,14 +157,14 @@ function clickRadioGroup(event) {
 }
 
 /*
-* @function keyDownRadioGroup
+* @function keyDownComboBox
 *
 * @desc 
 *
 * @param   {Object}   node  -  DOM node of updated group radio buttons
 */
 
-function keyDownRadioGroup(event) {
+function keyDownComboBox(event) {
   var type = event.type;
   var next = false;
   
@@ -206,14 +174,12 @@ function keyDownRadioGroup(event) {
     switch (event.keyCode) {
       case KEYCODE.DOWN:
       case KEYCODE.RIGHT:
-        var next = nextRadioButton(node);
-        if (!next) next = firstRadioButton(node); //if node is the last node, node cycles to first.
+        var next = nextComboItem(node);
         break;
 
       case KEYCODE.UP:
       case KEYCODE.LEFT:
-        next = previousRadioButton(node);
-        if (!next) next = lastRadioButton(node); //if node is the last node, node cycles to first.
+        next = previousComboItem(node);
         break;
         
       case KEYCODE.SPACE:
@@ -222,14 +188,14 @@ function keyDownRadioGroup(event) {
     }
     
     if (next) {
-      var radioButton = firstRadioButton(node);
+      var comboItem = firstComboItem(node);
 
-      while (radioButton) {
-        setRadioButton(radioButton, "false");
-        radioButton = nextRadioButton(radioButton);
+      while (comboItem) {
+        setComboItem(comboItem, "false");
+        comboItem = nextComboItem(comboItem);
       } 
       
-      setRadioButton(next, "true");
+      setComboItem(next, "true");
 
       event.preventDefault();
       event.stopPropagation();
@@ -238,25 +204,25 @@ function keyDownRadioGroup(event) {
 }
 
 /*
-* @function focusRadioButton
+* @function focusComboItem
 *
 * @desc Adds focus styling to label element encapsulating standard radio button
 *
 * @param   {Object}  event  -  Standard W3C event object
 */
 
-function focusRadioButton(event) {
+function focusComboItem(event) {
   event.currentTarget.className += ' focus';
 }
 
 /*
-* @function blurRadioButton
+* @function blurComboItem
 *
 * @desc Adds focus styling to the label element encapsulating standard radio button
 *
 * @param   {Object}  event  -  Standard W3C event object
 */
 
-function blurRadioButton(event) {
+function blurComboItem(event) {
    event.currentTarget.className = event.currentTarget.className.replace(' focus','');
 }
