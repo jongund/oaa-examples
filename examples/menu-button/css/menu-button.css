@@ -10,6 +10,12 @@ div[role="menu"] a {
 	display: block;
 }
 
+ul[role="menu"] {
+	position: absolute;
+	margin: 0;
+	padding: 0;
+}
+
 ul[role="menu"] li {
 	list-style: none;
 }
