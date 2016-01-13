@@ -255,12 +255,12 @@ aria.widget.Menu.prototype.eventKeyDown = function(event, menu) {
 
 	case menu.keyCode.SPACE:
 	case menu.keyCode.RETURN:
-		window.location.href = ct.href;
 		flag = true;
 		break;
 
 	case menu.keyCode.ESC:
-		menu.menuButton.closeMenu();	
+		menu.menuButton.closeMenu();
+		menu.menuButton.buttonNode.focus();	
 		flag = true;
 		break;
 
