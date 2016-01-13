@@ -1,0 +1,8 @@
+{
+    "elements" : ["table", "th", "td"],
+    "html-attributes" : ["headers", "summary"],
+    "roles" : [],
+    "aria-properties" : ["aria-labelledby"],
+    "aria-states" : ["aria-labelledby", "headers", "summary"],
+    "eventhandlers" : []
+}
