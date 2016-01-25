@@ -255,6 +255,13 @@ aria.widget.Menu.prototype.eventKeyDown = function(event, menu) {
 
 	case menu.keyCode.SPACE:
 	case menu.keyCode.RETURN:
+	  	var click_event = new MouseEvent('click', {
+		    'view': window,
+		    'bubbles': true,
+		    'cancelable': true
+		  });
+  		ct.dispatchEvent(click_event);
+		menu.menuButton.closeMenu();
 		flag = true;
 		break;
 
@@ -353,7 +360,6 @@ aria.widget.MenuButton = function(node) {
 		 "RETURN" : 13,
 		 "ESC"    : 27,
 		 "SPACE"  : 32,
-
 		 "UP"    : 38,
 		 "DOWN"  : 40
 	});
@@ -526,18 +532,17 @@ aria.widget.MenuButton.prototype.eventKeyDown = function(event, menuButton) {
 	case menuButton.keyCode.SPACE:
 		menuButton.toggleMenu();
 		flag = true;
-    	break;
+		break;
 
 	case menuButton.keyCode.RETURN:
-		if (!menuButton.isLink) {
-			menuButton.toggleMenu();
+		menuButton.toggleMenu();
 			flag = true;
-		}
 		break;
 
 	case menuButton.keyCode.UP:
 		menuButton.moveFocusToLastMenuItem();
 		flag = true;
+		
     	break;
 
 	case menuButton.keyCode.DOWN:
@@ -553,6 +558,7 @@ aria.widget.MenuButton.prototype.eventKeyDown = function(event, menuButton) {
 	case menuButton.keyCode.TAB:
 		menuButton.closeMenu();
 		break;
+
 
 	default:
     	break;
@@ -598,3 +604,10 @@ aria.widget.MenuButton.prototype.eventMouseOut = function(event, menuButton) {
 	setTimeout(function(){ menuButton.closeMenu() }, 500);
 
 };
+
+
+function changeFontSize(id, size) {
+  document.getElementById(id).style.fontSize = size;
+};
+
+
