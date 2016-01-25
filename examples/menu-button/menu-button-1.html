@@ -12,15 +12,12 @@
   </head>
   <body>
     <main role="main">
-      <h1>ARIA Menu Button Example: Menu items are not descendants of Menu Button</h1>
+      <h1>ARIA Menu Button Example</h1>
  
-      <p> <p> <a href="../../aria-practices.html#menubutton">Authoring Practice Design Patten for Menu Button</a></p>
-      <ul>
-          <li></li>
-      </ul>
+      <p> <p> <a href="http://www.w3.org/TR/wai-aria-practices-1.1/#h-menubutton">Authoring Practice Design Patten for Menu Button</a></p>
 
       <section id="code-ex-1">
-        <h2>Menu Button Example: Button is an <code>button</code> element</h2>
+        <h2>Menu Button Example: Menu Button is an <code>button</code> element</h2>
 
         <button 
             id="mb1"
@@ -29,10 +26,10 @@
           Font Size
          </button>
 
-          <ul id="menu1" role="menu" aria-labelledby="mb2">
-            <li role="menuitem">12pt</li>
-            <li role="menuitem">16pt</li>
-            <li role="menuitem">20pt</li>
+          <ul id="menu1" role="menu" aria-labelledby="mb1">
+            <li role="menuitem"  onclick="changeFontSize('text-sample-1', '12pt')">Small</li>
+            <li role="menuitem"  onclick="changeFontSize('text-sample-1', '18pt')">Medium</li>
+            <li role="menuitem"  onclick="changeFontSize('text-sample-1', '24pt')">Large</li>
           </ul>
 
           <div id="text-sample-1">
@@ -103,12 +100,27 @@ difficult to achieve on a web page.</td>
           <tr>
             <td>button</td>
             <td>aria-haspopup</td>
+            <td>true</td>
+          </tr>
+          <tr>
+            <td>menu</td>
+            <td></td>
             <td>
               <ul>
                
               </ul> 
             </td>
           </tr>
+          <tr> 
+            <td>menu item</td>
+            <td></td>
+            <td>
+              <ul>
+               
+              </ul> 
+            </td>
+          </tr>
+
         </tbody>
       </table>
       
