@@ -1,22 +1,30 @@
-[role=option] {
-   margin: 0;
-   padding: 0;    
-   border: 2px transparent solid;
-   margin-bottom: .5em;
-   margin-top: .5em;
-}
-[role=option] {
-   display: block;
-   border: thin transparent solid;
-   margin-left: 18px;
-}  
-[role=option]:hover {
-   border-color: #777;
+button,
+a[role=button] {
+	margin: 0;
+	padding: 0;
+	text-decoration: none;
+	display: block;
 }
 
-[role=option].focus {
-   border-color: black;
-  #codeex{
-   background-color: #F1F1F1 ;
-   padding:10px;
+div[role="listbox"] a {
+	display: block;
+}
+
+ul[role="listbox"] li {
+	list-style: none;
+}
+
+[role="listbox"] {
+	padding: 0;
+	width: 8em;
+	border: thin solid black;
+	background-color: #EEEEEE;
+}
+[role="option"] {
+	padding: 0.25em;
+}
+
+[role="option"]:focus,
+[role="option"]:hover {
+	background-color: #FFFFFF;
 }
