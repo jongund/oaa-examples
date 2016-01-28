@@ -22,12 +22,12 @@
  * @desc 
  */
 
-window.addEventListener('load', function() {
+window.addEventListener('load', function(){
 
   var comboBoxes = document.querySelectorAll('div.combobox');
 
-  [].forEach.call(comboBoxes, function(comboBox) {
-    if (comboBox) {
+  [].forEach.call(comboBoxes, function(comboBox){
+    if (comboBox){
       var mb = new aria.widget.ComboBoxInput(comboBox)
       mb.initComboBox();
     }  
@@ -38,7 +38,7 @@ window.addEventListener('load', function() {
  * @namespace aria
  */
 
-var aria = aria || {};
+var aria = aria ||{};
 
 /* ---------------------------------------------------------------- */
 /*                  ARIA Utils Namespace                        */ 
@@ -56,18 +56,18 @@ var aria = aria || {};
  * @retruns  Object  Object contains left and top position
  */
 
-aria.Utils = aria.Utils || {};
+aria.Utils = aria.Utils ||{};
 
-aria.Utils.findPos = function(element) {
+aria.Utils.findPos = function(element){
     var xPosition = 0;
     var yPosition = 0;
   
-    while(element) {
+    while(element){
         xPosition += (element.offsetLeft - element.scrollLeft + element.clientLeft);
         yPosition += (element.offsetTop - element.scrollTop + element.clientTop);
         element = element.offsetParent;
     }
-    return { x: xPosition, y: yPosition };
+    return{ x: xPosition, y: yPosition };
 };
 
 
@@ -75,19 +75,19 @@ aria.Utils.findPos = function(element) {
 /*                  ARIA Widget Namespace                        */ 
 /* ---------------------------------------------------------------- */
 
-aria.widget = aria.widget || {};
+aria.widget = aria.widget ||{};
 
 
 /* ---------------------------------------------------------------- */
-/*                  Menu Button Widget                           */
+/*                        List Box Widget                           */
 /* ---------------------------------------------------------------- */
 
 /**
- * @constructor Menu
+ * @constructor ComboBoxInput
  *
  * @memberOf aria.Widget
  *
- * @desc  Creates a Menu Button widget using ARIA 
+ * @desc  Creates a ComboBox widget using ARIA 
  *
  * @param  node    DOM node  -  DOM node object
  *
@@ -96,48 +96,30 @@ aria.widget = aria.widget || {};
  * @property  node               Object    -  JQuery node object
  */
 
-aria.widget.ListBox = function(listBoxNode, inputNode, buttonNode, comboBox) {
+aria.widget.ListBox = function(comboBox){
 
-   this.keyCode = Object.freeze({
-     "TAB"      : 9,
-     "RETURN"   : 13,
-     "ESC"    : 27,
-     "SPACE"    : 32,
-     "ALT"      :18,
+  this.keyCode = Object.freeze({
+    "TAB"      : 9,
+    "RETURN"   : 13,
+    "ESC"    : 27,
+    "SPACE"    : 32,
+    "ALT"      :18,
 
-     "PAGEUP"    : 33,
-     "PAGEDOWN" : 34,
-     "END"      : 35,
-     "HOME"     : 36,
+    "PAGEUP"    : 33,
+    "PAGEDOWN" : 34,
+    "END"      : 35,
+    "HOME"     : 36,
 
-     "LEFT"  : 37,
-     "UP"    : 38,
-     "RIGHT" : 39,
-     "DOWN"  : 40
+    "LEFT"  : 37,
+    "UP"    : 38,
+    "RIGHT" : 39,
+    "DOWN"  : 40,
   });
-  
-  // Check fo DOM element node
-  if (typeof listBoxNode !== 'object' || !listBoxNode.getElementsByClassName) return false;
 
-  this.listBoxNode = listBoxNode;
-  listBoxNode.tabIndex = -1;
-
-  if (typeof inputNode !== 'object' || !inputNode.getElementsByClassName) return false;
-
-  this.inputNode = inputNode;
-  inputNode.tabIndex = 0;
-  
-  if (typeof buttonNode !== 'object' || !buttonNode.getElementsByClassName) return false;
-
-  this.buttonNode = buttonNode;
-  buttonNode.tabIndex = -1;
-  
   this.comboBox = comboBox;
-
   this.firstComboItem = false;
   this.lastComboItem = false;
   this.selectedItem = false;
-
 };
 
 /**
@@ -145,51 +127,47 @@ aria.widget.ListBox = function(listBoxNode, inputNode, buttonNode, comboBox) {
  *
  * @memberOf aria.widget.ListBox
  *
- * @desc  Creates the HTML for the slider 
+ * @desc  Add event listeners to all listbox elements 
  */
 
-aria.widget.ListBox.prototype.initListBox = function() {
+aria.widget.ListBox.prototype.initListBox = function(){
 
-    var listBox = this;
+  var listBox = this;
+  var cn = this.comboBox.listBoxNode.firstChild;
   
-    var eventMouseOver = function (event) {
-      listBox.eventMouseOver(event, listBox);
-    };
-    this.listBoxNode.addEventListener('mouseover',   eventMouseOver);
+  while (cn){
+    if (cn.nodeType === Node.ELEMENT_NODE){
+      if (cn.getAttribute('role')  === 'option'){
+        cn.tabIndex = -1;
+        if (!this.firstComboItem) this.firstComboItem = cn; 
+        this.lastComboItem = cn;
 
-    var eventMouseOut = function (event) {
-      listBox.eventMouseOut(event, listBox);
-    };
-    this.listBoxNode.addEventListener('mouseout',   eventMouseOut);
+        // This is for the case of the LI elements containing the A elements
+        var links = cn.getElementsByTagName('A');
 
-    var cn = this.listBoxNode.firstChild;
-
-    while (cn) {
-      if (cn.nodeType === Node.ELEMENT_NODE) {
-        if (cn.getAttribute('role')  === 'option') {
-          cn.tabIndex = -1;
-          if (!this.firstComboItem) this.firstComboItem = cn; 
-          this.lastComboItem = cn;
-
-          // This is for the case of the LI elements containing the A elements
-          var links = cn.getElementsByTagName('A');
-
-          if (links.length) {
-            links[0].tabIndex = -1;
-            cn.href = links[0].href;
-          }
-
-          var eventKeyDown = function (event) {
-            listBox.eventKeyDown(event, listBox);
-          };
-
-          cn.addEventListener('keydown', eventKeyDown);
+        if (links.length){
+          links[0].tabIndex = -1;
+          cn.href = links[0].href;
         }
+
+        var eventKeyDown = function (event){
+          listBox.eventKeyDown(event, listBox);
+        };
+
+        cn.addEventListener('keydown', eventKeyDown);
+
+        var eventClick = function (event){
+          listBox.eventClick(event, listBox);
+        };
+
+        cn.addEventListener('click', eventClick);
       }
-      cn = cn.nextSibling;
     }
-
-
+    cn = cn.nextSibling;
+  }
+  
+  this.button = new aria.widget.Button(this.comboBox);
+  this.button.initButton();
 };
 
 /**
@@ -197,16 +175,16 @@ aria.widget.ListBox.prototype.initListBox = function() {
  *
  * @memberOf aria.widget.ListBox
  *
- * @desc  Moves focus to next menuItem 
+ * @desc  Moves focus to next item
  */
 
-aria.widget.ListBox.prototype.nextComboItem = function(ci) {
+aria.widget.ListBox.prototype.nextComboItem = function(ci){
 
   var mi = ci.nextSibling;
 
-  while (mi) {
+  while (mi){
     if ((mi.nodeType === Node.ELEMENT_NODE) && 
-      (mi.getAttribute('role')  === 'option')) {
+      (mi.getAttribute('role')  === 'option')){
       mi.focus();
       this.selectedItem = mi;
       break;
@@ -214,30 +192,60 @@ aria.widget.ListBox.prototype.nextComboItem = function(ci) {
     mi = mi.nextSibling;
   }
 
-  if (!mi && this.firstComboItem) {
+  if (!mi && this.firstComboItem){
     mi =  this.firstComboItem;
     this.selectedItem = mi;
     this.firstComboItem.focus();  
   }
-  
+
   return mi;
 };
+
+/**
+ * @method moveToNextComboItem
+ *
+ * @memberOf aria.widget.ListBox
+ *
+ * @desc  Moves focus down the item list 
+ */
+
+aria.widget.ListBox.prototype.moveToNextComboItem = function(ci , n){
+
+  var mi = ci;
+  for( var i = 0; i < n; i++){
+    mi = mi.nextSibling.nextSibling;
+    if(!mi)break;
+    if(mi.nodeType === Node.ELEMENT_NODE &&
+      (mi.getAttribute('role')  === 'option')){
+      mi.focus();
+      this.selectedItem = mi;
+    }
+  }
+  if (!mi && this.firstComboItem){
+    mi = this.lastComboItem;
+    this.selectedItem = mi;
+    this.lastComboItem.focus();
+  }
+
+  return mi;
+};
+
 
 /**
  * @method previousComboItem
  *
  * @memberOf aria.widget.ListBox
  *
- * @desc  Moves focus to next menuItem 
+ * @desc  Moves focus to previous item 
  */
 
-aria.widget.ListBox.prototype.previousComboItem = function(ci) {
+aria.widget.ListBox.prototype.previousComboItem = function(ci){
 
   var mi = ci.previousSibling;
 
-  while (mi) {
+  while (mi){
     if(mi.nodeType === Node.ELEMENT_NODE &&
-      (mi.getAttribute('role')  === 'option')) {
+      (mi.getAttribute('role')  === 'option')){
       mi.focus();
       this.selectedItem = mi;
       break;
@@ -245,7 +253,7 @@ aria.widget.ListBox.prototype.previousComboItem = function(ci) {
     mi = mi.previousSibling;
   }
 
-  if (!mi && this.lastComboItem) {
+  if (!mi && this.lastComboItem){
     mi = this.lastComboItem;
     this.selectedItem = mi;
     this.lastComboItem.focus();
@@ -255,19 +263,97 @@ aria.widget.ListBox.prototype.previousComboItem = function(ci) {
 };
 
 /**
+ * @method moveToPreviousComboItem
+ *
+ * @memberOf aria.widget.ListBox
+ *
+ * @desc  Moves focus up the item list 
+ */
+
+aria.widget.ListBox.prototype.moveToPreviousComboItem = function(ci, n){
+
+  var mi = ci;
+  for( var i = 0; i < n; i++){
+    mi = mi.previousSibling.previousSibling;
+    if(!mi)break;
+    if(mi.nodeType === Node.ELEMENT_NODE &&
+      (mi.getAttribute('role')  === 'option')){
+      mi.focus();
+      this.selectedItem = mi;
+      }
+  }
+  if (!mi && this.firstComboItem){
+    mi = this.firstComboItem;
+    this.selectedItem = mi;
+    this.firstComboItem.focus();
+  }
+
+  return mi;
+};
+
+/**
  * @method setInput
  *
  * @memberOf aria.widget.ListBox
  *
- * @desc  Sets the text of the input field.
+ * @desc  Set the text of the input field.
  */
 
-aria.widget.ListBox.prototype.setInput = function(ci) {
+aria.widget.ListBox.prototype.setInput = function(ci){
   selectedInput = ci.childNodes[0].nodeValue;
-  this.comboBox.inputNode.setAttribute("value", selectedInput);
-
+  this.comboBox.inputNode.value = selectedInput;
 };
 
+
+/**
+ * @method nextAlphaComboItem
+ *
+ * @memberOf aria.widget.ListBox
+ *
+ * @desc  Find the next instance of a combo item matching the key pressed.
+ */
+
+aria.widget.ListBox.prototype.nextAlphaComboItem = function(event){
+
+  var flag = false;
+
+  var keyCode = String.fromCharCode(event.keyCode).toLowerCase();
+
+  if (keyCode >= 'a' && keyCode <= 'z'){
+    cn = this.selectedItem.nextSibling;
+    while(cn){
+      if (cn.nodeType === Node.ELEMENT_NODE){
+        if (cn.getAttribute('role')  === 'option'){
+          if (cn.childNodes[0].nodeValue.charAt(0).toLowerCase() === keyCode){
+            nt = cn;
+            this.selectedItem = nt;
+            nt.focus();
+            flag = true;
+            break;
+          }
+        }
+      }
+      cn = cn.nextSibling;
+    }
+    if(flag == false){
+      cn = this.comboBox.listBoxNode.firstChild.nextSibling
+      while(cn){
+        if (cn.nodeType === Node.ELEMENT_NODE){
+          if (cn.getAttribute('role')  === 'option'){
+            if (cn.childNodes[0].nodeValue.charAt(0).toLowerCase() === keyCode){
+              nt = cn;
+              this.selectedItem = nt;
+              nt.focus();
+              flag = true;
+              break;
+            }
+          }
+        }
+      cn = cn.nextSibling;
+      }
+    }
+  }
+}
 
 /**
  * @method eventKeyDown
@@ -279,14 +365,14 @@ aria.widget.ListBox.prototype.setInput = function(ci) {
  *               listBox 
  */
 
-aria.widget.ListBox.prototype.eventKeyDown = function(event, listBox) {
+aria.widget.ListBox.prototype.eventKeyDown = function(event, listBox){
 
   var ct = event.currentTarget;
   var nt = ct;
   
   var flag = false;
 
-  switch(event.keyCode) {
+  switch(event.keyCode){
   
   case listBox.keyCode.RETURN:
   case listBox.keyCode.ESC:
@@ -296,7 +382,7 @@ aria.widget.ListBox.prototype.eventKeyDown = function(event, listBox) {
     break;
 
   case listBox.keyCode.UP:
-    if (event.altKey) {
+    if (event.altKey){
       listBox.comboBox.toggleListBox();
       listBox.comboBox.inputNode.focus();
       flag = true;
@@ -312,7 +398,7 @@ aria.widget.ListBox.prototype.eventKeyDown = function(event, listBox) {
     break;
 
   case listBox.keyCode.DOWN:
-    if (event.altKey) {
+    if (event.altKey){
       listBox.comboBox.toggleListBox();
       listBox.comboBox.inputNode.focus();
       flag = true;  
@@ -330,13 +416,23 @@ aria.widget.ListBox.prototype.eventKeyDown = function(event, listBox) {
   case listBox.keyCode.TAB:
     listBox.comboBox.closeListBox();
     break;
+  
+  case listBox.keyCode.PAGEUP:
+    nt = listBox.moveToPreviousComboItem(ct, 10);
+    flag = true;  
+    break;
+    
+  case listBox.keyCode.PAGEDOWN:
+    nt = listBox.moveToNextComboItem(ct, 10);
+    flag = true;  
+    break;
 
   default:
+    listBox.nextAlphaComboItem(event);
     break;
   }
 
-  
-  if (flag) {
+  if (flag){
     if(nt){listBox.setInput(nt)}
     event.stopPropagation();
     event.preventDefault();
@@ -345,24 +441,7 @@ aria.widget.ListBox.prototype.eventKeyDown = function(event, listBox) {
 };
 
 /**
- * @method eventMouseOver
- *
- * @memberOf aria.widget.ListBox
- *
- * @desc  Keydown event handler for ListBox Object
- *        NOTE: The listBox parameter is needed to provide a reference to the specific
- *               listBox
- */
-
-aria.widget.ListBox.prototype.eventMouseOver = function(event, listBox) {
-
-  listBox.mouseInMenu = true;
-  listBox.comboBox.openListBox();
-
-};
-
-/**
- * @method eventMouseOut
+ * @method eventKeyDown
  *
  * @memberOf aria.widget.ListBox
  *
@@ -371,12 +450,13 @@ aria.widget.ListBox.prototype.eventMouseOver = function(event, listBox) {
  *               listBox 
  */
 
-aria.widget.ListBox.prototype.eventMouseOut = function(event, listBox) {
+aria.widget.ListBox.prototype.eventClick = function(event, listBox){
+  var ct = event.currentTarget;
+  listBox.selectedItem = ct;
+  listBox.setInput(ct)
+  listBox.comboBox.toggleListBox();
+}
 
-  listBox.mouseInMenu = false;
-  setTimeout(function(){ listBox.comboBox.closeListBox() }, 500);
-
-};
 
 /* ---------------------------------------------------------------- */
 /*                  ComboBox Input Widget                           */
@@ -387,18 +467,16 @@ aria.widget.ListBox.prototype.eventMouseOut = function(event, listBox) {
  *
  * @memberOf aria.Widget
  *
- * @desc  Creates a Menu Button widget using ARIA 
+ * @desc  Creates a combo bot input widget using ARIA 
  *
  * @param  node    DOM node  -  DOM node object
  *
  * @property  keyCode      Object    -  Object containing the keyCodes used by the slider widget
  *
  * @property  node               Object    -  JQuery node object
- * @property  mouseInMenuButton  Boolean   - Flag indicating the mouse is in listBox button, so listBox should stay open
- * @property  mouseInMenu        Boolean   - Flag indicating the mouse is in listBox, so listBox should stay open
  */
 
-aria.widget.ComboBoxInput = function(node) {
+aria.widget.ComboBoxInput = function(node){
 
   this.keyCode = Object.freeze({
      "TAB"    : 9,
@@ -410,8 +488,6 @@ aria.widget.ComboBoxInput = function(node) {
      "UP"    : 38,
      "DOWN"  : 40
   });
-
-  // Check fo DOM element node
   if (typeof node !== 'object' || !node.getElementsByClassName) return false;
 
   this.mouseInMouseButton = false;
@@ -421,6 +497,7 @@ aria.widget.ComboBoxInput = function(node) {
   
   var buttons = document.getElementsByTagName('button');
   if (buttons && buttons[0]) this.buttonNode = buttons[0];
+  
 };
 
 /**
@@ -428,34 +505,27 @@ aria.widget.ComboBoxInput = function(node) {
  *
  * @memberOf aria.widget.ComboBoxInput
  *
- * @desc  Adds event handlers to button element 
+ * @desc  Adds event handlers to input element 
  */
 
-aria.widget.ComboBoxInput.prototype.initComboBox = function() {
+aria.widget.ComboBoxInput.prototype.initComboBox = function(){
   
   var comboBox = this;
-  
   var id = this.inputNode.getAttribute('aria-controls');
 
-  if (id) {
+  if (id){
     this.listBoxNode = document.getElementById(id);
-    
-    if (this.listBoxNode && this.buttonNode) {
-      this.listBox = new aria.widget.ListBox(this.listBoxNode, this.inputNode, this.buttonNode, this);
+
+    if (this.listBoxNode && this.buttonNode){
+      this.listBox = new aria.widget.ListBox(this);
         this.listBox.initListBox();
     }
   }  
-
-
   this.closeListBox();
-
-  
-  
-    var eventKeyDown = function (event) {
-      comboBox.eventKeyDown(event, comboBox);
-    };
-    comboBox.inputNode.addEventListener('keydown',   eventKeyDown);
-    comboBox.buttonNode.addEventListener('keydown', eventKeyDown);
+  var eventKeyDown = function (event){
+    comboBox.eventKeyDown(event, comboBox);
+  };
+  comboBox.inputNode.addEventListener('keydown',   eventKeyDown);
 
 };
 
@@ -467,9 +537,9 @@ aria.widget.ComboBoxInput.prototype.initComboBox = function() {
  * @desc  Opens the listBox
  */
 
-aria.widget.ComboBoxInput.prototype.openListBox = function() {
+aria.widget.ComboBoxInput.prototype.openListBox = function(){
 
-  if (this.listBoxNode) {
+  if (this.listBoxNode){
     var pos = aria.Utils.findPos(this.inputNode);
     var br = this.inputNode.getBoundingClientRect();
 
@@ -489,11 +559,11 @@ aria.widget.ComboBoxInput.prototype.openListBox = function() {
  * @desc  Close the listBox
  */
 
-aria.widget.ComboBoxInput.prototype.closeListBox = function() {
+aria.widget.ComboBoxInput.prototype.closeListBox = function(){
 
-  if (!this.mouseInMenuButton && 
-    !this.listBox.mouseInMenu &&
-    this.listBoxNode) this.listBoxNode.style.display = 'none';
+  if(this.listBoxNode){
+    this.listBoxNode.style.display = 'none';
+  }
 
 };
 
@@ -505,11 +575,17 @@ aria.widget.ComboBoxInput.prototype.closeListBox = function() {
  * @desc  Close or open the listBox depending on current state
  */
 
-aria.widget.ComboBoxInput.prototype.toggleListBox = function() {
+aria.widget.ComboBoxInput.prototype.toggleListBox = function(){
 
-  if (this.listBoxNode) {
-    if (this.listBoxNode.style.display === 'block') this.listBoxNode.style.display = 'none';
-    else this.listBoxNode.style.display = 'block';
+  if (this.listBoxNode){
+    if (this.listBoxNode.style.display === 'block'){
+      this.listBoxNode.style.display = 'none';
+      this.inputNode.focus();
+    }
+    else{
+      this.listBoxNode.style.display = 'block';
+      if(this.listBox.selectedItem)this.listBox.selectedItem.focus();
+    }
   }
 
 };
@@ -522,9 +598,9 @@ aria.widget.ComboBoxInput.prototype.toggleListBox = function() {
  * @desc  Move keyboard focus to first listBox item
  */
 
-aria.widget.ComboBoxInput.prototype.moveFocusToFirstListBoxItem = function() {
+aria.widget.ComboBoxInput.prototype.moveFocusToFirstListBoxItem = function(){
 
-  if (this.listBox.firstComboItem && !this.listBox.selectedItem) {
+  if (this.listBox.firstComboItem && !this.listBox.selectedItem){
     this.openListBox();
     this.listBox.firstComboItem.focus();
     this.listBox.selectedItem = this.listBox.firstComboItem;
@@ -543,9 +619,9 @@ aria.widget.ComboBoxInput.prototype.moveFocusToFirstListBoxItem = function() {
  * @desc  Move keyboard focus to first listBox item
  */
 
-aria.widget.ComboBoxInput.prototype.moveFocusToLastListBoxItem = function() {
+aria.widget.ComboBoxInput.prototype.moveFocusToLastListBoxItem = function(){
 
-  if (this.listBox.lastComboItem && !this.listBox.selectedItem) {
+  if (this.listBox.lastComboItem && !this.listBox.selectedItem){
     this.openListBox();
     this.listBox.lastComboItem.focus();
     this.listBox.selectedItem = this.listBox.lastComboItem;
@@ -566,16 +642,16 @@ aria.widget.ComboBoxInput.prototype.moveFocusToLastListBoxItem = function() {
  *               comboBox 
  */
 
-aria.widget.ComboBoxInput.prototype.eventKeyDown = function(event, comboBox) {
+aria.widget.ComboBoxInput.prototype.eventKeyDown = function(event, comboBox){
 
   var flag = false;
   
   ct = comboBox.listBox.selectedItem;
   nt = null;
   
-  switch(event.keyCode) {
+  switch(event.keyCode){
     case comboBox.keyCode.UP:
-      if (event.altKey) {
+      if (event.altKey){
         comboBox.toggleListBox();
         flag = true;
         comboBox.moveFocusToLastListBoxItem();
@@ -587,7 +663,7 @@ aria.widget.ComboBoxInput.prototype.eventKeyDown = function(event, comboBox) {
       break;
       
     case comboBox.keyCode.DOWN:
-      if (event.altKey) {
+      if (event.altKey){
         comboBox.toggleListBox();
         flag = true;
         comboBox.moveFocusToFirstListBoxItem();
@@ -612,7 +688,7 @@ aria.widget.ComboBoxInput.prototype.eventKeyDown = function(event, comboBox) {
       break;
     }
   
-  if (flag) {
+  if (flag){
     if(nt){comboBox.listBox.setInput(nt)}
     event.stopPropagation();
     event.preventDefault();
@@ -620,36 +696,86 @@ aria.widget.ComboBoxInput.prototype.eventKeyDown = function(event, comboBox) {
 
 };
 
-/**
- * @method eventMouseOver
- *
- * @memberOf aria.widget.ComboBoxInput
- *
- * @desc  Keydown event handler for ComboBoxInput Object
- *        NOTE: The comboBox parameter is needed to provide a reference to the specific
- *               comboBox 
- */
-
-/* aria.widget.ComboBoxInput.prototype.eventMouseOver = function(event, comboBox) {
-
-  comboBox.mouseInMenuButton = true;
-  comboBox.openListBox();
-
-}; */
+/* ---------------------------------------------------------------- */
+/*                          Button Widget                           */
+/* ---------------------------------------------------------------- */
 
 /**
- * @method eventMouseOut
+ * @constructor Button
  *
- * @memberOf aria.widget.ComboBoxInput
+ * @memberOf aria.Widget
  *
- * @desc  Keydown event handler for ComboBoxInput Object
- *        NOTE: The comboBox parameter is needed to provide a reference to the specific
- *               comboBox 
+ * @desc  Creates a Button widget using ARIA 
+ *
+ * @param  node    DOM node  -  DOM node object
+ *
+ * @property  keyCode      Object    -  Object containing the keyCodes used by the slider widget
+ *
+ * @property  node               Object    -  JQuery node object
  */
 
-/* aria.widget.ComboBoxInput.prototype.eventMouseOut = function(event, comboBox) {
+aria.widget.Button = function(comboBox){
 
-  comboBox.mouseInMenuButton = false;
-  setTimeout(function(){ comboBox.closeListBox() }, 500);
+  this.comboBox = comboBox;  
+};
 
-}; */
+/**
+ * @method initButton
+ *
+ * @memberOf aria.widget.Button
+ *
+ * @desc  Adds event handlers to button element 
+ */
+
+aria.widget.Button.prototype.initButton = function(){
+
+  var button = this;
+
+  var eventClick = function (event){
+    button.eventClick(event, button.comboBox);
+    };
+  this.comboBox.buttonNode.addEventListener('click', eventClick);
+  
+
+
+};
+
+aria.widget.Button.prototype.toggleHighlightButton = function(comboBox){
+
+  var img = comboBox.buttonNode.firstChild;
+
+  while(img) {
+    if (img.nodeType === Node.ELEMENT_NODE) {
+      if (img.tagName === 'IMG') break;
+    }
+    img = img.nextSibling;
+  }
+  console.log(img.src)
+  if(img.src.indexOf('button-arrow-down.png') > 0){
+    img.src = "./images/button-arrow-down-hl.png";
+  }
+  else{
+    img.src = "./images/button-arrow-down.png";
+  }
+}
+
+
+/**
+ * @method eventClick
+ *
+ * @memberOf aria.widget.ListBox
+ *
+ * @desc  Click event handler for button object
+ *        NOTE: The listBox parameter is needed to provide a reference to the specific
+ *               listBox 
+ */
+
+aria.widget.Button.prototype.eventClick = function(event, comboBox){
+
+  var type = event.type;
+
+  if (type === 'click'){
+    this.comboBox.toggleListBox();
+    this.toggleHighlightButton(comboBox);
+  }
+}
