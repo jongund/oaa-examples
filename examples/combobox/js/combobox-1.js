@@ -120,6 +120,7 @@ aria.widget.ListBox = function(comboBox){
   this.firstComboItem = false;
   this.lastComboItem = false;
   this.selectedItem = false;
+  this.tabDistance = 0;
 };
 
 /**
@@ -134,10 +135,12 @@ aria.widget.ListBox.prototype.initListBox = function(){
 
   var listBox = this;
   var cn = this.comboBox.listBoxNode.firstChild;
+  var numItems = 0;
   
   while (cn){
     if (cn.nodeType === Node.ELEMENT_NODE){
       if (cn.getAttribute('role')  === 'option'){
+        numItems += 1;
         cn.tabIndex = -1;
         if (!this.firstComboItem) this.firstComboItem = cn; 
         this.lastComboItem = cn;
@@ -165,10 +168,28 @@ aria.widget.ListBox.prototype.initListBox = function(){
     }
     cn = cn.nextSibling;
   }
+  listBox.calcTabDistance(numItems);
   
   this.button = new aria.widget.Button(this.comboBox);
   this.button.initButton();
 };
+
+/**
+ * @method calcTabDistance
+ *
+ * @memberOf aria.widget.ListBox
+ *
+ * @desc  Moves focus to next item
+ */
+ 
+aria.widget.ListBox.prototype.calcTabDistance = function(numItems){
+
+  if(numItems){
+    this.tabDistance = numItems/10;
+    if(this.tabDistance < 5)this.tabDistance = 5;
+    if(this.tabDistance > 15) this.tabDistance = 15;
+  }
+}
 
 /**
  * @method nextComboItem
@@ -300,10 +321,25 @@ aria.widget.ListBox.prototype.moveToPreviousComboItem = function(ci, n){
  */
 
 aria.widget.ListBox.prototype.setInput = function(ci){
-  selectedInput = ci.childNodes[0].nodeValue;
-  this.comboBox.inputNode.value = selectedInput;
+  
+  this.comboBox.inputNode.value = ci.childNodes[0].nodeValue;
 };
 
+
+/**
+ * @method setInput
+ *
+ * @memberOf aria.widget.ListBox
+ *
+ * @desc  Set the text of the input field.
+ */
+ 
+aria.widget.ListBox.prototype.activateSelectedItem = function(){
+
+  this.selectedItem.focus()
+  this.setInput(this.selectedItem)
+  
+}
 
 /**
  * @method nextAlphaComboItem
@@ -315,11 +351,10 @@ aria.widget.ListBox.prototype.setInput = function(ci){
 
 aria.widget.ListBox.prototype.nextAlphaComboItem = function(event){
 
-  var flag = false;
-
   var keyCode = String.fromCharCode(event.keyCode).toLowerCase();
-
-  if (keyCode >= 'a' && keyCode <= 'z'){
+  var flag = false;
+  
+  if (keyCode >= '0' && keyCode <= 'z'){
     cn = this.selectedItem.nextSibling;
     while(cn){
       if (cn.nodeType === Node.ELEMENT_NODE){
@@ -327,7 +362,7 @@ aria.widget.ListBox.prototype.nextAlphaComboItem = function(event){
           if (cn.childNodes[0].nodeValue.charAt(0).toLowerCase() === keyCode){
             nt = cn;
             this.selectedItem = nt;
-            nt.focus();
+            this.activateSelectedItem();
             flag = true;
             break;
           }
@@ -335,7 +370,7 @@ aria.widget.ListBox.prototype.nextAlphaComboItem = function(event){
       }
       cn = cn.nextSibling;
     }
-    if(flag == false){
+    if(!flag){
       cn = this.comboBox.listBoxNode.firstChild.nextSibling
       while(cn){
         if (cn.nodeType === Node.ELEMENT_NODE){
@@ -343,8 +378,7 @@ aria.widget.ListBox.prototype.nextAlphaComboItem = function(event){
             if (cn.childNodes[0].nodeValue.charAt(0).toLowerCase() === keyCode){
               nt = cn;
               this.selectedItem = nt;
-              nt.focus();
-              flag = true;
+              this.activateSelectedItem()
               break;
             }
           }
@@ -418,12 +452,12 @@ aria.widget.ListBox.prototype.eventKeyDown = function(event, listBox){
     break;
   
   case listBox.keyCode.PAGEUP:
-    nt = listBox.moveToPreviousComboItem(ct, 10);
+    nt = listBox.moveToPreviousComboItem(ct, listBox.tabDistance);
     flag = true;  
     break;
     
   case listBox.keyCode.PAGEDOWN:
-    nt = listBox.moveToNextComboItem(ct, 10);
+    nt = listBox.moveToNextComboItem(ct, listBox.tabDistance);
     flag = true;  
     break;
 
@@ -496,7 +530,10 @@ aria.widget.ComboBoxInput = function(node){
   if (inputs && inputs[0]) this.inputNode = inputs[0];
   
   var buttons = document.getElementsByTagName('button');
-  if (buttons && buttons[0]) this.buttonNode = buttons[0];
+  if (buttons && buttons[0]){
+    this.buttonNode = buttons[0];
+    this.buttonNode.tabIndex = "-1";
+  }
   
 };
 
@@ -547,6 +584,8 @@ aria.widget.ComboBoxInput.prototype.openListBox = function(){
     this.listBoxNode.style.position = 'absolute';
     this.listBoxNode.style.top  = (pos.y + br.height) + "px"; 
     this.listBoxNode.style.left = pos.x + "px"; ;
+    
+    this.inputNode.setAttribute('aria-expanded', 'true');
   }  
 };
 
@@ -563,6 +602,7 @@ aria.widget.ComboBoxInput.prototype.closeListBox = function(){
 
   if(this.listBoxNode){
     this.listBoxNode.style.display = 'none';
+    this.inputNode.setAttribute('aria-expanded', 'false');
   }
 
 };
@@ -576,15 +616,19 @@ aria.widget.ComboBoxInput.prototype.closeListBox = function(){
  */
 
 aria.widget.ComboBoxInput.prototype.toggleListBox = function(){
-
+  
+  this.listBox.button.toggleHighlightButton();
+  
   if (this.listBoxNode){
     if (this.listBoxNode.style.display === 'block'){
       this.listBoxNode.style.display = 'none';
       this.inputNode.focus();
+      this.inputNode.setAttribute('aria-expanded', 'false');
     }
     else{
       this.listBoxNode.style.display = 'block';
       if(this.listBox.selectedItem)this.listBox.selectedItem.focus();
+      this.inputNode.setAttribute('aria-expanded', 'true');
     }
   }
 
@@ -740,9 +784,9 @@ aria.widget.Button.prototype.initButton = function(){
 
 };
 
-aria.widget.Button.prototype.toggleHighlightButton = function(comboBox){
+aria.widget.Button.prototype.toggleHighlightButton = function(){
 
-  var img = comboBox.buttonNode.firstChild;
+  var img = this.comboBox.buttonNode.firstChild;
 
   while(img) {
     if (img.nodeType === Node.ELEMENT_NODE) {
@@ -750,7 +794,6 @@ aria.widget.Button.prototype.toggleHighlightButton = function(comboBox){
     }
     img = img.nextSibling;
   }
-  console.log(img.src)
   if(img.src.indexOf('button-arrow-down.png') > 0){
     img.src = "./images/button-arrow-down-hl.png";
   }
@@ -776,6 +819,9 @@ aria.widget.Button.prototype.eventClick = function(event, comboBox){
 
   if (type === 'click'){
     this.comboBox.toggleListBox();
-    this.toggleHighlightButton(comboBox);
+    if(!this.comboBox.listBox.selectedItem){
+      this.comboBox.listBox.selectedItem = this.comboBox.listBox.firstComboItem
+      this.comboBox.listBox.activateSelectedItem()
+    }
   }
 }
