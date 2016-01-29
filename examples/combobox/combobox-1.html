@@ -102,9 +102,10 @@
              <ul>
                 <li>The <code>role=combobox</code> on the <code>div</code> element containing the <code>input[type=text]</code> identifies the input as a combobox.</li>
                 <li>The <code>aria-autocomplete="none"</code> on the <code>input</code> element identifies that the input will not autocomplete</li>
-                <li>The <code>button</code> element has <code>tabindex="-1"</code> to remove it from tab order.</li>
+                <li>The <code>aria-haspopup="true"</code> attribute on the <code>input[type=text]</code> element identifies that there is a listbox or dialog associated with the input.</li>
                 <li>The <code>aria-controls</code> attribute on the <code>input</code> element idenfities that the listbox that will be opened when the input is activated.</li>
                 <li>The <code>aria-expanded="false"</code> attribute on the <code>input</code> element identifies the current state of the listbox.</li>
+                <li>The <code>button</code> element has <code>tabindex="-1"</code> to remove it from tab order.</li>
                 <li>The <code>role="listbox"</code> on the <code>ul</code> element identifies the element as a listbox.</li>
                 <li>The <code>role="option"</code> on the <code>li</code> elements identifies them as listbox options.</li>
                 <li>The <code>input</code> element has a <code>keydown</code> event to handle opening the listbox and moving focus to the listbox or input.</li>
