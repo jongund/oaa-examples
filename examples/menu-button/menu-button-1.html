@@ -58,8 +58,9 @@
               </ul>
 
       <h2 id="id_kbd">Keyboard Support</h2>
-      <h3>Menu Button</h3>
-      <table aria-labelledby="id_kbd"> 
+
+      <h3 id="id_kbd1">Menu Button</h3>
+      <table aria-labelledby="id_kbd id_kbd1"> 
         <thead>
           <tr>
             <th>Key</th>
@@ -82,8 +83,8 @@
         </tbody>
       </table>
 
-      <h3>Menu</h3>
-      <table aria-labelledby="id_kbd"> 
+      <h3 id="id_kbd2">Menu</h3>
+      <table aria-labelledby="id_kbd id_kbd2"> 
         <thead>
           <tr>
             <th>Key</th>
@@ -126,17 +127,7 @@
         </thead>
         <tbody>
           <tr>
-            <td></td>
-            <td>aria-haspopup</td>
-            <td>Identifies the <code>button</code> element as a menu button widget when the value is <code>true</code></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>aria-controls</td>
-            <td>Identfies the content on the page (e.g. using IDREFs) that this menu button controls</td>
-          </tr>
-          <tr>
-            <td>menu</td>
+            <td><code>menu</code></td>
             <td></td>
             <td>Identifies the <code>ul</code> element as a menu widget</td>
               <ul>
@@ -145,11 +136,25 @@
             </td>
           </tr>
           <tr> 
-            <td>menu item</td>
+            <td><code>menuitem</code></td>
             <td></td>
             <td>Identifies the <code>li</code> element as a menu item widget</td>
           </tr>
-
+          <tr>
+            <td></td>
+            <td><code>aria-haspopup</code></td>
+            <td>Identifies the <code>button</code> element as a menu button widget when the value is <code>true</code></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><code>aria-controls</code></td>
+            <td>Identfies the content on the page (e.g. using IDREFs) that this menu button controls</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><code>aria-labelledby</code></td>
+            <td>Use to provide a label the menu widget</td>
+          </tr>
         </tbody>
       </table>
       
