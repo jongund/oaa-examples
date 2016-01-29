@@ -2,7 +2,7 @@
 <html lang="en"><head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
-    <title>ARIA Menu Button Example</title>
+    <title>ARIA Menu Button Example: Button Element</title>
     <meta name="generator" content="BBEdit 10.5">
     <link href="../css/core.css" rel="stylesheet">
     <link href="../css/table.css" rel="stylesheet">
@@ -12,7 +12,7 @@
   </head>
   <body>
     <main role="main">
-      <h1>ARIA Menu Button Example</h1>
+      <h1>ARIA Menu Button Example: Button Element</h1>
  
       <p> <p> <a href="http://www.w3.org/TR/wai-aria-practices-1.1/#h-menubutton">Authoring Practice Design Patten for Menu Button</a></p>
 
@@ -33,7 +33,6 @@
           </ul>
 
           <div id="text-sample-1">
-          
 
     Four score and seven years ago our fathers brought forth on this continent a new nation, conceived in liberty, and dedicated to the proposition that all men are created equal.
 
@@ -42,15 +41,48 @@
     But, in a larger sense, we can not dedicate, we can not consecrate, we can not hallow this ground. The brave men, living and dead, who struggled here, have consecrated it, far above our poor power to add or detract. The world will little note, nor long remember what we say here, but it can never forget what they did here. It is for us the living, rather, to be dedicated here to the unfinished work which they who fought here have thus far so nobly advanced. It is rather for us to be here dedicated to the great task remaining before us—that from these honored dead we take increased devotion to that cause for which they gave the last full measure of devotion—that we here highly resolve that these dead shall not have died in vain—that this nation, under God, shall have a new birth of freedom—and that government of the people, by the people, for the people, shall not perish from the earth.
 
           </div>
-      </section>   
-      
-      
-      <h2 id="id_a11yfeature">Accessibility Feature</h2>
+      </section> 
+
+      <h2 id="id_a11yfeature">Accessibility Features</h2>
              <ul>
-                <li></li>
+                <li>The <code>aria-haspopup="true"</code> attribute on the <code>button</code> element identifies that activating the button will result in either a menu or dialog box opening.</li>
+                <li>The <code>aria-controls</code> attribute on the <code>button</code> element idenfities the content (e.g. "font size" menu in this example) that will be opened when the button is activated.</li>
+                <li>The <code>role="menu"</code> attribute on the <code>ul</code> element identifies the element as a contatiner for a list of menu items.</li>
+                <li>The <code>aria-labelledby</code> attribute of the <code>ul[role=menu]</code> elements defines an accessible name for the menu.</li>
+                <li>The <code>role="menuitem"</code> on the <code>li</code> elements identifies the element as a item in the menu .</li>
+                <li>The child text content of the <code>li[role=menuitem]</code> elements defines the accessible name for each of the menu items.</li>
+                <li>The <code>button[aria-haspopup=true]</code> element has a <code>keydown</code> event to handle opening and closing the menu and moving focus to the menu.</li>
+                <li>Each of the <code>li[role=menuitem]</code> elements has a <code>keydown</code> event to handle navigation between menu items, closing the menu and activating the function of the menu item (e.g. changing font size of the text example).</li>
+                <li>Each of the <code>li[role=menuitem]</code> element has a <code>focus</code> event to handle highlighting the menu item with keyboard focus.</li>
+
               </ul>
 
       <h2 id="id_kbd">Keyboard Support</h2>
+      <h3>Menu Button</h3>
+      <table aria-labelledby="id_kbd"> 
+        <thead>
+          <tr>
+            <th>Key</th>
+            <th>Function</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Space or Enter Key</td>
+            <td>Open menu and move focus to first menu item</td>
+          </tr>
+          <tr>
+            <td>Up Arrow Key</td>
+            <td>Open menu and moves focus to last menu item</td>
+          </tr>
+           <tr>
+            <td>Down Arrow Key</td>
+            <td>Open menu and moves focus to first menu item</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Menu</h3>
       <table aria-labelledby="id_kbd"> 
         <thead>
           <tr>
@@ -61,28 +93,24 @@
         <tbody>
           <tr>
             <td>Space or Enter Keys</td>
-            <td>Open menu or select menu items.</td>
+            <td>
+              <ul id="list">
+                <li>Applies the styling associated with the menu item with focus</li>
+                <li>Closes menu and moves focus back to menu button</li>
+              </ul>
+            </td>
           </tr>
           <tr>
-            <td>Up Arrow </td>
-            <td>move focus on the drop-down menu, the Up and Down Arrow keys move focus within the menu items</td>
+            <td>Up or Left Arrow Key </td>
+            <td>Move focus to previous menu item</td>
           </tr>
           <tr>
-            <td>Down Arrow </td>
-            <td>move focus on the drop-down menu, the Up and Down Arrow keys move focus within the menu items</td>
+            <td>Down or Right Arrow Key </td>
+            <td>Move focus to next menu item</td>
           </tr>
           <tr>
-            <td>Escape</td>
-            <td>Escape closes the menu.</td>
-          </tr>
-          <tr>
-            <td>Tab </td>
-            <td>Tab closes the menu and move to With focus on the button
- pressing the Tab key will take the user to the next tab focusable item 
-on the page.
-With focus on the drop-down menu, pressing the Tab key will take the 
-user to the next tab focusable item on the page. Note that this may be 
-difficult to achieve on a web page.</td>
+            <td>Escape Key</td>
+            <td> Close menu and move focus back to menu button</td>
           </tr>
         </tbody>
       </table>
@@ -98,14 +126,19 @@ difficult to achieve on a web page.</td>
         </thead>
         <tbody>
           <tr>
-            <td>button</td>
+            <td></td>
             <td>aria-haspopup</td>
-            <td>true</td>
+            <td>Identifies the <code>button</code> element as a menu button widget when the value is <code>true</code></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>aria-controls</td>
+            <td>Identfies the content on the page (e.g. using IDREFs) that this menu button controls</td>
           </tr>
           <tr>
             <td>menu</td>
             <td></td>
-            <td>
+            <td>Identifies the <code>ul</code> element as a menu widget</td>
               <ul>
                
               </ul> 
@@ -114,11 +147,7 @@ difficult to achieve on a web page.</td>
           <tr> 
             <td>menu item</td>
             <td></td>
-            <td>
-              <ul>
-               
-              </ul> 
-            </td>
+            <td>Identifies the <code>li</code> element as a menu item widget</td>
           </tr>
 
         </tbody>
