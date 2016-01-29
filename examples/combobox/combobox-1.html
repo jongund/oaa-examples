@@ -12,15 +12,15 @@
   </head>
   <body>
     <main role="main">
-      <h1>ARIA Menu Button Example: Menu items are not descendants of Menu Button</h1>
+      <h1>ARIA Combo Box Example: Menu items are not descendants of Menu Button</h1>
  
-      <p> <p> <a href="../../aria-practices.html#menubutton">Authoring Practice Design Patten for Menu Button</a></p>
+      <p> <p> <a href="../../aria-practices.html#combobox-1">Authoring Practice Design Patten for Combo Box</a></p>
       <ul>
           <li></li>
       </ul>
 
       <section id="code-ex-1">
-        <h2>Menu Button Example: Button is an <code>button</code> element</h2>
+        <h2>Combo Box Example: Button is an <code>button</code> element</h2>
 
         <div id="cb1" 
              class="combobox"
@@ -35,7 +35,7 @@
                  tabindex="0" 
                  value = text
           /> 
-          <button id="cb1-button">
+          <button id="cb1-button"tabindex="-1">
             Open List Box
           </button>
 
@@ -116,29 +116,33 @@
         </thead>
         <tbody>
           <tr>
-            <td>Space or Enter Keys</td>
-            <td>Open menu or select menu items.</td>
+            <td>Left/Right Arrow</td>
+            <td>Move the carot within the edit field</td>
           </tr>
           <tr>
-            <td>Up Arrow </td>
-            <td>move focus on the drop-down menu, the Up and Down Arrow keys move focus within the menu items</td>
+            <td>Alt+Up/Down Arrow</td>
+            <td>Opens and closes the list.</td>
           </tr>
           <tr>
-            <td>Down Arrow </td>
-            <td>move focus on the drop-down menu, the Up and Down Arrow keys move focus within the menu items</td>
+            <td>Up and Down Arrow</td>
+            <td>Move focus up and down the list. As focus moves the edit field is updated.</td>
+          </tr>
+          <tr>
+            <td>Page Up/Down</td>
+            <td>Selects the next/previous pages item depending on the list size.</td>
           </tr>
           <tr>
             <td>Escape</td>
-            <td>Escape closes the menu.</td>
+            <td>Closes the dropdown list, returns focus to the edit field and does not change the current selection.</td>
           </tr>
           <tr>
-            <td>Tab </td>
-            <td>Tab closes the menu and move to With focus on the button
- pressing the Tab key will take the user to the next tab focusable item 
-on the page.
-With focus on the drop-down menu, pressing the Tab key will take the 
-user to the next tab focusable item on the page. Note that this may be 
-difficult to achieve on a web page.</td>
+            <td>Enter</td>
+            <td>Selects the current item on the list, updates the edit field, highlights the selectied item in the
+                dropdown list, closes the dropdown list and returns focus to the input field.</td>
+          </tr>
+          <tr>
+            <td>Alphanumeric Characters </td>
+            <td>Alphanumeric characters move focus to the next instance of a visivle node whose title begins with that printable letter.</td>
           </tr>
         </tbody>
       </table>
