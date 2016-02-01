@@ -100,20 +100,16 @@ aria.widget.SourceCode.prototype.createCode = function(location, spaces, node) {
   
   for(i=0; i < node.attributes.length; i++ ) {
  
-     if( !(((node_name == "script" ) || (node_name = "style")) && (node.attributes[i].nodeName.toLowerCase() == "id") ) ) { 
-          
-       location.innerHTML = location.innerHTML + "&nbsp;" + node.attributes[i].nodeName + "=\"";
-       location.innerHTML = location.innerHTML + node.attributes[i].value + "\"";
-     
-       if( ((i + 1) != node.attributes.length) && (node.attributes.length > 2 ) ) {
+    location.innerHTML = location.innerHTML + "&nbsp;" + node.attributes[i].nodeName + "=\"";
+    location.innerHTML = location.innerHTML + node.attributes[i].value + "\"";
+   
+    if( ((i + 1) != node.attributes.length) && (node.attributes.length > 2 ) ) {
 
-          location.innerHTML = location.innerHTML + "<br/>" + spaces;
-        
-          for(var j=2; j <= node_name.length; j++ )
-            location.innerHTML = location.innerHTML + "&nbsp;";
-             
-       } // endif
- 
+      location.innerHTML = location.innerHTML + "<br/>" + spaces;
+      
+      for(var j=2; j <= node_name.length; j++ )
+        location.innerHTML = location.innerHTML + "&nbsp;";
+           
     } // endif
  
   }  // endfor

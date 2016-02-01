@@ -593,8 +593,4 @@ aria.widget.MenuButton.prototype.eventMouseOut = function(event, menuButton) {
 };
 
 
-function changeFontSize(id, size) {
-  document.getElementById(id).style.fontSize = size;
-};
-
 
