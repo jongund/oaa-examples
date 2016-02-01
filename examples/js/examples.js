@@ -62,7 +62,7 @@ aria.widget.SourceCode.prototype.make = function() {
      node_code     = document.getElementById( this.code[i] );
      
      node_location.className = "sourcecode";
-     this.createCode( node_location, "", node_code );
+     this.createCode( node_location, "", node_code);
      
    } // endfor
      
@@ -130,11 +130,11 @@ aria.widget.SourceCode.prototype.createCode = function(location, spaces, node) {
          break;
 
       case Node.TEXT_NODE:
-           if (hasText(n.nodeValue)) {
-             location.innerHTML = location.innerHTML + "<br/>" + spaces + "&nbsp;&nbsp;" + n.nodeValue;
-           }  
-           count++;
-         break;
+          if (hasText(n.nodeValue)) {
+            location.innerHTML = location.innerHTML + "<br/>" + spaces + "&nbsp;&nbsp;" + n.nodeValue;
+          }  
+          count++;
+          break;
 
 
     }  // end switch

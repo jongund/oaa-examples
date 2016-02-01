@@ -35,24 +35,25 @@
 
           <p><label>Last Action: <input id="action_output" type="output" value=""></label></p>
 
-          <script type="text/javascript">
-
-          document.getElementById("action_output").value = "none";
-
-          function updateLastAction(event) {
-
-            document.getElementById("action_output").value = event.currentTarget.innerHTML;
-
-          }
-
-          </script>
 
       </section>    
+
+      <script type="text/javascript">
+
+        document.getElementById("action_output").value = "none";
+
+        function updateLastAction(event) {
+
+          document.getElementById("action_output").value = event.currentTarget.innerHTML;
+
+        }
+
+      </script>
 
       <h2 id="id_a11yfeature">Accessibility Features</h2>
              <ul>
                 <li>The <code>aria-haspopup="true"</code> attribute on the <code>button</code> element identifies that activating the button will result in either a menu or dialog box opening.</li>
-                <li>The <code>aria-controls</code> attribute on the <code>button</code> element idenfities the content (e.g. "font size" menu in this example) that will be opened when the button is activated.</li>
+                <li>The <code>aria-controls</code> attribute on the <code>button</code> element idenfities the content that will be opened when the button is activated.</li>
                 <li>The <code>role="menu"</code> attribute on the <code>ul</code> element identifies the element as a contatiner for a list of menu items.</li>
                 <li>The <code>aria-labelledby</code> attribute of the <code>ul[role=menu]</code> elements defines an accessible name for the menu.</li>
                 <li>The <code>role="menuitem"</code> on the <code>li</code> elements identifies the element as a item in the menu .</li>
