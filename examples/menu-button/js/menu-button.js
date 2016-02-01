@@ -449,7 +449,10 @@ aria.widget.MenuButton.prototype.closeMenu = function() {
 
   if (!this.mouseInMenuButton && 
     !this.menu.mouseInMenu &&
-    this.menuNode) this.menuNode.style.display = 'none';
+    this.menuNode) {
+      this.menuNode.style.display = 'none';
+      this.buttonNode.focus();
+  }
 
 };
 
