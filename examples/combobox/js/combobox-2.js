@@ -332,7 +332,7 @@ aria.widget.ListBox.prototype.setInput = function(ci){
  
 aria.widget.ListBox.prototype.activateSelectedItem = function(){
 
-  this.selectedItem.focus()
+  //this.selectedItem.focus()
   this.setInput(this.selectedItem)
   
 }
@@ -530,6 +530,7 @@ aria.widget.ComboBoxInput = function(node){
     this.buttonNode = buttons[0];
     this.buttonNode.tabIndex = "-1";
   }
+  this.keysEntered = "";
   
 };
 
@@ -643,11 +644,11 @@ aria.widget.ComboBoxInput.prototype.moveFocusToFirstListBoxItem = function(reset
   if ((this.listBox.firstComboItem && !this.listBox.selectedItem) ||
       (this.listBox.firstComboItem && resetSelectedItem)){
     this.openListBox();
-    this.listBox.firstComboItem.focus();
+    //this.listBox.firstComboItem.focus();
     this.listBox.selectedItem = this.listBox.firstComboItem;
   }else{
     this.openListBox();
-    this.listBox.selectedItem.focus();
+    //this.listBox.selectedItem.focus();
   }
 
 };
@@ -665,11 +666,11 @@ aria.widget.ComboBoxInput.prototype.moveFocusToLastListBoxItem = function(resetS
   if ((this.listBox.lastComboItem && !this.listBox.selectedItem) ||
       (this.listBox.lastComboItem && resetSelectedItem)){
     this.openListBox();
-    this.listBox.lastComboItem.focus();
+    //this.listBox.lastComboItem.focus();
     this.listBox.selectedItem = this.listBox.lastComboItem;
   }else{
     this.openListBox();
-    this.listBox.selectedItem.focus();
+    //this.listBox.selectedItem.focus();
   }
 
 };
@@ -684,31 +685,47 @@ aria.widget.ComboBoxInput.prototype.moveFocusToLastListBoxItem = function(resetS
 
 aria.widget.ComboBoxInput.prototype.nextAlphaComboItem = function(event){
 
-  var keyCode = String.fromCharCode(event.keyCode).toLowerCase();
+  var caretPosition = this.inputNode.selectionStart;
+  var keyCode = event.keyCode
   var flag = false;
   
   var overwriteSelectedItem = true;
   
-  if (keyCode >= '0' && keyCode <= 'z'){
+  if (keyCode === 8){
+    if(this.keysEntered != ""){
+      this.keysEntered = this.keysEntered.slice(0, -1);
+      
+    }else{
+      this.closeListBox()
+    }
+  }
+  
+  if (keyCode >= 48 && keyCode <= 90){
+    keyCode = String.fromCharCode(event.keyCode).toLowerCase();
     this.openListBox()
-    
+    this.keysEntered = this.keysEntered+keyCode
     this.moveFocusToFirstListBoxItem(overwriteSelectedItem)
 
     cn = this.listBox.selectedItem;
     while(cn){
       if (cn.nodeType === Node.ELEMENT_NODE){
         if (cn.getAttribute('role')  === 'option'){
-          if (cn.childNodes[0].nodeValue.charAt(0).toLowerCase() === keyCode){
+          if (cn.childNodes[0].nodeValue.toLowerCase().indexOf(this.keysEntered) == 0){
             nt = cn;
             this.listBox.selectedItem = nt;
             flag = true;
-            break;
+            return nt;
           }
         }
       }
       cn = cn.nextSibling;
     }
-    return nt;
+    if(!flag){
+      console.log("Keys entered = " + this.keysEntered)
+      this.inputNode.value = this.keysEntered;
+      console.log('Input node value = ' + this.inputNode.value)
+      this.closeListBox()
+    }
   }
 }
 
