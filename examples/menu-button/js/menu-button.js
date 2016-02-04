@@ -449,7 +449,10 @@ aria.widget.MenuButton.prototype.closeMenu = function() {
 
   if (!this.mouseInMenuButton && 
     !this.menu.mouseInMenu &&
-    this.menuNode) this.menuNode.style.display = 'none';
+    this.menuNode) {
+      this.menuNode.style.display = 'none';
+      this.buttonNode.focus();
+  }
 
 };
 
@@ -589,9 +592,5 @@ aria.widget.MenuButton.prototype.eventMouseOut = function(event, menuButton) {
 
 };
 
-
-function changeFontSize(id, size) {
-  document.getElementById(id).style.fontSize = size;
-};
 
 

@@ -2,7 +2,7 @@
 <html lang="en"><head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
-    <title>ARIA Menu Button Example</title>
+    <title>ARIA Combo Box Example</title>
     <meta name="generator" content="BBEdit 10.5">
     <link href="../css/core.css" rel="stylesheet">
     <link href="../css/table.css" rel="stylesheet">
@@ -12,31 +12,28 @@
   </head>
   <body>
     <main role="main">
-      <h1>ARIA Combo Box Example: Menu items are not descendants of Menu Button</h1>
+      <h1>ARIA Combo Box Example: <code>aria-autocomplete=none</code></h1>
  
-      <p> <p> <a href="../../aria-practices.html#combobox-1">Authoring Practice Design Patten for Combo Box</a></p>
+      <p> <p> <a href="../../aria-practices.html#combobox-1">WAI-ARIA 1.1: Combo Box</a></p>
       <ul>
-          <li></li>
+          <li>Allows user to select from a list of US states</li>
       </ul>
 
       <section id="code-ex-1">
-        <h2>Combo Box Example: Button is an <code>button</code> element</h2>
+        <h2>Combo Box Example</h2>
 
         <div id="cb1" 
              class="combobox"
              role="combobox">
           <input id="cb1-input" class="cb_edit" type="text"
                  aria-autocomplete="none"
-                 aria-readonly="true"
-                 aria-owns="cb1-listbox"
-                 area-expanded="flase"
+                 aria-expanded="flase"
                  aria-haspopup="true" 
                  aria-controls="cb1-listbox"
-                 tabindex="0" 
-                 value = text
+                 style="float: left;"
           /> 
-          <button id="cb1-button"tabindex="-1">
-            Open List Box
+          <button id="cb1-button" tabindex="-1">
+            <img src="./images/button-arrow-down.png" alt="">
           </button>
 
           <ul id="cb1-listbox" role="listbox" aria-labelledby="mb2">
@@ -55,7 +52,7 @@
             <li id="cb1-opt13" role="option" class="cb_option" tabindex="-1">Guam</li>
             <li id="cb1-opt14" role="option" class="cb_option" tabindex="-1">Hawaii</li>
             <li id="cb1-opt15" role="option" class="cb_option" tabindex="-1">Idaho</li>
-            <li id="cb1-opt16" role="option" class="cb_option selected" tabindex="-1">Illinois</li>
+            <li id="cb1-opt16" role="option" class="cb_option" tabindex="-1">Illinois</li>
             <li id="cb1-opt17" role="option" class="cb_option" tabindex="-1">Indiana</li>
             <li id="cb1-opt18" role="option" class="cb_option" tabindex="-1">Iowa</li>
             <li id="cb1-opt19" role="option" class="cb_option" tabindex="-1">Kansas</li>
@@ -101,13 +98,24 @@
       </section>
       
       
-      <h2 id="id_a11yfeature">Accessibility Feature</h2>
+      <h2 id="id_a11yfeature">Accessibility Features</h2>
              <ul>
-                <li></li>
+                <li>The <code>role=combobox</code> on the <code>div</code> element containing the <code>input[type=text]</code> identifies the input as a combobox.</li>
+                <li>The <code>aria-autocomplete="none"</code> on the <code>input</code> element identifies that the input will not autocomplete</li>
+                <li>The <code>aria-haspopup="true"</code> attribute on the <code>input[type=text]</code> element identifies that there is a listbox or dialog associated with the input.</li>
+                <li>The <code>aria-controls</code> attribute on the <code>input</code> element idenfities that the listbox that will be opened when the input is activated.</li>
+                <li>The <code>aria-expanded="false"</code> attribute on the <code>input</code> element identifies the current state of the listbox.</li>
+                <li>The <code>button</code> element has <code>tabindex="-1"</code> to remove it from tab order.</li>
+                <li>The <code>role="listbox"</code> on the <code>ul</code> element identifies the element as a listbox.</li>
+                <li>The <code>role="option"</code> on the <code>li</code> elements identifies them as listbox options.</li>
+                <li>The <code>input</code> element has a <code>keydown</code> event to handle opening the listbox and moving focus to the listbox or input.</li>
+                <li>The <code>button</code> element has a <code>keydown</code> event to handle opening and closing the listbox and moving focus to the listbox.</li>
+                <li>Each of the <code>li[role=option]</code> elements has a <code>keydown</code> event to handle navigation between listbox items and closing the listbox and returning focus to the input.</li>
               </ul>
 
       <h2 id="id_kbd">Keyboard Support</h2>
-      <table aria-labelledby="id_kbd"> 
+      <h3 id="id_kbd1">Input Text Box</h3>
+      <table aria-labelledby="id_kbd id_kbd1"> 
         <thead>
           <tr>
             <th>Key</th>
@@ -116,33 +124,118 @@
         </thead>
         <tbody>
           <tr>
-            <td>Left/Right Arrow</td>
-            <td>Move the carot within the edit field</td>
+            <td>Alt+Down Arrow Key</td>
+            <td>The list box is opened and focus is moved to either the current item, or the first item if there is no current item</td>
           </tr>
           <tr>
-            <td>Alt+Up/Down Arrow</td>
-            <td>Opens and closes the list.</td>
+            <td>Alt+Up Arrow Key</td>
+            <td>The list box is opened and focus is moved to either the current item, or the last item if there is no current item</td>
+          </tr>
+          
+          <tr>
+            <td>Down Arrow Key</td>
+            <td>
+              <ul>
+                <li>Enters the text of the next item in the listbox to the input field</li>
+                <li>If there is no current item, the text of the first item in the listbox will be entered into the input field. </li>
+                <li>If the current item in the listbox is the last item, the text of the first item in the listbox will be entered into the input field. </li>
+              </ul>
+            </td>
           </tr>
           <tr>
-            <td>Up and Down Arrow</td>
-            <td>Move focus up and down the list. As focus moves the edit field is updated.</td>
+            <td>Up Arrow Key</td>
+            <td>
+              <ul>
+                <li>Updates the input with the text of the previous item in the listbox</li>
+                <li>If there is no current item, updates the input with the text content of the last item in the listbox</li>
+                <li>If the current item in the listbox is the first item, updates the input with the text content of the last item in the listbox</li>
+              </ul>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <h3 id="id_kbd2">Button</h3>
+      <table aria-labelledby="id_kbd id_kbd2"> 
+        <thead>
+          <tr>
+            <th>Key</th>
+            <th>Function</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>None</td>
+            <td>Removed from tab order</td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <h3 id="id_kbd3">Listbox</h3>
+      <table aria-labelledby="id_kbd id_kbd3"> 
+        <thead>
+          <tr>
+            <th>Key</th>
+            <th>Function</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <ul style="list-style: none">
+                <li>Up Arrow Key</li>
+                <li>Left Arrow Key</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>Moves focus to the previous item in the list box</li>
+                <li>If the current item in the listbox is the first item, focus is moved to the last item</li>
+                <li>Updates the input with the text content of the item with focus</li>
+              </ul>
+            </td>
           </tr>
           <tr>
-            <td>Page Up/Down</td>
-            <td>Selects the next/previous pages item depending on the list size.</td>
+            <td>Down Arrow and Right Arrow Key</td>
+            <td>
+              <ul>
+                <li>Moves focus to the next item in the list box</li>
+                <li>If the current item in the listbox is the last item, focus is moved to the first item</li>
+                <li>Updates the input with the text content of the item with focus</li>
+              </ul>
+            </td>
           </tr>
           <tr>
-            <td>Escape</td>
-            <td>Closes the dropdown list, returns focus to the edit field and does not change the current selection.</td>
+            <td>Alt+Up Arrow, Alt+Down Arrow, Enter and Escape Keys</td>
+            <td>Closes the list and moves focus to the input field</td>
           </tr>
           <tr>
-            <td>Enter</td>
-            <td>Selects the current item on the list, updates the edit field, highlights the selectied item in the
-                dropdown list, closes the dropdown list and returns focus to the input field.</td>
+            <td>Page Up Key</td>
+            <td>
+              <ul>
+                <li>Moves foucs up anywhere between 5 and 15 items depending on list size</li>
+                <li>Updates the input with the text content of the item with focus</li>
+              <ul>
+            </td>
           </tr>
           <tr>
-            <td>Alphanumeric Characters </td>
-            <td>Alphanumeric characters move focus to the next instance of a visivle node whose title begins with that printable letter.</td>
+            <td>Page Down Key</td>
+            <td>
+              <ul>
+                <li>Moves foucs down anywhere between 5 and 15 items depending on list size</li>
+                <li>Updates the input with the text content of the item with focus</li>
+              <ul>
+            </td>
+          </tr>
+          
+          <tr>
+            <td>Alphanumeric Character Keys</td>
+            <td>
+              <ul>
+                <li>Move focus to the next item that starts with the character</li>
+                <li>If focus is on the last item starting with the character, focus is moved to the first item starting with that character</li>
+              </ul>
+            </td>
           </tr>
         </tbody>
       </table>
