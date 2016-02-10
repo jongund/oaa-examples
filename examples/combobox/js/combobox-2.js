@@ -186,6 +186,7 @@ aria.widget.ListBox = function(comboBox){
   this.firstComboItem = false;
   this.lastComboItem = false;
   this.selectedItem = false;
+  this.numItems = 0;
   this.tabDistance = 0;
 };
 
@@ -204,7 +205,6 @@ aria.widget.ListBox.prototype.initListBox = function(filter){
   var listBox = this;
   var lbn = this.comboBox.listBoxNode;
   var options =  aria.data.comboboxOptions;
-  var numItems = 0;
   
   lbn.innerHTML = "";
   filter = filter.toLowerCase();
@@ -220,7 +220,7 @@ aria.widget.ListBox.prototype.initListBox = function(filter){
       cn.setAttribute("role", "option");
       lbn.appendChild(cn);
       
-      numItems += 1;
+      this.numItems += 1;
       cn.tabIndex = -1;
       if (!this.firstComboItem) this.firstComboItem = cn; 
       this.lastComboItem = cn;
@@ -240,7 +240,7 @@ aria.widget.ListBox.prototype.initListBox = function(filter){
 
     }
   }
-  listBox.calcTabDistance(numItems);
+  listBox.calcTabDistance();
 
   this.button = new aria.widget.Button(this.comboBox);
   this.button.initButton();
@@ -254,10 +254,10 @@ aria.widget.ListBox.prototype.initListBox = function(filter){
  * @desc  Moves focus to next item
  */
  
-aria.widget.ListBox.prototype.calcTabDistance = function(numItems){
+aria.widget.ListBox.prototype.calcTabDistance = function(){
 
-  if(numItems){
-    this.tabDistance = numItems/10;
+  if(this.numItems){
+    this.tabDistance = this.numItems/10;
     if(this.tabDistance < 5)this.tabDistance = 5;
     if(this.tabDistance > 15) this.tabDistance = 15;
   }
@@ -278,6 +278,7 @@ aria.widget.ListBox.prototype.nextComboItem = function(ci){
   while (mi){
     if ((mi.nodeType === Node.ELEMENT_NODE) && 
       (mi.getAttribute('role')  === 'option')){
+      mi.focus();
       this.selectedItem = mi;
       break;
     }
@@ -287,6 +288,7 @@ aria.widget.ListBox.prototype.nextComboItem = function(ci){
   if (!mi && this.firstComboItem){
     mi =  this.firstComboItem;
     this.selectedItem = mi;
+    this.firstComboItem.focus();
   }
 
   return mi;
@@ -303,18 +305,19 @@ aria.widget.ListBox.prototype.nextComboItem = function(ci){
 aria.widget.ListBox.prototype.moveToNextComboItem = function(ci , n){
 
   var mi = ci;
-  for( var i = 0; i < n; i++){
-    mi = mi.nextSibling.nextSibling;
-    if(!mi)break;
+  var i = 0;
+  while(mi.nextSibling && (i < n)) { 
+    mi = mi.nextSibling;
     if(mi.nodeType === Node.ELEMENT_NODE &&
       (mi.getAttribute('role')  === 'option')){
-      this.selectedItem = mi;
+      i += 1;
     }
   }
-  if (!mi && this.firstComboItem){
-    mi = this.lastComboItem;
+
+  if (mi) {
     this.selectedItem = mi;
-  }
+    mi.focus();
+  }  
 
   return mi;
 };
@@ -362,20 +365,19 @@ aria.widget.ListBox.prototype.previousComboItem = function(ci){
 aria.widget.ListBox.prototype.moveToPreviousComboItem = function(ci, n){
 
   var mi = ci;
-  for( var i = 0; i < n; i++){
-    mi = mi.previousSibling.previousSibling;
-    if(!mi)break;
+  var i = 0;
+  while(mi.previousSibling && (i < n)) { 
+    mi = mi.previousSibling;
     if(mi.nodeType === Node.ELEMENT_NODE &&
       (mi.getAttribute('role')  === 'option')){
-      mi.focus();
-      this.selectedItem = mi;
-      }
+      i += 1;
+    }
   }
-  if (!mi && this.firstComboItem){
-    mi = this.firstComboItem;
+
+  if (mi) {
     this.selectedItem = mi;
-    this.firstComboItem.focus();
-  }
+    mi.focus();
+  }  
 
   return mi;
 };
@@ -403,8 +405,7 @@ aria.widget.ListBox.prototype.setInput = function(ci){
  */
  
 aria.widget.ListBox.prototype.activateSelectedItem = function(){
-
-  //this.selectedItem.focus()
+  
   this.setInput(this.selectedItem)
   
 }
@@ -669,11 +670,13 @@ aria.widget.ComboBoxInput.prototype.openListBox = function(){
  */
 
 aria.widget.ComboBoxInput.prototype.closeListBox = function(){
-
-  if(this.listBoxNode){
+  if(this.listBoxNode && this.listBox.numItems != 0){
     this.listBoxNode.style.display = 'none';
     this.inputNode.setAttribute('aria-expanded', 'false');
     this.inputNode.selectionStart = this.inputNode.value.length;
+  }else if(this.listBoxNode){
+    this.listBoxNode.style.display = 'none';
+    this.inputNode.setAttribute('aria-expanded', 'false');
   }
 
 };
@@ -760,30 +763,39 @@ aria.widget.ComboBoxInput.prototype.moveFocusToLastListBoxItem = function(resetS
 aria.widget.ComboBoxInput.prototype.autocomplete = function(event){
 
   var caretPosition = this.inputNode.selectionStart;
+  var selectionEnd = this.inputNode.selectionEnd;
   var keyCode = event.keyCode
-  
+  var inputValue = this.inputNode.value
   var overwriteSelectedItem = true;
   
+  var newFilter = ""
+  var newFilter = inputValue.substr(0,caretPosition)
+  var filterEnd = inputValue.substr(selectionEnd,inputValue.length)
+  
   if (keyCode === 8){
-    if(this.filter != ""){
-      this.filter = this.filter.slice(0, -1);
-      if(this.filter == ""){
+    if(newFilter != ""){
+      if(caretPosition === selectionEnd){
+        newFilter = newFilter.slice(0, -1)+filterEnd;
+      }
+      else{
+        newFilter = newFilter+filterEnd;
+      }
+      if(newFilter == ""){
         this.inputNode.selectionStart = caretPosition -1;
         this.closeListBox();
-        this.inputNode.value = this.filter;
+        this.inputNode.value = newFilter;
         return true;
       }
       this.listBox = false
       this.listBox = new aria.widget.ListBox(this);
-      this.listBox.initListBox(this.filter);
-      console.log(this.filter)
+      this.listBox.initListBox(newFilter);
       this.moveFocusToFirstListBoxItem(overwriteSelectedItem)
       cn = this.listBox.selectedItem
       while(cn){
         if (cn.nodeType === Node.ELEMENT_NODE){
           if (cn.getAttribute('role')  === 'option'){
-            if (cn.childNodes[0].nodeValue.toLowerCase().indexOf(this.filter) == 0){
-              caretPosition = this.filter.length+1;
+            if (cn.childNodes[0].nodeValue.toLowerCase().indexOf(newFilter.toLowerCase()) == 0){
+              caretPosition = newFilter.length+1;
               this.listBox.selectedItem = cn;
               this.listBox.activateSelectedItem();
               this.inputNode.selectionStart = caretPosition - 1;
@@ -793,27 +805,29 @@ aria.widget.ComboBoxInput.prototype.autocomplete = function(event){
         }
         cn = cn.nextSibling;
       }
-    }else{
+      this.closeListBox()
+    }
+    else{
       this.closeListBox()
     }
   }
+
   
   if (keyCode >= 48 && keyCode <= 90){
     keyCode = String.fromCharCode(event.keyCode).toLowerCase();
-    this.filter = this.filter+keyCode
+    newFilter = newFilter+keyCode+filterEnd
 
     this.listBox = false
     this.listBox = new aria.widget.ListBox(this);
-    this.listBox.initListBox(this.filter);
+    this.listBox.initListBox(newFilter);
 
-    console.log(this.filter)
     this.moveFocusToFirstListBoxItem(overwriteSelectedItem)
     cn = this.listBox.selectedItem;
     while(cn){
       if (cn.nodeType === Node.ELEMENT_NODE){
         if (cn.getAttribute('role')  === 'option'){
-          if (cn.childNodes[0].nodeValue.toLowerCase().indexOf(this.filter) == 0){
-            caretPosition = this.filter.length;
+          if (cn.childNodes[0].nodeValue.toLowerCase().indexOf(newFilter.toLowerCase()) == 0){
+            caretPosition = newFilter.length;
             this.listBox.selectedItem = cn;
             this.listBox.activateSelectedItem();
             this.inputNode.selectionStart = caretPosition;
@@ -823,7 +837,10 @@ aria.widget.ComboBoxInput.prototype.autocomplete = function(event){
       }
       cn = cn.nextSibling;
     }
-    this.inputNode.value = this.filter;
+    
+    this.inputNode.value = newFilter;
+    this.inputNode.selectionStart = caretPosition+1;
+    this.inputNode.selectionEnd = caretPosition+1;
     this.closeListBox()
     return true;
 
