@@ -632,6 +632,11 @@ aria.widget.ComboBoxInput.prototype.initComboBox = function(){
     }
   }  
   this.closeListBox();
+  
+  var eventClick = function (event){
+    comboBox.eventClick(event, comboBox);
+    };
+  comboBox.inputNode.addEventListener('click', eventClick);
   var eventKeyDown = function (event){
     comboBox.eventKeyDown(event, comboBox);
   };
@@ -790,6 +795,11 @@ aria.widget.ComboBoxInput.prototype.autocomplete = function(event){
   var filter = inputValue.substr(0,caretPosition)
   var filterEnd = inputValue.substr(selectionEnd,inputValue.length)
   var flag = false;
+  
+  if (keyCode === 27){ //escape
+    this.inputNode.value = filter + filterEnd
+    this.closeListBox
+  }
 
   if (keyCode === 8 || keyCode == 46){//Backspace and Delete
     if(filter != "" || filterEnd != ""){
@@ -925,7 +935,6 @@ aria.widget.ComboBoxInput.prototype.eventKeyDown = function(event, comboBox){
       break;
     
     case comboBox.keyCode.RETURN:
-    case comboBox.keyCode.ESC:
       comboBox.closeListBox();
       flag = true;
       break;
@@ -946,6 +955,27 @@ aria.widget.ComboBoxInput.prototype.eventKeyDown = function(event, comboBox){
   }  
 
 };
+
+/**
+ * @method eventClick
+ *
+ * @memberOf aria.widget.ComboBoxInput
+ *
+ * @desc  Click event handler for button object
+ */
+
+aria.widget.ComboBoxInput.prototype.eventClick = function(event, comboBox){
+
+  var type = event.type;
+
+  if (type === 'click'){
+    this.toggleListBox();
+    if(!this.listBox.selectedItem){
+      this.listBox.selectedItem = this.comboBox.listBox.firstComboItem
+      this.listBox.activateSelectedItem()
+    }
+  }
+}
 
 /* ---------------------------------------------------------------- */
 /*                          Button Widget                           */

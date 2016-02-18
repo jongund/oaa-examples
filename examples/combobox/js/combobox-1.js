@@ -555,6 +555,11 @@ aria.widget.ComboBoxInput.prototype.initComboBox = function(){
     }
   }  
   this.closeListBox();
+  
+  var eventClick = function (event){
+    comboBox.eventClick(event, comboBox);
+    };
+  comboBox.inputNode.addEventListener('click', eventClick);
   var eventKeyDown = function (event){
     comboBox.eventKeyDown(event, comboBox);
   };
@@ -780,6 +785,26 @@ aria.widget.ComboBoxInput.prototype.eventKeyDown = function(event, comboBox){
 
 };
 
+/**
+ * @method eventClick
+ *
+ * @memberOf aria.widget.ComboBoxInput
+ *
+ * @desc  Click event handler for button object
+ */
+
+aria.widget.ComboBoxInput.prototype.eventClick = function(event, comboBox){
+
+  var type = event.type;
+
+  if (type === 'click'){
+    this.toggleListBox();
+    if(!this.listBox.selectedItem){
+      this.listBox.selectedItem = this.comboBox.listBox.firstComboItem
+      this.listBox.activateSelectedItem()
+    }
+  }
+}
 /* ---------------------------------------------------------------- */
 /*                          Button Widget                           */
 /* ---------------------------------------------------------------- */
