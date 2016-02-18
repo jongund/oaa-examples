@@ -658,6 +658,7 @@ aria.widget.ComboBoxInput.prototype.openListBox = function(){
     var pos = aria.Utils.findPos(this.inputNode);
     var br = this.inputNode.getBoundingClientRect();
 
+    this.listBox.button.highlightButton();
     this.listBoxNode.style.display = 'block';
     this.listBoxNode.style.position = 'absolute';
     this.listBoxNode.style.top  = (pos.y + br.height) + "px"; 
@@ -678,10 +679,12 @@ aria.widget.ComboBoxInput.prototype.openListBox = function(){
 
 aria.widget.ComboBoxInput.prototype.closeListBox = function(){
   if(this.listBoxNode && this.listBox.numItems != 0){
+    this.listBox.button.unhighlightButton();
     this.listBoxNode.style.display = 'none';
     this.inputNode.setAttribute('aria-expanded', 'false');
     this.inputNode.selectionStart = this.inputNode.value.length;
   }else if(this.listBoxNode){
+    this.listBox.button.unhighlightButton();
     this.listBoxNode.style.display = 'none';
     this.inputNode.setAttribute('aria-expanded', 'false');
   }
@@ -798,7 +801,7 @@ aria.widget.ComboBoxInput.prototype.autocomplete = function(event){
   
   if (keyCode === 27){ //escape
     this.inputNode.value = filter + filterEnd
-    this.closeListBox
+    this.closeListBox();
   }
 
   if (keyCode === 8 || keyCode == 46){//Backspace and Delete
@@ -1020,6 +1023,37 @@ aria.widget.Button.prototype.initButton = function(){
 
 
 };
+
+
+aria.widget.Button.prototype.highlightButton = function(){
+
+  var img = this.comboBox.buttonNode.firstChild;
+
+  while(img) {
+    if (img.nodeType === Node.ELEMENT_NODE) {
+      if (img.tagName === 'IMG') break;
+    }
+    img = img.nextSibling;
+  }
+  if(img){
+    img.src = "./images/button-arrow-down-hl.png";
+  }
+}
+
+aria.widget.Button.prototype.unhighlightButton = function(){
+
+  var img = this.comboBox.buttonNode.firstChild;
+
+  while(img) {
+    if (img.nodeType === Node.ELEMENT_NODE) {
+      if (img.tagName === 'IMG') break;
+    }
+    img = img.nextSibling;
+  }
+  if(img){
+    img.src = "./images/button-arrow-down.png";
+  }
+}
 
 aria.widget.Button.prototype.toggleHighlightButton = function(){
 
