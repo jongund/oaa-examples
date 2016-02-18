@@ -639,10 +639,12 @@ aria.widget.ComboBoxInput.prototype.initComboBox = function(){
     comboBox.eventClick(event, comboBox);
     };
   comboBox.inputNode.addEventListener('click', eventClick);
+  comboBox.inputNode.addEventListener('touchstart', eventClick);
   var eventKeyDown = function (event){
     comboBox.eventKeyDown(event, comboBox);
   };
   comboBox.inputNode.addEventListener('keydown',   eventKeyDown);
+  
 
 };
 
@@ -973,7 +975,7 @@ aria.widget.ComboBoxInput.prototype.eventClick = function(event, comboBox){
 
   var type = event.type;
 
-  if (type === 'click'){
+  if (type === 'click' || type === 'touchstart'){
     this.toggleListBox();
   }
 }
