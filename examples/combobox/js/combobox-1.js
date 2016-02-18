@@ -847,6 +847,7 @@ aria.widget.Button.prototype.initButton = function(){
     };
   this.comboBox.buttonNode.addEventListener('click', eventClick);
   
+  
 
 
 };
