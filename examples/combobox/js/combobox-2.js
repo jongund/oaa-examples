@@ -1017,6 +1017,7 @@ aria.widget.Button.prototype.initButton = function(){
     button.eventClick(event, button.comboBox);
     };
   this.comboBox.buttonNode.addEventListener('click', eventClick);
+  this.comboBox.buttonNode.addEventListener('touchstart', eventClick);
   
 
 
@@ -1086,7 +1087,7 @@ aria.widget.Button.prototype.eventClick = function(event, comboBox){
 
   var type = event.type;
 
-  if (type === 'click'){
+  if (type === 'click' || type === 'touchstart'){
     this.comboBox.toggleListBox();
   }
 }
