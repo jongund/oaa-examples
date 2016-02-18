@@ -241,9 +241,7 @@ aria.widget.ListBox.prototype.initListBox = function(filter){
     }
   }
   listBox.calcTabDistance();
-
-  this.button = new aria.widget.Button(this.comboBox);
-  this.button.initButton();
+  
 };
 
 /**
@@ -626,9 +624,13 @@ aria.widget.ComboBoxInput.prototype.initComboBox = function(){
   if (id){
     this.listBoxNode = document.getElementById(id);
 
-    if (this.listBoxNode && this.buttonNode){
+    if (this.listBoxNode){
       this.listBox = new aria.widget.ListBox(this);
         this.listBox.initListBox(filter);
+    }
+    if (this.buttonNode){
+      this.button = new aria.widget.Button(this);
+      this.button.initButton();
     }
   }  
   this.closeListBox();
@@ -658,7 +660,7 @@ aria.widget.ComboBoxInput.prototype.openListBox = function(){
     var pos = aria.Utils.findPos(this.inputNode);
     var br = this.inputNode.getBoundingClientRect();
 
-    this.listBox.button.highlightButton();
+    this.button.highlightButton();
     this.listBoxNode.style.display = 'block';
     this.listBoxNode.style.position = 'absolute';
     this.listBoxNode.style.top  = (pos.y + br.height) + "px"; 
@@ -679,12 +681,12 @@ aria.widget.ComboBoxInput.prototype.openListBox = function(){
 
 aria.widget.ComboBoxInput.prototype.closeListBox = function(){
   if(this.listBoxNode && this.listBox.numItems != 0){
-    this.listBox.button.unhighlightButton();
+    this.button.unhighlightButton();
     this.listBoxNode.style.display = 'none';
     this.inputNode.setAttribute('aria-expanded', 'false');
     this.inputNode.selectionStart = this.inputNode.value.length;
   }else if(this.listBoxNode){
-    this.listBox.button.unhighlightButton();
+    this.button.unhighlightButton();
     this.listBoxNode.style.display = 'none';
     this.inputNode.setAttribute('aria-expanded', 'false');
   }
@@ -701,7 +703,7 @@ aria.widget.ComboBoxInput.prototype.closeListBox = function(){
 
 aria.widget.ComboBoxInput.prototype.toggleListBox = function(){
   
-  this.listBox.button.toggleHighlightButton();
+  this.button.toggleHighlightButton();
   
   if (this.listBoxNode){
     if (this.listBoxNode.style.display === 'block'){
@@ -973,10 +975,6 @@ aria.widget.ComboBoxInput.prototype.eventClick = function(event, comboBox){
 
   if (type === 'click'){
     this.toggleListBox();
-    if(!this.listBox.selectedItem){
-      this.listBox.selectedItem = this.comboBox.listBox.firstComboItem
-      this.listBox.activateSelectedItem()
-    }
   }
 }
 
@@ -1090,9 +1088,5 @@ aria.widget.Button.prototype.eventClick = function(event, comboBox){
 
   if (type === 'click'){
     this.comboBox.toggleListBox();
-    if(!this.comboBox.listBox.selectedItem){
-      this.comboBox.listBox.selectedItem = this.comboBox.listBox.firstComboItem
-      this.comboBox.listBox.activateSelectedItem()
-    }
   }
 }
