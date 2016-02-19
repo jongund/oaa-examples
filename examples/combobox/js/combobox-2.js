@@ -814,6 +814,8 @@ aria.widget.ComboBoxInput.prototype.autocomplete = function(event){
   if (keyCode === 27){ //escape
     this.inputNode.value = filter + filterEnd
     this.closeListBox();
+    event.preventDefault();
+    event.stopPropagation();
   }
 
   if (keyCode === 8 || keyCode == 46){//Backspace and Delete
@@ -828,6 +830,7 @@ aria.widget.ComboBoxInput.prototype.autocomplete = function(event){
           flag = false;
         }
         else{
+          filter = filter + filterEnd;
           flag = true;
         }
       }
