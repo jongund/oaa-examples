@@ -170,8 +170,6 @@ aria.widget.ListBox.prototype.initListBox = function(){
   }
   listBox.calcTabDistance(numItems);
   
-  this.button = new aria.widget.Button(this.comboBox);
-  this.button.initButton();
 };
 
 /**
@@ -559,14 +557,15 @@ aria.widget.ComboBoxInput.prototype.initComboBox = function(){
       this.listBox = new aria.widget.ListBox(this);
         this.listBox.initListBox();
     }
-  }  
-  this.closeListBox();
-  
+  }
   var eventClick = function (event){
     comboBox.eventClick(event, comboBox);
     };
   this.body = new aria.widget.Body(this);
   this.body.initBody();
+  
+  this.button = new aria.widget.Button(this);
+  this.button.initButton();
   
   comboBox.inputNode.addEventListener('click', eventClick);
   comboBox.inputNode.addEventListener('touchstart', eventClick);
@@ -575,6 +574,8 @@ aria.widget.ComboBoxInput.prototype.initComboBox = function(){
     comboBox.eventKeyDown(event, comboBox);
   };
   comboBox.inputNode.addEventListener('keydown',   eventKeyDown);
+  
+  this.closeListBox();
 
 };
 
@@ -598,6 +599,8 @@ aria.widget.ComboBoxInput.prototype.openListBox = function(){
     this.listBoxNode.style.left = pos.x + "px"; ;
     
     this.inputNode.setAttribute('aria-expanded', 'true');
+    
+    this.button.highlightButton();
   }  
 };
 
@@ -615,6 +618,7 @@ aria.widget.ComboBoxInput.prototype.closeListBox = function(){
   if(this.listBoxNode){
     this.listBoxNode.style.display = 'none';
     this.inputNode.setAttribute('aria-expanded', 'false');
+    this.button.unHighlightButton();
   }
 
 };
@@ -629,7 +633,7 @@ aria.widget.ComboBoxInput.prototype.closeListBox = function(){
 
 aria.widget.ComboBoxInput.prototype.toggleListBox = function(){
   
-  this.listBox.button.toggleHighlightButton();
+  this.button.toggleHighlightButton();
   
   if (this.listBoxNode){
     if (this.listBoxNode.style.display === 'block'){
@@ -839,7 +843,6 @@ aria.widget.ComboBoxInput.prototype.eventClick = function(event, comboBox){
  */
 
 aria.widget.Button = function(comboBox){
-
   this.comboBox = comboBox;  
 };
 
@@ -854,7 +857,6 @@ aria.widget.Button = function(comboBox){
 aria.widget.Button.prototype.initButton = function(){
 
   var button = this;
-
   var eventClick = function (event){
     button.eventClick(event, button.comboBox);
     };
@@ -864,6 +866,36 @@ aria.widget.Button.prototype.initButton = function(){
 
 
 };
+
+aria.widget.Button.prototype.highlightButton = function(){
+
+  var img = this.comboBox.buttonNode.firstChild;
+
+  while(img) {
+    if (img.nodeType === Node.ELEMENT_NODE) {
+      if (img.tagName === 'IMG') break;
+    }
+    img = img.nextSibling;
+  }
+  if(img){
+    img.src = "./images/button-arrow-down-hl.png";
+  }
+}
+
+aria.widget.Button.prototype.unHighlightButton = function(){
+
+  var img = this.comboBox.buttonNode.firstChild;
+
+  while(img) {
+    if (img.nodeType === Node.ELEMENT_NODE) {
+      if (img.tagName === 'IMG') break;
+    }
+    img = img.nextSibling;
+  }
+  if(img){
+    img.src = "./images/button-arrow-down.png";
+  }
+}
 
 aria.widget.Button.prototype.toggleHighlightButton = function(){
 

@@ -1097,3 +1097,65 @@ aria.widget.Button.prototype.eventClick = function(event, comboBox){
     event.preventDefault();
   }
 }
+
+/* ---------------------------------------------------------------- */
+/*                          Body Widget                           */
+/* ---------------------------------------------------------------- */
+
+/**
+ * @constructor Body
+ *
+ * @memberOf aria.Widget
+ *
+ * @desc  Creates a Body widget using ARIA 
+ *
+ * @param  node    DOM node  -  DOM node object
+ *
+ * @property  keyCode      Object    -  Object containing the keyCodes used by the slider widget
+ *
+ * @property  node               Object    -  JQuery node object
+ */
+
+aria.widget.Body = function(comboBox){
+
+  this.comboBox = comboBox;  
+};
+
+/**
+ * @method initButton
+ *
+ * @memberOf aria.widget.Body
+ *
+ * @desc  Adds event handlers to body element 
+ */
+
+aria.widget.Body.prototype.initBody = function(){
+
+  var body = this;
+
+  var eventClick = function (event){
+    body.eventClick(event, body.comboBox);
+    };
+  this.comboBox.bodyNode.addEventListener('click', eventClick);
+
+};
+
+
+/**
+ * @method eventClick
+ *
+ * @memberOf aria.widget.ComboBoxInput
+ *
+ * @desc  Click event handler for body object
+ *        NOTE: The listBox parameter is needed to provide a reference to the specific
+ *               listBox 
+ */
+
+aria.widget.Body.prototype.eventClick = function(event, comboBox){
+
+  var type = event.type;
+
+  if (type === 'click'){
+    this.comboBox.closeListBox();
+  }
+}
