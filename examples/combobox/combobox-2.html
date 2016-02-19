@@ -2,7 +2,7 @@
 <html lang="en"><head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
-    <title>ARIA Combo Box Example</title>
+    <title>ARIA Combo Box Example: aria-autocomplete=both</title>
     <meta name="generator" content="BBEdit 10.5">
     <link href="../css/core.css" rel="stylesheet">
     <link href="../css/table.css" rel="stylesheet">
@@ -12,7 +12,7 @@
   </head>
   <body>
     <main role="main">
-      <h1>ARIA Combo Box Example: <code>aria-autocomplete=inline</code></h1>
+      <h1>ARIA Combo Box Example: <code>aria-autocomplete=both</code></h1>
  
       <p> <p> <a href="https://www.w3.org/TR/wai-aria-practices-1.1/#h-combobox">WAI-ARIA 1.1: Combo Box</a></p>
       <ul>
@@ -26,7 +26,7 @@
              class="combobox"
              role="combobox">
           <input id="cb1-input" class="cb_edit" type="text"
-                 aria-autocomplete="inline"
+                 aria-autocomplete="both"
                  aria-expanded="flase"
                  aria-haspopup="true" 
                  aria-controls="cb1-listbox"
@@ -46,7 +46,7 @@
       <h2 id="id_a11yfeature">Accessibility Features</h2>
              <ul>
                 <li>The <code>role=combobox</code> on the <code>div</code> element containing the <code>input[type=text]</code> identifies the input as a combobox.</li>
-                <li>The <code>aria-autocomplete="none"</code> on the <code>input</code> element identifies that the input will not autocomplete</li>
+                <li>The <code>aria-autocomplete="both"</code> on the <code>input</code> element identifies that the input will autocomplete</li>
                 <li>The <code>aria-haspopup="true"</code> attribute on the <code>input[type=text]</code> element identifies that there is a listbox or dialog associated with the input.</li>
                 <li>The <code>aria-controls</code> attribute on the <code>input</code> element idenfities that the listbox that will be opened when the input is activated.</li>
                 <li>The <code>aria-expanded="false"</code> attribute on the <code>input</code> element identifies the current state of the listbox.</li>
@@ -177,8 +177,7 @@
             <td>Alphanumeric Character Keys</td>
             <td>
               <ul>
-                <li>Move focus to the next item that starts with the character</li>
-                <li>If focus is on the last item starting with the character, focus is moved to the first item starting with that character</li>
+                <li>Autocompletes the next item starting with the preexisting text</li>
               </ul>
             </td>
           </tr>
