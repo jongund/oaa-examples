@@ -858,6 +858,7 @@ aria.widget.ComboBoxInput.prototype.autocomplete = function(event){
               this.listBox.selectedItem = cn;
               this.listBox.activateSelectedItem();
               this.inputNode.selectionStart = caretPosition;
+              this.inputNode.selectionEnd = this.inputNode.value.length
               return true;
             }
           }
@@ -891,6 +892,7 @@ aria.widget.ComboBoxInput.prototype.autocomplete = function(event){
             this.listBox.selectedItem = cn;
             this.listBox.activateSelectedItem();
             this.inputNode.selectionStart = caretPosition;
+            this.inputNode.selectionEnd = this.inputNode.value.length
             return true;
           }
         }
