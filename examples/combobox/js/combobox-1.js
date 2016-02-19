@@ -485,6 +485,9 @@ aria.widget.ListBox.prototype.eventClick = function(event, listBox){
   listBox.selectedItem = ct;
   listBox.setInput(ct)
   listBox.comboBox.toggleListBox();
+  
+  event.stopPropagation();
+  event.preventDefault();
 }
 
 
@@ -530,7 +533,10 @@ aria.widget.ComboBoxInput = function(node){
     this.buttonNode = buttons[0];
     this.buttonNode.tabIndex = "-1";
   }
-  
+  var bodyNodes = document.getElementsByTagName("body");
+  if (bodyNodes && bodyNodes[0]){
+    this.bodyNode = bodyNodes[0]
+  }
 };
 
 /**
@@ -545,7 +551,7 @@ aria.widget.ComboBoxInput.prototype.initComboBox = function(){
   
   var comboBox = this;
   var id = this.inputNode.getAttribute('aria-controls');
-
+  
   if (id){
     this.listBoxNode = document.getElementById(id);
 
@@ -559,6 +565,9 @@ aria.widget.ComboBoxInput.prototype.initComboBox = function(){
   var eventClick = function (event){
     comboBox.eventClick(event, comboBox);
     };
+  this.body = new aria.widget.Body(this);
+  this.body.initBody();
+  
   comboBox.inputNode.addEventListener('click', eventClick);
   comboBox.inputNode.addEventListener('touchstart', eventClick);
   
@@ -787,12 +796,14 @@ aria.widget.ComboBoxInput.prototype.eventKeyDown = function(event, comboBox){
 
 };
 
+
+
 /**
  * @method eventClick
  *
  * @memberOf aria.widget.ComboBoxInput
  *
- * @desc  Click event handler for button object
+ * @desc  Click event handler for input object
  */
 
 aria.widget.ComboBoxInput.prototype.eventClick = function(event, comboBox){
@@ -802,9 +813,11 @@ aria.widget.ComboBoxInput.prototype.eventClick = function(event, comboBox){
   if (type === 'click' || type === 'touchstart'){
     this.toggleListBox();
     if(!this.listBox.selectedItem){
-      this.listBox.selectedItem = this.comboBox.listBox.firstComboItem
+      this.listBox.selectedItem = this.listBox.firstComboItem
       this.listBox.activateSelectedItem()
     }
+    event.stopPropagation();
+    event.preventDefault();
   }
 }
 /* ---------------------------------------------------------------- */
@@ -891,5 +904,70 @@ aria.widget.Button.prototype.eventClick = function(event, comboBox){
       this.comboBox.listBox.selectedItem = this.comboBox.listBox.firstComboItem
       this.comboBox.listBox.activateSelectedItem()
     }
+    event.stopPropagation();
+    event.preventDefault();
+  }
+}
+
+
+/* ---------------------------------------------------------------- */
+/*                          Body Widget                           */
+/* ---------------------------------------------------------------- */
+
+/**
+ * @constructor Body
+ *
+ * @memberOf aria.Widget
+ *
+ * @desc  Creates a Body widget using ARIA 
+ *
+ * @param  node    DOM node  -  DOM node object
+ *
+ * @property  keyCode      Object    -  Object containing the keyCodes used by the slider widget
+ *
+ * @property  node               Object    -  JQuery node object
+ */
+
+aria.widget.Body = function(comboBox){
+
+  this.comboBox = comboBox;  
+};
+
+/**
+ * @method initButton
+ *
+ * @memberOf aria.widget.Body
+ *
+ * @desc  Adds event handlers to body element 
+ */
+
+aria.widget.Body.prototype.initBody = function(){
+
+  var body = this;
+
+  var eventClick = function (event){
+    body.eventClick(event, body.comboBox);
+    };
+  this.comboBox.bodyNode.addEventListener('click', eventClick);
+
+};
+
+
+/**
+ * @method eventClick
+ *
+ * @memberOf aria.widget.ComboBoxInput
+ *
+ * @desc  Click event handler for body object
+ *        NOTE: The listBox parameter is needed to provide a reference to the specific
+ *               listBox 
+ */
+
+aria.widget.Body.prototype.eventClick = function(event, comboBox){
+
+  var type = event.type;
+
+  if (type === 'click'){
+    this.comboBox.closeListBox();
   }
 }

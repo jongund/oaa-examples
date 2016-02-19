@@ -977,6 +977,8 @@ aria.widget.ComboBoxInput.prototype.eventClick = function(event, comboBox){
 
   if (type === 'click' || type === 'touchstart'){
     this.toggleListBox();
+    event.stopPropagation();
+    event.preventDefault();
   }
 }
 
@@ -1091,5 +1093,7 @@ aria.widget.Button.prototype.eventClick = function(event, comboBox){
 
   if (type === 'click' || type === 'touchstart'){
     this.comboBox.toggleListBox();
+    event.stopPropagation();
+    event.preventDefault();
   }
 }
