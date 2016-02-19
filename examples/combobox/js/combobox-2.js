@@ -603,6 +603,11 @@ aria.widget.ComboBoxInput = function(node){
     this.buttonNode = buttons[0];
     this.buttonNode.tabIndex = "-1";
   }
+  
+  var bodyNodes = document.getElementsByTagName("body");
+  if (bodyNodes && bodyNodes[0]){
+    this.bodyNode = bodyNodes[0]
+  }
   this.filter = "";
   
 };
@@ -633,7 +638,10 @@ aria.widget.ComboBoxInput.prototype.initComboBox = function(){
       this.button.initButton();
     }
   }  
-  this.closeListBox();
+  
+  
+  this.body = new aria.widget.Body(this);
+  this.body.initBody();
   
   var eventClick = function (event){
     comboBox.eventClick(event, comboBox);
@@ -645,7 +653,7 @@ aria.widget.ComboBoxInput.prototype.initComboBox = function(){
   };
   comboBox.inputNode.addEventListener('keydown',   eventKeyDown);
   
-
+  this.closeListBox();
 };
 
 /**

@@ -981,6 +981,7 @@ aria.widget.Body.prototype.initBody = function(){
     body.eventClick(event, body.comboBox);
     };
   this.comboBox.bodyNode.addEventListener('click', eventClick);
+  this.comboBox.bodyNode.addEventListener('touchstart', eventClick);
 
 };
 
@@ -999,7 +1000,7 @@ aria.widget.Body.prototype.eventClick = function(event, comboBox){
 
   var type = event.type;
 
-  if (type === 'click'){
+  if (type === 'click' || type === 'touchstart'){
     this.comboBox.closeListBox();
   }
 }
