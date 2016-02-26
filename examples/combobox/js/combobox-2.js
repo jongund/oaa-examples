@@ -237,6 +237,7 @@ aria.widget.ListBox.prototype.initListBox = function(filter){
       };
 
       cn.addEventListener('click', eventClick);
+      cn.addEventListener('touchstart', eventClick);
 
 
     }

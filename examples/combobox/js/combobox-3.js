@@ -156,6 +156,7 @@ aria.widget.ListBox.prototype.initListBox = function(){
         };
 
         cn.addEventListener('click', eventClick);
+        cn.addEventListener('touchstart', eventClick);
       }
     }
     cn = cn.nextSibling;
