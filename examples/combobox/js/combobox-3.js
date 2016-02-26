@@ -326,7 +326,7 @@ aria.widget.ListBox.prototype.activateSelectedItem = function(){
     }
     cn = cn.nextSibling;
   }
-  this.selectedItem.focus()
+  this.selectedItem.parentNode.parentNode.setAttribute('aria-activedescendant',this.selectedItem.id)
   this.selectedItem.setAttribute('aria-selected', 'true');
   this.setInput(this.selectedItem)
   
@@ -505,7 +505,6 @@ aria.widget.ListBox.prototype.eventClick = function(event, listBox){
  */
 
 aria.widget.ComboBoxInput = function(node){
-
   this.keyCode = Object.freeze({
      "TAB"    : 9,
      "RETURN" : 13,

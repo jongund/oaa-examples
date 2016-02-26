@@ -218,6 +218,7 @@ aria.widget.ListBox.prototype.initListBox = function(filter){
       var textContent = document.createTextNode(options[i]);
       cn.appendChild(textContent);
       cn.setAttribute("role", "option");
+      cn.setAttribute("aria-selected", "false");
       lbn.appendChild(cn);
       
       this.numItems += 1;
@@ -403,7 +404,16 @@ aria.widget.ListBox.prototype.setInput = function(ci){
  */
  
 aria.widget.ListBox.prototype.activateSelectedItem = function(){
-  
+    var cn = this.comboBox.listBoxNode.firstChild;
+    while(cn){
+    if (cn.nodeType === Node.ELEMENT_NODE){
+      if (cn.getAttribute('role')  === 'option'){
+        cn.setAttribute('aria-selected', 'false');
+      }
+    }
+    cn = cn.nextSibling;
+  }
+  this.selectedItem.setAttribute("aria-selected", "true")
   this.setInput(this.selectedItem)
   
 }
@@ -955,6 +965,8 @@ aria.widget.ComboBoxInput.prototype.eventKeyDown = function(event, comboBox){
       break;
     
     case comboBox.keyCode.RETURN:
+    console.log(comboBox.listBox.selectedItem)
+      this.listBox.activateSelectedItem();
       comboBox.closeListBox();
       flag = true;
       break;
