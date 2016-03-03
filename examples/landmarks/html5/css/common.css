@@ -1,7 +1,14 @@
+body {
+    font-size: large;
+}
 h1, 
 h2 {
     margin: 0;
     padding: 0;
+}
+
+h1 {
+    margin-bottom: 0.5em;
 }
 
 h2 {
@@ -15,4 +22,9 @@ header {
 
 main {
     margin-bottom: 5em;
+}
+
+main table ul {
+    margin-left :0;
+    padding-left: 1em;
 }
