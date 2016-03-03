@@ -120,6 +120,10 @@ aria.widget.Toolbar = function(node){
   nb = this.firstButton
   while(nb){
     if(nb.nodeType === Node.ELEMENT_NODE &&
+      (nb.tagName  === 'DIV')){
+      nb = nb.firstChild
+    }
+    if(nb.nodeType === Node.ELEMENT_NODE &&
       (nb.tagName  === 'BUTTON')){
       this.lastButton = nb
     }
@@ -162,6 +166,10 @@ aria.widget.Toolbar.prototype.nextButton = function(){
   var pb = cb.nextSibling;
 
   while (pb){
+    if((pb.nodeType === Node.ELEMENT_NODE &&
+      (pb.tagName  === 'DIV'))){
+        pb = pb.firstChild
+      }
     if(pb.nodeType === Node.ELEMENT_NODE &&
       (pb.tagName  === 'BUTTON')){
       cb.tabIndex = -1
@@ -194,21 +202,26 @@ aria.widget.Toolbar.prototype.nextButton = function(){
 
 aria.widget.Toolbar.prototype.previousButton = function(){
   var cb = this.currentButton
-  var pb = cb.previousSibling;
+  flag = false;
+  while(cb.getAttribute('class') != 'toolbar'){
+    cb = cb.parentNode
+  }
+  var allChildren = cb.getElementsByTagName('BUTTON');
 
-  while (pb){
-    if(pb.nodeType === Node.ELEMENT_NODE &&
-      (pb.tagName  === 'BUTTON')){
-      cb.tabIndex = -1
-      pb.tabIndex = 0
-      pb.focus()
-      this.currentButton = pb;
-      return pb;
+  for(var i=allChildren.length-1; i >= 0;i--){
+    if(flag){
+      this.currentButton.tabIndex = -1
+      allChildren[i].tabIndex = 0
+      allChildren[i].focus()
+      this.currentButton = allChildren[i];
+      return allChildren[i];
     }
-    pb = pb.previousSibling;
+    if(allChildren[i].tabIndex == 0){
+      flag = true;
+    }
   }
 
-  if (!pb && this.lastButton){
+  if (this.lastButton){
     pb = this.lastButton;
     cb.tabIndex = -1
     pb.tabIndex = 0
@@ -241,7 +254,6 @@ aria.widget.Toolbar.prototype.buttonKeyDown = function(event, toolbar){
       cb = toolbar.previousButton();
       flag = true;
       break;
-    
     
   }
   if (flag){
