@@ -1,0 +1,18 @@
+h1, 
+h2 {
+    margin: 0;
+    padding: 0;
+}
+
+h2 {
+    margin-top: 1em;
+    font-size: 150%;
+}
+
+header {
+    margin-bottom: 1em;
+}
+
+main {
+    margin-bottom: 5em;
+}
