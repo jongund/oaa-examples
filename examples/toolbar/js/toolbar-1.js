@@ -116,20 +116,20 @@ aria.widget.Toolbar = function(node){
   if (textAreas && textAreas[0]) this.textArea = textAreas[0];
   
   this.buttons = node.getElementsByTagName('button');
-  this.firstButton = this.buttons[0]
-  nb = this.firstButton
+  this.firstButton = this.buttons[0];
+  nb = this.firstButton;
   while(nb){
     if(nb.nodeType === Node.ELEMENT_NODE &&
       (nb.tagName  === 'DIV')){
-      nb = nb.firstChild
+      nb = nb.firstChild;
     }
     if(nb.nodeType === Node.ELEMENT_NODE &&
       (nb.tagName  === 'BUTTON')){
-      this.lastButton = nb
+      this.lastButton = nb;
     }
-    nb = nb.nextSibling
+    nb = nb.nextSibling;
   }
-  this.currentButton = this.firstButton
+  this.currentButton = this.firstButton;
 };
 
 /**
@@ -148,7 +148,7 @@ aria.widget.Toolbar.prototype.initToolbar = function(){
     toolbar.buttonKeyDown(event, toolbar);
   };
   for(i=0;i<this.buttons.length;i++){
-    this.buttons[i].addEventListener('keydown', eventKeyDown)
+    this.buttons[i].addEventListener('keydown', eventKeyDown);
   }
 
 };
@@ -163,31 +163,31 @@ aria.widget.Toolbar.prototype.initToolbar = function(){
  
 aria.widget.Toolbar.prototype.nextButton = function(){
   var cb = this.currentButton
-  var pb = cb.nextSibling;
+  var nb = cb.nextSibling;
 
-  while (pb){
-    if((pb.nodeType === Node.ELEMENT_NODE &&
-      (pb.tagName  === 'DIV'))){
-        pb = pb.firstChild
+  while (nb){
+    if((nb.nodeType === Node.ELEMENT_NODE &&
+      (nb.tagName  === 'DIV'))){
+        nb = nb.firstChild;
       }
-    if(pb.nodeType === Node.ELEMENT_NODE &&
-      (pb.tagName  === 'BUTTON')){
-      cb.tabIndex = -1
-      pb.tabIndex = 0
-      pb.focus()
-      this.currentButton = pb;
-      return pb;
+    if(nb.nodeType === Node.ELEMENT_NODE &&
+      (nb.tagName  === 'BUTTON')){
+      cb.tabIndex = -1;
+      nb.tabIndex = 0;
+      nb.focus();
+      this.currentButton = nb;
+      return nb;
     }
-    pb = pb.nextSibling;
+    nb = nb.nextSibling;
   }
 
-  if (!pb && this.firstButton){
-    pb = this.firstButton;
-    cb.tabIndex = -1
-    pb.tabIndex = 0
-    pb.focus()
-    this.currentButton = pb;
-    return pb;
+  if (!nb && this.firstButton){
+    nb = this.firstButton;
+    cb.tabIndex = -1;
+    nb.tabIndex = 0;
+    nb.focus();
+    this.currentButton = nb;
+    return nb;
   }
   return false;
 };
@@ -201,18 +201,19 @@ aria.widget.Toolbar.prototype.nextButton = function(){
  */
 
 aria.widget.Toolbar.prototype.previousButton = function(){
-  var cb = this.currentButton
+  var cb = this.currentButton;
+  var prntbttn = cb
   flag = false;
-  while(cb.getAttribute('class') != 'toolbar'){
-    cb = cb.parentNode
+  while(prntbttn.getAttribute('class') != 'toolbar'){
+    prntbttn = prntbttn.parentNode;
   }
-  var allChildren = cb.getElementsByTagName('BUTTON');
+  var allChildren = prntbttn.getElementsByTagName('BUTTON');
 
   for(var i=allChildren.length-1; i >= 0;i--){
     if(flag){
-      this.currentButton.tabIndex = -1
-      allChildren[i].tabIndex = 0
-      allChildren[i].focus()
+      this.currentButton.tabIndex = -1;
+      allChildren[i].tabIndex = 0;
+      allChildren[i].focus();
       this.currentButton = allChildren[i];
       return allChildren[i];
     }
@@ -223,9 +224,9 @@ aria.widget.Toolbar.prototype.previousButton = function(){
 
   if (this.lastButton){
     pb = this.lastButton;
-    cb.tabIndex = -1
-    pb.tabIndex = 0
-    pb.focus()
+    cb.tabIndex = -1;
+    pb.tabIndex = 0;
+    pb.focus();
     this.currentButton = pb;
     return pb;
   }
@@ -269,14 +270,14 @@ aria.widget.Toolbar.prototype.buttonKeyDown = function(event, toolbar){
  */
  
 increaseFontSize = function(event){
-  var button = event.currentTarget
-  var textArea = document.getElementById(button.getAttribute("aria-controls"))
-  textFontSize = textArea.style.fontSize
-  fontSize = textFontSize.replace("px","")
-  fontSize = Number(fontSize)
+  var button = event.currentTarget;
+  var textArea = document.getElementById(button.getAttribute("aria-controls"));
+  fontSize = getComputedStyle(textArea).fontSize;
+  fontSize = fontSize.replace("px","");
+  fontSize = Number(fontSize);
   if (fontSize < 24){
-    fontSize = Number(fontSize) + 2
-    fontSize = fontSize.toString() + "px"
+    fontSize = Number(fontSize) + 2;
+    fontSize = fontSize.toString() + "px";
     textArea.style.fontSize = fontSize;
   }
 }
@@ -288,62 +289,68 @@ increaseFontSize = function(event){
  */
  
 decreaseFontSize = function(event){
-  var button = event.currentTarget
-  var textArea = document.getElementById(button.getAttribute("aria-controls"))
-  textFontSize = textArea.style.fontSize
-  fontSize = textFontSize.replace("px","")
-  fontSize = Number(fontSize)
+  var button = event.currentTarget;
+  var textArea = document.getElementById(button.getAttribute("aria-controls"));
+  fontSize = getComputedStyle(textArea).fontSize;
+  fontSize = fontSize.replace("px","");
+  fontSize = Number(fontSize);
   if (fontSize > 10){
-    fontSize = Number(fontSize) - 2
-    fontSize = fontSize.toString() + "px"
+    fontSize = Number(fontSize) - 2;
+    fontSize = fontSize.toString() + "px";
     textArea.style.fontSize = fontSize;
   }
 }
 
 /**
- * @method justify
- *
- * @memberOf aria.widget.Toolbar
+ * @function justify
  *
  * @desc  Justifies the text of the text area to the the specified direction
  */
 justify = function(event, justification){
-  var button = event.currentTarget
-  var textArea = document.getElementById(button.getAttribute("aria-controls"))
-  textArea.style.textAlign = justification
+  var button = event.currentTarget;
+  var textArea = document.getElementById(button.getAttribute("aria-controls"));
+  textArea.style.textAlign = justification;
   
-  unhightlightJustify(event)
-  highlightJustify(event, justification)
+  unhightlightJustify(event);
+  highlightJustify(event, justification);
 }
 
 
+/**
+ * @function unhightlightJustify
+ *
+ * @desc  Unhighlights all of the justification buttons
+ */
 
 unhightlightJustify = function(event){
   var button = event.currentTarget.parentNode.firstChild;  
   while(button){
-    if (button.nodeType === Node.ELEMENT_NODE){
-      if (button.tagName === 'BUTTON'){
-        img = button.firstChild
-        while(img){
-          if (img.nodeType === Node.ELEMENT_NODE){
-            if (img.tagName === 'IMG'){
-              if(img.src.indexOf('-pressed') > 0){
-                var imgText = img.src.replace('-pressed','')
-                img.src = imgText;
-              }   
-            }
-          }
-          img = img.nextSibling;
+    if (button.nodeType === Node.ELEMENT_NODE && 
+        button.tagName === 'BUTTON'){
+      img = button.firstChild;
+      while(img){
+        if (img.nodeType === Node.ELEMENT_NODE && 
+          img.tagName === 'IMG' && img.src.indexOf('-pressed') > 0){
+            var imgText = img.src.replace('-pressed','');
+            img.src = imgText;
         }
+        img = img.nextSibling;
       }
-    }button = button.nextSibling
+    }
+    button = button.nextSibling;
   }  
-  
 }
+
+
+/**
+ * @function highlightJustify
+ *
+ * @desc  Highlights the clicked justification button
+ */
 
 highlightJustify = function(event,item){
   var img = event.currentTarget.firstChild;
-  var itemText = item.replace(".png","")
+  var itemText = item.replace(".png","");
 
   while(img) {
     if (img.nodeType === Node.ELEMENT_NODE) {
@@ -352,7 +359,7 @@ highlightJustify = function(event,item){
     img = img.nextSibling;
   }
   if(img.src.indexOf(item + '.png') > 0){
-    var imgText = "./images/" + itemText + "-pressed.png"
+    var imgText = "./images/" + itemText + "-pressed.png";
     img.src = imgText;
   }  
 }
