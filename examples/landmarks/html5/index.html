@@ -7,6 +7,8 @@
         <link href="css/bootstrap.css" rel="stylesheet" media="screen"/>
         <link href="css/bootstrap-theme.css" rel="stylesheet" media="screen"/>
         <link href="css/bootstrap-accessibility.css" rel="stylesheet" media="screen"/>
+        <link href="css/bootstrap-accessibility.css" rel="stylesheet" media="screen"/>
+        <link href="css/visua11y.css" rel="stylesheet" media="screen"/>
         <link href="css/common.css" rel="stylesheet" media="screen"/>
         
     </head>
@@ -21,7 +23,7 @@
                 </div>
             </header>
             <div class="row">
-                 <div class="col-xs-12 col-sm-3 col-md-3 col-lg-2">
+                 <div class="col-xs-12 col-sm-3 col-md-2 col-lg-2">
                     <nav aria-labelledby="nav2">
                         <h2 id="nav2" class="sr-only">Accessibility IT Group Resources</h2>
                         <ul class="nav nav-pills nav-stacked">
@@ -39,7 +41,7 @@
                     </nav>
                 </div>    
 
-                <div class="col-xs-12 col-sm-9 col-md-9 col-lg-10">
+                <div class="col-xs-12 col-sm-9 col-md-6 col-lg-7">
                     <main>
                         <h1>ARIA Landmark Design Patterns</h1>
                           <p>Landmarks provide a powerful way to identify the organization and structure of a web page.  
@@ -109,7 +111,23 @@
                               </ul>
                           </section> 
                     </main>    
-                </div>    
+                </div> 
+                 <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+                    <aside aria-labelledby="id4">
+                      <h2>Landmarks</h2>
+                      <p>The following are landmarks defined on the page:</p>
+                      <ul>
+                        <li>Banner</li>
+                        <li>Navigation (2)</li>
+                        <li>Complementary(2)</li>
+                        <li>Main</li>
+                        <li>Contentinfo</li>
+                      </ul>
+                      <button onclick="showLandmarks(event)">Show Landmarks</button>
+                      <button onclick="showHeadings(event)">Show Headings</button>
+                    </aside>
+
+                 </div>
             </div>    
         
 
@@ -128,6 +146,8 @@
         <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>        
         <script type="text/javascript" src="js/bootstrap.min.js"></script>        
         <script type="text/javascript" src="js/bootstrap-accessibility.min.js"></script>        
+        <script type="text/javascript" src="js/visua11y.js"></script>        
+        <script type="text/javascript" src="js/show.js"></script>        
 
 
         <script type="text/javascript" >
@@ -136,7 +156,9 @@
             {
               "settings": {
                 "skipTo": {
-                  "headings": "h1, h2"
+                  "headings": "h1, h2,"
+                  "main"         : "main, [role=main]",
+                  "landmarks"    : "[role=navigation], [role=search]"
                 }
               }
             };

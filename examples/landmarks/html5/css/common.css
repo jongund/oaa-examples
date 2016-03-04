@@ -28,3 +28,29 @@ main table ul {
     margin-left :0;
     padding-left: 1em;
 }
+
+aside {
+    margin: 0;
+    padding: 0;
+    padding: 0.5em;
+    margin: 0;
+    margin-bottom: 1em;
+    background-color: #F4F4F4;
+    margin-right: 12em;
+    width: 100%;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+aside h2 {
+    margin: 0;
+    padding: 0;
+}
+
+aside button {
+    text-align: center;
+    margin: 0.25em;
+    width: 95%;
+}
