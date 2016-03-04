@@ -29,11 +29,15 @@ main table ul {
     padding-left: 1em;
 }
 
+nav {
+    margin-top: 0.45em;
+}
+
 aside {
     margin: 0;
     padding: 0;
     padding: 0.5em;
-    margin: 0;
+    margin-top: 0.5em;
     margin-bottom: 1em;
     background-color: #F4F4F4;
     margin-right: 12em;
@@ -47,7 +51,18 @@ aside {
 aside h2 {
     margin: 0;
     padding: 0;
+    font-size: 125%;
 }
+
+aside ul {
+    margin: 0;
+    padding: 0;
+    margin-left: 1em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+
 
 aside button {
     text-align: center;
