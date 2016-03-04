@@ -73,7 +73,8 @@ function initLandmarks () {
     {selector: 'nav, [role~="navigation"], [role~="NAVIGATION"]',                             color: "green",  label: "navigation"},
     {selector: 'header, [role~="banner"], [role~="BANNER"]', filter: isBanner,                color: "gray",   label: "banner"},
     {selector: '[role~="search"], [role~="SEARCH"]',                                          color: "purple", label: "search"},
-    {selector: 'main, [role~="main"], [role~="MAIN"]',                                        color: "navy",   label: "main"}
+    {selector: 'main, [role~="main"], [role~="MAIN"]',                                        color: "navy",   label: "main"},
+    {selector: 'section[aria-labelledby], section[aria-label]',                               color: "silver",   label: "region"}
   ];
 
   let selectors = targetList.map(function (tgt) {return '<li>' + tgt.selector + '</li>';}).join('');
