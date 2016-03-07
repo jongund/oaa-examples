@@ -146,25 +146,20 @@ aria.widget.Menu.prototype.initMenu = function() {
           if (!this.firstMenuItem) this.firstMenuItem = cn; 
           this.lastMenuItem = cn;
 
-          // This is for the case of the LI elements containing the A elements
-          var links = cn.getElementsByTagName('A');
-
-          if (links.length) {
-            links[0].tabIndex = -1;
-            cn.href = links[0].href;
-//            console.log('[MENU][initMenu] LI.href=' + links[0].href);
-          }
-
           var eventKeyDown = function (event) {
             menu.eventKeyDown(event, menu);
           };
           cn.addEventListener('keydown', eventKeyDown);
+
+          var eventMouseClick = function (event) {
+            menu.eventMouseClick(event, menu);
+          };
+          cn.addEventListener('click', eventMouseClick);
+
         }
       }
       cn = cn.nextSibling;
     }
-
-
 };
 
 /**
@@ -285,39 +280,54 @@ aria.widget.Menu.prototype.eventKeyDown = function(event, menu) {
 };
 
 /**
+ * @method eventMouseClick
+ *
+ * @memberOf aria.widget.Menu
+ *
+ * @desc  onclick event handler for Menu Object
+ *        NOTE: The menu parameter is needed to provide a reference to the specific
+ *               menu
+ */
+
+aria.widget.Menu.prototype.eventMouseClick = function(event, menu) {
+
+  menu.menuButton.closeMenu();
+
+};
+
+
+/**
  * @method eventMouseOver
  *
  * @memberOf aria.widget.Menu
  *
- * @desc  Keydown event handler for Menu Object
+ * @desc  Mouse over event handler for Menu Object
  *        NOTE: The menu parameter is needed to provide a reference to the specific
  *               menu
  */
-/**
+
 aria.widget.Menu.prototype.eventMouseOver = function(event, menu) {
 
   menu.mouseInMenu = true;
   menu.menuButton.openMenu();
 
 };
-*/
+
 /**
  * @method eventMouseOut
  *
  * @memberOf aria.widget.Menu
  *
- * @desc  Keydown event handler for Menu Object
+ * @desc  eventMouseOut event handler for Menu Object
  *        NOTE: The menu parameter is needed to provide a reference to the specific
  *               menu 
  */
-/**
 aria.widget.Menu.prototype.eventMouseOut = function(event, menu) {
 
   menu.mouseInMenu = false;
   setTimeout(function(){ menu.menuButton.closeMenu() }, 500);
 
 };
-*/
 
 
 /* ---------------------------------------------------------------- */
@@ -558,6 +568,5 @@ aria.widget.MenuButton.prototype.eventKeyDown = function(event, menuButton) {
  *               menuButton 
  */
 aria.widget.MenuButton.prototype.eventMouseClick= function(event, menuButton) {
-  menuButton.openMenu();
-  this.menu.firstMenuItem.focus();
+ menuButton.moveFocusToFirstMenuItem();
 };
