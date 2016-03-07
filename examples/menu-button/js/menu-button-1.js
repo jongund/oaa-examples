@@ -156,6 +156,16 @@ aria.widget.Menu.prototype.initMenu = function() {
           };
           cn.addEventListener('click', eventMouseClick);
 
+          var eventBlur = function (event) {
+            menu.eventBlur(event, menu);
+          };
+          cn.addEventListener('blur', eventBlur);
+
+          var eventFocus = function (event) {
+            menu.eventFocus(event, menu);
+          };
+          cn.addEventListener('focus', eventFocus);
+
         }
       }
       cn = cn.nextSibling;
@@ -173,8 +183,6 @@ aria.widget.Menu.prototype.initMenu = function() {
 aria.widget.Menu.prototype.nextMenuItem = function(currentMenuItem) {
 
   var mi = currentMenuItem.nextSibling;
-
-  console.log('[MENU][nextMenuItem]: ' + mi);
 
   while (mi) {
     if ((mi.nodeType === Node.ELEMENT_NODE) && 
@@ -241,12 +249,12 @@ aria.widget.Menu.prototype.eventKeyDown = function(event, menu) {
         'cancelable': true
       });
       ct.dispatchEvent(click_event);
-    menu.menuButton.closeMenu();
+    menu.menuButton.closeMenu(true);
     flag = true;
     break;
 
   case menu.keyCode.ESC:
-    menu.menuButton.closeMenu();
+    menu.menuButton.closeMenu(true);
     menu.menuButton.buttonNode.focus();  
     flag = true;
     break;
@@ -264,7 +272,7 @@ aria.widget.Menu.prototype.eventKeyDown = function(event, menu) {
     break;
 
   case menu.keyCode.TAB:
-    menu.menuButton.closeMenu();
+    menu.menuButton.closeMenu(true);
     break;
 
   default:
@@ -291,7 +299,7 @@ aria.widget.Menu.prototype.eventKeyDown = function(event, menu) {
 
 aria.widget.Menu.prototype.eventMouseClick = function(event, menu) {
 
-  menu.menuButton.closeMenu();
+  menu.menuButton.closeMenu(true);
 
 };
 
@@ -328,6 +336,35 @@ aria.widget.Menu.prototype.eventMouseOut = function(event, menu) {
   setTimeout(function(){ menu.menuButton.closeMenu() }, 500);
 
 };
+
+/**
+ * @method eventBlur
+ *
+ * @memberOf aria.widget.Menu
+ *
+ * @desc  eventBlur event handler for Menu Object
+ *        NOTE: The menu parameter is needed to provide a reference to the specific
+ *               menu 
+ */
+aria.widget.Menu.prototype.eventBlur = function(event, menu) {
+  menu.menuHasFocus = false;
+  setTimeout(function(){ menu.menuButton.closeMenu() }, 500);
+};
+
+
+/**
+ * @method eventFocus
+ *
+ * @memberOf aria.widget.Menu
+ *
+ * @desc  eventBlur event handler for Menu Object
+ *        NOTE: The menu parameter is needed to provide a reference to the specific
+ *               menu 
+ */
+aria.widget.Menu.prototype.eventFocus = function(event, menu) {
+  menu.menuHasFocus = true;
+};
+
 
 
 /* ---------------------------------------------------------------- */
@@ -366,6 +403,7 @@ aria.widget.MenuButton = function(node) {
 
   this.done = true;
   this.mouseInMouseButton = false;
+  this.menuHasFocus = false;
   this.buttonNode = node;
   this.isLink = false;
 
@@ -445,11 +483,14 @@ aria.widget.MenuButton.prototype.openMenu = function() {
  * @desc  Close the menu
  */
 
-aria.widget.MenuButton.prototype.closeMenu = function() {
+aria.widget.MenuButton.prototype.closeMenu = function(force) {
 
-  if (!this.mouseInMenuButton && 
+  if (typeof force !== 'boolean') force = false;
+
+  if (force || (!this.mouseInMenuButton && 
     !this.menu.mouseInMenu &&
-    this.menuNode) {
+    !this.menu.menuHasFocus &&
+    this.menuNode)) {
       this.menuNode.style.display = 'none';
       this.buttonNode.focus();
   }
