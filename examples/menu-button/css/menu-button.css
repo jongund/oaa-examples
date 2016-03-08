@@ -33,9 +33,3 @@ ul[role="menu"] li {
 [role="menuitem"]:hover {
   background-color: #FFFFFF;
 }
-h3{
-  font-size: 120%;
-}
-ul#list{
-  list-style-type: none;
-}
