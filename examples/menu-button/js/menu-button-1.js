@@ -348,6 +348,7 @@ aria.widget.Menu.prototype.eventMouseOut = function(event, menu) {
  */
 aria.widget.Menu.prototype.eventBlur = function(event, menu) {
   menu.menuHasFocus = false;
+  setTimeout(function(){ menu.menuButton.closeMenu(false, false) }, 500);
 };
 
 
