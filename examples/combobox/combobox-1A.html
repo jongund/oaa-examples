@@ -6,9 +6,9 @@
     <meta name="generator" content="BBEdit 10.5">
     <link href="../css/core.css" rel="stylesheet">
     <link href="../css/table.css" rel="stylesheet">
-    <link href="css/combobox-1.css" rel="stylesheet">
+    <link href="css/combobox-1A.css" rel="stylesheet">
     <script src="../js/examples.js" type="text/javascript"></script>
-    <script src="js/combobox-1.js" type="text/javascript"></script> 
+    <script src="js/combobox-1A.js" type="text/javascript"></script> 
   </head>
   <body>
     <main role="main">
@@ -23,13 +23,13 @@
         <h2 id="id_ex_title">Combo Box Example</h2>
 
         <div id="cb1" 
-             class="combobox">
+             class="combobox"
+             role="combobox">
           <input id="cb1-input" class="cb_edit" type="text"
-                 role="combobox"
                  aria-autocomplete="none"
                  aria-expanded="flase"
                  aria-haspopup="true" 
-                 aria-owns="cb1-listbox"
+                 aria-controls="cb1-listbox"
                  style="float: left;"
           /> 
           <button id="cb1-button" tabindex="-1">
@@ -100,10 +100,10 @@
       <section aria-labelledby="id_a11yfeature">
       <h2 id="id_a11yfeature">Accessibility Features</h2>
              <ul>
-                <li>The <code>role=combobox</code> on the <code>input</code> element identifies the input as a combobox.</li>
+                <li>The <code>role=combobox</code> on the <code>div</code> element containing the <code>input[type=text]</code> identifies the input as a combobox.</li>
                 <li>The <code>aria-autocomplete="none"</code> on the <code>input</code> element identifies that the input will not autocomplete</li>
                 <li>The <code>aria-haspopup="true"</code> attribute on the <code>input[type=text]</code> element identifies that there is a listbox or dialog associated with the input.</li>
-                <li>The <code>aria-owns</code> attribute on the <code>input</code> element idenfities that the listbox that will be opened when the input is activated.</li>
+                <li>The <code>aria-controls</code> attribute on the <code>input</code> element idenfities that the listbox that will be opened when the input is activated.</li>
                 <li>The <code>aria-expanded="false"</code> attribute on the <code>input</code> element identifies the current state of the listbox.</li>
                 <li>The <code>button</code> element has <code>tabindex="-1" aria-selected = "false"</code> to remove it from tab order.</li>
                 <li>The <code>role="listbox"</code> on the <code>ul</code> element identifies the element as a listbox.</li>
@@ -270,8 +270,8 @@
         <h2 id="sc-ex1">Source Code: Example</h2>
       
         <ul>
-          <li>CSS: <a href="css/combobox-1.css" type="tex/css">combobox-1.css</a></li>
-          <li>Javascript: <a href="js/combobox-1.js" type="text/javascript">combobox-1.js</a></li>
+          <li>CSS: <a href="css/combobox-1A.css" type="tex/css">combobox-1A.css</a></li>
+          <li>Javascript: <a href="js/combobox-1A.js" type="text/javascript">combobox-1A.js</a></li>
         </ul>
       
         <div id="sc1">

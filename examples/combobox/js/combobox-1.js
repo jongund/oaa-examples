@@ -544,7 +544,7 @@ aria.widget.ComboBoxInput = function(node){
 aria.widget.ComboBoxInput.prototype.initComboBox = function(){
   
   var comboBox = this;
-  var id = this.inputNode.getAttribute('aria-controls');
+  var id = this.inputNode.getAttribute('aria-owns');
   
   if (id){
     this.listBoxNode = document.getElementById(id);

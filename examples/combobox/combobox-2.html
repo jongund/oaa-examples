@@ -23,13 +23,13 @@
         <h2 id="id_ex_title">Combo Box Example</h2>
 
         <div id="cb1" 
-             class="combobox"
-             role="combobox">
+             class="combobox">
           <input id="cb1-input" class="cb_edit" type="text"
+                 role="combobox"
                  aria-autocomplete="both"
                  aria-expanded="flase"
                  aria-haspopup="true" 
-                 aria-controls="cb1-listbox"
+                 aria-owns="cb1-listbox"
                  style="float: left;"
           /> 
           <button id="cb1-button" tabindex="-1">
@@ -45,10 +45,10 @@
       <section aria-labelledby="id_a11yfeature">
       <h2 id="id_a11yfeature">Accessibility Features</h2>
              <ul>
-                <li>The <code>role=combobox</code> on the <code>div</code> element containing the <code>input[type=text]</code> identifies the input as a combobox.</li>
+                <li>The <code>role=combobox</code> on the <code>input</code> element identifies the input as a combobox.</li>
                 <li>The <code>aria-autocomplete="both"</code> on the <code>input</code> element identifies that the input will autocomplete</li>
                 <li>The <code>aria-haspopup="true"</code> attribute on the <code>input[type=text]</code> element identifies that there is a listbox or dialog associated with the input.</li>
-                <li>The <code>aria-controls</code> attribute on the <code>input</code> element idenfities that the listbox that will be opened when the input is activated.</li>
+                <li>The <code>aria-owns</code> attribute on the <code>input</code> element idenfities that the listbox that will be opened when the input is activated.</li>
                 <li>The <code>aria-expanded="false"</code> attribute on the <code>input</code> element identifies the current state of the listbox.</li>
                 <li>The <code>button</code> element has <code>tabindex="-1"</code> to remove it from tab order.</li>
                 <li>The <code>role="listbox"</code> on the <code>ul</code> element identifies the element as a listbox.</li>
