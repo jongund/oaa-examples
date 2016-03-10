@@ -1,0 +1,45 @@
+[role=tab] {
+  border: thin solid black;
+  border-bottom: none;
+  border-left: none;
+	padding: 0.25em;
+	text-decoration: none;
+	display: block;
+  float: left;
+  background-color: #EEEEEE;
+}
+
+[role=tablist] > [role=tab]:first-child {
+  border-left: thin solid black;  
+}
+
+[role=tab][aria-selected=true] {
+  background-color: transparent; 
+}  
+
+[role=tab]:focus,
+[role=tab]:hover {
+  background-color: #CCCCCC; 
+}  
+
+
+[role=tabpanel] {
+   clear: both;
+   width: 20em;
+   height: 10em;
+   border: solid black thin;
+   padding: 1em;
+}
+
+[role=tabpanel] label {
+  display: block;
+}
+
+#order_info li span {
+    font-style: italic;
+    font-weight: bold;
+}
+
+th {
+  border-bottom: none;
+}
