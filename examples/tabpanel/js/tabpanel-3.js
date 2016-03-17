@@ -368,7 +368,7 @@ aria.widget.Tabpanel.prototype.closeCurrentTab = function(target){
         this.currentTab = this.firstTab
       }
     }
-    target.remove();
+    target.parentNode.removeChild(target)
     
     firstUL = this.tabNode.getElementsByTagName('UL')[0]
     this.tabs = firstUL.getElementsByTagName('LI');
