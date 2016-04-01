@@ -24,13 +24,10 @@
 
 window.addEventListener('load', function(){
 
-  var dialogButtons = document.querySelectorAll('button.dialogButton');
-  [].forEach.call(dialogButtons, function(dialogButton){
-    if (dialogButton){
-      var tb = new aria.widget.DialogButton(dialogButton)
-      tb.initDialogButton();
-    }  
-  });
+  var guessingDiv = document.getElementById("numberGuessingGame");
+  var tb = new aria.widget.GuessingGame(guessingDiv)
+  tb.initGuessingGame();
+  
 });
 
 /** 
@@ -78,11 +75,11 @@ aria.widget = aria.widget ||{};
 
 
 /* ---------------------------------------------------------------- */
-/*                  dialogButton Widget                                  */
+/*                  GuessingGame Widget                                  */
 /* ---------------------------------------------------------------- */
 
 /**
- * @constructor dialogButton
+ * @constructor GuessingGame
  *
  * @memberOf aria.Widget
  *
@@ -95,38 +92,91 @@ aria.widget = aria.widget ||{};
  * @property  node               Object    -  JQuery node object
  */
 
-aria.widget.DialogButton = function(node){
+aria.widget.GuessingGame = function(guessingDiv){
 
-  if (typeof node !== 'object' || !node.getElementsByClassName) return false;
-  
-  this.node = node
+  this.guessingDiv = guessingDiv;
+    this.keyCode = Object.freeze({
+     "TAB"    : 9,
+     "RETURN" : 13,
+     "ESC"    : 27,
+     "SPACE"  : 32,
+     "ALT"    : 18,
+
+     "UP"    : 38,
+     "DOWN"  : 40,
+     "RIGHT" : 39,
+     "LEFT"  : 37
+  });
 
 };
 
 /**
- * @method initDialogButton
+ * @method initGuessingGame
  *
- * @memberOf aria.widget.DialogButton
+ * @memberOf aria.widget.GuessingGame
  *
  * @desc  Adds event handlers to button element 
  */
 
-aria.widget.DialogButton.prototype.initDialogButton = function(){
+aria.widget.GuessingGame.prototype.initGuessingGame = function(){
   
-  var dialogButton = this;
+  var GuessingGame = this;
   
-  var eventClick = function(event){
-    dialogButton.eventClick();
+  var buttons = document.getElementsByTagName("button");
+  if (buttons && buttons[0] && buttons[1]){
+    this.submitButton = buttons[0];
+    this.resetButton = buttons[1];
+  }
+  
+  var inputs = document.getElementsByTagName("input");
+  if (inputs && inputs[0]){
+    this.input = inputs[0];
+  }
+  var submitGuess = function(event){
+    GuessingGame.submitGuess();
     };
-  dialogButton.node.addEventListener('click', eventClick);
-  dialogButton.node.addEventListener('touchstart', eventClick);
+  var inputKeyDown = function(event){
+    GuessingGame.inputKeyDown();
+  };
+  var initializeGame = function(event){
+    GuessingGame.initializeGame();
+    };
+  this.submitButton.addEventListener('click', submitGuess);
+  this.submitButton.addEventListener('touchstart', submitGuess);
+  this.resetButton.addEventListener('click', initializeGame);
+  this.resetButton.addEventListener('touchstart', initializeGame);
+  this.input.addEventListener('keydown', inputKeyDown);
+  
+  GuessingGame.initializeGame();
   
 };
 
-aria.widget.DialogButton.prototype.eventClick = function(){
+aria.widget.GuessingGame.prototype.submitGuess = function(){
+  this.numberOfGuesses += 1;
   this.dialogBox = new aria.widget.DialogBox(this);
   this.dialogBox.initDialogBox();
 
+}
+
+aria.widget.GuessingGame.prototype.initializeGame = function(){
+  this.value = Math.floor(Math.random()*(10)) + 1;
+  this.numberOfGuesses = 0;
+  this.submitButton.disabled = false;
+  this.input.value = "";
+  this.input.focus();
+}
+
+aria.widget.GuessingGame.prototype.inputKeyDown = function(){
+  
+  if(event.keyCode == this.keyCode.RETURN && !this.submitButton.disabled){
+    this.submitGuess();
+    event.stopPropagation();
+    event.preventDefault();
+  }else if(event.keyCode == this.keyCode.RETURN){
+    this.initializeGame()
+    event.stopPropagation();
+    event.preventDefault();
+  }
 }
 
 /**
@@ -143,7 +193,7 @@ aria.widget.DialogButton.prototype.eventClick = function(){
  * @property  node               Object    -  JQuery node object
  */
 
-aria.widget.DialogBox = function(dialogButton){
+aria.widget.DialogBox = function(guessingGame){
   this.keyCode = Object.freeze({
      "TAB"    : 9,
      "RETURN" : 13,
@@ -156,18 +206,17 @@ aria.widget.DialogBox = function(dialogButton){
      "RIGHT" : 39,
      "LEFT"  : 37
   });
-  this.dialogButton = dialogButton;
+  this.guessingGame = guessingGame;
 };
 
 aria.widget.DialogBox.prototype.initDialogBox = function(){
   dialogBox = this;
+  this.correct = false;
   var winW = window.innerWidth;
   var winH = window.innerHeight;
-  
   this.dialogoverlay = document.createElement('DIV');
   this.dialogoverlay.id = "dialogoverlay"
-  
-  buttonParent = this.dialogButton.node.parentNode;
+  buttonParent = this.guessingGame.submitButton.parentNode;
   ce = buttonParent.firstChild
   while(ce){
     if ((ce.nodeType === Node.ELEMENT_NODE) && 
@@ -177,16 +226,16 @@ aria.widget.DialogBox.prototype.initDialogBox = function(){
         }
     ce = ce.nextSibling;
   }
+  
   buttonParent.insertBefore(this.dialogoverlay, ce)
   
-
+  this.dialogoverlay.style.display = "block";
+  this.dialogoverlay.style.height = winH+"px";
   this.dialogBoxNode = document.createElement('DIV');
   buttonParent.insertBefore(this.dialogBoxNode, ce);
   this.dialogBoxNode.id = "dialogbox1";
   this.dialogBoxNode.setAttribute("role","dialog");
   this.dialogBoxNode.setAttribute("aria-hidden","false");
-  this.dialogoverlay.style.display = "block";
-  this.dialogoverlay.style.height = winH+"px";
   this.dialogBoxNode.style.left = (winW/2) - (550 * .5)+"px";
   this.dialogBoxNode.style.top = "100px";
   this.dialogBoxNode.style.display = "block";
@@ -206,18 +255,31 @@ aria.widget.DialogBox.prototype.initDialogBox = function(){
   dialogBoxMiddle.appendChild(dialogFoot);
   dialogFoot.setAttribute('class', 'dialogboxfoot');
   dialogFoot.setAttribute("aria-hidden","false");
-  dialogHead.innerHTML = "Add a contact";
-  dialogBody.innerHTML = "Name:";
-  dialogBody.innerHTML += '<br><input id="prompt_value1">';
-  dialogBody.innerHTML += '<br>Phone:';
-  dialogBody.innerHTML += '<br><input id="prompt_value2">';
-  dialogBody.innerHTML += '<br>Address:';
-  dialogBody.innerHTML += '<br><input id="prompt_value3">';
-  dialogFoot.innerHTML = '<button id="submit">OK</button> <button id="last_dialog_element">Cancel</button>';
-  this.firstItem = document.getElementById('prompt_value1')
-  this.lastItem = document.getElementById('last_dialog_element')
-  this.submit = document.getElementById('submit')
-  this.firstItem.focus();
+  dialogHead.innerHTML = "Alert Box";
+  var guessedValue = this.guessingGame.input.value
+  if(isNaN(guessedValue) || guessedValue == ""){
+    dialogBody.innerHTML = "You must guess an int"
+  }
+  else if(this.guessingGame.value > guessedValue){
+    dialogBody.innerHTML = "Your guess of " + guessedValue + " was too small.";
+  }
+  else if(this.guessingGame.value < guessedValue){
+    dialogBody.innerHTML = "Your guess of " + guessedValue + " was too large.";
+  }
+  else if(this.guessingGame.value == guessedValue){
+    if(this.guessingGame.numberOfGuesses == 1){
+      dialogBody.innerHTML = "Your guess of " + guessedValue + " was correct.  You got it on the first try!";
+    }else{
+      dialogBody.innerHTML = "Your guess of " + guessedValue + " was correct! It only took you " + this.guessingGame.numberOfGuesses + " tries.";
+    }
+    this.guessingGame.submitButton.disabled = true;
+    this.correct = true;
+  }
+  
+  
+  dialogFoot.innerHTML = '<button id="last_dialog_element">Cancel</button>';
+  this.cancelButton = document.getElementById('last_dialog_element')
+  this.cancelButton.focus();
   
   var bodyNodes = document.getElementsByTagName("body");
   if (bodyNodes && bodyNodes[0]){
@@ -238,11 +300,8 @@ aria.widget.DialogBox.prototype.initDialogBox = function(){
     dialogBox.keyDown(event, dialogBox);
   };
   
-  this.lastItem.addEventListener('keydown', eventKeyDown);
-  this.firstItem.addEventListener('keydown', eventKeyDown);
-  this.lastItem.addEventListener('click', eventClick);
-  this.firstItem.addEventListener('click', eventClick);
-  this.submit.addEventListener('click', eventClick);
+  this.cancelButton.addEventListener('keydown', eventKeyDown);
+  this.cancelButton.addEventListener('click', eventClick);
   this.bodyNode.addEventListener('click', this.eventBodyClick);
   this.bodyNode.addEventListener('keydown', this.eventBodyKeyDown);
 
@@ -253,43 +312,22 @@ aria.widget.DialogBox.prototype.closeDialogBox = function(){
   this.dialogBoxNode.parentNode.removeChild(this.dialogBoxNode)
   this.dialogoverlay.parentNode.removeChild(this.dialogoverlay)
   this.bodyNode.setAttribute("aria-hidden","false");
-  this.dialogButton.node.focus();
+  if(!this.correct){
+    this.guessingGame.input.focus();
+    this.guessingGame.input.select();
+  }else{
+    this.guessingGame.resetButton.focus();
+  }
 }
-aria.widget.DialogBox.prototype.submitDialogBox = function(){
-  this.bodyNode.removeEventListener('click', this.eventBodyClick);
-  this.bodyNode.removeEventListener('keydown', this.eventBodyKeyDown);
-  var prompt_value1 = document.getElementById('prompt_value1').value;
-  var prompt_value2 = document.getElementById('prompt_value2').value;
-  var prompt_value3 = document.getElementById('prompt_value3').value;
-  this.dialogBoxNode.parentNode.removeChild(this.dialogBoxNode)
-  this.dialogoverlay.parentNode.removeChild(this.dialogoverlay)
-  this.bodyNode.setAttribute("aria-hidden","false");
-  var contactList = document.getElementById('contact-list-body');
-
-  tableEntry = document.createElement('TR');
-  contactList.appendChild(tableEntry);
-  contactName = document.createElement('TD');
-  contactName.textContent = prompt_value1;
-  contactPhone = document.createElement('TD');
-  contactPhone.textContent = prompt_value2;
-  contactAddress = document.createElement('TD');
-  contactAddress.textContent = prompt_value3;
-  contactList.appendChild(contactName);
-  contactList.appendChild(contactPhone);
-  contactList.appendChild(contactAddress);
-  this.dialogButton.node.focus()
-}
-
-
 
 aria.widget.DialogBox.prototype.keyDown = function(event, dialogBox){
   if(event.keyCode == dialogBox.keyCode.TAB){
-    if(event.shiftKey && event.currentTarget == dialogBox.firstItem){
-      dialogBox.lastItem.focus();
+    if(event.shiftKey && event.currentTarget == dialogBox.cancelButton){
+      dialogBox.cancelButton.focus();
       event.stopPropagation();
       event.preventDefault();
-    }else if(event.currentTarget == dialogBox.lastItem && !event.shiftKey){
-      dialogBox.firstItem.focus();
+    }else if(event.currentTarget == dialogBox.cancelButton && !event.shiftKey){
+      dialogBox.cancelButton.focus();
       event.stopPropagation();
       event.preventDefault();
     }
@@ -297,11 +335,8 @@ aria.widget.DialogBox.prototype.keyDown = function(event, dialogBox){
 }
 
 aria.widget.DialogBox.prototype.buttonClick = function(event, dialogBox){
-  if(event.currentTarget == this.submit){
-    dialogBox.submitDialogBox();
-  }else if(event.currentTarget == this.lastItem){
     dialogBox.closeDialogBox();
-  }
+
 }
 
 aria.widget.DialogBox.prototype.bodyClick = function(event, dialogBox){
@@ -318,7 +353,7 @@ aria.widget.DialogBox.prototype.bodyKeyDown = function(event, dialogBox){
   }
   if(!dialogBox.dialogBoxNode.contains(event.target)){
     if(event.keyCode == dialogBox.keyCode.TAB){
-      dialogBox.firstItem.focus();
+      dialogBox.cancelButton.focus();
       event.stopPropagation();
       event.preventDefault();
     }
