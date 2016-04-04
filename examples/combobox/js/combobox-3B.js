@@ -327,7 +327,7 @@ aria.widget.ListBox.prototype.activateSelectedItem = function(){
     }
     cn = cn.nextSibling;
   }
-  this.selectedItem.parentNode.parentNode.setAttribute('aria-activedescendant',this.selectedItem.id)
+  this.comboBox.inputNode.setAttribute('aria-activedescendant',this.selectedItem.id)
   this.selectedItem.setAttribute('aria-selected', 'true');
   this.setInput(this.selectedItem)
   
@@ -543,7 +543,7 @@ aria.widget.ComboBoxInput = function(node){
 aria.widget.ComboBoxInput.prototype.initComboBox = function(){
   
   var comboBox = this;
-  var id = this.inputNode.getAttribute('aria-controls');
+  var id = this.inputNode.getAttribute('aria-owns');
   
   if (id){
     this.listBoxNode = document.getElementById(id);

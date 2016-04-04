@@ -327,7 +327,7 @@ aria.widget.ListBox.prototype.activateSelectedItem = function(){
     }
     cn = cn.nextSibling;
   }
-  this.selectedItem.parentNode.parentNode.setAttribute('aria-activedescendant',this.selectedItem.id)
+  this.comboBox.inputNode.setAttribute('aria-activedescendant',this.selectedItem.id)
   this.selectedItem.setAttribute('aria-selected', 'true');
   this.setInput(this.selectedItem)
   
@@ -628,11 +628,9 @@ aria.widget.ComboBoxInput.prototype.closeListBox = function(){
 aria.widget.ComboBoxInput.prototype.toggleListBox = function(){
   
   this.button.toggleHighlightButton();
-  
   if (this.listBoxNode){
     if (this.listBoxNode.style.display === 'block'){
       this.listBoxNode.style.display = 'none';
-      this.inputNode.focus();
       this.inputNode.setAttribute('aria-expanded', 'false');
     }
     else{
@@ -661,7 +659,6 @@ aria.widget.ComboBoxInput.prototype.moveFocusToFirstListBoxItem = function(reset
     this.listBox.activateSelectedItem();
     
   }else{
-    this.openListBox();
     this.listBox.activateSelectedItem();
   }
 
@@ -683,7 +680,6 @@ aria.widget.ComboBoxInput.prototype.moveFocusToLastListBoxItem = function(resetS
     this.listBox.selectedItem = this.listBox.lastComboItem;
     this.listBox.activateSelectedItem();
   }else{
-    this.openListBox();
     this.listBox.activateSelectedItem();
   }
 
@@ -702,14 +698,9 @@ aria.widget.ComboBoxInput.prototype.nextAlphaComboItem = function(event){
   var keyCode = String.fromCharCode(event.keyCode).toLowerCase();
   var flag = false;
   
-  var overwriteSelectedItem = true;
-  
   if (keyCode >= '0' && keyCode <= 'z'){
-    this.openListBox()
-    
-    this.moveFocusToFirstListBoxItem(overwriteSelectedItem)
-
-    cn = this.listBox.selectedItem;
+    this.openListBox();
+    cn = this.listBox.selectedItem.nextSibling;
     while(cn){
       if (cn.nodeType === Node.ELEMENT_NODE){
         if (cn.getAttribute('role')  === 'option'){
@@ -722,7 +713,23 @@ aria.widget.ComboBoxInput.prototype.nextAlphaComboItem = function(event){
       }
       cn = cn.nextSibling;
     }
-    return cn;
+    if(!flag){
+      cn = this.listBoxNode.firstChild.nextSibling
+      while(cn){
+        if (cn.nodeType === Node.ELEMENT_NODE){
+          if (cn.getAttribute('role')  === 'option'){
+            if (cn.childNodes[0].nodeValue.charAt(0).toLowerCase() === keyCode){
+              this.listBox.selectedItem = cn;
+              flag = true;
+              break;
+            }
+          }
+        }
+      cn = cn.nextSibling;
+      }
+    }
+    if(flag)return cn;
+    return false;
   }
 }
 

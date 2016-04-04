@@ -2,23 +2,23 @@
 <html lang="en"><head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
-    <title>ARIA Combo Box Example: aria-autocomplete=none</title>
+    <title>ARIA Combo Box Example: aria-autocomplete=both</title>
     <meta name="generator" content="BBEdit 10.5">
     <link href="../css/core.css" rel="stylesheet">
     <link href="../css/table.css" rel="stylesheet">
-    <link href="css/combobox-1.css" rel="stylesheet">
+    <link href="css/combobox-2B.css" rel="stylesheet">
     <script src="../js/examples.js" type="text/javascript"></script>
-    <script src="js/combobox-1.js" type="text/javascript"></script> 
+    <script src="js/combobox-2B.js" type="text/javascript"></script> 
   </head>
   <body>
     <main role="main">
-      <h1>ARIA Combo Box Example: <code>aria-autocomplete=none</code></h1>
+      <h1>ARIA Combo Box Example: <code>aria-autocomplete=both</code></h1>
  
       <p> <p> <a href="https://www.w3.org/TR/wai-aria-practices-1.1/#h-combobox">WAI-ARIA 1.1: Combo Box</a></p>
       <ul>
           <li>Allows user to select from a list of US states</li>
           <li>Role combobox is on the <code> input </code></li>
-          <li>The list is contained within the <code> div </code></li>
+          <li>The list is not contained within the <code> div </code></li>
       </ul>
 
       <section id="code-ex-1" aria-labelledby="id_ex_title">
@@ -28,7 +28,7 @@
              class="combobox">
           <input id="cb1-input" class="cb_edit" type="text"
                  role="combobox"
-                 aria-autocomplete="none"
+                 aria-autocomplete="both"
                  aria-expanded="flase"
                  aria-haspopup="true" 
                  aria-owns="cb1-listbox"
@@ -37,77 +37,21 @@
           <button id="cb1-button" tabindex="-1">
             <img src="./images/button-arrow-down.png" alt="">
           </button>
-
-          <ul id="cb1-listbox" role="listbox" aria-labelledby="mb2">
-            <li role="option" tabindex="-1" aria-selected = "false" >Alabama</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >Alaska</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >American Samoa</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >Arizona</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >Arkansas</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >California</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >Colorado</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >Connecticut</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >Delaware</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >District of Columbia</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >Florida</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >Georgia</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >Guam</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >Hawaii</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >Idaho</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >Illinois</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >Indiana</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >Iowa</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >Kansas</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >Kentucky</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >Louisiana</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >Maine</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >Maryland</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >Massachusetts</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >Michigan</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >Minnesota</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >Mississippi</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >Missouri</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >Montana</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >Nebraska</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >Nevada</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >New Hampshire</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >New Jersey</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >New Mexico</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >New York</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >North Carolina</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >North Dakota</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >Northern Marianas Islands</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >Ohio</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >Oklahoma</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >Oregon</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >Pennsylvania</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >Puerto Rico</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >Rhode Island</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >South Carolina</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >South Dakota</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >Tennessee</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >Texas</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >Utah</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >Vermont</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >Virginia</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >Virgin Islands</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >Washington</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >West Virginia</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >Wisconsin</li>
-            <li role="option" tabindex="-1" aria-selected = "false" >Wyoming</li>
-          </ul>
         </div>
+          <ul id="cb1-listbox" role="listbox" aria-labelledby="mb2">
+
+          </ul>
       </section>
       
       <section aria-labelledby="id_a11yfeature">
       <h2 id="id_a11yfeature">Accessibility Features</h2>
              <ul>
                 <li>The <code>role=combobox</code> on the <code>input</code> element identifies the input as a combobox.</li>
-                <li>The <code>aria-autocomplete="none"</code> on the <code>input</code> element identifies that the input will not autocomplete</li>
+                <li>The <code>aria-autocomplete="both"</code> on the <code>input</code> element identifies that the input will autocomplete</li>
                 <li>The <code>aria-haspopup="true"</code> attribute on the <code>input[type=text]</code> element identifies that there is a listbox or dialog associated with the input.</li>
                 <li>The <code>aria-owns</code> attribute on the <code>input</code> element idenfities that the listbox that will be opened when the input is activated.</li>
                 <li>The <code>aria-expanded="false"</code> attribute on the <code>input</code> element identifies the current state of the listbox.</li>
-                <li>The <code>button</code> element has <code>tabindex="-1" aria-selected = "false"</code> to remove it from tab order.</li>
+                <li>The <code>button</code> element has <code>tabindex="-1"</code> to remove it from tab order.</li>
                 <li>The <code>role="listbox"</code> on the <code>ul</code> element identifies the element as a listbox.</li>
                 <li>The <code>role="option"</code> on the <code>li</code> elements identifies them as listbox options.</li>
                 <li>The <code>aria-selected="false"</code> on the <code>li</code> elements identifies whether each option is selected.</li>
@@ -236,8 +180,7 @@
             <td>Alphanumeric Character Keys</td>
             <td>
               <ul>
-                <li>Move focus to the next item that starts with the character</li>
-                <li>If focus is on the last item starting with the character, focus is moved to the first item starting with that character</li>
+                <li>Autocompletes the next item starting with the preexisting text</li>
               </ul>
             </td>
           </tr>
@@ -266,14 +209,13 @@
         </tbody>
       </table>
       </section>
-      
 
       <section aria-labelledby="sc-ex1">
         <h2 id="sc-ex1">Source Code: Example</h2>
       
         <ul>
-          <li>CSS: <a href="css/combobox-1.css" type="tex/css">combobox-1.css</a></li>
-          <li>Javascript: <a href="js/combobox-1.js" type="text/javascript">combobox-1.js</a></li>
+          <li>CSS: <a href="css/combobox-2B.css" type="tex/css">combobox-2B.css</a></li>
+          <li>Javascript: <a href="js/combobox-2B.js" type="text/javascript">combobox-2B.js</a></li>
         </ul>
       
         <div id="sc1">
