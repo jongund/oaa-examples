@@ -23,12 +23,10 @@ window.addEventListener('load', function() {
 
 });
 
-/* 
+/**
 * @function firstRadioButton
 *
 * @desc Returns the first radio button
-*
-* @param   {Object}  event  =  Standard W3C event object
 */
 
 function firstRadioButton(node) {
@@ -45,12 +43,10 @@ function firstRadioButton(node) {
   return null;
 }
 
-/* 
+/**
 * @function lastRadioButton
 *
 * @desc Returns the last radio button
-*
-* @param   {Object}  event  =  Standard W3C event object
 */
 
 function lastRadioButton(node) {
@@ -67,12 +63,10 @@ function lastRadioButton(node) {
   return last;
 }
 
-/* 
+/**
 * @function nextRadioButton
 *
 * @desc Returns the next radio button
-*
-* @param   {Object}  event  =  Standard W3C event object
 */
 
 function nextRadioButton(node) {
@@ -89,12 +83,10 @@ function nextRadioButton(node) {
   return null;
 }
 
-/* 
+/**
 * @function previousRadioButton
 *
 * @desc Returns the previous radio button
-*
-* @param   {Object}  event  =  Standard W3C event object
 */
 
 function previousRadioButton(node) {
@@ -111,12 +103,10 @@ function previousRadioButton(node) {
   return null;
 }
 
-/* 
+/**
 * @function getImage
 *
 * @desc Gets the image for radio box
-*
-* @param   {Object}  event  =  Standard W3C event object
 */
 
 function getImage(node) {
@@ -133,13 +123,10 @@ function getImage(node) {
   return null;
 }
 
-/*
+/**
 * @function setRadioButton
 *
 * @desc Toogles the state of a radio button
-*
-* @param   {Object}  event  -  Standard W3C event object
-*
 */
 
 function setRadioButton(node, state) {
@@ -158,12 +145,10 @@ function setRadioButton(node, state) {
   }  
 }
 
-/*
+/**
 * @function clickRadioGroup
 *
-* @desc 
-*
-* @param   {Object}  node  -  DOM node of updated group radio buttons
+* @desc activeates the clicked radio button and deactivates all others.
 */
 
 function clickRadioGroup(event) {

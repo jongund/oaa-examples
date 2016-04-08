@@ -16,10 +16,10 @@
  * limitations under the License.
  */
  
-/*
+/**
  * ARIA Menu Button example
  * @function onload
- * @desc 
+ * @desc after page has loaded initializ all dialog buttons based on the selector "button.dialogButton"
  */
 
 window.addEventListener('load', function(){
@@ -47,12 +47,8 @@ var aria = aria ||{};
  * @constructor Menu
  *
  * @memberOf aria.Utils
-
+ *
  * @desc  Computes absolute position of an element
- *
- * @param  element    DOM node  -  DOM node object
- *
- * @retruns  Object  Object contains left and top position
  */
 
 aria.Utils = aria.Utils ||{};
@@ -86,13 +82,7 @@ aria.widget = aria.widget ||{};
  *
  * @memberOf aria.Widget
  *
- * @desc  Creates a toolbar widget using ARIA 
- *
- * @param  node    DOM node  -  DOM node object
- *
- * @property  keyCode      Object    -  Object containing the keyCodes used by the slider widget
- *
- * @property  node               Object    -  JQuery node object
+ * @desc  Creates a dialog button widget
  */
 
 aria.widget.DialogButton = function(node){
@@ -134,13 +124,7 @@ aria.widget.DialogButton.prototype.eventClick = function(){
  *
  * @memberOf aria.Widget
  *
- * @desc  Creates a Button widget using ARIA 
- *
- * @param  node    DOM node  -  DOM node object
- *
- * @property  keyCode      Object    -  Object containing the keyCodes used by the slider widget
- *
- * @property  node               Object    -  JQuery node object
+ * @desc  Creates a dialog box widget using ARIA 
  */
 
 aria.widget.DialogBox = function(dialogButton){
@@ -158,6 +142,14 @@ aria.widget.DialogBox = function(dialogButton){
   });
   this.dialogButton = dialogButton;
 };
+
+/**
+ * @method initDialogBox
+ *
+ * @memberOf aria.Widget.DialogBox
+ *
+ * @desc  creates a new dialog box, processes the current guess, and adds event listeners to the dialog box.
+ */
 
 aria.widget.DialogBox.prototype.initDialogBox = function(){
   dialogBox = this;
@@ -226,7 +218,7 @@ aria.widget.DialogBox.prototype.initDialogBox = function(){
   
   this.bodyNode.setAttribute("aria-hidden","true");
   var eventClick = function(event){
-    dialogBox.buttonClick(event, dialogBox);
+    dialogBox.cancelButtonClick(event, dialogBox);
   }
   this.eventBodyClick = function(event){
     dialogBox.bodyClick(event, dialogBox);
@@ -247,6 +239,15 @@ aria.widget.DialogBox.prototype.initDialogBox = function(){
   this.bodyNode.addEventListener('keydown', this.eventBodyKeyDown);
 
 }
+
+/**
+ * @method closeDialogBox
+ *
+ * @memberOf aria.Widget.DialogBox
+ *
+ * @desc  removes the dialog box and all event listeners on it.
+ */
+ 
 aria.widget.DialogBox.prototype.closeDialogBox = function(){
   this.bodyNode.removeEventListener('click', this.eventBodyClick);
   this.bodyNode.removeEventListener('keydown', this.eventBodyKeyDown);
@@ -255,15 +256,18 @@ aria.widget.DialogBox.prototype.closeDialogBox = function(){
   this.bodyNode.setAttribute("aria-hidden","false");
   this.dialogButton.node.focus();
 }
+
+/**
+ * @method submitDialogBox
+ *
+ * @memberOf aria.Widget.DialogBox
+ *
+ * @desc  Adds all the information entered into the dialog box into the table on the page (No Description)
+ */
 aria.widget.DialogBox.prototype.submitDialogBox = function(){
-  this.bodyNode.removeEventListener('click', this.eventBodyClick);
-  this.bodyNode.removeEventListener('keydown', this.eventBodyKeyDown);
   var prompt_value1 = document.getElementById('prompt_value1').value;
   var prompt_value2 = document.getElementById('prompt_value2').value;
   var prompt_value3 = document.getElementById('prompt_value3').value;
-  this.dialogBoxNode.parentNode.removeChild(this.dialogBoxNode)
-  this.dialogoverlay.parentNode.removeChild(this.dialogoverlay)
-  this.bodyNode.setAttribute("aria-hidden","false");
   var contactList = document.getElementById('contact-list-body');
 
   tableEntry = document.createElement('TR');
@@ -277,12 +281,19 @@ aria.widget.DialogBox.prototype.submitDialogBox = function(){
   contactList.appendChild(contactName);
   contactList.appendChild(contactPhone);
   contactList.appendChild(contactAddress);
-  this.dialogButton.node.focus()
+  
+  this.closeDialogBox();
 }
 
+/**
+ * @method keyDown
+ *
+ * @memberOf aria.Widget.DialogBox
+ *
+ * @desc  makes sure the user cannot tab out of the dialog box
+ */
 
-
-aria.widget.DialogBox.prototype.keyDown = function(event, dialogBox){
+ aria.widget.DialogBox.prototype.keyDown = function(event, dialogBox){
   if(event.keyCode == dialogBox.keyCode.TAB){
     if(event.shiftKey && event.currentTarget == dialogBox.firstItem){
       dialogBox.lastItem.focus();
@@ -296,13 +307,29 @@ aria.widget.DialogBox.prototype.keyDown = function(event, dialogBox){
   }
 }
 
-aria.widget.DialogBox.prototype.buttonClick = function(event, dialogBox){
+/**
+ * @method cancelButtonClick
+ *
+ * @memberOf aria.Widget.DialogBox
+ *
+ * @desc  closes the dialog box if the cancel button was clicked.
+ */
+ 
+aria.widget.DialogBox.prototype.cancelButtonClick = function(event, dialogBox){
   if(event.currentTarget == this.submit){
     dialogBox.submitDialogBox();
   }else if(event.currentTarget == this.lastItem){
     dialogBox.closeDialogBox();
   }
 }
+
+/**
+ * @method bodyClick
+ *
+ * @memberOf aria.Widget.DialogBox
+ *
+ * @desc  makes sure clicks outside of the dialog box do nothing
+ */
 
 aria.widget.DialogBox.prototype.bodyClick = function(event, dialogBox){
   if(!dialogBox.dialogBoxNode.contains(event.target)){
@@ -311,6 +338,14 @@ aria.widget.DialogBox.prototype.bodyClick = function(event, dialogBox){
   }
 }
 
+/**
+ * @method bodyKeyDown
+ *
+ * @memberOf aria.Widget.DialogBox
+ *
+ * @desc  Handles escape and tab presses on the body.
+ */
+ 
 aria.widget.DialogBox.prototype.bodyKeyDown = function(event, dialogBox){
   if(event.keyCode ==dialogBox.keyCode.ESC){
     dialogBox.closeDialogBox();

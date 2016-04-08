@@ -16,10 +16,10 @@
  * limitations under the License.
  */
  
-/*
+/**
  * ARIA Menu Button example
  * @function onload
- * @desc 
+ * @desc finds and initializes a guessing game
  */
 
 window.addEventListener('load', function(){
@@ -44,12 +44,8 @@ var aria = aria ||{};
  * @constructor Menu
  *
  * @memberOf aria.Utils
-
+ *
  * @desc  Computes absolute position of an element
- *
- * @param  element    DOM node  -  DOM node object
- *
- * @retruns  Object  Object contains left and top position
  */
 
 aria.Utils = aria.Utils ||{};
@@ -83,13 +79,7 @@ aria.widget = aria.widget ||{};
  *
  * @memberOf aria.Widget
  *
- * @desc  Creates a toolbar widget using ARIA 
- *
- * @param  node    DOM node  -  DOM node object
- *
- * @property  keyCode      Object    -  Object containing the keyCodes used by the slider widget
- *
- * @property  node               Object    -  JQuery node object
+ * @desc  Creates a guessing game widget
  */
 
 aria.widget.GuessingGame = function(guessingDiv){
@@ -115,7 +105,7 @@ aria.widget.GuessingGame = function(guessingDiv){
  *
  * @memberOf aria.widget.GuessingGame
  *
- * @desc  Adds event handlers to button element 
+ * @desc  Adds event handlers that allow interaction with the game
  */
 
 aria.widget.GuessingGame.prototype.initGuessingGame = function(){
@@ -151,6 +141,14 @@ aria.widget.GuessingGame.prototype.initGuessingGame = function(){
   
 };
 
+/**
+ * @method submitGuess
+ *
+ * @memberOf aria.Widget.GuessingGame
+ *
+ * @desc  Adds to the guess count and creates a new dialogBox
+ */
+
 aria.widget.GuessingGame.prototype.submitGuess = function(){
   this.numberOfGuesses += 1;
   this.dialogBox = new aria.widget.DialogBox(this);
@@ -158,7 +156,15 @@ aria.widget.GuessingGame.prototype.submitGuess = function(){
 
 }
 
-aria.widget.GuessingGame.prototype.initializeGame = function(){
+/**
+ * @method initializeGame
+ *
+ * @memberOf aria.Widget.GuessingGame
+ *
+ * @desc  Creates the random number to be guessed and resets the guess count
+ */
+
+ aria.widget.GuessingGame.prototype.initializeGame = function(){
   this.value = Math.floor(Math.random()*(10)) + 1;
   this.numberOfGuesses = 0;
   this.submitButton.disabled = false;
@@ -166,6 +172,14 @@ aria.widget.GuessingGame.prototype.initializeGame = function(){
   this.input.focus();
 }
 
+/**
+ * @method inputKeyDown
+ *
+ * @memberOf aria.Widget.GuessingGame
+ *
+ * @desc  handles events on the input field.
+ */
+ 
 aria.widget.GuessingGame.prototype.inputKeyDown = function(){
   
   if(event.keyCode == this.keyCode.RETURN && !this.submitButton.disabled){
@@ -184,13 +198,7 @@ aria.widget.GuessingGame.prototype.inputKeyDown = function(){
  *
  * @memberOf aria.Widget
  *
- * @desc  Creates a Button widget using ARIA 
- *
- * @param  node    DOM node  -  DOM node object
- *
- * @property  keyCode      Object    -  Object containing the keyCodes used by the slider widget
- *
- * @property  node               Object    -  JQuery node object
+ * @desc  Creates a Dialog Box widget using ARIA 
  */
 
 aria.widget.DialogBox = function(guessingGame){
@@ -208,6 +216,14 @@ aria.widget.DialogBox = function(guessingGame){
   });
   this.guessingGame = guessingGame;
 };
+
+/**
+ * @method initDialogBox
+ *
+ * @memberOf aria.Widget.DialogBox
+ *
+ * @desc  creates a new dialog box, processes the current guess, and adds event listeners to the dialog box.
+ */
 
 aria.widget.DialogBox.prototype.initDialogBox = function(){
   dialogBox = this;
@@ -288,7 +304,7 @@ aria.widget.DialogBox.prototype.initDialogBox = function(){
   
   this.bodyNode.setAttribute("aria-hidden","true");
   var eventClick = function(event){
-    dialogBox.buttonClick(event, dialogBox);
+    dialogBox.cancelButtonClick(event, dialogBox);
   }
   this.eventBodyClick = function(event){
     dialogBox.bodyClick(event, dialogBox);
@@ -306,6 +322,15 @@ aria.widget.DialogBox.prototype.initDialogBox = function(){
   this.bodyNode.addEventListener('keydown', this.eventBodyKeyDown);
 
 }
+
+/**
+ * @method closeDialogBox
+ *
+ * @memberOf aria.Widget.DialogBox
+ *
+ * @desc  removes the dialog box and all event listeners on it.
+ */
+ 
 aria.widget.DialogBox.prototype.closeDialogBox = function(){
   this.bodyNode.removeEventListener('click', this.eventBodyClick);
   this.bodyNode.removeEventListener('keydown', this.eventBodyKeyDown);
@@ -320,6 +345,14 @@ aria.widget.DialogBox.prototype.closeDialogBox = function(){
   }
 }
 
+/**
+ * @method keyDown
+ *
+ * @memberOf aria.Widget.DialogBox
+ *
+ * @desc  makes sure the user cannot tab out of the dialog box
+ */
+ 
 aria.widget.DialogBox.prototype.keyDown = function(event, dialogBox){
   if(event.keyCode == dialogBox.keyCode.TAB){
     if(event.shiftKey && event.currentTarget == dialogBox.cancelButton){
@@ -334,10 +367,26 @@ aria.widget.DialogBox.prototype.keyDown = function(event, dialogBox){
   }
 }
 
-aria.widget.DialogBox.prototype.buttonClick = function(event, dialogBox){
+/**
+ * @method cancelButtonClick
+ *
+ * @memberOf aria.Widget.DialogBox
+ *
+ * @desc  closes the dialog box if the cancel button was clicked.
+ */
+
+aria.widget.DialogBox.prototype.cancelButtonClick = function(event, dialogBox){
     dialogBox.closeDialogBox();
 
 }
+
+/**
+ * @method bodyClick
+ *
+ * @memberOf aria.Widget.DialogBox
+ *
+ * @desc  makes sure clicks outside of the dialog box do nothing
+ */
 
 aria.widget.DialogBox.prototype.bodyClick = function(event, dialogBox){
   if(!dialogBox.dialogBoxNode.contains(event.target)){
@@ -345,6 +394,14 @@ aria.widget.DialogBox.prototype.bodyClick = function(event, dialogBox){
     event.preventDefault();
   }
 }
+
+/**
+ * @method bodyKeyDown
+ *
+ * @memberOf aria.Widget.DialogBox
+ *
+ * @desc  Handles escape and tab presses on the body.
+ */
 
 aria.widget.DialogBox.prototype.bodyKeyDown = function(event, dialogBox){
   if(event.keyCode ==dialogBox.keyCode.ESC){

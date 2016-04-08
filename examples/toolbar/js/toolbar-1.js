@@ -16,10 +16,10 @@
  * limitations under the License.
  */
  
-/*
- * ARIA Menu Button example
+/**
+ * ARIA tabpanel example
  * @function onload
- * @desc 
+ * @desc  after page has loaded initializ all tabpanels based on the selector "div.tabpanel"
  */
 
 window.addEventListener('load', function(){
@@ -45,15 +45,11 @@ var aria = aria ||{};
 /* ---------------------------------------------------------------- */
 
 /**
- * @constructor Menu
+ * @constructor Toolbar
  *
  * @memberOf aria.Utils
-
+ *
  * @desc  Computes absolute position of an element
- *
- * @param  element    DOM node  -  DOM node object
- *
- * @retruns  Object  Object contains left and top position
  */
 
 aria.Utils = aria.Utils ||{};
@@ -88,12 +84,6 @@ aria.widget = aria.widget ||{};
  * @memberOf aria.Widget
  *
  * @desc  Creates a toolbar widget using ARIA 
- *
- * @param  node    DOM node  -  DOM node object
- *
- * @property  keyCode      Object    -  Object containing the keyCodes used by the slider widget
- *
- * @property  node               Object    -  JQuery node object
  */
 
 aria.widget.Toolbar = function(node){
@@ -137,7 +127,7 @@ aria.widget.Toolbar = function(node){
  *
  * @memberOf aria.widget.Toolbar
  *
- * @desc  Adds event handlers to input element 
+ * @desc  Adds event handlers to toolbar elements
  */
 
 aria.widget.Toolbar.prototype.initToolbar = function(){

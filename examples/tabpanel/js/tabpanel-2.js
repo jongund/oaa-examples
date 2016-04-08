@@ -16,10 +16,10 @@
  * limitations under the License.
  */
  
-/*
- * ARIA Menu Button example
+/**
+ * ARIA tabpanel example
  * @function onload
- * @desc 
+ * @desc  after page has loaded initializ all tabpanels based on the selector "div.tabpanel"
  */
 
 window.addEventListener('load', function(){
@@ -45,15 +45,11 @@ var aria = aria ||{};
 /* ---------------------------------------------------------------- */
 
 /**
- * @constructor Menu
+ * @constructor Tabpanel
  *
  * @memberOf aria.Utils
-
+ *
  * @desc  Computes absolute position of an element
- *
- * @param  element    DOM node  -  DOM node object
- *
- * @retruns  Object  Object contains left and top position
  */
 
 aria.Utils = aria.Utils ||{};
@@ -87,13 +83,7 @@ aria.widget = aria.widget ||{};
  *
  * @memberOf aria.Widget
  *
- * @desc  Creates a toolbar widget using ARIA 
- *
- * @param  node    DOM node  -  DOM node object
- *
- * @property  keyCode      Object    -  Object containing the keyCodes used by the slider widget
- *
- * @property  node               Object    -  JQuery node object
+ * @desc  Creates a tabpanel widget using ARIA 
  */
 
 aria.widget.Tabpanel = function(node){
@@ -134,7 +124,7 @@ aria.widget.Tabpanel = function(node){
  *
  * @memberOf aria.widget.Tabpanel
  *
- * @desc  Adds event handlers to input element 
+ * @desc  Adds event handlers to tab element 
  */
 
 aria.widget.Tabpanel.prototype.initTabpanel = function(){
@@ -200,7 +190,7 @@ aria.widget.Tabpanel.prototype.nextTab = function(){
  *
  * @memberOf aria.widget.Tabpanel
  *
- * @desc  Moves focus to the previous toolbar button 
+ * @desc  Moves focus to the previous tabpanel
  */
 
 aria.widget.Tabpanel.prototype.previousTab = function(){
@@ -269,7 +259,7 @@ aria.widget.Tabpanel.prototype.closeTabs = function(){
  *    
  * @memberOf aria.widget.Tabpanel
  *
- * @desc  closes all tabs
+ * @desc  opens the active tab
  */
  
 aria.widget.Tabpanel.prototype.openActiveTab = function(){
@@ -322,7 +312,7 @@ aria.widget.Tabpanel.prototype.tabKeyDown = function(event, tabpanel){
  *
  * @memberOf aria.widget.Tabpanel
  *
- * @desc  handles keydown events for the tabs
+ * @desc  handles click events for the tabs
  */
  
 aria.widget.Tabpanel.prototype.tabClick = function(event, tabpanel){
@@ -335,7 +325,12 @@ aria.widget.Tabpanel.prototype.tabClick = function(event, tabpanel){
   tabpanel.openActiveTab();
 }
 
-
+/**
+ * @function getRadioPressed
+ *
+ * @desc  gets state of radio buttons.
+ */
+ 
 getRadioPressed = function(event){
   category = event.currentTarget.getAttribute("aria-controls");
   cn = event.currentTarget.firstChild.nextSibling
@@ -361,6 +356,12 @@ getRadioPressed = function(event){
   updateOrder(category, text);
 }
 
+/**
+ * @function getCheckboxPressed
+ *
+ * @desc  gets state of checkboxes.
+ */
+ 
 getCheckboxPressed = function(event){
   category = event.currentTarget.getAttribute("aria-controls");
   cn = event.currentTarget.firstChild.nextSibling
@@ -386,6 +387,12 @@ getCheckboxPressed = function(event){
   }updateOrder(category, text);
 }
 
+/**
+ * @function getCheckboxPressed
+ *
+ * @desc  updates the order based on what raido buttons and checkboxes are pressed.
+ */
+ 
 updateOrder = function(category, text){
 
   categoryNode = document.getElementById(category);

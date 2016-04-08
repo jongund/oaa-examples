@@ -15,13 +15,10 @@ window.addEventListener('load', function() {
 });
 
 
-/*
+/**
 * @function toggleGroupCheckBox
 *
 * @desc Toogles the state of a grouping checkbox
-*
-* @param   {Object}  event  -  Standard W3C event object
-*
 */
 
 function toggleGroupCheckbox(event) {
@@ -52,14 +49,10 @@ function toggleGroupCheckbox(event) {
 
 }
 
-/*
+/**
 * @function setCheckboxes
 *
-* @desc 
-*
-* @param   {Object}      node  -  DOM node of updated checkbox
-* @param   {Booleam}  state  -  Set value of checkboxes
-*
+* @desc sets all checkboxes to a given state
 */
 
 function setCheckboxes(node, state) {
@@ -71,12 +64,10 @@ function setCheckboxes(node, state) {
   } 
 }
 
-/*
+/**
 * @function updateGroupCheckbox
 *
-* @desc 
-*
-* @param   {Object}   node  -  DOM node of updated group checkbox
+* @desc No Description
 */
 function updateGroupCheckbox(event) {
 
@@ -106,48 +97,41 @@ function updateGroupCheckbox(event) {
   else image.src = './images/checkbox-mixed-black.png'
 
 }
-/*
+
+/**
 * @function focusCheckBox
 *
 * @desc Adds focus to the class name of the checkbox
-*
-* @param   {Object}  event  -  Standard W3C event object
 */
 
 function focusCheckbox(event) {
   event.currentTarget.className += ' focus'
 }
 
-/*
+/**
 * @function blurCheckBox
 *
-* @desc Adds focus to the class name of the checkbox
-*
-* @param   {Object}  event  -  Standard W3C event object
+* @desc Removes focus from the class name of the checkbox
 */
 
 function blurCheckbox(event) {
   event.currentTarget.className = event.currentTarget.className .replace(' focus','')
 }
 
-/*
+/**
 * @function focusStandardCheckBox
 *
 * @desc Adds focus styling to label element encapsulating standard checkbox
-*
-* @param   {Object}  event  -  Standard W3C event object
 */
 
 function focusStandardCheckbox(event) {
   event.currentTarget.parentNode.className += ' focus' ;
 }
 
-/*
+/**
 * @function blurStandardCheckBox
 *
-* @desc Adds focus styling to the label element encapsulating standard checkbox
-*
-* @param   {Object}  event  -  Standard W3C event object
+* @desc Removes focus styling to the label element encapsulating standard checkbox
 */
 
 function blurStandardCheckbox(event) {

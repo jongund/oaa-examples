@@ -16,10 +16,10 @@
  * limitations under the License.
  */
  
-/*
+/**
  * ARIA Menu Button example
  * @function onload
- * @desc 
+ * @desc Finds and initializes a guessing game
  */
 
 window.addEventListener('load', function(){
@@ -44,12 +44,8 @@ var aria = aria ||{};
  * @constructor Menu
  *
  * @memberOf aria.Utils
-
+ *
  * @desc  Computes absolute position of an element
- *
- * @param  element    DOM node  -  DOM node object
- *
- * @retruns  Object  Object contains left and top position
  */
 
 aria.Utils = aria.Utils ||{};
@@ -83,13 +79,7 @@ aria.widget = aria.widget ||{};
  *
  * @memberOf aria.Widget
  *
- * @desc  Creates a toolbar widget using ARIA 
- *
- * @param  node    DOM node  -  DOM node object
- *
- * @property  keyCode      Object    -  Object containing the keyCodes used by the slider widget
- *
- * @property  node               Object    -  JQuery node object
+ * @desc  Creates a GuessingGame widget
  */
 
 aria.widget.GuessingGame = function(guessingDiv){
@@ -115,7 +105,7 @@ aria.widget.GuessingGame = function(guessingDiv){
  *
  * @memberOf aria.widget.GuessingGame
  *
- * @desc  Adds event handlers to button element 
+ * @desc  Initializes a new guessing game and adds event listeners that allow for interaction with the game
  */
 
 aria.widget.GuessingGame.prototype.initGuessingGame = function(){
@@ -156,13 +146,28 @@ aria.widget.GuessingGame.prototype.initGuessingGame = function(){
   
 };
 
+/**
+ * @method submitGuess
+ *
+ * @memberOf aria.Widget.GuessingGame
+ *
+ * @desc  Adds to the guess count and processes the guess
+ */
+ 
 aria.widget.GuessingGame.prototype.submitGuess = function(){
   this.numberOfGuesses += 1;
-  this.dialogBox = new aria.widget.DialogBox(this);
-  this.dialogBox.initDialogBox();
+  this.processGuess();
 
 }
 
+/**
+ * @method initializeGame
+ *
+ * @memberOf aria.Widget.GuessingGame
+ *
+ * @desc  Creates the random number to be guessed and resets the guess count
+ */
+ 
 aria.widget.GuessingGame.prototype.initializeGame = function(){
   this.value = Math.floor(Math.random()*(10)) + 1;
   this.numberOfGuesses = 0;
@@ -172,6 +177,14 @@ aria.widget.GuessingGame.prototype.initializeGame = function(){
   this.input.focus();
 }
 
+/**
+ * @method inputKeyDown
+ *
+ * @memberOf aria.Widget.GuessingGame
+ *
+ * @desc  handles events on the input field.
+ */
+ 
 aria.widget.GuessingGame.prototype.inputKeyDown = function(){
   
   if(event.keyCode == this.keyCode.RETURN && !this.submitButton.disabled){
@@ -186,62 +199,38 @@ aria.widget.GuessingGame.prototype.inputKeyDown = function(){
 }
 
 /**
- * @constructor Button
+ * @method processGuess
  *
- * @memberOf aria.Widget
+ * @memberOf aria.Widget.GuessingGame
  *
- * @desc  Creates a Button widget using ARIA 
- *
- * @param  node    DOM node  -  DOM node object
- *
- * @property  keyCode      Object    -  Object containing the keyCodes used by the slider widget
- *
- * @property  node               Object    -  JQuery node object
+ * @desc  updates the dialog box based on the value guessed.
  */
 
-aria.widget.DialogBox = function(guessingGame){
-  this.keyCode = Object.freeze({
-     "TAB"    : 9,
-     "RETURN" : 13,
-     "ESC"    : 27,
-     "SPACE"  : 32,
-     "ALT"    : 18,
+aria.widget.GuessingGame.prototype.processGuess = function(){
 
-     "UP"    : 38,
-     "DOWN"  : 40,
-     "RIGHT" : 39,
-     "LEFT"  : 37
-  });
-  this.guessingGame = guessingGame;
-};
-
-aria.widget.DialogBox.prototype.initDialogBox = function(){
-  dialogBox = this;
-  alertDiv = this.guessingGame.alertDiv
-
-  var guessedValue = this.guessingGame.input.value
+  var guessedValue = this.input.value
   if(isNaN(guessedValue) || guessedValue == ""){
-    alertDiv.innerHTML = "You must guess an int"
-    this.guessingGame.input.focus()
-    this.guessingGame.input.select()
+    this.alertDiv.innerHTML = "You must guess an int"
+    this.input.focus()
+    this.input.select()
   }
-  else if(this.guessingGame.value > guessedValue){
-    alertDiv.innerHTML = "Your guess of " + guessedValue + " was too small.";
-    this.guessingGame.input.focus()
-    this.guessingGame.input.select()
+  else if(this.value > guessedValue){
+    this.alertDiv.innerHTML = "Your guess of " + guessedValue + " was too small.";
+    this.input.focus()
+    this.input.select()
   }
-  else if(this.guessingGame.value < guessedValue){
-    alertDiv.innerHTML = "Your guess of " + guessedValue + " was too large.";
-    this.guessingGame.input.focus()
-    this.guessingGame.input.select()
+  else if(this.value < guessedValue){
+    this.alertDiv.innerHTML = "Your guess of " + guessedValue + " was too large.";
+    this.input.focus()
+    this.input.select()
   }
-  else if(this.guessingGame.value == guessedValue){
-    if(this.guessingGame.numberOfGuesses == 1){
-      alertDiv.innerHTML = "Your guess of " + guessedValue + " was correct.  You got it on the first try!";
+  else if(this.value == guessedValue){
+    if(this.numberOfGuesses == 1){
+      this.alertDiv.innerHTML = "Your guess of " + guessedValue + " was correct.  You got it on the first try!";
     }else{
-      alertDiv.innerHTML = "Your guess of " + guessedValue + " was correct! It only took you " + this.guessingGame.numberOfGuesses + " tries.";
+      this.alertDiv.innerHTML = "Your guess of " + guessedValue + " was correct! It only took you " + this.numberOfGuesses + " tries.";
     }
-    this.guessingGame.submitButton.disabled = true;
-    this.guessingGame.resetButton.focus();
+    this.submitButton.disabled = true;
+    this.resetButton.focus();
   }
 }
