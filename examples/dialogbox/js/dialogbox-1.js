@@ -262,7 +262,7 @@ aria.widget.DialogBox.prototype.closeDialogBox = function(){
  *
  * @memberOf aria.Widget.DialogBox
  *
- * @desc  Adds all the information entered into the dialog box into the table on the page (No Description)
+ * @desc  Adds all the information entered into the dialog box into the table on the page
  */
 aria.widget.DialogBox.prototype.submitDialogBox = function(){
   var prompt_value1 = document.getElementById('prompt_value1').value;

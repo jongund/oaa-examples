@@ -67,7 +67,7 @@ function setCheckboxes(node, state) {
 /**
 * @function updateGroupCheckbox
 *
-* @desc No Description
+* @desc udates the group checkbox based on what the other checkboxs are.
 */
 function updateGroupCheckbox(event) {
 
