@@ -52,6 +52,56 @@
                           <p>This section is intended to assist designers, developers and quality assurance staff in defining and understanding the importance of logical, usable, and accessible layout for assistive technologies 
                           using HTML5 sectioning elements and ARIA landmark roles.</p>
 
+                          <p>Due to the complexity of todays web content, if using landmarks, <strong>all content</strong> should reside in a semantically meaningful landmark in order that content is not missed by the user.</p>
+                              
+
+                          <p style="font-weight: bold">Step 1: Identify the logical structure</p>
+                          <ul>
+                            <li>
+                              Break the page into perceivable areas called "regions". 
+                            </li>
+                            <li>   
+                              Typically designers indicate regions visually using alignment and spacing of content.
+                            </li>
+                            <li>
+                              Regions can be further defined into logical sub-regions as needed. 
+                            </li>
+                            <li>
+                              An example of a sub-region is a portlet in a portal application.   
+                            </li>
+                          </ul>
+
+                          <p style="font-weight: bold">Step 2: Assign landmark roles to each region</p>
+                          <ul>
+                            <li>
+                              Assign landmark roles based on the type of content in the region.
+                            </li>
+                            <li>
+                              <code>banner</code>, <code>main</code>, <code>complementary</code> and <code>contentinfo</code> landmarks should be top level landmarks.
+                            </li>
+                            <li>
+                              Landmark roles can be nested to identify parent/child relationships of the information being presented.
+                            </li>
+                          </ul>
+
+                           <p style="font-weight: bold">Step 3: Label each region</p>
+                           <ul>
+                            <li>
+                              If a specific landmark role is used more than once on a web page, it should have a unique label.
+                            </li>
+                            <li>
+                              If a region begins with a heading element (e.g. <code>h1-h6</code>) it can be used as the label for the region using <code>aria-labelledby</code> attribute.
+                            </li>
+                            <li>
+                              If a region does not have a heading element, provide a label using the <code>aria-label</code> attribute.
+                            </li>
+                            <li>
+                              Do not use the landmark role as part of the label.  
+                              For example, a navigation landmark with a label "Site Navigation" will be announced by a screen reader as "Site Navigation Navigation".  
+                              The label should simply be "Site".
+                            </li>  
+                          </ul>
+
                           <section aria-labelledby="id2">
                             <h2 id="id2">HTML5 Sectioning Elements</h2>
                             <p>It is important to understand that many HTML5 sectioning (e.g. <code>main</code>,<code>nav</code>, <code>aside</code> ...) elements by default define ARIA landmarks. 
@@ -95,58 +145,7 @@
                           </section>
 
 
-                          <div role="region" aria-labelledby="id3">
-                            <h2 id="id3">General Principles of Landmark Design</h2>
 
-                            <p>Due to the complexity of todays web content, if using landmarks, <strong>all content</strong> should reside in a semantically meaningful landmark in order that content is not missed by the user.</p>
-                              
-                              <p style="font-weight: bold">Step 1: Identify the logical structure</p>
-                              <ul>
-                                <li>
-                                  Break the page into perceivable areas called "regions". 
-                                </li>
-                                <li>   
-                                  Typically designers indicate regions visually using alignment and spacing of content.
-                                </li>
-                                <li>
-                                  Regions can be further defined into logical sub-regions as needed. 
-                                </li>
-                                <li>
-                                  An example of a sub-region is a portlet in a portal application.   
-                                </li>
-                              </ul>
-
-                              <p style="font-weight: bold">Step 2: Assign landmark roles to each region</p>
-                              <ul>
-                                <li>
-                                  Assign landmark roles based on the type of content in the region.
-                                </li>
-                                <li>
-                                  <code>banner</code>, <code>main</code>, <code>complementary</code> and <code>contentinfo</code> landmarks should be top level landmarks.
-                                </li>
-                                <li>
-                                  Landmark roles can be nested to identify parent/child relationships of the information being presented.
-                                </li>
-                              </ul>
-
-                               <p style="font-weight: bold">Step 3: Label each region</p>
-                               <ul>
-                                <li>
-                                  If a specific landmark role is used more than once on a web page, it should have a unique label.
-                                </li>
-                                <li>
-                                  If a region begins with a heading element (e.g. <code>h1-h6</code>) it can be used as the label for the region using <code>aria-labelledby</code> attribute.
-                                </li>
-                                <li>
-                                  If a region does not have a heading element, provide a label using the <code>aria-label</code> attribute.
-                                </li>
-                                <li>
-                                  Do not use the landmark role as part of the label.  
-                                  For example, a navigation landmark with a label "Site Navigation" will be announced by a screen reader as "Site Navigation Navigation".  
-                                  The label should simply be "Site".
-                                </li>  
-                              </ul>
-                          </div> 
                     </main>    
                 </div> 
                  <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">

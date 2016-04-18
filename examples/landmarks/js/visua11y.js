@@ -1,15 +1,13 @@
-"use strict";
-
 
 /*
 *   headings.js: highlight heading elements
 */
 
 function initHeadings () {
-  const appName  = getAppName('Headings');
-  const cssClass = getUniqueCssClass('Headings');
 
-  let targetList = [
+  addPolyfills();
+
+  var targetList = [
     {selector: "h1", color: "navy",   label: "h1"},
     {selector: "h2", color: "olive",  label: "h2"},
     {selector: "h3", color: "purple", label: "h3"},
@@ -18,33 +16,34 @@ function initHeadings () {
     {selector: "h6", color: "brown",  label: "h6"}
   ];
 
-  let selectors = targetList.map(function (tgt) {return tgt.selector;}).join(', ');
+  var selectors = targetList.map(function (tgt) {return tgt.selector;}).join(', ');
 
   function getInfo (element, target) {
-    let info = new InfoObject(element, 'HEADING INFO');
+    var info = new InfoObject(element, 'HEADING INFO');
     info.addProps('level ' + target.label.substring(1));
     return info;
   }
 
-  let params = {
-    msgTitle:   "Headings",
+  var params = {
+    appName:    "Headings",
+    cssClass:   getCssClass("Headings"),
     msgText:    "No heading elements (" + selectors + ") found.",
     targetList: targetList,
-    cssClass:   cssClass,
     getInfo:    getInfo,
     dndFlag:    true
   };
 
-  return new Bookmarklet(appName, params);
+  return new Bookmarklet(params);
 }
+
 
 /*
 *   landmarks.js: highlight ARIA landmarks
 */
 
 function initLandmarks () {
-  const appName  = getAppName('Landmarks');
-  const cssClass = getUniqueCssClass('Landmarks');
+
+  addPolyfills();
 
   // Filter function called on a list of elements returned by selector
   // 'footer, [role="contentinfo"]'. It returns true for the following
@@ -66,99 +65,60 @@ function initLandmarks () {
     return false;
   }
 
-  let targetList = [
-    {selector: 'aside:not([role]), [role~="complementary"], [role~="COMPLEMENTARY"]',         color: "brown",  label: "complementary"},
+  var targetList = [
+    {selector: 'aside:not([role]), [role~="complementary"], [role~="COMPLEMENTARY"]',         color: "maroon", label: "complementary"},
     {selector: 'footer, [role~="contentinfo"], [role~="CONTENTINFO"]', filter: isContentinfo, color: "olive",  label: "contentinfo"},
-    {selector: '[role~="application"], [role~="APPLICATION"]',                                color: "teal",   label: "application"},
+    {selector: '[role~="application"], [role~="APPLICATION"]',                                color: "black",  label: "application"},
     {selector: 'nav, [role~="navigation"], [role~="NAVIGATION"]',                             color: "green",  label: "navigation"},
+    {selector: '[role~="region"][aria-labelledby], [role~="REGION"][aria-labelledby]',        color: "teal",   label: "region"},
+    {selector: '[role~="region"][aria-label], [role~="REGION"][aria-label]',                  color: "teal",   label: "region"},
+    {selector: 'section[aria-labelledby], section[aria-label]',                               color: "teal",   label: "region"},
     {selector: 'header, [role~="banner"], [role~="BANNER"]', filter: isBanner,                color: "gray",   label: "banner"},
     {selector: '[role~="search"], [role~="SEARCH"]',                                          color: "purple", label: "search"},
-    {selector: 'main, [role~="main"], [role~="MAIN"]',                                        color: "navy",   label: "main"},
-    {selector: 'section[aria-labelledby], section[aria-label]',                               color: "SteelBlue ",   label: "region"},
-    {selector: '[role~="REGION"][aria-labelledby], [role~="region"][aria-labelledby]',        color: "SteelBlue ",   label: "region"},
-    {selector: '[role~="REGION"][aria-label], [role~="region"][aria-label]',                  color: "SteelBlue ",   label: "region"}
+    {selector: 'main, [role~="main"], [role~="MAIN"]',                                        color: "navy",   label: "main"}
   ];
 
-  let selectors = targetList.map(function (tgt) {return '<li>' + tgt.selector + '</li>';}).join('');
+  var selectors = targetList.map(function (tgt) {return '<li>' + tgt.selector + '</li>';}).join('');
 
   function getInfo (element, target) {
     return new InfoObject(element, 'LANDMARK INFO');
   }
 
-  let params = {
-    msgTitle:   "Landmarks",
+  var params = {
+    appName:    "Landmarks",
+    cssClass:   getCssClass("Landmarks"),
     msgText:    "No elements with ARIA Landmark roles found: <ul>" + selectors + "</ul>",
     targetList: targetList,
-    cssClass:   cssClass,
     getInfo:    getInfo,
     dndFlag:    true
   };
 
-  return new Bookmarklet(appName, params);
-}
-
-/*
-*   lists.js: highlight list elements
-*/
-
-function initLists () {
-  const appName  = getAppName('Lists');
-  const cssClass = getUniqueCssClass('Lists');
-
-  let targetList = [
-    {selector: "dl", color: "olive",  label: "dl"},
-    {selector: "ol", color: "purple", label: "ol"},
-    {selector: "ul", color: "navy",   label: "ul"}
-  ];
-
-  let selectors = targetList.map(function (tgt) {return tgt.selector;}).join(', ');
-
-  function getInfo (element, target) {
-    let listCount;
-
-    switch (target.label) {
-      case 'dl':
-        listCount = countChildrenWithTagNames(element, ['DT', 'DD']);
-        break;
-      case 'ol':
-      case 'ul':
-        listCount = countChildrenWithTagNames(element, ['LI']);
-        break;
-    }
-
-    let info = new InfoObject(element, 'LIST INFO');
-    info.addProps(listCount + ' items');
-    return info;
-  }
-
-  let params = {
-    msgTitle:   "Lists",
-    msgText:    "No list elements (" + selectors + ") found.",
-    targetList: targetList,
-    cssClass:   cssClass,
-    getInfo:    getInfo,
-    dndFlag:    true
-  };
-
-  return new Bookmarklet(appName, params);
+  return new Bookmarklet(params);
 }
 
 /*
 *   Bookmarklet.js
 */
 
-function Bookmarklet (globalName, params) {
+/* eslint no-console: 0 */
+function logVersionInfo (appName) {
+  console.log(getTitle() + ' : v' + getVersion() + ' : ' + appName);
+}
+
+function Bookmarklet (params) {
+  var globalName = getGlobalName(params.appName);
+
   // use singleton pattern
   if (typeof window[globalName] === 'object')
     return window[globalName];
 
+  this.appName  = params.appName;
   this.cssClass = params.cssClass;
-  this.msgTitle = params.msgTitle;
   this.msgText  = params.msgText;
   this.params   = params;
   this.show     = false;
 
-  let dialog = new MessageDialog();
+  var dialog = new MessageDialog();
   window.addEventListener('resize', event => {
     removeNodes(this.cssClass);
     dialog.resize();
@@ -166,25 +126,24 @@ function Bookmarklet (globalName, params) {
   });
 
   window[globalName] = this;
+  logVersionInfo(this.appName);
 }
 
 Bookmarklet.prototype.run = function () {
-  let dialog = new MessageDialog();
+  var dialog = new MessageDialog();
 
   dialog.hide();
   this.show = !this.show;
 
   if (this.show) {
     if (addNodes(this.params) === 0) {
-      dialog.show(this.msgTitle, this.msgText);
+      dialog.show(this.appName, this.msgText);
       this.show = false;
     }
   }
   else {
     removeNodes(this.cssClass);
   }
-
-  return this.show;
 };
 
 /*
@@ -198,7 +157,7 @@ Bookmarklet.prototype.run = function () {
 function nameIncludesDescription (accName, accDesc) {
   if (accName === null || accDesc === null) return false;
 
-  let name = accName.name, desc = accDesc.name;
+  var name = accName.name, desc = accDesc.name;
   if (typeof name === 'string' && typeof desc === 'string') {
     return name.toLowerCase().includes(desc.toLowerCase());
   }
@@ -230,17 +189,15 @@ InfoObject.prototype.addProps = function (val) {
 */
 
 var CONSTANTS = {};
-Object.defineProperty(CONSTANTS, 'appPrefix',   { value: 'a11y' });
-Object.defineProperty(CONSTANTS, 'classPrefix', { value: 'a11yGfdXALm' });
+Object.defineProperty(CONSTANTS, 'classPrefix',  { value: 'a11yGfdXALm' });
+Object.defineProperty(CONSTANTS, 'globalPrefix', { value: 'a11y' });
+Object.defineProperty(CONSTANTS, 'title',        { value: 'oaa-tools/bookmarklets' });
+Object.defineProperty(CONSTANTS, 'version',      { value: '0.2.2' });
 
-function getAppName (name) {
-  return CONSTANTS.appPrefix + name;
-}
-
-function getUniqueCssClass (name) {
+function getCssClass (appName) {
   const prefix = CONSTANTS.classPrefix;
 
-  switch (name) {
+  switch (appName) {
     case 'Forms':       return prefix + '0';
     case 'Headings':    return prefix + '1';
     case 'Images':      return prefix + '2';
@@ -252,6 +209,13 @@ function getUniqueCssClass (name) {
   return 'unrecognizedName';
 }
 
+function getGlobalName (appName) {
+  return CONSTANTS.globalPrefix + appName;
+}
+
+function getTitle ()   { return CONSTANTS.title }
+function getVersion () { return CONSTANTS.version }
+
 /*
 *   dialog.js: functions for creating, modifying and deleting message dialog
 */
@@ -262,9 +226,9 @@ function getUniqueCssClass (name) {
 *   createMsgOverlay.
 */
 function setBoxGeometry (dialog) {
-  let width  = window.innerWidth / 3.2;
-  let left   = window.innerWidth / 2 - width / 2;
-  let scroll = getScrollOffsets();
+  var width  = window.innerWidth / 3.2;
+  var left   = window.innerWidth / 2 - width / 2;
+  var scroll = getScrollOffsets();
 
   dialog.style.width = width + "px";
   dialog.style.left  = (scroll.x + left) + "px";
@@ -277,8 +241,8 @@ function setBoxGeometry (dialog) {
 *   a bookmarklet.
 */
 function createMsgDialog (cssClass, handler) {
-  let dialog = document.createElement("div");
-  let button  = document.createElement("button");
+  var dialog = document.createElement("div");
+  var button  = document.createElement("button");
 
   dialog.className = cssClass;
   setBoxGeometry(dialog);
@@ -310,7 +274,7 @@ function MessageDialog () {
 */
 MessageDialog.prototype.show = function (title, message) {
   const MSG_DIALOG = this.GLOBAL_NAME;
-  let h2, div;
+  var h2, div;
 
   if (!window[MSG_DIALOG])
     window[MSG_DIALOG] = createMsgDialog(this.CSS_CLASS, event => this.hide());
@@ -359,11 +323,11 @@ function isVisible (element) {
   function isVisibleRec (el) {
     if (el.nodeType === Node.DOCUMENT_NODE) return true;
 
-    let computedStyle = window.getComputedStyle(el, null);
-    let display = computedStyle.getPropertyValue('display');
-    let visibility = computedStyle.getPropertyValue('visibility');
-    let hidden = el.getAttribute('hidden');
-    let ariaHidden = el.getAttribute('aria-hidden');
+    var computedStyle = window.getComputedStyle(el, null);
+    var display = computedStyle.getPropertyValue('display');
+    var visibility = computedStyle.getPropertyValue('visibility');
+    var hidden = el.getAttribute('hidden');
+    var ariaHidden = el.getAttribute('aria-hidden');
 
     if ((display === 'none') || (visibility === 'hidden') ||
         (hidden !== null) || (ariaHidden === 'true')) {
@@ -381,9 +345,9 @@ function isVisible (element) {
 *   in the tagNames array.
 */
 function countChildrenWithTagNames (element, tagNames) {
-  let count = 0;
+  var count = 0;
 
-  let child = element.firstElementChild;
+  var child = element.firstElementChild;
   while (child) {
     if (tagNames.indexOf(child.tagName) > -1) count += 1;
     child = child.nextElementSibling;
@@ -408,7 +372,7 @@ function isDescendantOf (element, tagNames) {
 *   tagName in the list of tagNames.
 */
 function hasParentWithName (element, tagNames) {
-  let parentTagName = element.parentElement.tagName.toLowerCase();
+  var parentTagName = element.parentElement.tagName.toLowerCase();
   if (parentTagName) {
     return tagNames.some(name => parentTagName === name);
   }
@@ -422,16 +386,16 @@ function hasParentWithName (element, tagNames) {
 *   if dndFlag is set, add drag-and-drop functionality.
 */
 function addNodes (params) {
-  let targetList = params.targetList,
+  var targetList = params.targetList,
       cssClass = params.cssClass,
       getInfo = params.getInfo,
       evalInfo = params.evalInfo,
       dndFlag = params.dndFlag;
-  let counter = 0;
+  var counter = 0;
 
   targetList.forEach(function (target) {
     // Collect elements based on selector defined for target
-    let elements = document.querySelectorAll(target.selector);
+    var elements = document.querySelectorAll(target.selector);
 
     // Filter elements if target defines a filter function
     if (typeof target.filter === 'function')
@@ -439,12 +403,12 @@ function addNodes (params) {
 
     Array.prototype.forEach.call(elements, function (element) {
       if (isVisible(element)) {
-        let info = getInfo(element, target);
+        var info = getInfo(element, target);
         if (evalInfo) evalInfo(info, target);
-        let boundingRect = element.getBoundingClientRect();
-        let overlayNode = createOverlay(target, boundingRect, cssClass);
+        var boundingRect = element.getBoundingClientRect();
+        var overlayNode = createOverlay(target, boundingRect, cssClass);
         if (dndFlag) addDragAndDrop(overlayNode);
-        let labelNode = overlayNode.firstChild;
+        var labelNode = overlayNode.firstChild;
         labelNode.title = formatInfo(info);
         document.body.appendChild(overlayNode);
         counter += 1;
@@ -460,8 +424,8 @@ function addNodes (params) {
 *   to remove all instances of the overlay nodes.
 */
 function removeNodes (cssClass) {
-  let selector = "div." + cssClass;
-  let elements = document.querySelectorAll(selector);
+  var selector = "div." + cssClass;
+  var elements = document.querySelectorAll(selector);
   Array.prototype.forEach.call(elements, function (element) {
     document.body.removeChild(element);
   });
@@ -485,7 +449,7 @@ function getInputValue (element) {
 *   or 'slider' (i.e., subclass of abstract 'range' role).
 */
 function getRangeValue (element) {
-  let value;
+  var value;
 
   value = getAttributeValue(element, 'aria-valuetext');
   if (value.length) return value;
@@ -499,7 +463,7 @@ function getRangeValue (element) {
 // HELPER FUNCTIONS FOR SPECIFIC ROLES
 
 function getTextboxValue (element) {
-  let inputTypes = ['email', 'password', 'search', 'tel', 'text', 'url'],
+  var inputTypes = ['email', 'password', 'search', 'tel', 'text', 'url'],
       tagName = element.tagName.toLowerCase(),
       type    = element.type;
 
@@ -515,7 +479,7 @@ function getTextboxValue (element) {
 }
 
 function getComboboxValue (element) {
-  let inputTypes = ['email', 'search', 'tel', 'text', 'url'],
+  var inputTypes = ['email', 'search', 'tel', 'text', 'url'],
       tagName = element.tagName.toLowerCase(),
       type    = element.type;
 
@@ -527,7 +491,7 @@ function getComboboxValue (element) {
 }
 
 function getSliderValue (element) {
-  let tagName = element.tagName.toLowerCase(),
+  var tagName = element.tagName.toLowerCase(),
       type    = element.type;
 
   if (tagName === 'input' && type === 'range') {
@@ -538,7 +502,7 @@ function getSliderValue (element) {
 }
 
 function getSpinbuttonValue (element) {
-  let tagName = element.tagName.toLowerCase(),
+  var tagName = element.tagName.toLowerCase(),
       type    = element.type;
 
   if (tagName === 'input' && type === 'number') {
@@ -549,14 +513,14 @@ function getSpinbuttonValue (element) {
 }
 
 function getListboxValue (element) {
-  let tagName = element.tagName.toLowerCase();
+  var tagName = element.tagName.toLowerCase();
 
   if (tagName === 'select') {
-    let arr = [], selectedOptions = element.selectedOptions;
+    var arr = [], selectedOptions = element.selectedOptions;
 
-    for (let i = 0; i < selectedOptions.length; i++) {
-      let option = selectedOptions[i];
-      let value = normalize(option.value);
+    for (var i = 0; i < selectedOptions.length; i++) {
+      var option = selectedOptions[i];
+      var value = normalize(option.value);
       if (value.length) arr.push(value);
     }
 
@@ -571,14 +535,14 @@ function getListboxValue (element) {
 *   to an HTML form control that could be embedded within text content.
 */
 function isEmbeddedControl (element) {
-  let embeddedControlRoles = [
+  var embeddedControlRoles = [
     'textbox',
     'combobox',
     'listbox',
     'slider',
     'spinbutton'
   ];
-  let role = getAriaRole(element);
+  var role = getAriaRole(element);
 
   return (embeddedControlRoles.indexOf(role) !== -1);
 }
@@ -588,7 +552,7 @@ function isEmbeddedControl (element) {
 *   of HTML to get the corresponding text value of the embedded control.
 */
 function getEmbeddedControlValue (element) {
-  let role = getAriaRole(element);
+  var role = getAriaRole(element);
 
   switch (role) {
     case 'textbox':
@@ -624,19 +588,19 @@ function getEmbeddedControlValue (element) {
 *   Return collection as a possibly empty array of strings.
 */
 function getFieldsetLegendLabels (element) {
-  let arrayOfStrings = [];
+  var arrayOfStrings = [];
 
   if (typeof element.closest !== 'function') {
     return arrayOfStrings;
   }
 
   function getLabelsRec (elem, arr) {
-    let fieldset = elem.closest('fieldset');
+    var fieldset = elem.closest('fieldset');
 
     if (fieldset) {
-      let legend = fieldset.querySelector('legend');
+      var legend = fieldset.querySelector('legend');
       if (legend) {
-        let text = getElementContents(legend);
+        var text = getElementContents(legend);
         if (text.length){
           arr.push({ name: text, source: 'fieldset/legend' });
         }
@@ -672,7 +636,7 @@ function getGroupingLabels (element) {
 *   nameFromContents method is used.
 */
 function nameFromNativeSemantics (element, recFlag) {
-  let tagName = element.tagName.toLowerCase(),
+  var tagName = element.tagName.toLowerCase(),
       ariaRole = getAriaRole(element),
       accName = null;
 
@@ -820,8 +784,8 @@ function nameFromNativeSemantics (element, recFlag) {
 *   tion of those results if any, otherwise return null.
 */
 function nameFromAttributeIdRefs (element, attribute) {
-  let value = getAttributeValue(element, attribute);
-  let idRefs, i, refElement, accName, arr = [];
+  var value = getAttributeValue(element, attribute);
+  var idRefs, i, refElement, accName, arr = [];
 
   if (value.length) {
     idRefs = value.split(' ');
@@ -850,7 +814,7 @@ function nameFromAttributeIdRefs (element, attribute) {
 *   element, which includes, as last resort, use of the title attribute.
 */
 function getAccessibleName (element, recFlag) {
-  let accName = null;
+  var accName = null;
 
   if (!recFlag) accName = nameFromAttributeIdRefs(element, 'aria-labelledby');
   if (accName === null) accName = nameFromAttribute(element, 'aria-label');
@@ -866,7 +830,7 @@ function getAccessibleName (element, recFlag) {
 *   (2) As last resort, use the title attribute.
 */
 function getAccessibleDesc (element, recFlag) {
-  let accDesc = null;
+  var accDesc = null;
 
   if (!recFlag) accDesc = nameFromAttributeIdRefs(element, 'aria-describedby');
   if (accDesc === null) accDesc = nameFromAttribute(element, 'title');
@@ -883,26 +847,26 @@ function getAccessibleDesc (element, recFlag) {
 *   based on tagName and return as formatted string.
 */
 function getElementInfo (element) {
-  let tagName = element.tagName.toLowerCase(),
+  var tagName = element.tagName.toLowerCase(),
       elementInfo = tagName;
 
   if (tagName === 'input') {
-    let type = element.type;
+    var type = element.type;
     if (type && type.length) elementInfo += ' [type="' + type + '"]';
   }
 
   if (tagName === 'label') {
-    let forVal = getAttributeValue(element, 'for');
+    var forVal = getAttributeValue(element, 'for');
     if (forVal.length) elementInfo += ' [for="' + forVal + '"]';
   }
 
   if (isLabelableElement(element)) {
-    let id = element.id;
+    var id = element.id;
     if (id && id.length) elementInfo += ' [id="' + id + '"]';
   }
 
   if (element.hasAttribute('role')) {
-    let role = getAttributeValue(element, 'role');
+    var role = getAttributeValue(element, 'role');
     if (role.length) elementInfo += ' [role="' + role + '"]';
   }
 
@@ -913,8 +877,8 @@ function getElementInfo (element) {
 *   formatInfo: Convert info properties into a string with line breaks.
 */
 function formatInfo (info) {
-  let value = '';
-  let title = info.title,
+  var value = '';
+  var title = info.title,
       element = info.element,
       grpLabels = info.grpLabels,
       accName = info.accName,
@@ -928,7 +892,7 @@ function formatInfo (info) {
 
   if (grpLabels && grpLabels.length) {
     // array starts with innermost label, so process from the end
-    for (let i = grpLabels.length - 1; i >= 0; i--) {
+    for (var i = grpLabels.length - 1; i >= 0; i--) {
       value += '\nGRP. LABEL: ' + grpLabels[i].name + '\nFROM: ' + grpLabels[i].source;
     }
   }
@@ -961,7 +925,7 @@ function formatInfo (info) {
 *   BOM and NBSP characters.
 */
 function normalize (s) {
-  let rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
+  var rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
   return s.replace(rtrim, '').replace(/\s+/g, ' ');
 }
 
@@ -970,7 +934,7 @@ function normalize (s) {
 *   otherwise return empty string.
 */
 function getAttributeValue (element, attribute) {
-  let value = element.getAttribute(attribute);
+  var value = element.getAttribute(attribute);
   return (value === null) ? '' : normalize(value);
 }
 
@@ -979,7 +943,7 @@ function getAttributeValue (element, attribute) {
 *   element could have an 'alt' attribute.
 */
 function couldHaveAltText (element) {
-  let tagName = element.tagName.toLowerCase();
+  var tagName = element.tagName.toLowerCase();
 
   switch (tagName) {
     case 'img':
@@ -997,7 +961,7 @@ function couldHaveAltText (element) {
 *   and its value is the empty string.
 */
 function hasEmptyAltText (element) {
-  let value = element.getAttribute('alt');
+  var value = element.getAttribute('alt');
 
    // Attribute is present
   if (value !== null)
@@ -1011,7 +975,7 @@ function hasEmptyAltText (element) {
 *   element can be associated with a label.
 */
 function isLabelableElement (element) {
-  let tagName = element.tagName.toLowerCase(),
+  var tagName = element.tagName.toLowerCase(),
       type    = element.type;
 
   switch (tagName) {
@@ -1040,7 +1004,7 @@ function isLabelableElement (element) {
 *   values, the result cannot and will not be equal to 'none'.
 */
 function addCssGeneratedContent (element, contents) {
-  let result = contents,
+  var result = contents,
       prefix = getComputedStyle(element, ':before').content,
       suffix = getComputedStyle(element, ':after').content;
 
@@ -1059,7 +1023,7 @@ function addCssGeneratedContent (element, contents) {
 *      of an embedded control's value when the label is for the control itself.
 */
 function getNodeContents (node, forElem) {
-  let contents = '';
+  var contents = '';
 
   if (node === forElem) return '';
 
@@ -1073,11 +1037,11 @@ function getNodeContents (node, forElem) {
       }
       else {
         if (node.hasChildNodes()) {
-          let children = node.childNodes,
+          var children = node.childNodes,
               arr = [];
 
-          for (let i = 0; i < children.length; i++) {
-            let nc = getNodeContents(children[i], forElem);
+          for (var i = 0; i < children.length; i++) {
+            var nc = getNodeContents(children[i], forElem);
             if (nc.length) arr.push(nc);
           }
 
@@ -1101,14 +1065,14 @@ function getNodeContents (node, forElem) {
 *   generated content if present.
 */
 function getElementContents (element, forElement) {
-  let result = '';
+  var result = '';
 
   if (element.hasChildNodes()) {
-    let children = element.childNodes,
+    var children = element.childNodes,
         arrayOfStrings = [];
 
-    for (let i = 0; i < children.length; i++) {
-      let contents = getNodeContents(children[i], forElement);
+    for (var i = 0; i < children.length; i++) {
+      var contents = getNodeContents(children[i], forElement);
       if (contents.length) arrayOfStrings.push(contents);
     }
 
@@ -1123,7 +1087,7 @@ function getElementContents (element, forElement) {
 *   nodes, collect text content from all child nodes of element.
 */
 function getContentsOfChildNodes (element, predicate) {
-  let arr = [], content;
+  var arr = [], content;
 
   Array.prototype.forEach.call(element.childNodes, function (node) {
     switch (node.nodeType) {
@@ -1150,7 +1114,7 @@ function getContentsOfChildNodes (element, predicate) {
 *   nameFromAttribute
 */
 function nameFromAttribute (element, attribute) {
-  let name;
+  var name;
 
   name = getAttributeValue(element, attribute);
   if (name.length) return { name: name, source: attribute };
@@ -1162,7 +1126,7 @@ function nameFromAttribute (element, attribute) {
 *   nameFromAltAttribute
 */
 function nameFromAltAttribute (element) {
-  let name = element.getAttribute('alt');
+  var name = element.getAttribute('alt');
 
   // Attribute is present
   if (name !== null) {
@@ -1180,7 +1144,7 @@ function nameFromAltAttribute (element) {
 *   nameFromContents
 */
 function nameFromContents (element) {
-  let name;
+  var name;
 
   name = getElementContents(element);
   if (name.length) return { name: name, source: 'contents' };
@@ -1199,9 +1163,9 @@ function nameFromDefault (name) {
 *   nameFromDescendant
 */
 function nameFromDescendant (element, tagName) {
-  let descendant = element.querySelector(tagName);
+  var descendant = element.querySelector(tagName);
   if (descendant) {
-    let name = getElementContents(descendant);
+    var name = getElementContents(descendant);
     if (name.length) return { name: name, source: tagName + ' element' };
   }
 
@@ -1212,7 +1176,7 @@ function nameFromDescendant (element, tagName) {
 *   nameFromLabelElement
 */
 function nameFromLabelElement (element) {
-  let name, label;
+  var name, label;
 
   // label [for=id]
   if (element.id) {
@@ -1242,7 +1206,7 @@ function nameFromLabelElement (element) {
 *   only the contents of the first summary element descendant.
 */
 function nameFromDetailsOrSummary (element) {
-  let name, summary;
+  var name, summary;
 
   function isExpanded (elem) { return elem.hasAttribute('open'); }
 
@@ -1275,11 +1239,11 @@ var zIndex = 100000;
 *   boundingRect properties of its corresponding target element.
 */
 function createOverlay (tgt, rect, cname) {
-  let scrollOffsets = getScrollOffsets();
+  var scrollOffsets = getScrollOffsets();
   const MINWIDTH  = 68;
   const MINHEIGHT = 27;
 
-  let node = document.createElement("div");
+  var node = document.createElement("div");
   node.setAttribute("class", [cname, 'oaa-element-overlay'].join(' '));
   node.startLeft = (rect.left + scrollOffsets.x) + "px";
   node.startTop  = (rect.top  + scrollOffsets.y) + "px";
@@ -1291,7 +1255,7 @@ function createOverlay (tgt, rect, cname) {
   node.style.borderColor = tgt.color;
   node.style.zIndex = zIndex;
 
-  let label = document.createElement("div");
+  var label = document.createElement("div");
   label.setAttribute("class", 'oaa-overlay-label');
   label.style.backgroundColor = tgt.color;
   label.innerHTML = tgt.label;
@@ -1307,7 +1271,7 @@ function createOverlay (tgt, rect, cname) {
 function addDragAndDrop (node) {
 
   function hoistZIndex (el) {
-    let incr = 100;
+    var incr = 100;
     el.style.zIndex = zIndex += incr;
   }
 
@@ -1316,7 +1280,7 @@ function addDragAndDrop (node) {
     el.style.top  = el.startTop;
   }
 
-  let labelDiv = node.firstChild;
+  var labelDiv = node.firstChild;
 
   labelDiv.onmousedown = function (event) {
     drag(this.parentNode, hoistZIndex, event);
@@ -1343,7 +1307,7 @@ function addDragAndDrop (node) {
 *   3. a datalist element
 */
 function inListOfOptions (element) {
-  let parent = element.parentElement,
+  var parent = element.parentElement,
       parentName = parent.tagName.toLowerCase(),
       parentOfParentName = parent.parentElement.tagName.toLowerCase();
 
@@ -1447,11 +1411,11 @@ var validRoles = [
 *   it. Otherwise, return null.
 */
 function getValidRole (spaceSepList) {
-  let arr = spaceSepList.split(' ');
+  var arr = spaceSepList.split(' ');
 
-  for (let i = 0; i < arr.length; i++) {
-    let value = arr[i].toLowerCase();
-    let validRole = validRoles.find(role => role === value);
+  for (var i = 0; i < arr.length; i++) {
+    var value = arr[i].toLowerCase();
+    var validRole = validRoles.find(role => role === value);
     if (validRole) return validRole;
   }
 
@@ -1464,7 +1428,7 @@ function getValidRole (spaceSepList) {
 *   ARIA in HTML as of 21 October 2015.
 */
 function getAriaRole (element) {
-  let tagName = element.tagName.toLowerCase(),
+  var tagName = element.tagName.toLowerCase(),
       type    = element.type;
 
   if (element.hasAttribute('role')) {
@@ -1594,10 +1558,10 @@ function getAriaRole (element) {
 *   specifies that its 'name from' includes 'contents'.
 */
 function nameFromIncludesContents (element) {
-  let elementRole = getAriaRole(element);
+  var elementRole = getAriaRole(element);
   if (elementRole === null) return false;
 
-  let contentsRoles = [
+  var contentsRoles = [
     'button',
     'cell',                // ARIA 1.1
     'checkbox',
@@ -1622,7 +1586,7 @@ function nameFromIncludesContents (element) {
     'treeitem'
   ];
 
-  let contentsRole = contentsRoles.find(role => role === elementRole);
+  var contentsRole = contentsRoles.find(role => role === elementRole);
   return (typeof contentsRole !== 'undefined');
 }
 
@@ -1636,14 +1600,14 @@ function nameFromIncludesContents (element) {
 *   From Mozilla Developer Network: Element.getBoundingClientRect()
 */
 function getScrollOffsets () {
-  let t;
+  var t;
 
-  let xOffset = (typeof window.pageXOffset === "undefined") ?
+  var xOffset = (typeof window.pageXOffset === "undefined") ?
     (((t = document.documentElement) || (t = document.body.parentNode)) &&
       typeof t.ScrollLeft === 'number' ? t : document.body).ScrollLeft :
     window.pageXOffset;
 
-  let yOffset = (typeof window.pageYOffset === "undefined") ?
+  var yOffset = (typeof window.pageYOffset === "undefined") ?
     (((t = document.documentElement) || (t = document.body.parentNode)) &&
       typeof t.ScrollTop === 'number' ? t : document.body).ScrollTop :
     window.pageYOffset;
@@ -1657,15 +1621,15 @@ function getScrollOffsets () {
 *   From JavaScript: The Definitive Guide, 6th Edition (slightly modified)
 */
 function drag (elementToDrag, dragCallback, event) {
-  let scroll = getScrollOffsets();
-  let startX = event.clientX + scroll.x;
-  let startY = event.clientY + scroll.y;
+  var scroll = getScrollOffsets();
+  var startX = event.clientX + scroll.x;
+  var startY = event.clientY + scroll.y;
 
-  let origX = elementToDrag.offsetLeft;
-  let origY = elementToDrag.offsetTop;
+  var origX = elementToDrag.offsetLeft;
+  var origY = elementToDrag.offsetTop;
 
-  let deltaX = startX - origX;
-  let deltaY = startY - origY;
+  var deltaX = startX - origX;
+  var deltaY = startY - origY;
 
   if (dragCallback) dragCallback(elementToDrag);
 
@@ -1689,7 +1653,7 @@ function drag (elementToDrag, dragCallback, event) {
   function moveHandler (e) {
     if (!e) e = window.event;
 
-    let scroll = getScrollOffsets();
+    var scroll = getScrollOffsets();
     elementToDrag.style.left = (e.clientX + scroll.x - deltaX) + "px";
     elementToDrag.style.top = (e.clientY + scroll.y - deltaY) + "px";
 
@@ -1719,5 +1683,54 @@ function drag (elementToDrag, dragCallback, event) {
 
     if (e.stopPropagation) e.stopPropagation();
     else e.cancelBubble = true;
+  }
+}
+
+/*
+*   addPolyfills: Add polyfill implementations for JavaScript object methods
+*   defined in ES6 and used by bookmarklets:
+*   1. Array.prototype.find
+*   2. String.prototype.includes
+*/
+function addPolyfills () {
+
+  // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find
+  if (!Array.prototype.find) {
+    Array.prototype.find = function (predicate) {
+      if (this === null) {
+        throw new TypeError('Array.prototype.find called on null or undefined');
+      }
+      if (typeof predicate !== 'function') {
+        throw new TypeError('predicate must be a function');
+      }
+      var list = Object(this);
+      var length = list.length >>> 0;
+      var thisArg = arguments[1];
+      var value;
+
+      for (var i = 0; i < length; i++) {
+        value = list[i];
+        if (predicate.call(thisArg, value, i, list)) {
+          return value;
+        }
+      }
+      return undefined;
+    };
+  }
+
+  // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/includes
+  if (!String.prototype.includes) {
+    String.prototype.includes = function (search, start) {
+      if (typeof start !== 'number') {
+        start = 0;
+      }
+
+      if (start + search.length > this.length) {
+        return false;
+      }
+      else {
+        return this.indexOf(search, start) !== -1;
+      }
+    };
   }
 }
