@@ -97,3 +97,8 @@ a:focus,
 a:hover {
     text-decoration: underline;
 }
+
+.code {
+  font-family: courier, monosapce;
+  background: #F0F0F0;
+}
