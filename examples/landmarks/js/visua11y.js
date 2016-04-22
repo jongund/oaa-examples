@@ -119,7 +119,7 @@ function Bookmarklet (params) {
   this.show     = false;
 
   var dialog = new MessageDialog();
-  window.addEventListener('resize', event => {
+  window.addEventListener('resize', function() {
     removeNodes(this.cssClass);
     dialog.resize();
     this.show = false;
@@ -277,7 +277,7 @@ MessageDialog.prototype.show = function (title, message) {
   var h2, div;
 
   if (!window[MSG_DIALOG])
-    window[MSG_DIALOG] = createMsgDialog(this.CSS_CLASS, event => this.hide());
+    window[MSG_DIALOG] = createMsgDialog(this.CSS_CLASS, function () {this.hide()});
 
   h2 = document.createElement("h2");
   h2.innerHTML = title;

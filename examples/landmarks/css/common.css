@@ -76,6 +76,12 @@ aside ul {
     margin-bottom: 0.5em;
 }
 
+aside .inst {
+    margin-top: 2em;
+    font-size: 90%;
+    font-style: italic;
+}
+
 aside button {
     text-align: center;
     margin: 0.25em;
