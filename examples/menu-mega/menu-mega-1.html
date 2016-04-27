@@ -1,78 +1,98 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<html lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
     <title>Single List Popup Menu using Keyboard Enhancement</title>
     <meta name="generator" content="BBEdit 10.5">
     <link href="../css/core.css" rel="stylesheet">
     <link href="../css/table.css" rel="stylesheet">
     <script src="../js/examples.js" type="text/javascript"></script>
-
     <link href="css/menu-mega-1.css" rel="stylesheet">
-    <script src="js/menu-mega-1.js" type="text/javascript"></script> 
+    <script src="js/menu-mega-1.js" type="text/javascript"></script>
+    <script src="js/menu.js" type="text/javascript"></script> 
   </head>
   <body>
     <main role="main">
       <h1>Single List Popup Menu using Keyboard Enhancement</h1>
- 
       <section id="code-ex-1">
         <h2>Single List Popup Menu using Keyboard Enhancement</h2>
         <p>This example provides a pop-up menu of links for web navigation.</p>
-
-          <div class="">
-            <a tabindex="0">
-              WAI-ARIA Quick Links
-            </a>
+        <button class="megaMenuButton" aria-haspopup="true">Mega Menu</button>
+        
+        <div id="dialogbox1" role="dialog" aria-hidden="true" style="left: 0px; top: 0px; display: none;">
+          <div>
+          <div class="dialogboxhead" aria-hidden="false">Mega Menu</div>
+          <div class="dialogboxbody" aria-hidden="false">
             <ul>
-              <li>
-                <a href="https://www.w3.org/">
-                  W3C Home Page
-                </a>
-              </li>
-              <li>
-                <a href="https://www.w3.org/standards/webdesign/accessibility">
-                  W3C Web Accessibility Initiative
-                </a>
-              </li>
-              <li>
-                <a role="menuitem" href="https://www.w3.org/standards/webdesign/accessibility">
-                  W3C Web Accessibility Initiative
-                </a>
-              </li>
-              <li>  
-                <a role="menuitem" href="https://www.w3.org/TR/wai-aria/">
-                  Accessible Rich Internet Application Specification
-                </a>
-              </li>
-              <li>  
-                <a role="menuitem" href="https://www.w3.org/TR/wai-aria-practices/">
-                  WAI-ARIA Authoring Practices
-                </a>
-              </li>
-              <li>  
-                <a role="menuitem" href="https://www.w3.org/TR/wai-aria-implementation/">
-                  WAI-ARIA Implementation Guide
-                </a>
-              </li>
-              <li>  
-                <a role="menuitem" href="https://www.w3.org/TR/accname-aam-1.1/">
-                  Accessible Name and Description
-                </a>
-              </li>
-            </ul>  
+              <li><a role="menuitem" id="first_dialog_element" href="https://www.google.com">Link to Google 5</a></li>
+              <li><a role="menuitem" href="https://www.google.com">Link to Google 1</a></li>
+              <li><a role="menuitem" href="https://www.google.com">Link to Google 2</a></li>
+              <li><a role="menuitem" href="https://www.google.com">Link to Google 3</a></li>
+              <li><a role="menuitem" href="https://www.google.com">Link to Google 4</a></li>
+            </ul>
+            <ul>
+              <li><a role="menuitem" href="https://www.google.com">More Links to Google 1</a></li>
+              <li><a role="menuitem" href="https://www.google.com">More Links to Google 2</a></li>
+              <li><a role="menuitem" href="https://www.google.com">More Links to Google 3</a></li>
+              <li><a role="menuitem" href="https://www.google.com">More Links to Google 4</a></li>
+              <li><a role="menuitem" href="https://www.google.com">More Links to Google 5</a></li>
+            </ul>
           </div>
-
-      </section>    
+          <div class="dialogboxfoot" aria-hidden="false"><button id="last_dialog_element">Cancel</button></div>
+          </div>
+         </div>
+        
+        <div class="">
+          <a role="menuitem"tabindex="0">
+          WAI-ARIA Quick Links
+          </a>
+          <ul>
+            <li>
+              <a role="menuitem"href="https://www.w3.org/">
+              W3C Home Page
+              </a>
+            </li>
+            <li>
+              <a role="menuitem"href="https://www.w3.org/standards/webdesign/accessibility">
+              W3C Web Accessibility Initiative
+              </a>
+            </li>
+            <li>
+              <a role="menuitem"role="menuitem" href="https://www.w3.org/standards/webdesign/accessibility">
+              W3C Web Accessibility Initiative
+              </a>
+            </li>
+            <li>  
+              <a role="menuitem"role="menuitem" href="https://www.w3.org/TR/wai-aria/">
+              Accessible Rich Internet Application Specification
+              </a>
+            </li>
+            <li>  
+              <a role="menuitem"role="menuitem" href="https://www.w3.org/TR/wai-aria-practices/">
+              WAI-ARIA Authoring Practices
+              </a>
+            </li>
+            <li>  
+              <a role="menuitem"role="menuitem" href="https://www.w3.org/TR/wai-aria-implementation/">
+              WAI-ARIA Implementation Guide
+              </a>
+            </li>
+            <li>  
+              <a role="menuitem"role="menuitem" href="https://www.w3.org/TR/accname-aam-1.1/">
+              Accessible Name and Description
+              </a>
+            </li>
+          </ul>
+        </div>
+      </section>
       </script>
-
       <h2 id="id_a11yfeature">Accessibility Features</h2>
-       <ul>
-          <li></li>
-        </ul>
-
+      <ul>
+        <li></li>
+      </ul>
       <h2 id="id_kbd">Keyboard Support</h2>
-
-      <table aria-labelledby="id_kbd id_kbd1"> 
+      <table aria-labelledby="id_kbd id_kbd1">
         <thead>
           <tr>
             <th>Key</th>
@@ -88,17 +108,14 @@
             <td>Up Arrow Key</td>
             <td>Open menu and moves focus to last menu item</td>
           </tr>
-           <tr>
+          <tr>
             <td>Down Arrow Key</td>
             <td>Open menu and moves focus to first menu item</td>
           </tr>
         </tbody>
       </table>
-
-
       <h2 id="id_rps">ARIA Roles, Properties and States</h2>
-
-      <table aria-labelledby="id_rps"> 
+      <table aria-labelledby="id_rps">
         <thead>
           <tr>
             <th>Role</th>
@@ -111,12 +128,11 @@
             <td><code>menu</code></td>
             <td></td>
             <td>Identifies the <code>div</code> element as a menu widget</td>
-              <ul>
-               
-              </ul> 
+            <ul>
+            </ul>
             </td>
           </tr>
-          <tr> 
+          <tr>
             <td><code>menuitem</code></td>
             <td></td>
             <td>Identifies the <code>a</code> element as a menu item widget</td>
@@ -138,28 +154,19 @@
           </tr>
         </tbody>
       </table>
-      
-
       <section aria-labelledby="sc-ex1">
         <h2 id="sc-ex1">Source Code: Example 1</h2>
-      
         <ul>
-          <li>CSS: <a href="css/menu-button-2.css" type="tex/css">menu.css</a></li>
-          <li>Javascript: <a href="js/menu-button-2.js" type="text/javascript">menu.js</a></li>
+          <li>CSS: <a role="menuitem"href="css/menu-button-2.css" type="tex/css">menu.css</a></li>
+          <li>Javascript: <a role="menuitem"href="js/menu-button-2.js" type="text/javascript">menu.js</a></li>
         </ul>
-      
         <div id="sc1">
-       
         </div>
       </section>
-
-
       <script>
         sourceCode.add('sc1', 'code-ex-1')
         sourceCode.make()
       </script>
-
-
-  </main>
+    </main>
   </body>
-  </html>
+</html>

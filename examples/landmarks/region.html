@@ -112,37 +112,7 @@
                   <ul>
                     <li>Use the HTML5 <code>section</code> element to define a <code>region</code> landmark.</li>
                   </ul>
-                  <h2>Example</h2>
-                  <br>
-                  <div class="code">
-                    <strong>&lt;section aria-label="Title for Regon"&gt;</strong>
-                    <br>
-                    <br>
-                    &nbsp;&nbsp;&lt;h2&gt;Title for Region&lt;/h2&gt;
-                    <br>
-                    <br>
-                    &nbsp;&nbsp;&lt;p&gt;...Content for region...&lt;/p&gt;
-                    <br>
-                    <br>
-                    <strong>&lt;/section&gt;</strong>
-                    <br>
-                  </div>
-                  <h2>Example 2</h2>
-                  <br>
-                  <div class="code">
-                    <strong>&lt;section title="Title for Regon"&gt;</strong>
-                    <br>
-                    <br>
-                    &nbsp;&nbsp;&lt;h2&gt;Title for Region&lt;/h2&gt;
-                    <br>
-                    <br>
-                    &nbsp;&nbsp;&lt;p&gt;...Content for region...&lt;/p&gt;
-                    <br>
-                    <br>
-                    <strong>&lt;/section&gt;</strong>
-                    <br>
-                  </div>
-                  <h2>More Than One Region Landmark Example</h2>
+                  <h2>Defining <code>region</code> landmark using <code>section[aria-labelledby]</code> attribute</h2>
                   <br>
                   <div class="code">
                     &lt;main&gt;
@@ -162,6 +132,62 @@
                     &nbsp;&nbsp;<strong>&lt;section aria-labelledby="region2">&gt;</strong>
                     <br>
                     &nbsp;&nbsp;&nbsp;&nbsp;&lt;h2 <strong>id="region2"</strong>&gt;Title for Region 2&lt;/h2&gt;
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;...Content for region 2...&lt;/p&gt;
+                    <br>
+                    &nbsp;&nbsp;<strong>&lt;/section&gt;</strong>
+                    <br>
+                    <br>
+                    &lt;/main&gt;
+                  </div>
+                  <h2>Defining <code>region</code> landmarks using <code>section[aria-label]</code> attribute</h2>
+                  <br>
+                  <div class="code">
+                    &lt;main&gt;
+                    <br>
+                    <br>
+                    &nbsp;&nbsp;&lt;h1&gt;<em>title for main content</em>&lt;h1&gt;<br>
+                    <br>
+                    &nbsp;&nbsp;<strong>&lt;section aria-label="Title for Region 1"&gt;</strong>
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;h2&gt;Title for Region 1&lt;/h2&gt;
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;...Content for region 1...&lt;/p&gt;
+                    <br>
+                    &nbsp;&nbsp;<strong>&lt;/section&gt;</strong>
+                    <br>
+                    <br>
+                    &nbsp;&nbsp;<strong>&lt;section aria-label="Title for Region 2"&gt;</strong>
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;h2&gt;Title for Region 2&lt;/h2&gt;
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;...Content for region 2...&lt;/p&gt;
+                    <br>
+                    &nbsp;&nbsp;<strong>&lt;/section&gt;</strong>
+                    <br>
+                    <br>
+                    &lt;/main&gt;
+                  </div>
+                  <h2>Defining <code>region</code> landmarks using <code>section[title]</code></h2>
+                  <br>
+                  <div class="code">
+                    &lt;main&gt;
+                    <br>
+                    <br>
+                    &nbsp;&nbsp;&lt;h1&gt;<em>title for main content</em>&lt;h1&gt;<br>
+                    <br>
+                    &nbsp;&nbsp;<strong>&lt;section title="Title for Region 1"&gt;</strong>
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;h2&gt;Title for Region 1&lt;/h2&gt;
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;...Content for region 1...&lt;/p&gt;
+                    <br>
+                    &nbsp;&nbsp;<strong>&lt;/section&gt;</strong>
+                    <br>
+                    <br>
+                    &nbsp;&nbsp;<strong>&lt;section title="Title for Region 2">&gt;</strong>
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;h2&gt;Title for Region 2&lt;/h2&gt;
                     <br>
                     &nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;...Content for region 2...&lt;/p&gt;
                     <br>
