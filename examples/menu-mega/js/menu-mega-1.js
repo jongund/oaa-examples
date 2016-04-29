@@ -24,7 +24,7 @@
 
 window.addEventListener('load', function(){
 
-  var megaMenuButtons = document.querySelectorAll('button.megaMenuButton');
+  var megaMenuButtons = document.querySelectorAll('button.megamenu-button');
   [].forEach.call(megaMenuButtons, function(megaMenuButton){
     if (megaMenuButton){
       var tb = new aria.widget.MegaMenuButton(megaMenuButton)
@@ -105,6 +105,9 @@ aria.widget.MegaMenuButton.prototype.initMegaMenuButton = function(){
   
   var megaMenuButton = this;
   
+  this.megaMenuBox = new aria.widget.MegaMenuBox(this);
+  this.megaMenuBox.initMegaMenuBox();
+  
   var eventClick = function(event){
     megaMenuButton.eventClick();
     };
@@ -114,9 +117,7 @@ aria.widget.MegaMenuButton.prototype.initMegaMenuButton = function(){
 };
 
 aria.widget.MegaMenuButton.prototype.eventClick = function(){
-  this.megaMenuBox = new aria.widget.MegaMenuBox(this);
-  this.megaMenuBox.initMegaMenuBox();
-
+  this.megaMenuBox.openMegamenu()
 }
 
 /**
@@ -153,16 +154,24 @@ aria.widget.MegaMenuBox = function(megaMenuButton){
 
 aria.widget.MegaMenuBox.prototype.initMegaMenuBox = function(){
   megaMenuBox = this;
+  var megaMenuDiv = this.megaMenuButton.node.getAttribute("aria-controls")
   var winW = window.innerWidth;
   var winH = window.innerHeight;
   
-  this.dialogDiv = document.getElementById("dialogbox1")
-  this.dialogDiv.setAttribute("aria-hidden", "false")
-  this.dialogDiv.style.display = "block"
-  this.dialogOpen = true;
 
-  this.firstItem = document.getElementById('first_dialog_element');
-  this.lastItem = document.getElementById('last_dialog_element');
+  this.dialogDiv = document.getElementById(megaMenuDiv)
+  this.closeButton = this.dialogDiv.getElementsByClassName('megamenu-close-button')
+  this.closeButton = this.closeButton[0]
+  
+  cn = this.dialogDiv.getElementsByTagName('*')
+  for(var i=0; i<cn.length; i++){
+    if(cn[i].tabIndex == 0){
+      if(!this.firstItem) this.firstItem = cn[i];
+    this.lastItem = cn[i];
+    }
+  }
+  console.log(this.lastItem)
+  console.log(this.firstItem)
   this.firstItem.focus()
   var bodyNodes = document.getElementsByTagName("body");
   if (bodyNodes && bodyNodes[0]){
@@ -170,6 +179,7 @@ aria.widget.MegaMenuBox.prototype.initMegaMenuBox = function(){
   }
   
   this.bodyNode.setAttribute("aria-hidden","true");
+  
   var eventClick = function(event){
     megaMenuBox.cancelButtonClick(event, megaMenuBox);
   }
@@ -187,18 +197,27 @@ aria.widget.MegaMenuBox.prototype.initMegaMenuBox = function(){
   this.firstItem.addEventListener('keydown', eventKeyDown);
   this.lastItem.addEventListener('click', eventClick);
   this.firstItem.addEventListener('click', eventClick);
+  this.closeButton.addEventListener('click', eventClick);
   this.bodyNode.addEventListener('click', this.eventBodyClick);
   this.bodyNode.addEventListener('keydown', this.eventBodyKeyDown);
   
   menus = (this.dialogDiv.getElementsByTagName("UL"))
   this.firstMenu = menus[0];
+  
+  for(var i=0; i<cn.length; i++){
+    if(menus[0]== cn[i]) break;
+    if(cn[i].tabIndex == 0){
+      var previousControl = cn[i];
+    }
+  }
+  if(!previousControl)var previousControl = this.lastItem;
   for(var i = 0; i < menus.length; i++){
     var menu = new Menu(menus[i]);
     if(i==0){
-      menu.init(this.lastItem, null);
+      menu.init(previousControl, null);
     }
     else if(i==menus.length-1){
-      menu.init(null, this.firstMenu);
+      menu.init(null, this.firstItem);
     }
     else{
       menu.init(null,null);
@@ -258,7 +277,7 @@ aria.widget.MegaMenuBox.prototype.closeMegaMenuBox = function(){
  */
  
 aria.widget.MegaMenuBox.prototype.cancelButtonClick = function(event, megaMenuBox){
-  if(event.currentTarget == this.lastItem){
+  if(event.currentTarget == this.closeButton){
     megaMenuBox.closeMegaMenuBox();
   }
 }
@@ -276,6 +295,19 @@ aria.widget.MegaMenuBox.prototype.bodyClick = function(event, megaMenuBox){
     event.stopPropagation();
     event.preventDefault();
   }
+}
+
+/**
+ * @method openMegamenu
+ *
+ * @memberOf aria.Widget.MegaMenuBox
+ *
+ * @desc  Opens the megamenu
+ */
+ 
+aria.widget.MegaMenuBox.prototype.openMegamenu = function(){
+  this.dialogDiv.setAttribute("aria-hidden", "false")
+  this.dialogDiv.style.display = "block"
 }
 
 /**

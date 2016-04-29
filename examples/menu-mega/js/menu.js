@@ -87,8 +87,14 @@ Menu.prototype.handleKeydown = function (event) {
       break;
 
     case this.keyCode.TAB:
+      console.log(this.prevControl)
+      console.log(this.nextControl)
       if(this.prevControl && event.shiftKey){
         this.prevControl.focus()
+        flag = true;
+      }
+      else if(this.nextControl && !event.shiftKey){
+        this.nextControl.focus()
         flag = true;
       }
       
