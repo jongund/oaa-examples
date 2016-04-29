@@ -18,28 +18,34 @@
       <section id="code-ex-1">
         <h2>Single List Popup Menu using Keyboard Enhancement</h2>
         <p>This example provides a pop-up menu of links for web navigation.</p>
-        <button class="megaMenuButton" aria-haspopup="true">Mega Menu</button>
         
-        <div id="dialogbox1" role="dialog" aria-hidden="true" style="left: 0px; top: 0px; display: none;">
+        <button class="megamenu-button" aria-haspopup="true" aria-controls="megamenu-1">Mega Menu</button>
+        <div id="megamenu-1" class="megamenu" role="dialog" aria-hidden="true" style="left: 0px; top: 0px; display: none;">
           <div>
-          <div class="dialogboxhead" aria-hidden="false">Mega Menu</div>
+          <div class="dialogboxhead" aria-hidden="false"><button class="megamenu-close-button">Close Menu</button></div>
           <div class="dialogboxbody" aria-hidden="false">
-            <ul>
-              <li><a role="menuitem" id="first_dialog_element" href="https://www.google.com">Link to Google 5</a></li>
+            <ul role="menu">
               <li><a role="menuitem" href="https://www.google.com">Link to Google 1</a></li>
               <li><a role="menuitem" href="https://www.google.com">Link to Google 2</a></li>
               <li><a role="menuitem" href="https://www.google.com">Link to Google 3</a></li>
               <li><a role="menuitem" href="https://www.google.com">Link to Google 4</a></li>
+              <li><a role="menuitem" href="https://www.google.com">Link to Google 5</a></li>
             </ul>
-            <ul>
+            <ul role="menu">
               <li><a role="menuitem" href="https://www.google.com">More Links to Google 1</a></li>
               <li><a role="menuitem" href="https://www.google.com">More Links to Google 2</a></li>
               <li><a role="menuitem" href="https://www.google.com">More Links to Google 3</a></li>
               <li><a role="menuitem" href="https://www.google.com">More Links to Google 4</a></li>
               <li><a role="menuitem" href="https://www.google.com">More Links to Google 5</a></li>
             </ul>
+            <ul role="menu">
+              <li><a role="menuitem" href="https://www.google.com">Even More Links to Google 1</a></li>
+              <li><a role="menuitem" href="https://www.google.com">Even More Links to Google 2</a></li>
+              <li><a role="menuitem" href="https://www.google.com">Even More Links to Google 3</a></li>
+              <li><a role="menuitem" href="https://www.google.com">Even More Links to Google 4</a></li>
+              <li><a role="menuitem" href="https://www.google.com">Even More Links to Google 5</a></li>
+            </ul>
           </div>
-          <div class="dialogboxfoot" aria-hidden="false"><button id="last_dialog_element">Cancel</button></div>
           </div>
          </div>
         
