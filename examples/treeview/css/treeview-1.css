@@ -9,25 +9,18 @@
   border-color: #bbb;
 }
 
-[aria-expanded="true"] {
-  border: solid 1px #333;
-  padding: 10px;
+[role="treeitem"][aria-expanded]:before {
+  content: url(../images/contracted.gif);
 }
 
-img.headerImg {
-  margin-right: 5px;
+[role="treeitem"][aria-expanded="true"]:before {
+  content: url(../images/expanded.gif);
 }
 
-ul, li{
+li[role="treeitem"] {
   list-style: none
 }
-ul.tree {
-  width: 16em;
-  font-size: 100% !important;
+
+ul[role="tree"] {
 }
 
-
-li.focus {
-  color: white;
-  background: black;
-}
