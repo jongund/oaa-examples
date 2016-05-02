@@ -3,7 +3,8 @@ body {
 }
 
 h1, 
-h2 {
+h2,
+h3 {
     margin: 0;
     padding: 0;
 }
@@ -31,6 +32,10 @@ main {
     margin-bottom: 5em;
 }
 
+main p {
+    margin-bottom: 1em;
+}
+
 main ul {
     margin-left :0;
     padding-left: 1em;
@@ -45,13 +50,19 @@ main ul.nav-tabs li {
     padding-bottom: 0;
 }
 
-[role="tabpanel"] ul {
+main p a {
+    text-decoration: underline;
+}
+
+main [role="tabpanel"]:first-child,
+main [role="tabpanel"] ul {
     margin-top: 1em;
 }
 
 main .code {
     margin-top: 0.5em;
     margin-bottom: 2em;
+    padding: 1em;
 }
 
 main .nav-tabs > li > a {

@@ -14,32 +14,31 @@
   </head>
   <body>
     <main>
-      <h1>ARIA Tree View Example</h1>
+      <h1 id="id1">ARIA Tree View Example</h1>
         <p><a href="../../aria-practices.html#TreeView">WAI-ARIA 1.1: Tree View</a></p>
       <div id="example">  
-      <section id="code-ex-1" aria-labelledby="id_ex_title">
-        <h2 id="label_1">Foods</h2>
-          <ul role="tree" aria-labelledby="label_1">
-             <li role="treeitem" aria-expanded="true">
-             <img class="headerImg" src="http://www.oaa-accessibility.org/media/examples/images/expanded.gif">
-             <span>Fruits</span>
-                <ul>
-                   <li role="treeitem">Oranges</li>
-                   <li role="treeitem">Pineapple</li>
-                   <li role="treeitem" aria-expanded="false">
-                    <img class="headerImg" src="http://www.oaa-accessibility.org/media/examples/images/contracted.gif">
-                    <span>Apples</span>
-                      <ul aria-hidden="true">
-                       <li role="treeitem">Macintosh</li>
-                       <li role="treeitem">Granny Smith</li>
-                       <li role="treeitem">Fuji</li>
-                      </ul>
-                    </li>  
-                   <li role="treeitem">Bananas</li>    
-                   <li role="treeitem">Pears</li>    
-                </ul>
-             </li>
+        <section id="code-ex-1" aria-labelledby="id1">
+          <h2 id="tree1">Foods</h2>
+          <ul role="tree" aria-labelledby="tree1">
+            <li role="treeitem" aria-expanded="true">
+              <span>Fruits</span>
+              <ul>
+                <li role="treeitem">Oranges</li>
+                <li role="treeitem">Pineapple</li>
+                <li role="treeitem" aria-expanded="false">
+                  <span>Apples</span>
+                  <ul>
+                    <li role="treeitem">Macintosh</li>
+                    <li role="treeitem">Granny Smith</li>
+                    <li role="treeitem">Fuji</li>
+                  </ul>
+                </li>  
+                <li role="treeitem">Bananas</li>    
+                <li role="treeitem">Pears</li>    
+              </ul>
+            </li>
           </ul>
+        </section>
       </div>  
       <section aria-labelledby="id_a11yfeature">
       <h2 id="id_a11yfeature">Accessibility Features</h2>
