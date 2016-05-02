@@ -36,13 +36,21 @@ main ul {
 }
 
 main li {
-    padding-bottom: 0.25em;
+    padding-bottom: 0.5em;
 }
 
 main ul.nav-tabs li {
     padding-bottom: 0;
 }
 
+[role="tabpanel"] ul {
+    margin-top: 1em;
+}
+
+main .code {
+    margin-top: 0.5em;
+    margin-bottom: 2em;
+}
 nav {
     margin: 0;
 }
