@@ -23,4 +23,6 @@ li[role="treeitem"] {
 
 ul[role="tree"] {
 }
-
+ul.feature li{
+	list-style-type: disc;
+}

@@ -1,7 +1,7 @@
 
 
 /*
- * Copyright 2011-2014 OpenAjax Alliance
+ * Copyright 2011-2016 University of Illinois
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -154,7 +154,7 @@ Treeitem.prototype.handleKeydown = function (event) {
   }
 };
 
-/* Additional methods */
+/* show and hide child treeitems */
 
 
 Treeitem.prototype.hideChildTreeitems = function () {
@@ -207,6 +207,7 @@ Treeitem.prototype.showChildTreeitems = function () {
 };
 
 
+/* focus management treeitems: move focus to parent treeitem */
 Treeitem.prototype.moveFocusToParentTreeitem = function () {
 
   try {
@@ -230,6 +231,7 @@ Treeitem.prototype.moveFocusToParentTreeitem = function () {
 
 };
 
+/* focus management treeitems: move focus to first child treeitem */
 Treeitem.prototype.moveFocusToFirstChildTreeitem = function () {
 
    try {
@@ -253,6 +255,8 @@ Treeitem.prototype.moveFocusToFirstChildTreeitem = function () {
   }
 };
 
+
+/* find next tree item and previous item to manage focus, tabindex */
 Treeitem.prototype.previousTreeitem = function (currentItem) {
 
   var ti = currentItem.previousSibling;
