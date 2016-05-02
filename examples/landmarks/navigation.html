@@ -185,9 +185,9 @@
               <li>Main</li>
               <li>Contentinfo</li>
             </ul>
-            <button onclick="showLandmarks(event)">Show Landmarks</button>
-            <button onclick="showHeadings(event)">Show Headings</button>
-            <p class="note">Note: Hover over tabs for additional information on the element</p>
+            <p id="highlight_inst" class="inst">Visually outline the landmarks and/or headings on the page using the following buttons.</p>
+            <button onclick="showLandmarks(event)" aria-describedby="highlight_inst">Show Landmarks</button>
+            <button onclick="showHeadings(event)" aria-describedby="highlight_inst">Show Headings</button>
           </aside>
           <aside aria-labelledby="id3">
             <h2 id="id3">Related W3C Specs</h2>
