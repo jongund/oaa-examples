@@ -22,7 +22,9 @@ header {
 }
 
 header h1 {
-    margin-top: 0.4em;
+    margin-top: .6em;
+    margin-bottom: 0;
+    font-size: 3.5em;
 }
 
 main {
@@ -51,6 +53,11 @@ main .code {
     margin-top: 0.5em;
     margin-bottom: 2em;
 }
+
+main .nav-tabs > li > a {
+    background-color: #EEEEEE;
+}
+
 nav {
     margin: 0;
 }
