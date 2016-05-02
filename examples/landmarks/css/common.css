@@ -10,22 +10,34 @@ h3 {
 }
 
 h1 {
-    margin-bottom: 0.5em;
+    font-size: 1.75em;
+    margin-bottom: 0.125em;
 }
 
 h2 {
-    font-size: 1.2em;
+    font-size: 1.35em;
     margin-bottom: 0.25em;
+}
+
+h3 {
+    margin-top: 2em;
+    font-size: 1.15em;
 }
 
 header {
     margin-bottom: 1em;
 }
 
+header img {
+    height: 4em;   
+    margin: 0;
+    padding: 0;
+}
+
 header h1 {
-    margin-top: .6em;
+    padding-top: 0.125em;
     margin-bottom: 0;
-    font-size: 3.5em;
+    font-size: 2em;
 }
 
 main {
@@ -43,7 +55,7 @@ main ul {
 }
 
 main li {
-    padding-bottom: 0.5em;
+    padding-bottom: 0.25em;
 }
 
 main ul.nav-tabs li {
@@ -54,9 +66,13 @@ main p a {
     text-decoration: underline;
 }
 
-main [role="tabpanel"]:first-child,
-main [role="tabpanel"] ul {
-    margin-top: 1em;
+main [role="tabpanel"] > p,
+main [role="tabpanel"] > ul {
+    margin-top: 0.5em;
+}
+
+main [role="tabpanel"] > h3 + p {
+    margin-top: 0;
 }
 
 main .code {
