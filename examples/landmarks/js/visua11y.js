@@ -1,47 +1,44 @@
+"use strict";
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 /*
 *   headings.js: highlight heading elements
 */
 
-function initHeadings () {
+function initHeadings() {
 
   addPolyfills();
 
-  var targetList = [
-    {selector: "h1", color: "navy",   label: "h1"},
-    {selector: "h2", color: "olive",  label: "h2"},
-    {selector: "h3", color: "purple", label: "h3"},
-    {selector: "h4", color: "green",  label: "h4"},
-    {selector: "h5", color: "gray",   label: "h5"},
-    {selector: "h6", color: "brown",  label: "h6"}
-  ];
+  var targetList = [{ selector: "h1", color: "navy", label: "h1" }, { selector: "h2", color: "olive", label: "h2" }, { selector: "h3", color: "purple", label: "h3" }, { selector: "h4", color: "green", label: "h4" }, { selector: "h5", color: "gray", label: "h5" }, { selector: "h6", color: "brown", label: "h6" }];
 
-  var selectors = targetList.map(function (tgt) {return tgt.selector;}).join(', ');
+  var selectors = targetList.map(function (tgt) {
+    return tgt.selector;
+  }).join(', ');
 
-  function getInfo (element, target) {
+  function getInfo(element, target) {
     var info = new InfoObject(element, 'HEADING INFO');
     info.addProps('level ' + target.label.substring(1));
     return info;
   }
 
   var params = {
-    appName:    "Headings",
-    cssClass:   getCssClass("Headings"),
-    msgText:    "No heading elements (" + selectors + ") found.",
+    appName: "Headings",
+    cssClass: getCssClass("Headings"),
+    msgText: "No heading elements (" + selectors + ") found.",
     targetList: targetList,
-    getInfo:    getInfo,
-    dndFlag:    true
+    getInfo: getInfo,
+    dndFlag: true
   };
 
   return new Bookmarklet(params);
 }
 
-
 /*
 *   landmarks.js: highlight ARIA landmarks
 */
 
-function initLandmarks () {
+function initLandmarks() {
 
   addPolyfills();
 
@@ -49,7 +46,7 @@ function initLandmarks () {
   // 'footer, [role="contentinfo"]'. It returns true for the following
   // conditions: (1) element IS NOT a footer element; (2) element IS a
   // footer element AND IS NOT a descendant of article or section.
-  function isContentinfo (element) {
+  function isContentinfo(element) {
     if (element.tagName.toLowerCase() !== 'footer') return true;
     if (!isDescendantOf(element, ['article', 'section'])) return true;
     return false;
@@ -59,38 +56,29 @@ function initLandmarks () {
   // 'header, [role="banner"]'. It returns true for the following
   // conditions: (1) element IS NOT a header element; (2) element IS a
   // header element AND IS NOT a descendant of article or section.
-  function isBanner (element) {
+  function isBanner(element) {
     if (element.tagName.toLowerCase() !== 'header') return true;
     if (!isDescendantOf(element, ['article', 'section'])) return true;
     return false;
   }
 
-  var targetList = [
-    {selector: 'aside:not([role]), [role~="complementary"], [role~="COMPLEMENTARY"]',         color: "maroon", label: "complementary"},
-    {selector: 'footer, [role~="contentinfo"], [role~="CONTENTINFO"]', filter: isContentinfo, color: "olive",  label: "contentinfo"},
-    {selector: '[role~="application"], [role~="APPLICATION"]',                                color: "black",  label: "application"},
-    {selector: 'nav, [role~="navigation"], [role~="NAVIGATION"]',                             color: "green",  label: "navigation"},
-    {selector: '[role~="region"][aria-labelledby], [role~="REGION"][aria-labelledby]',        color: "teal",   label: "region"},
-    {selector: '[role~="region"][aria-label], [role~="REGION"][aria-label]',                  color: "teal",   label: "region"},
-    {selector: 'section[aria-labelledby], section[aria-label]',                               color: "teal",   label: "region"},
-    {selector: 'header, [role~="banner"], [role~="BANNER"]', filter: isBanner,                color: "gray",   label: "banner"},
-    {selector: '[role~="search"], [role~="SEARCH"]',                                          color: "purple", label: "search"},
-    {selector: 'main, [role~="main"], [role~="MAIN"]',                                        color: "navy",   label: "main"}
-  ];
+  var targetList = [{ selector: 'aside:not([role]), [role~="complementary"], [role~="COMPLEMENTARY"]', color: "maroon", label: "complementary" }, { selector: 'footer, [role~="contentinfo"], [role~="CONTENTINFO"]', filter: isContentinfo, color: "olive", label: "contentinfo" }, { selector: '[role~="application"], [role~="APPLICATION"]', color: "black", label: "application" }, { selector: 'nav, [role~="navigation"], [role~="NAVIGATION"]', color: "green", label: "navigation" }, { selector: '[role~="region"][aria-labelledby], [role~="REGION"][aria-labelledby]', color: "teal", label: "region" }, { selector: '[role~="region"][aria-label], [role~="REGION"][aria-label]', color: "teal", label: "region" }, { selector: 'section[aria-labelledby], section[aria-label]', color: "teal", label: "region" }, { selector: 'header, [role~="banner"], [role~="BANNER"]', filter: isBanner, color: "gray", label: "banner" }, { selector: '[role~="search"], [role~="SEARCH"]', color: "purple", label: "search" }, { selector: 'main, [role~="main"], [role~="MAIN"]', color: "navy", label: "main" }];
 
-  var selectors = targetList.map(function (tgt) {return '<li>' + tgt.selector + '</li>';}).join('');
+  var selectors = targetList.map(function (tgt) {
+    return '<li>' + tgt.selector + '</li>';
+  }).join('');
 
-  function getInfo (element, target) {
+  function getInfo(element, target) {
     return new InfoObject(element, 'LANDMARK INFO');
   }
 
   var params = {
-    appName:    "Landmarks",
-    cssClass:   getCssClass("Landmarks"),
-    msgText:    "No elements with ARIA Landmark roles found: <ul>" + selectors + "</ul>",
+    appName: "Landmarks",
+    cssClass: getCssClass("Landmarks"),
+    msgText: "No elements with ARIA Landmark roles found: <ul>" + selectors + "</ul>",
     targetList: targetList,
-    getInfo:    getInfo,
-    dndFlag:    true
+    getInfo: getInfo,
+    dndFlag: true
   };
 
   return new Bookmarklet(params);
@@ -101,25 +89,24 @@ function initLandmarks () {
 */
 
 /* eslint no-console: 0 */
-function logVersionInfo (appName) {
+function logVersionInfo(appName) {
   console.log(getTitle() + ' : v' + getVersion() + ' : ' + appName);
 }
 
-function Bookmarklet (params) {
+function Bookmarklet(params) {
   var globalName = getGlobalName(params.appName);
 
   // use singleton pattern
-  if (typeof window[globalName] === 'object')
-    return window[globalName];
+  if (_typeof(window[globalName]) === 'object') return window[globalName];
 
-  this.appName  = params.appName;
+  this.appName = params.appName;
   this.cssClass = params.cssClass;
-  this.msgText  = params.msgText;
-  this.params   = params;
-  this.show     = false;
+  this.msgText = params.msgText;
+  this.params = params;
+  this.show = false;
 
   var dialog = new MessageDialog();
-  window.addEventListener('resize', function() {
+  window.addEventListener('resize', function () {
     removeNodes(this.cssClass);
     dialog.resize();
     this.show = false;
@@ -140,8 +127,7 @@ Bookmarklet.prototype.run = function () {
       dialog.show(this.appName, this.msgText);
       this.show = false;
     }
-  }
-  else {
+  } else {
     removeNodes(this.cssClass);
   }
 };
@@ -154,10 +140,11 @@ Bookmarklet.prototype.run = function () {
 *  nameIncludesDescription: Determine whether accName object's name
 *  property includes the accDesc object's name property content.
 */
-function nameIncludesDescription (accName, accDesc) {
+function nameIncludesDescription(accName, accDesc) {
   if (accName === null || accDesc === null) return false;
 
-  var name = accName.name, desc = accDesc.name;
+  var name = accName.name,
+      desc = accDesc.name;
   if (typeof name === 'string' && typeof desc === 'string') {
     return name.toLowerCase().includes(desc.toLowerCase());
   }
@@ -165,56 +152,66 @@ function nameIncludesDescription (accName, accDesc) {
   return false;
 }
 
-function InfoObject (element, title) {
-  this.title     = title;
-  this.element   = getElementInfo(element);
+function InfoObject(element, title) {
+  this.title = title;
+  this.element = getElementInfo(element);
   this.grpLabels = getGroupingLabels(element);
-  this.accName   = getAccessibleName(element);
-  this.accDesc   = getAccessibleDesc(element);
-  this.role      = getAriaRole(element);
+  this.accName = getAccessibleName(element);
+  this.accDesc = getAccessibleDesc(element);
+  this.role = getAriaRole(element);
 
   // Ensure that accessible description is not a duplication
   // of accessible name content. If it is, nullify the desc.
-  if (nameIncludesDescription (this.accName, this.accDesc)) {
+  if (nameIncludesDescription(this.accName, this.accDesc)) {
     this.accDesc = null;
   }
 }
 
 InfoObject.prototype.addProps = function (val) {
   this.props = val;
-}
+};
 
 /*
 *   constants.js
 */
 
 var CONSTANTS = {};
-Object.defineProperty(CONSTANTS, 'classPrefix',  { value: 'a11yGfdXALm' });
+Object.defineProperty(CONSTANTS, 'classPrefix', { value: 'a11yGfdXALm' });
 Object.defineProperty(CONSTANTS, 'globalPrefix', { value: 'a11y' });
-Object.defineProperty(CONSTANTS, 'title',        { value: 'oaa-tools/bookmarklets' });
-Object.defineProperty(CONSTANTS, 'version',      { value: '0.2.2' });
+Object.defineProperty(CONSTANTS, 'title', { value: 'oaa-tools/bookmarklets' });
+Object.defineProperty(CONSTANTS, 'version', { value: '0.2.2' });
 
-function getCssClass (appName) {
-  const prefix = CONSTANTS.classPrefix;
+function getCssClass(appName) {
+  var prefix = CONSTANTS.classPrefix;
 
   switch (appName) {
-    case 'Forms':       return prefix + '0';
-    case 'Headings':    return prefix + '1';
-    case 'Images':      return prefix + '2';
-    case 'Landmarks':   return prefix + '3';
-    case 'Lists':       return prefix + '4';
-    case 'Interactive': return prefix + '5';
+    case 'Forms':
+      return prefix + '0';
+    case 'Headings':
+      return prefix + '1';
+    case 'Images':
+      return prefix + '2';
+    case 'Landmarks':
+      return prefix + '3';
+    case 'Lists':
+      return prefix + '4';
+    case 'Interactive':
+      return prefix + '5';
   }
 
   return 'unrecognizedName';
 }
 
-function getGlobalName (appName) {
+function getGlobalName(appName) {
   return CONSTANTS.globalPrefix + appName;
 }
 
-function getTitle ()   { return CONSTANTS.title }
-function getVersion () { return CONSTANTS.version }
+function getTitle() {
+  return CONSTANTS.title;
+}
+function getVersion() {
+  return CONSTANTS.version;
+}
 
 /*
 *   dialog.js: functions for creating, modifying and deleting message dialog
@@ -225,14 +222,14 @@ function getVersion () { return CONSTANTS.version }
 *   the width of the browser window. Called by functions resizeMessage and
 *   createMsgOverlay.
 */
-function setBoxGeometry (dialog) {
-  var width  = window.innerWidth / 3.2;
-  var left   = window.innerWidth / 2 - width / 2;
+function setBoxGeometry(dialog) {
+  var width = window.innerWidth / 3.2;
+  var left = window.innerWidth / 2 - width / 2;
   var scroll = getScrollOffsets();
 
   dialog.style.width = width + "px";
-  dialog.style.left  = (scroll.x + left) + "px";
-  dialog.style.top   = (scroll.y + 30) + "px";
+  dialog.style.left = scroll.x + left + "px";
+  dialog.style.top = scroll.y + 30 + "px";
 }
 
 /*
@@ -240,9 +237,9 @@ function setBoxGeometry (dialog) {
 *   purpose is to alert the user when no target elements are found by
 *   a bookmarklet.
 */
-function createMsgDialog (cssClass, handler) {
+function createMsgDialog(cssClass, handler) {
   var dialog = document.createElement("div");
-  var button  = document.createElement("button");
+  var button = document.createElement("button");
 
   dialog.className = cssClass;
   setBoxGeometry(dialog);
@@ -257,14 +254,14 @@ function createMsgDialog (cssClass, handler) {
 /*
 *   deleteMsgDialog: Use reference to delete message dialog.
 */
-function deleteMsgDialog (dialog) {
+function deleteMsgDialog(dialog) {
   if (dialog) document.body.removeChild(dialog);
 }
 
 /*
 *   MessageDialog: Wrapper for show, hide and resize methods
 */
-function MessageDialog () {
+function MessageDialog() {
   this.GLOBAL_NAME = 'a11yMessageDialog';
   this.CSS_CLASS = 'oaa-message-dialog';
 }
@@ -273,11 +270,12 @@ function MessageDialog () {
 *   show: show message dialog
 */
 MessageDialog.prototype.show = function (title, message) {
-  const MSG_DIALOG = this.GLOBAL_NAME;
+  var MSG_DIALOG = this.GLOBAL_NAME;
   var h2, div;
 
-  if (!window[MSG_DIALOG])
-    window[MSG_DIALOG] = createMsgDialog(this.CSS_CLASS, function () {this.hide()});
+  if (!window[MSG_DIALOG]) window[MSG_DIALOG] = createMsgDialog(this.CSS_CLASS, function () {
+    this.hide();
+  });
 
   h2 = document.createElement("h2");
   h2.innerHTML = title;
@@ -292,10 +290,10 @@ MessageDialog.prototype.show = function (title, message) {
 *   hide: hide message dialog
 */
 MessageDialog.prototype.hide = function () {
-  const MSG_DIALOG = this.GLOBAL_NAME;
+  var MSG_DIALOG = this.GLOBAL_NAME;
   if (window[MSG_DIALOG]) {
     deleteMsgDialog(window[MSG_DIALOG]);
-    delete(window[MSG_DIALOG]);
+    delete window[MSG_DIALOG];
   }
 };
 
@@ -303,9 +301,8 @@ MessageDialog.prototype.hide = function () {
 *   resize: resize message dialog
 */
 MessageDialog.prototype.resize = function () {
-  const MSG_DIALOG = this.GLOBAL_NAME;
-  if (window[MSG_DIALOG])
-    setBoxGeometry(window[MSG_DIALOG]);
+  var MSG_DIALOG = this.GLOBAL_NAME;
+  if (window[MSG_DIALOG]) setBoxGeometry(window[MSG_DIALOG]);
 };
 
 /*
@@ -318,9 +315,9 @@ MessageDialog.prototype.resize = function () {
 *   of its ancestors has properties set that affect its visibility. Called
 *   by addNodes function.
 */
-function isVisible (element) {
+function isVisible(element) {
 
-  function isVisibleRec (el) {
+  function isVisibleRec(el) {
     if (el.nodeType === Node.DOCUMENT_NODE) return true;
 
     var computedStyle = window.getComputedStyle(el, null);
@@ -329,8 +326,7 @@ function isVisible (element) {
     var hidden = el.getAttribute('hidden');
     var ariaHidden = el.getAttribute('aria-hidden');
 
-    if ((display === 'none') || (visibility === 'hidden') ||
-        (hidden !== null) || (ariaHidden === 'true')) {
+    if (display === 'none' || visibility === 'hidden' || hidden !== null || ariaHidden === 'true') {
       return false;
     }
     return isVisibleRec(el.parentNode);
@@ -344,7 +340,7 @@ function isVisible (element) {
 *   number of its child elements with tagName equal to one of the values
 *   in the tagNames array.
 */
-function countChildrenWithTagNames (element, tagNames) {
+function countChildrenWithTagNames(element, tagNames) {
   var count = 0;
 
   var child = element.firstElementChild;
@@ -360,9 +356,11 @@ function countChildrenWithTagNames (element, tagNames) {
 *   isDescendantOf: Determine whether element is a descendant of any
 *   element in the DOM with a tagName in the list of tagNames.
 */
-function isDescendantOf (element, tagNames) {
+function isDescendantOf(element, tagNames) {
   if (typeof element.closest === 'function') {
-    return tagNames.some(name => element.closest(name) !== null);
+    return tagNames.some(function (name) {
+      return element.closest(name) !== null;
+    });
   }
   return false;
 }
@@ -371,10 +369,12 @@ function isDescendantOf (element, tagNames) {
 *   hasParentWithName: Determine whether element has a parent with
 *   tagName in the list of tagNames.
 */
-function hasParentWithName (element, tagNames) {
+function hasParentWithName(element, tagNames) {
   var parentTagName = element.parentElement.tagName.toLowerCase();
   if (parentTagName) {
-    return tagNames.some(name => parentTagName === name);
+    return tagNames.some(function (name) {
+      return parentTagName === name;
+    });
   }
   return false;
 }
@@ -385,7 +385,7 @@ function hasParentWithName (element, tagNames) {
 *   Optionally, if getInfo is specified, add tooltip information;
 *   if dndFlag is set, add drag-and-drop functionality.
 */
-function addNodes (params) {
+function addNodes(params) {
   var targetList = params.targetList,
       cssClass = params.cssClass,
       getInfo = params.getInfo,
@@ -398,8 +398,7 @@ function addNodes (params) {
     var elements = document.querySelectorAll(target.selector);
 
     // Filter elements if target defines a filter function
-    if (typeof target.filter === 'function')
-      elements = Array.prototype.filter.call(elements, target.filter);
+    if (typeof target.filter === 'function') elements = Array.prototype.filter.call(elements, target.filter);
 
     Array.prototype.forEach.call(elements, function (element) {
       if (isVisible(element)) {
@@ -423,7 +422,7 @@ function addNodes (params) {
 *   removeNodes: Use the unique CSS class name supplied to addNodes
 *   to remove all instances of the overlay nodes.
 */
-function removeNodes (cssClass) {
+function removeNodes(cssClass) {
   var selector = "div." + cssClass;
   var elements = document.querySelectorAll(selector);
   Array.prototype.forEach.call(elements, function (element) {
@@ -440,7 +439,7 @@ function removeNodes (cssClass) {
 /*
 *   getInputValue: Get current value of 'input' or 'textarea' element.
 */
-function getInputValue (element) {
+function getInputValue(element) {
   return normalize(element.value);
 }
 
@@ -448,7 +447,7 @@ function getInputValue (element) {
 *   getRangeValue: Get current value of control with role 'spinbutton'
 *   or 'slider' (i.e., subclass of abstract 'range' role).
 */
-function getRangeValue (element) {
+function getRangeValue(element) {
   var value;
 
   value = getAttributeValue(element, 'aria-valuetext');
@@ -462,10 +461,10 @@ function getRangeValue (element) {
 
 // HELPER FUNCTIONS FOR SPECIFIC ROLES
 
-function getTextboxValue (element) {
+function getTextboxValue(element) {
   var inputTypes = ['email', 'password', 'search', 'tel', 'text', 'url'],
       tagName = element.tagName.toLowerCase(),
-      type    = element.type;
+      type = element.type;
 
   if (tagName === 'input' && inputTypes.indexOf(type) !== -1) {
     return getInputValue(element);
@@ -478,10 +477,10 @@ function getTextboxValue (element) {
   return '';
 }
 
-function getComboboxValue (element) {
+function getComboboxValue(element) {
   var inputTypes = ['email', 'search', 'tel', 'text', 'url'],
       tagName = element.tagName.toLowerCase(),
-      type    = element.type;
+      type = element.type;
 
   if (tagName === 'input' && inputTypes.indexOf(type) !== -1) {
     return getInputValue(element);
@@ -490,9 +489,9 @@ function getComboboxValue (element) {
   return '';
 }
 
-function getSliderValue (element) {
+function getSliderValue(element) {
   var tagName = element.tagName.toLowerCase(),
-      type    = element.type;
+      type = element.type;
 
   if (tagName === 'input' && type === 'range') {
     return getRangeValue(element);
@@ -501,9 +500,9 @@ function getSliderValue (element) {
   return '';
 }
 
-function getSpinbuttonValue (element) {
+function getSpinbuttonValue(element) {
   var tagName = element.tagName.toLowerCase(),
-      type    = element.type;
+      type = element.type;
 
   if (tagName === 'input' && type === 'number') {
     return getRangeValue(element);
@@ -512,11 +511,12 @@ function getSpinbuttonValue (element) {
   return '';
 }
 
-function getListboxValue (element) {
+function getListboxValue(element) {
   var tagName = element.tagName.toLowerCase();
 
   if (tagName === 'select') {
-    var arr = [], selectedOptions = element.selectedOptions;
+    var arr = [],
+        selectedOptions = element.selectedOptions;
 
     for (var i = 0; i < selectedOptions.length; i++) {
       var option = selectedOptions[i];
@@ -534,24 +534,18 @@ function getListboxValue (element) {
 *   isEmbeddedControl: Determine whether element has a role that corresponds
 *   to an HTML form control that could be embedded within text content.
 */
-function isEmbeddedControl (element) {
-  var embeddedControlRoles = [
-    'textbox',
-    'combobox',
-    'listbox',
-    'slider',
-    'spinbutton'
-  ];
+function isEmbeddedControl(element) {
+  var embeddedControlRoles = ['textbox', 'combobox', 'listbox', 'slider', 'spinbutton'];
   var role = getAriaRole(element);
 
-  return (embeddedControlRoles.indexOf(role) !== -1);
+  return embeddedControlRoles.indexOf(role) !== -1;
 }
 
 /*
 *   getEmbeddedControlValue: Based on the role of element, use native semantics
 *   of HTML to get the corresponding text value of the embedded control.
 */
-function getEmbeddedControlValue (element) {
+function getEmbeddedControlValue(element) {
   var role = getAriaRole(element);
 
   switch (role) {
@@ -587,21 +581,21 @@ function getEmbeddedControlValue (element) {
 *   fieldset ancestors, starting with the closest (innermost).
 *   Return collection as a possibly empty array of strings.
 */
-function getFieldsetLegendLabels (element) {
+function getFieldsetLegendLabels(element) {
   var arrayOfStrings = [];
 
   if (typeof element.closest !== 'function') {
     return arrayOfStrings;
   }
 
-  function getLabelsRec (elem, arr) {
+  function getLabelsRec(elem, arr) {
     var fieldset = elem.closest('fieldset');
 
     if (fieldset) {
       var legend = fieldset.querySelector('legend');
       if (legend) {
         var text = getElementContents(legend);
-        if (text.length){
+        if (text.length) {
           arr.push({ name: text, source: 'fieldset/legend' });
         }
       }
@@ -618,7 +612,7 @@ function getFieldsetLegendLabels (element) {
 *   getGroupingLabels: Return an array of grouping label objects for
 *   element, each with two properties: 'name' and 'source'.
 */
-function getGroupingLabels (element) {
+function getGroupingLabels(element) {
   // We currently only handle labelable elements as defined in HTML 5.1
   if (isLabelableElement(element)) {
     return getFieldsetLegendLabels(element);
@@ -635,7 +629,7 @@ function getGroupingLabels (element) {
 *   indicating that we are in a recursive aria-labelledby calculation, the
 *   nameFromContents method is used.
 */
-function nameFromNativeSemantics (element, recFlag) {
+function nameFromNativeSemantics(element, recFlag) {
   var tagName = element.tagName.toLowerCase(),
       ariaRole = getAriaRole(element),
       accName = null;
@@ -716,7 +710,8 @@ function nameFromNativeSemantics (element, recFlag) {
       break;
 
     // EMBEDDED ELEMENTS
-    case 'audio': // if 'controls' attribute is present
+    case 'audio':
+      // if 'controls' attribute is present
       accName = { name: 'NOT YET IMPLEMENTED', source: '' };
       break;
 
@@ -729,7 +724,8 @@ function nameFromNativeSemantics (element, recFlag) {
       break;
 
     case 'img':
-    case 'area': // added
+    case 'area':
+      // added
       accName = nameFromAltAttribute(element);
       break;
 
@@ -737,11 +733,13 @@ function nameFromNativeSemantics (element, recFlag) {
       accName = { name: 'NOT YET IMPLEMENTED', source: '' };
       break;
 
-    case 'svg': // added
+    case 'svg':
+      // added
       accName = nameFromDescendant(element, 'title');
       break;
 
-    case 'video': // if 'controls' attribute is present
+    case 'video':
+      // if 'controls' attribute is present
       accName = { name: 'NOT YET IMPLEMENTED', source: '' };
       break;
 
@@ -764,8 +762,7 @@ function nameFromNativeSemantics (element, recFlag) {
 
     // ELEMENTS NOT SPECIFIED ABOVE
     default:
-      if (nameFromIncludesContents(element) || recFlag)
-        accName = nameFromContents(element);
+      if (nameFromIncludesContents(element) || recFlag) accName = nameFromContents(element);
       break;
   }
 
@@ -783,9 +780,13 @@ function nameFromNativeSemantics (element, recFlag) {
 *   with name property set to a string that is a space-separated concatena-
 *   tion of those results if any, otherwise return null.
 */
-function nameFromAttributeIdRefs (element, attribute) {
+function nameFromAttributeIdRefs(element, attribute) {
   var value = getAttributeValue(element, attribute);
-  var idRefs, i, refElement, accName, arr = [];
+  var idRefs,
+      i,
+      refElement,
+      accName,
+      arr = [];
 
   if (value.length) {
     idRefs = value.split(' ');
@@ -799,8 +800,7 @@ function nameFromAttributeIdRefs (element, attribute) {
     }
   }
 
-  if (arr.length)
-    return { name: arr.join(' '), source: attribute };
+  if (arr.length) return { name: arr.join(' '), source: attribute };
 
   return null;
 }
@@ -813,7 +813,7 @@ function nameFromAttributeIdRefs (element, attribute) {
 *   (3) Use whatever method is specified by the native semantics of the
 *   element, which includes, as last resort, use of the title attribute.
 */
-function getAccessibleName (element, recFlag) {
+function getAccessibleName(element, recFlag) {
   var accName = null;
 
   if (!recFlag) accName = nameFromAttributeIdRefs(element, 'aria-labelledby');
@@ -829,7 +829,7 @@ function getAccessibleName (element, recFlag) {
 *   (1) Use aria-describedby, unless a traversal is already underway;
 *   (2) As last resort, use the title attribute.
 */
-function getAccessibleDesc (element, recFlag) {
+function getAccessibleDesc(element, recFlag) {
   var accDesc = null;
 
   if (!recFlag) accDesc = nameFromAttributeIdRefs(element, 'aria-describedby');
@@ -846,7 +846,7 @@ function getAccessibleDesc (element, recFlag) {
 *   getElementInfo: Extract tagName and other attribute information
 *   based on tagName and return as formatted string.
 */
-function getElementInfo (element) {
+function getElementInfo(element) {
   var tagName = element.tagName.toLowerCase(),
       elementInfo = tagName;
 
@@ -876,7 +876,7 @@ function getElementInfo (element) {
 /*
 *   formatInfo: Convert info properties into a string with line breaks.
 */
-function formatInfo (info) {
+function formatInfo(info) {
   var value = '';
   var title = info.title,
       element = info.element,
@@ -924,7 +924,7 @@ function formatInfo (info) {
 *   Mozilla documentation on String.prototype.trim polyfill. Handles
 *   BOM and NBSP characters.
 */
-function normalize (s) {
+function normalize(s) {
   var rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
   return s.replace(rtrim, '').replace(/\s+/g, ' ');
 }
@@ -933,16 +933,16 @@ function normalize (s) {
 *   getAttributeValue: Return attribute value if present on element,
 *   otherwise return empty string.
 */
-function getAttributeValue (element, attribute) {
+function getAttributeValue(element, attribute) {
   var value = element.getAttribute(attribute);
-  return (value === null) ? '' : normalize(value);
+  return value === null ? '' : normalize(value);
 }
 
 /*
 *   couldHaveAltText: Based on HTML5 specification, determine whether
 *   element could have an 'alt' attribute.
 */
-function couldHaveAltText (element) {
+function couldHaveAltText(element) {
   var tagName = element.tagName.toLowerCase();
 
   switch (tagName) {
@@ -950,7 +950,7 @@ function couldHaveAltText (element) {
     case 'area':
       return true;
     case 'input':
-      return (element.type && element.type === 'image');
+      return element.type && element.type === 'image';
   }
 
   return false;
@@ -960,12 +960,11 @@ function couldHaveAltText (element) {
 *   hasEmptyAltText: Determine whether the alt attribute is present
 *   and its value is the empty string.
 */
-function hasEmptyAltText (element) {
+function hasEmptyAltText(element) {
   var value = element.getAttribute('alt');
 
-   // Attribute is present
-  if (value !== null)
-    return (normalize(value).length === 0);
+  // Attribute is present
+  if (value !== null) return normalize(value).length === 0;
 
   return false;
 }
@@ -974,13 +973,13 @@ function hasEmptyAltText (element) {
 *   isLabelableElement: Based on HTML5 specification, determine whether
 *   element can be associated with a label.
 */
-function isLabelableElement (element) {
+function isLabelableElement(element) {
   var tagName = element.tagName.toLowerCase(),
-      type    = element.type;
+      type = element.type;
 
   switch (tagName) {
     case 'input':
-      return (type !== 'hidden');
+      return type !== 'hidden';
     case 'button':
     case 'keygen':
     case 'meter':
@@ -1003,7 +1002,7 @@ function isLabelableElement (element) {
 *   the double-quote character to the beginning and end of computed string
 *   values, the result cannot and will not be equal to 'none'.
 */
-function addCssGeneratedContent (element, contents) {
+function addCssGeneratedContent(element, contents) {
   var result = contents,
       prefix = getComputedStyle(element, ':before').content,
       suffix = getComputedStyle(element, ':after').content;
@@ -1022,7 +1021,7 @@ function addCssGeneratedContent (element, contents) {
 *   2. The forElem parameter is needed for label processing to avoid inclusion
 *      of an embedded control's value when the label is for the control itself.
 */
-function getNodeContents (node, forElem) {
+function getNodeContents(node, forElem) {
   var contents = '';
 
   if (node === forElem) return '';
@@ -1031,11 +1030,9 @@ function getNodeContents (node, forElem) {
     case Node.ELEMENT_NODE:
       if (couldHaveAltText(node)) {
         contents = getAttributeValue(node, 'alt');
-      }
-      else if (isEmbeddedControl(node)) {
+      } else if (isEmbeddedControl(node)) {
         contents = getEmbeddedControlValue(node);
-      }
-      else {
+      } else {
         if (node.hasChildNodes()) {
           var children = node.childNodes,
               arr = [];
@@ -1045,7 +1042,7 @@ function getNodeContents (node, forElem) {
             if (nc.length) arr.push(nc);
           }
 
-          contents = (arr.length) ? arr.join(' ') : '';
+          contents = arr.length ? arr.join(' ') : '';
         }
       }
       // For all branches of the ELEMENT_NODE case...
@@ -1064,7 +1061,7 @@ function getNodeContents (node, forElem) {
 *   processing its element and text node descendants and then adding any CSS-
 *   generated content if present.
 */
-function getElementContents (element, forElement) {
+function getElementContents(element, forElement) {
   var result = '';
 
   if (element.hasChildNodes()) {
@@ -1076,7 +1073,7 @@ function getElementContents (element, forElement) {
       if (contents.length) arrayOfStrings.push(contents);
     }
 
-    result = (arrayOfStrings.length) ? arrayOfStrings.join(' ') : '';
+    result = arrayOfStrings.length ? arrayOfStrings.join(' ') : '';
   }
 
   return addCssGeneratedContent(element, result);
@@ -1086,18 +1083,19 @@ function getElementContents (element, forElement) {
 *   getContentsOfChildNodes: Using predicate function for filtering element
 *   nodes, collect text content from all child nodes of element.
 */
-function getContentsOfChildNodes (element, predicate) {
-  var arr = [], content;
+function getContentsOfChildNodes(element, predicate) {
+  var arr = [],
+      content;
 
   Array.prototype.forEach.call(element.childNodes, function (node) {
     switch (node.nodeType) {
-      case (Node.ELEMENT_NODE):
+      case Node.ELEMENT_NODE:
         if (predicate(node)) {
           content = getElementContents(node);
           if (content.length) arr.push(content);
         }
         break;
-      case (Node.TEXT_NODE):
+      case Node.TEXT_NODE:
         content = normalize(node.textContent);
         if (content.length) arr.push(content);
         break;
@@ -1113,7 +1111,7 @@ function getContentsOfChildNodes (element, predicate) {
 /*
 *   nameFromAttribute
 */
-function nameFromAttribute (element, attribute) {
+function nameFromAttribute(element, attribute) {
   var name;
 
   name = getAttributeValue(element, attribute);
@@ -1125,15 +1123,13 @@ function nameFromAttribute (element, attribute) {
 /*
 *   nameFromAltAttribute
 */
-function nameFromAltAttribute (element) {
+function nameFromAltAttribute(element) {
   var name = element.getAttribute('alt');
 
   // Attribute is present
   if (name !== null) {
     name = normalize(name);
-    return (name.length) ?
-      { name: name, source: 'alt' } :
-      { name: '<empty>', source: 'alt' };
+    return name.length ? { name: name, source: 'alt' } : { name: '<empty>', source: 'alt' };
   }
 
   // Attribute not present
@@ -1143,7 +1139,7 @@ function nameFromAltAttribute (element) {
 /*
 *   nameFromContents
 */
-function nameFromContents (element) {
+function nameFromContents(element) {
   var name;
 
   name = getElementContents(element);
@@ -1155,14 +1151,14 @@ function nameFromContents (element) {
 /*
 *   nameFromDefault
 */
-function nameFromDefault (name) {
+function nameFromDefault(name) {
   return name.length ? { name: name, source: 'default' } : null;
 }
 
 /*
 *   nameFromDescendant
 */
-function nameFromDescendant (element, tagName) {
+function nameFromDescendant(element, tagName) {
   var descendant = element.querySelector(tagName);
   if (descendant) {
     var name = getElementContents(descendant);
@@ -1175,7 +1171,7 @@ function nameFromDescendant (element, tagName) {
 /*
 *   nameFromLabelElement
 */
-function nameFromLabelElement (element) {
+function nameFromLabelElement(element) {
   var name, label;
 
   // label [for=id]
@@ -1205,10 +1201,12 @@ function nameFromLabelElement (element) {
 *   of element and all of its non-summary child elements. Otherwise, return
 *   only the contents of the first summary element descendant.
 */
-function nameFromDetailsOrSummary (element) {
+function nameFromDetailsOrSummary(element) {
   var name, summary;
 
-  function isExpanded (elem) { return elem.hasAttribute('open'); }
+  function isExpanded(elem) {
+    return elem.hasAttribute('open');
+  }
 
   // At minimum, always use summary contents
   summary = element.querySelector('summary');
@@ -1220,8 +1218,7 @@ function nameFromDetailsOrSummary (element) {
       return elem.tagName.toLowerCase() !== 'summary';
     });
     if (name.length) return { name: name, source: 'contents' };
-  }
-  else {
+  } else {
     if (name.length) return { name: name, source: 'summary element' };
   }
 
@@ -1238,19 +1235,19 @@ var zIndex = 100000;
 *   createOverlay: Create overlay div with size and position based on the
 *   boundingRect properties of its corresponding target element.
 */
-function createOverlay (tgt, rect, cname) {
+function createOverlay(tgt, rect, cname) {
   var scrollOffsets = getScrollOffsets();
-  const MINWIDTH  = 68;
-  const MINHEIGHT = 27;
+  var MINWIDTH = 68;
+  var MINHEIGHT = 27;
 
   var node = document.createElement("div");
   node.setAttribute("class", [cname, 'oaa-element-overlay'].join(' '));
-  node.startLeft = (rect.left + scrollOffsets.x) + "px";
-  node.startTop  = (rect.top  + scrollOffsets.y) + "px";
+  node.startLeft = rect.left + scrollOffsets.x + "px";
+  node.startTop = rect.top + scrollOffsets.y + "px";
 
   node.style.left = node.startLeft;
-  node.style.top  = node.startTop;
-  node.style.width  = Math.max(rect.width, MINWIDTH) + "px";
+  node.style.top = node.startTop;
+  node.style.width = Math.max(rect.width, MINWIDTH) + "px";
   node.style.height = Math.max(rect.height, MINHEIGHT) + "px";
   node.style.borderColor = tgt.color;
   node.style.zIndex = zIndex;
@@ -1268,16 +1265,16 @@ function createOverlay (tgt, rect, cname) {
 *   addDragAndDrop: Add drag-and-drop and reposition functionality to an
 *   overlay div element created by the createOverlay function.
 */
-function addDragAndDrop (node) {
+function addDragAndDrop(node) {
 
-  function hoistZIndex (el) {
+  function hoistZIndex(el) {
     var incr = 100;
     el.style.zIndex = zIndex += incr;
   }
 
-  function repositionOverlay (el) {
+  function repositionOverlay(el) {
     el.style.left = el.startLeft;
-    el.style.top  = el.startTop;
+    el.style.top = el.startTop;
   }
 
   var labelDiv = node.firstChild;
@@ -1306,19 +1303,16 @@ function addDragAndDrop (node) {
 *   2. an optgroup element that is a child of a select element
 *   3. a datalist element
 */
-function inListOfOptions (element) {
+function inListOfOptions(element) {
   var parent = element.parentElement,
       parentName = parent.tagName.toLowerCase(),
       parentOfParentName = parent.parentElement.tagName.toLowerCase();
 
-  if (parentName === 'select')
-    return true;
+  if (parentName === 'select') return true;
 
-  if (parentName === 'optgroup' && parentOfParentName === 'select')
-    return true;
+  if (parentName === 'optgroup' && parentOfParentName === 'select') return true;
 
-  if (parentName === 'datalist')
-    return true;
+  if (parentName === 'datalist') return true;
 
   return false;
 }
@@ -1329,93 +1323,37 @@ function inListOfOptions (element) {
 */
 var validRoles = [
 
-  // LANDMARK
-  'application',
-  'banner',
-  'complementary',
-  'contentinfo',
-  'form',
-  'main',
-  'navigation',
-  'search',
+// LANDMARK
+'application', 'banner', 'complementary', 'contentinfo', 'form', 'main', 'navigation', 'search',
 
-  // WIDGET
-  'alert',
-  'alertdialog',
-  'button',
-  'checkbox',
-  'dialog',
-  'gridcell',
-  'link',
-  'log',
-  'marquee',
-  'menuitem',
-  'menuitemcheckbox',
-  'menuitemradio',
-  'option',
-  'progressbar',
-  'radio',
-  'scrollbar',
-  'searchbox',             // ARIA 1.1
-  'slider',
-  'spinbutton',
-  'status',
-  'switch',                // ARIA 1.1
-  'tab',
-  'tabpanel',
-  'textbox',
-  'timer',
-  'tooltip',
-  'treeitem',
+// WIDGET
+'alert', 'alertdialog', 'button', 'checkbox', 'dialog', 'gridcell', 'link', 'log', 'marquee', 'menuitem', 'menuitemcheckbox', 'menuitemradio', 'option', 'progressbar', 'radio', 'scrollbar', 'searchbox', // ARIA 1.1
+'slider', 'spinbutton', 'status', 'switch', // ARIA 1.1
+'tab', 'tabpanel', 'textbox', 'timer', 'tooltip', 'treeitem',
 
-  // COMPOSITE WIDGET
-  'combobox',
-  'grid',
-  'listbox',
-  'menu',
-  'menubar',
-  'radiogroup',
-  'tablist',
-  'tree',
-  'treegrid',
+// COMPOSITE WIDGET
+'combobox', 'grid', 'listbox', 'menu', 'menubar', 'radiogroup', 'tablist', 'tree', 'treegrid',
 
-  // DOCUMENT STRUCTURE
-  'article',
-  'cell',                  // ARIA 1.1
-  'columnheader',
-  'definition',
-  'directory',
-  'document',
-  'group',
-  'heading',
-  'img',
-  'list',
-  'listitem',
-  'math',
-  'none',                  // ARIA 1.1
-  'note',
-  'presentation',
-  'region',
-  'row',
-  'rowgroup',
-  'rowheader',
-  'separator',
-  'table',                 // ARIA 1.1
-  'text',                  // ARIA 1.1
-  'toolbar'
-];
+// DOCUMENT STRUCTURE
+'article', 'cell', // ARIA 1.1
+'columnheader', 'definition', 'directory', 'document', 'group', 'heading', 'img', 'list', 'listitem', 'math', 'none', // ARIA 1.1
+'note', 'presentation', 'region', 'row', 'rowgroup', 'rowheader', 'separator', 'table', // ARIA 1.1
+'text', // ARIA 1.1
+'toolbar'];
 
 /*
 *   getValidRole: Examine each value in space-separated list by attempting
 *   to find its match in the validRoles array. If a match is found, return
 *   it. Otherwise, return null.
 */
-function getValidRole (spaceSepList) {
+function getValidRole(spaceSepList) {
   var arr = spaceSepList.split(' ');
 
   for (var i = 0; i < arr.length; i++) {
     var value = arr[i].toLowerCase();
-    var validRole = validRoles.find(role => role === value);
+    var validRole = validRoles.find(function (role) {
+      return role === value;
+    });
     if (validRole) return validRole;
   }
 
@@ -1427,9 +1365,9 @@ function getValidRole (spaceSepList) {
 *   not specified, get the default role of element if it has one. Based on
 *   ARIA in HTML as of 21 October 2015.
 */
-function getAriaRole (element) {
+function getAriaRole(element) {
   var tagName = element.tagName.toLowerCase(),
-      type    = element.type;
+      type = element.type;
 
   if (element.hasAttribute('role')) {
     return getValidRole(getAttributeValue(element, 'role'));
@@ -1438,116 +1376,139 @@ function getAriaRole (element) {
   switch (tagName) {
 
     case 'a':
-      if (element.hasAttribute('href'))
-        return 'link';
+      if (element.hasAttribute('href')) return 'link';
       break;
 
     case 'area':
-      if (element.hasAttribute('href'))
-        return 'link';
+      if (element.hasAttribute('href')) return 'link';
       break;
 
-    case 'article':     return 'article';
-    case 'aside':       return 'complementary';
-    case 'body':        return 'document';
-    case 'button':      return 'button';
-    case 'datalist':    return 'listbox';
-    case 'details':     return 'group';
-    case 'dialog':      return 'dialog';
-    case 'dl':          return 'list';
-    case 'fieldset':    return 'group';
+    case 'article':
+      return 'article';
+    case 'aside':
+      return 'complementary';
+    case 'body':
+      return 'document';
+    case 'button':
+      return 'button';
+    case 'datalist':
+      return 'listbox';
+    case 'details':
+      return 'group';
+    case 'dialog':
+      return 'dialog';
+    case 'dl':
+      return 'list';
+    case 'fieldset':
+      return 'group';
 
     case 'footer':
-      if (!isDescendantOf(element, ['article', 'section']))
-        return 'contentinfo';
+      if (!isDescendantOf(element, ['article', 'section'])) return 'contentinfo';
       break;
 
-    case 'form':        return 'form';
+    case 'form':
+      return 'form';
 
-    case 'h1':          return 'heading';
-    case 'h2':          return 'heading';
-    case 'h3':          return 'heading';
-    case 'h4':          return 'heading';
-    case 'h5':          return 'heading';
-    case 'h6':          return 'heading';
+    case 'h1':
+      return 'heading';
+    case 'h2':
+      return 'heading';
+    case 'h3':
+      return 'heading';
+    case 'h4':
+      return 'heading';
+    case 'h5':
+      return 'heading';
+    case 'h6':
+      return 'heading';
 
     case 'header':
-      if (!isDescendantOf(element, ['article', 'section']))
-        return 'banner';
+      if (!isDescendantOf(element, ['article', 'section'])) return 'banner';
       break;
 
-    case 'hr':          return 'separator';
+    case 'hr':
+      return 'separator';
 
     case 'img':
-      if (!hasEmptyAltText(element))
-        return 'img';
+      if (!hasEmptyAltText(element)) return 'img';
       break;
 
     case 'input':
-      if (type === 'button')    return 'button';
-      if (type === 'checkbox')  return 'checkbox';
-      if (type === 'email')     return (element.hasAttribute('list')) ? 'combobox' : 'textbox';
-      if (type === 'image')     return 'button';
-      if (type === 'number')    return 'spinbutton';
-      if (type === 'password')  return 'textbox';
-      if (type === 'radio')     return 'radio';
-      if (type === 'range')     return 'slider';
-      if (type === 'reset')     return 'button';
-      if (type === 'search')    return (element.hasAttribute('list')) ? 'combobox' : 'textbox';
-      if (type === 'submit')    return 'button';
-      if (type === 'tel')       return (element.hasAttribute('list')) ? 'combobox' : 'textbox';
-      if (type === 'text')      return (element.hasAttribute('list')) ? 'combobox' : 'textbox';
-      if (type === 'url')       return (element.hasAttribute('list')) ? 'combobox' : 'textbox';
+      if (type === 'button') return 'button';
+      if (type === 'checkbox') return 'checkbox';
+      if (type === 'email') return element.hasAttribute('list') ? 'combobox' : 'textbox';
+      if (type === 'image') return 'button';
+      if (type === 'number') return 'spinbutton';
+      if (type === 'password') return 'textbox';
+      if (type === 'radio') return 'radio';
+      if (type === 'range') return 'slider';
+      if (type === 'reset') return 'button';
+      if (type === 'search') return element.hasAttribute('list') ? 'combobox' : 'textbox';
+      if (type === 'submit') return 'button';
+      if (type === 'tel') return element.hasAttribute('list') ? 'combobox' : 'textbox';
+      if (type === 'text') return element.hasAttribute('list') ? 'combobox' : 'textbox';
+      if (type === 'url') return element.hasAttribute('list') ? 'combobox' : 'textbox';
       break;
 
     case 'li':
-      if (hasParentWithName(element, ['ol', 'ul']))
-        return 'listitem';
+      if (hasParentWithName(element, ['ol', 'ul'])) return 'listitem';
       break;
 
     case 'link':
-      if (element.hasAttribute('href'))
-        return 'link';
+      if (element.hasAttribute('href')) return 'link';
       break;
 
-    case 'main':      return 'main';
+    case 'main':
+      return 'main';
 
     case 'menu':
-      if (type === 'toolbar')
-        return 'toolbar';
+      if (type === 'toolbar') return 'toolbar';
       break;
 
     case 'menuitem':
-      if (type === 'command')   return 'menuitem';
-      if (type === 'checkbox')  return 'menuitemcheckbox';
-      if (type === 'radio')     return 'menuitemradio';
+      if (type === 'command') return 'menuitem';
+      if (type === 'checkbox') return 'menuitemcheckbox';
+      if (type === 'radio') return 'menuitemradio';
       break;
 
-    case 'meter':       return 'progressbar';
-    case 'nav':         return 'navigation';
-    case 'ol':          return 'list';
+    case 'meter':
+      return 'progressbar';
+    case 'nav':
+      return 'navigation';
+    case 'ol':
+      return 'list';
 
     case 'option':
-      if (inListOfOptions(element))
-        return 'option';
+      if (inListOfOptions(element)) return 'option';
       break;
 
-    case 'output':      return 'status';
-    case 'progress':    return 'progressbar';
-    case 'section':     return 'region';
-    case 'select':      return 'listbox';
-    case 'summary':     return 'button';
+    case 'output':
+      return 'status';
+    case 'progress':
+      return 'progressbar';
+    case 'section':
+      return 'region';
+    case 'select':
+      return 'listbox';
+    case 'summary':
+      return 'button';
 
-    case 'tbody':       return 'rowgroup';
-    case 'tfoot':       return 'rowgroup';
-    case 'thead':       return 'rowgroup';
+    case 'tbody':
+      return 'rowgroup';
+    case 'tfoot':
+      return 'rowgroup';
+    case 'thead':
+      return 'rowgroup';
 
-    case 'textarea':    return 'textbox';
+    case 'textarea':
+      return 'textbox';
 
     // TODO: th can have role 'columnheader' or 'rowheader'
-    case 'th':          return 'columnheader';
+    case 'th':
+      return 'columnheader';
 
-    case 'ul':          return 'list';
+    case 'ul':
+      return 'list';
   }
 
   return null;
@@ -1557,37 +1518,19 @@ function getAriaRole (element) {
 *   nameFromIncludesContents: Determine whether the ARIA role of element
 *   specifies that its 'name from' includes 'contents'.
 */
-function nameFromIncludesContents (element) {
+function nameFromIncludesContents(element) {
   var elementRole = getAriaRole(element);
   if (elementRole === null) return false;
 
-  var contentsRoles = [
-    'button',
-    'cell',                // ARIA 1.1
-    'checkbox',
-    'columnheader',
-    'directory',
-    'gridcell',
-    'heading',
-    'link',
-    'listitem',
-    'menuitem',
-    'menuitemcheckbox',
-    'menuitemradio',
-    'option',
-    'radio',
-    'row',
-    'rowgroup',
-    'rowheader',
-    'switch',              // ARIA 1.1
-    'tab',
-    'text',                // ARIA 1.1
-    'tooltip',
-    'treeitem'
-  ];
+  var contentsRoles = ['button', 'cell', // ARIA 1.1
+  'checkbox', 'columnheader', 'directory', 'gridcell', 'heading', 'link', 'listitem', 'menuitem', 'menuitemcheckbox', 'menuitemradio', 'option', 'radio', 'row', 'rowgroup', 'rowheader', 'switch', // ARIA 1.1
+  'tab', 'text', // ARIA 1.1
+  'tooltip', 'treeitem'];
 
-  var contentsRole = contentsRoles.find(role => role === elementRole);
-  return (typeof contentsRole !== 'undefined');
+  var contentsRole = contentsRoles.find(function (role) {
+    return role === elementRole;
+  });
+  return typeof contentsRole !== 'undefined';
 }
 
 /*
@@ -1599,18 +1542,12 @@ function nameFromIncludesContents (element) {
 *   coordinates that take into account whether the page has been scrolled.
 *   From Mozilla Developer Network: Element.getBoundingClientRect()
 */
-function getScrollOffsets () {
+function getScrollOffsets() {
   var t;
 
-  var xOffset = (typeof window.pageXOffset === "undefined") ?
-    (((t = document.documentElement) || (t = document.body.parentNode)) &&
-      typeof t.ScrollLeft === 'number' ? t : document.body).ScrollLeft :
-    window.pageXOffset;
+  var xOffset = typeof window.pageXOffset === "undefined" ? (((t = document.documentElement) || (t = document.body.parentNode)) && typeof t.ScrollLeft === 'number' ? t : document.body).ScrollLeft : window.pageXOffset;
 
-  var yOffset = (typeof window.pageYOffset === "undefined") ?
-    (((t = document.documentElement) || (t = document.body.parentNode)) &&
-      typeof t.ScrollTop === 'number' ? t : document.body).ScrollTop :
-    window.pageYOffset;
+  var yOffset = typeof window.pageYOffset === "undefined" ? (((t = document.documentElement) || (t = document.body.parentNode)) && typeof t.ScrollTop === 'number' ? t : document.body).ScrollTop : window.pageYOffset;
 
   return { x: xOffset, y: yOffset };
 }
@@ -1620,7 +1557,7 @@ function getScrollOffsets () {
 *   as its mousedown handler. Depends upon getScrollOffsets function.
 *   From JavaScript: The Definitive Guide, 6th Edition (slightly modified)
 */
-function drag (elementToDrag, dragCallback, event) {
+function drag(elementToDrag, dragCallback, event) {
   var scroll = getScrollOffsets();
   var startX = event.clientX + scroll.x;
   var startY = event.clientY + scroll.y;
@@ -1636,34 +1573,30 @@ function drag (elementToDrag, dragCallback, event) {
   if (document.addEventListener) {
     document.addEventListener("mousemove", moveHandler, true);
     document.addEventListener("mouseup", upHandler, true);
-  }
-  else if (document.attachEvent) {
+  } else if (document.attachEvent) {
     elementToDrag.setCapture();
     elementToDrag.attachEvent("onmousemove", moveHandler);
     elementToDrag.attachEvent("onmouseup", upHandler);
     elementToDrag.attachEvent("onlosecapture", upHandler);
   }
 
-  if (event.stopPropagation) event.stopPropagation();
-  else event.cancelBubble = true;
+  if (event.stopPropagation) event.stopPropagation();else event.cancelBubble = true;
 
-  if (event.preventDefault) event.preventDefault();
-  else event.returnValue = false;
+  if (event.preventDefault) event.preventDefault();else event.returnValue = false;
 
-  function moveHandler (e) {
+  function moveHandler(e) {
     if (!e) e = window.event;
 
     var scroll = getScrollOffsets();
-    elementToDrag.style.left = (e.clientX + scroll.x - deltaX) + "px";
-    elementToDrag.style.top = (e.clientY + scroll.y - deltaY) + "px";
+    elementToDrag.style.left = e.clientX + scroll.x - deltaX + "px";
+    elementToDrag.style.top = e.clientY + scroll.y - deltaY + "px";
 
     elementToDrag.style.cursor = "move";
 
-    if (e.stopPropagation) e.stopPropagation();
-    else e.cancelBubble = true;
+    if (e.stopPropagation) e.stopPropagation();else e.cancelBubble = true;
   }
 
-  function upHandler (e) {
+  function upHandler(e) {
     if (!e) e = window.event;
 
     elementToDrag.style.cursor = "grab";
@@ -1671,18 +1604,16 @@ function drag (elementToDrag, dragCallback, event) {
     elementToDrag.style.cursor = "-webkit-grab";
 
     if (document.removeEventListener) {
-        document.removeEventListener("mouseup", upHandler, true);
-        document.removeEventListener("mousemove", moveHandler, true);
-    }
-    else if (document.detachEvent) {
-        elementToDrag.detachEvent("onlosecapture", upHandler);
-        elementToDrag.detachEvent("onmouseup", upHandler);
-        elementToDrag.detachEvent("onmousemove", moveHandler);
-        elementToDrag.releaseCapture();
+      document.removeEventListener("mouseup", upHandler, true);
+      document.removeEventListener("mousemove", moveHandler, true);
+    } else if (document.detachEvent) {
+      elementToDrag.detachEvent("onlosecapture", upHandler);
+      elementToDrag.detachEvent("onmouseup", upHandler);
+      elementToDrag.detachEvent("onmousemove", moveHandler);
+      elementToDrag.releaseCapture();
     }
 
-    if (e.stopPropagation) e.stopPropagation();
-    else e.cancelBubble = true;
+    if (e.stopPropagation) e.stopPropagation();else e.cancelBubble = true;
   }
 }
 
@@ -1692,7 +1623,7 @@ function drag (elementToDrag, dragCallback, event) {
 *   1. Array.prototype.find
 *   2. String.prototype.includes
 */
-function addPolyfills () {
+function addPolyfills() {
 
   // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find
   if (!Array.prototype.find) {
@@ -1727,8 +1658,7 @@ function addPolyfills () {
 
       if (start + search.length > this.length) {
         return false;
-      }
-      else {
+      } else {
         return this.indexOf(search, start) !== -1;
       }
     };

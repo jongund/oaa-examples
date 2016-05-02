@@ -13,8 +13,8 @@ h1 {
 }
 
 h2 {
-    margin-top: 1em;
-    font-size: 150%;
+    font-size: 1.2em;
+    margin-bottom: 0.25em;
 }
 
 header {
@@ -32,6 +32,15 @@ main {
 main ul {
     margin-left :0;
     padding-left: 1em;
+    margin-bottom: 1em;
+}
+
+main li {
+    padding-bottom: 0.25em;
+}
+
+main ul.nav-tabs li {
+    padding-bottom: 0;
 }
 
 nav {
@@ -65,7 +74,6 @@ aside {
 aside h2 {
     margin: 0;
     padding: 0;
-    font-size: 125%;
 }
 
 aside ul {
