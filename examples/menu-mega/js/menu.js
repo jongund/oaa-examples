@@ -70,9 +70,7 @@ Menu.prototype.handleKeydown = function (event) {
 
   switch (event.keyCode) {
     case this.keyCode.SPACE:
-      console.log(tgt)
       href = tgt.getAttribute("href")
-      console.log(href)
       window.location.href = href;
     case this.keyCode.UP:
     case this.keyCode.LEFT:
@@ -87,8 +85,6 @@ Menu.prototype.handleKeydown = function (event) {
       break;
 
     case this.keyCode.TAB:
-      console.log(this.prevControl)
-      console.log(this.nextControl)
       if(this.prevControl && event.shiftKey){
         this.prevControl.focus()
         flag = true;
@@ -110,15 +106,17 @@ Menu.prototype.handleKeydown = function (event) {
 /* Additional methods */
 
 Menu.prototype.previousItem = function (currentItem) {
-  var mi = currentItem.parentNode.previousElementSibling;
+  var mi = currentItem.parentNode.previousSibling;
   currentItem.tabIndex = -1;
   while (mi) {
-    if (mi.firstChild.getAttribute('role')  === 'menuitem') {
-      mi.firstChild.focus();
-      mi.firstChild.tabIndex = 0;
-      break;
+    if (mi.nodeType === Node.ELEMENT_NODE){
+      if (mi.firstChild.getAttribute('role')  === 'menuitem') {
+        mi.firstChild.focus();
+        mi.firstChild.tabIndex = 0;
+        break;
+      }
     }
-    mi = mi.previousElementSibling;
+  mi = mi.previousSibling;
   }
 
   if (!mi && this.lastItem) {
@@ -128,15 +126,17 @@ Menu.prototype.previousItem = function (currentItem) {
 };
 
 Menu.prototype.nextItem = function (currentItem) {
-  var mi = currentItem.parentNode.nextElementSibling;
+  var mi = currentItem.parentNode.nextSibling;
   currentItem.tabIndex = -1;
   while (mi) {
-    if (mi.firstChild.getAttribute('role')  === 'menuitem') {
-      mi.firstChild.focus();
-      mi.firstChild.tabIndex = 0;
-      break;
-    }
-    mi = mi.nextElementSibling;
+    if (mi.nodeType === Node.ELEMENT_NODE) {
+      if (mi.firstChild.getAttribute('role')  === 'menuitem') {
+        mi.firstChild.focus();
+        mi.firstChild.tabIndex = 0;
+        break;
+      }
+    }  
+    mi = mi.nextSibling;
   }
 
   if (!mi && this.firstItem) {

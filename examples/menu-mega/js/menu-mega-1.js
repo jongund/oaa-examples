@@ -105,8 +105,8 @@ aria.widget.MegaMenuButton.prototype.initMegaMenuButton = function(){
   
   var megaMenuButton = this;
   
-  this.megaMenuBox = new aria.widget.MegaMenuBox(this);
-  this.megaMenuBox.initMegaMenuBox();
+  this.dialogBox = new aria.widget.DialogBox(this);
+  this.dialogBox.initDialogBox();
   
   var eventClick = function(event){
     megaMenuButton.eventClick();
@@ -117,18 +117,14 @@ aria.widget.MegaMenuButton.prototype.initMegaMenuButton = function(){
 };
 
 aria.widget.MegaMenuButton.prototype.eventClick = function(){
-  this.megaMenuBox.openMegamenu()
+  this.dialogBox.openMegamenu()
 }
 
 /**
- * @constructor Button
- *
- * @memberOf aria.Widget
- *
- * @desc  Creates a dialog box widget using ARIA 
+ * @desc  Creates a dialog box widget 
  */
 
-aria.widget.MegaMenuBox = function(megaMenuButton){
+aria.widget.DialogBox = function(megaMenuButton){
   this.keyCode = Object.freeze({
      "TAB"    : 9,
      "RETURN" : 13,
@@ -145,34 +141,30 @@ aria.widget.MegaMenuBox = function(megaMenuButton){
 };
 
 /**
- * @method initMegaMenuBox
- *
- * @memberOf aria.Widget.MegaMenuBox
- *
- * @desc  creates a new dialog box, processes the current guess, and adds event listeners to the dialog box.
+ * @desc  creates a new dialog box, adds event listeners to the dialog box and initalizes the menus.
  */
 
-aria.widget.MegaMenuBox.prototype.initMegaMenuBox = function(){
-  megaMenuBox = this;
-  var megaMenuDiv = this.megaMenuButton.node.getAttribute("aria-controls")
-  var winW = window.innerWidth;
-  var winH = window.innerHeight;
+aria.widget.DialogBox.prototype.initDialogBox = function(){
+  dialogBox = this;
+  var dialogDivID = this.megaMenuButton.node.getAttribute("aria-controls")
+  this.dialogDiv = document.getElementById(dialogDivID)
   
-
-  this.dialogDiv = document.getElementById(megaMenuDiv)
-  this.closeButton = this.dialogDiv.getElementsByClassName('megamenu-close-button')
-  this.closeButton = this.closeButton[0]
+  this.dialogCloseButton = this.dialogDiv.getElementsByClassName('megamenu-close-button')//Needs to be updated
+  this.dialogCloseButton = this.dialogCloseButton[0]
   
-  cn = this.dialogDiv.getElementsByTagName('*')
+  var cn = this.dialogDiv.getElementsByTagName('*')//Here I need to find the first and last elements, as well as elements before and after the menu
   for(var i=0; i<cn.length; i++){
-    if(cn[i].tabIndex == 0){
+    if(cn[i].tabIndex == 0 && cn[i].tagName.indexOf('DIV') < 0){
       if(!this.firstItem) this.firstItem = cn[i];
-    this.lastItem = cn[i];
+      this.lastItem = cn[i];
     }
   }
-  console.log(this.lastItem)
-  console.log(this.firstItem)
   this.firstItem.focus()
+  console.log(this.firstItem)
+  console.log(this.lastItem)
+  
+  
+  
   var bodyNodes = document.getElementsByTagName("body");
   if (bodyNodes && bodyNodes[0]){
     this.bodyNode = bodyNodes[0];
@@ -180,44 +172,59 @@ aria.widget.MegaMenuBox.prototype.initMegaMenuBox = function(){
   
   this.bodyNode.setAttribute("aria-hidden","true");
   
+  
+  //Begin event handlers
   var eventClick = function(event){
-    megaMenuBox.cancelButtonClick(event, megaMenuBox);
+    dialogBox.cancelButtonClick(event, dialogBox);
   }
-  this.eventBodyClick = function(event){
-    megaMenuBox.bodyClick(event, megaMenuBox);
+  var eventBodyClick = function(event){
+    dialogBox.bodyClick(event, dialogBox);
   }
-  this.eventBodyKeyDown = function(event){
-    megaMenuBox.bodyKeyDown(event, megaMenuBox);
+  var eventBodyKeyDown = function(event){
+    dialogBox.bodyKeyDown(event, dialogBox);
   }
   var eventKeyDown = function (event){
-    megaMenuBox.keyDown(event, megaMenuBox);
+    dialogBox.keyDown(event, dialogBox);
   };
   
-  this.lastItem.addEventListener('keydown', eventKeyDown);
-  this.firstItem.addEventListener('keydown', eventKeyDown);
-  this.lastItem.addEventListener('click', eventClick);
-  this.firstItem.addEventListener('click', eventClick);
-  this.closeButton.addEventListener('click', eventClick);
-  this.bodyNode.addEventListener('click', this.eventBodyClick);
-  this.bodyNode.addEventListener('keydown', this.eventBodyKeyDown);
+  this.lastItem.addEventListener('keydown', eventKeyDown); //Look for first dialog element
+  this.firstItem.addEventListener('keydown', eventKeyDown); //Look for last dialog element
+  this.dialogCloseButton.addEventListener('click', eventClick);
+  this.bodyNode.addEventListener('click', eventBodyClick);
+  this.bodyNode.addEventListener('keydown', eventBodyKeyDown);
   
-  menus = (this.dialogDiv.getElementsByTagName("UL"))
-  this.firstMenu = menus[0];
+  
+  //Menu Stuff
+  this.menus = (this.dialogDiv.getElementsByTagName("UL"))
   
   for(var i=0; i<cn.length; i++){
-    if(menus[0]== cn[i]) break;
-    if(cn[i].tabIndex == 0){
-      var previousControl = cn[i];
+    if(cn[i].tabIndex == 0 && cn[i].tagName.indexOf('DIV') < 0){ //check for div is for IE compatability
+      if(this.menus[0].contains(cn[i])){
+        break;
+      }
+    var firstMenuPrev = cn[i];
     }
   }
-  if(!previousControl)var previousControl = this.lastItem;
-  for(var i = 0; i < menus.length; i++){
-    var menu = new Menu(menus[i]);
-    if(i==0){
-      menu.init(previousControl, null);
+  if(!firstMenuPrev)firstMenuPrev = this.lastItem;
+  
+  cn = this.menus[this.menus.length-1].nextSibling
+  while(cn){
+    if(cn.tabIndex == 0 && cn.tagName.indexOf('DIV') < 0){
+      var lastMenuNext = cn;
+      break;
     }
-    else if(i==menus.length-1){
-      menu.init(null, this.firstItem);
+    cn = cn.nextSibling
+  }
+  if(!lastMenuNext) lastMenuNext = this.firstItem;
+  
+  
+  for(var i = 0; i < this.menus.length; i++){ 
+    var menu = new Menu(this.menus[i]);
+    if(i==0){
+      menu.init(firstMenuPrev, null);
+    }
+    else if(i==this.menus.length-1){
+      menu.init(null, lastMenuNext);
     }
     else{
       menu.init(null,null);
@@ -226,41 +233,57 @@ aria.widget.MegaMenuBox.prototype.initMegaMenuBox = function(){
 }
 
 /**
- * @method closeMegaMenuBox
+ * @method closeDialogBox
  *
- * @memberOf aria.Widget.MegaMenuBox
+ * @memberOf aria.Widget.DialogBox
  *
  * @desc  removes the dialog box and all event listeners on it.
  */
  
-aria.widget.MegaMenuBox.prototype.closeMegaMenuBox = function(){
+aria.widget.DialogBox.prototype.closeDialogBox = function(){
   this.dialogDiv.setAttribute("aria-hidden","true");
-  this.dialogDiv.style.display="none";
   this.bodyNode.setAttribute("aria-hidden","false");
+  this.dialogDiv.style.display="none";
   this.megaMenuButton.node.focus();
+  this.megamenuOpen = false;
 }
 
 /**
  * @method keyDown
  *
- * @memberOf aria.Widget.MegaMenuBox
+ * @memberOf aria.Widget.DialogBox
  *
  * @desc  makes sure the user cannot tab out of the dialog box
  */
 
- aria.widget.MegaMenuBox.prototype.keyDown = function(event, megaMenuBox){
-  if(event.keyCode == megaMenuBox.keyCode.TAB){
-    if(event.shiftKey && this.firstMenu.contains(event.currentTarget)){
-      this.lastItem.focus();
+aria.widget.DialogBox.prototype.keyDown = function(event, dialogBox){ //Need to clean this up a lot.
+  if(event.keyCode == dialogBox.keyCode.TAB){ //If tab is pressed
+    var tabableOptions = dialogBox.dialogDiv.getElementsByTagName("A");
+    if(event.shiftKey && (this.firstItem == event.currentTarget)){ //And shift is pressed on the first element
+      if(this.menus[this.menus.length-1].contains(this.lastItem)){ //if the last element is part of a menu
+        for(var i=0; i < tabableOptions.length; i++){
+          if(tabableOptions[i].getAttribute("tabindex") == "0"){
+            var lastItem = tabableOptions[i];
+          }
+        }
+        lastItem.focus()
+      }
+      else{
+        this.lastItem.focus()
+      }
       event.stopPropagation();
       event.preventDefault();
-    }else if(event.currentTarget == megaMenuBox.lastItem && !event.shiftKey){
-      tabableOptions = megaMenuBox.dialogDiv.getElementsByTagName("A");
-      for(var i=0; i < tabableOptions.length; i++){
-        if(tabableOptions[i].getAttribute("tabindex") == "0"){
-          tabableOptions[i].focus();
-          break;
+    }
+    else if(event.currentTarget == dialogBox.lastItem && !event.shiftKey){ //And on the last element
+      if(this.menus[0].contains(this.firstItem)){ //if the first element is part of a menu
+        for(var i=0; i < tabableOptions.length; i++){
+          if(tabableOptions[i].getAttribute("tabindex") == "0"){
+            tabableOptions[i].focus();
+            break;
+          }
         }
+      }else{
+        this.firstItem.foucs()
       }
       event.stopPropagation();
       event.preventDefault();
@@ -271,27 +294,27 @@ aria.widget.MegaMenuBox.prototype.closeMegaMenuBox = function(){
 /**
  * @method cancelButtonClick
  *
- * @memberOf aria.Widget.MegaMenuBox
+ * @memberOf aria.Widget.DialogBox
  *
  * @desc  closes the dialog box if the cancel button was clicked.
  */
  
-aria.widget.MegaMenuBox.prototype.cancelButtonClick = function(event, megaMenuBox){
-  if(event.currentTarget == this.closeButton){
-    megaMenuBox.closeMegaMenuBox();
+aria.widget.DialogBox.prototype.cancelButtonClick = function(event, dialogBox){
+  if(event.currentTarget == this.dialogCloseButton){
+    dialogBox.closeDialogBox();
   }
 }
 
 /**
  * @method bodyClick
  *
- * @memberOf aria.Widget.MegaMenuBox
+ * @memberOf aria.Widget.DialogBox
  *
  * @desc  makes sure clicks outside of the dialog box do nothing
  */
 
-aria.widget.MegaMenuBox.prototype.bodyClick = function(event, megaMenuBox){
-  if(!megaMenuBox.dialogDiv.contains(event.target)){
+aria.widget.DialogBox.prototype.bodyClick = function(event, dialogBox){
+  if(!dialogBox.dialogDiv.contains(event.target)){
     event.stopPropagation();
     event.preventDefault();
   }
@@ -300,34 +323,39 @@ aria.widget.MegaMenuBox.prototype.bodyClick = function(event, megaMenuBox){
 /**
  * @method openMegamenu
  *
- * @memberOf aria.Widget.MegaMenuBox
+ * @memberOf aria.Widget.DialogBox
  *
  * @desc  Opens the megamenu
  */
  
-aria.widget.MegaMenuBox.prototype.openMegamenu = function(){
-  this.dialogDiv.setAttribute("aria-hidden", "false")
-  this.dialogDiv.style.display = "block"
+aria.widget.DialogBox.prototype.openMegamenu = function(){
+  this.dialogDiv.setAttribute("aria-hidden", "false");
+  this.bodyNode.setAttribute("aria-hidden", "true");
+  this.dialogDiv.style.display = "block";
+  this.dialogCloseButton.focus()
+  this.megamenuOpen = true;
 }
 
 /**
  * @method bodyKeyDown
  *
- * @memberOf aria.Widget.MegaMenuBox
+ * @memberOf aria.Widget.DialogBox
  *
  * @desc  Handles escape and tab presses on the body.
  */
  
-aria.widget.MegaMenuBox.prototype.bodyKeyDown = function(event, megaMenuBox){
-  if(event.keyCode ==megaMenuBox.keyCode.ESC){
-    megaMenuBox.closeMegaMenuBox();
-    
-  }
-  if(!megaMenuBox.dialogDiv.contains(event.target)){
-    if(event.keyCode == megaMenuBox.keyCode.TAB){
-      megaMenuBox.firstItem.focus();
-      event.stopPropagation();
-      event.preventDefault();
+aria.widget.DialogBox.prototype.bodyKeyDown = function(event, dialogBox){
+  if(this.megamenuOpen){
+    if(event.keyCode==dialogBox.keyCode.ESC){
+      dialogBox.closeDialogBox();
+      
+    }
+    if(!dialogBox.dialogDiv.contains(event.target)){
+      if(event.keyCode == dialogBox.keyCode.TAB){
+        dialogBox.firstItem.focus();
+        event.stopPropagation();
+        event.preventDefault();
+      }
     }
   }
 }
