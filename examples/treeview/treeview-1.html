@@ -1,72 +1,46 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<html lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
     <title>ARIA Tree View Example</title>
-    <meta name="generator" content="BBEdit 10.5">
     <link href="../css/core.css" rel="stylesheet">
     <link href="../css/table.css" rel="stylesheet">
     <link href="css/treeview-1.css" rel="stylesheet">
-    <script src="../js/examples.js" type="text/javascript"></script>
-    <script src="js/treeview-1.js" type="text/javascript"></script> 
+    <script type="text/javascript" src="http://www.oaa-accessibility.org/media/examples/js/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="../js/examples.js" type="text/javascript"></script>
+    <script type="text/javascript" src="js/treeview-1.js" type="text/javascript"></script>
+
   </head>
   <body>
     <main>
       <h1>ARIA Tree View Example</h1>
         <p><a href="../../aria-practices.html#TreeView">WAI-ARIA 1.1: Tree View</a></p>
+      <div id="example">  
       <section id="code-ex-1" aria-labelledby="id_ex_title">
-        <h2 id="id_ex_title">Tree View Example</h2>   
-          <ul id="tree1" class="tree root-level" role="tree" aria-labelledby="label_1">
-           <li id="fruits" class="tree-parent" role="treeitem" tabindex="0" aria-expanded="false"><span>Fruits</span>
-              <ul id="fruit-grp" role="group">
-                 <li id="oranges" role="treeitem" tabindex="-1">Oranges</li>
-                 <li id="pinapples" role="treeitem" tabindex="-1">Pineapples</li>
-                 <li id="apples" class="tree-parent" role="treeitem" tabindex="-1" aria-expanded="false"><span>Apples</span>
-                    <ul id="apple-grp" role="group">
-                       <li id="macintosh" role="treeitem" tabindex="-1">Macintosh</li>
-                       <li id="granny_smith" class="tree-parent" role="treeitem" tabindex="-1" aria-expanded="false"><span>Granny Smith</span>
-                          <ul id="granny-grp" role="group">
-                             <li id="Washington" role="treeitem" tabindex="-1">Washington State</li>
-                             <li id="Michigan" role="treeitem" tabindex="-1">Michigan</li>
-                             <li id="New_York" role="treeitem" tabindex="-1">New York</li>
-                          </ul>
-                       </li>
-                       <li id="fuji" role="treeitem" tabindex="-1">Fuji</li>
-                    </ul>
-                 </li>
-                 <li id="bananas" role="treeitem" tabindex="-1">Bananas</li>    
-                 <li id="pears" role="treeitem" tabindex="-1">Pears</li>    
-              </ul>
-           </li>
-           <li id="vegetables" class="tree-parent" role="treeitem" tabindex="-1" aria-expanded="true"><span>Vegetables</span>
-              <ul id="veg-grp" role="group">
-                 <li id="broccoli" role="treeitem" tabindex="-1">Broccoli</li>
-                 <li id="carrots" role="treeitem" tabindex="-1">Carrots</li>
-                 <li id="lettuce" class="tree-parent" role="treeitem" tabindex="-1" aria-expanded="false"><span>Lettuce</span>
-                 <ul id="lettuce-grp" role="group">
-                       <li id="romaine" role="treeitem" tabindex="-1">Romaine</li>
-                       <li id="iceberg" role="treeitem" tabindex="-1">Iceberg</li>
-                       <li id="butterhead" role="treeitem" tabindex="-1">Butterhead</li>
-                 </ul>
-                 </li>
-                 <li id="spinach" role="treeitem" tabindex="-1">Spinach</li>    
-                 <li id="squash" class="tree-parent" role="treeitem" tabindex="-1" aria-expanded="true"><span>Squash</span>
-                    <ul id="squash-grp" role="group">
-                       <li id="acorn" role="treeitem" tabindex="-1">Acorn</li>
-                       <li id="ambercup" role="treeitem" tabindex="-1">Ambercup</li>
-                       <li id="autumn_cup" role="treeitem" tabindex="-1">Autumn Cup</li>
-                       <li id="hubbard" role="treeitem" tabindex="-1">Hubbard</li>
-                       <li id="kobacha" role="treeitem" tabindex="-1">Kabocha</li>
-                       <li id="butternut" role="treeitem" tabindex="-1">Butternut</li>
-                       <li id="spaghetti" role="treeitem" tabindex="-1">Spaghetti</li>
-                       <li id="sweet_dumpling" role="treeitem" tabindex="-1">Sweet Dumpling</li>
-                       <li id="turban" role="treeitem" tabindex="-1">Turban</li>
-                    </ul>
-                 </li>
-              </ul>
-           </li>
+        <h2 id="label_1">Foods</h2>
+          <ul role="tree" aria-labelledby="label_1">
+             <li role="treeitem" aria-expanded="true">
+             <img class="headerImg" src="http://www.oaa-accessibility.org/media/examples/images/expanded.gif">
+             <span>Fruits</span>
+                <ul>
+                   <li role="treeitem">Oranges</li>
+                   <li role="treeitem">Pineapple</li>
+                   <li role="treeitem" aria-expanded="false">
+                    <img class="headerImg" src="http://www.oaa-accessibility.org/media/examples/images/contracted.gif">
+                    <span>Apples</span>
+                      <ul aria-hidden="true">
+                       <li role="treeitem">Macintosh</li>
+                       <li role="treeitem">Granny Smith</li>
+                       <li role="treeitem">Fuji</li>
+                      </ul>
+                    </li>  
+                   <li role="treeitem">Bananas</li>    
+                   <li role="treeitem">Pears</li>    
+                </ul>
+             </li>
           </ul>
-        
+      </div>  
       <section aria-labelledby="id_a11yfeature">
       <h2 id="id_a11yfeature">Accessibility Features</h2>
          <ul>
@@ -78,8 +52,7 @@
           </ul>
       </section>
       <section aria-labelledby="id_kbd">
-      <h2 id="id_kbd">Keyboard Support</h2>
-      <h3 id="id_kbd1">Tree View</h3>
+      <h2 id="id_kbd">Keyboard Support: Tree view</h2>
       <table aria-labelledby="id_kbd id_kbd1"> 
         <thead>
           <tr>
