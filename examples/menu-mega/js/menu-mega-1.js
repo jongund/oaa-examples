@@ -160,10 +160,6 @@ aria.widget.DialogBox.prototype.initDialogBox = function(){
     }
   }
   this.firstItem.focus()
-  console.log(this.firstItem)
-  console.log(this.lastItem)
-  
-  
   
   var bodyNodes = document.getElementsByTagName("body");
   if (bodyNodes && bodyNodes[0]){
