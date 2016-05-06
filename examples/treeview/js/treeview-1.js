@@ -26,30 +26,32 @@
 
 window.addEventListener('load', function() {
 
-  var treeitems = document.querySelectorAll('[role="treeitem"]');
+  var trees = document.querySelectorAll('[role="tree"]');
 
-  for(var i = 0; i <treeitems.length; i++ ) {
-    var ti = new Treeitem(treeitems[i]);
-    ti.init();
+  for(var i = 0; i <trees.length; i++ ) {
+    var t = new Tree(trees[i]);
+    t.init();
 
   }
 
 });
 
 /*
-*   @constructor Treeitem: Encapsulate state and behavior of treeitem
+*   @constructor 
 *
-*   @param node : The treeitem element node.
+*   @desc
+*       Tree item object for representing the state and user interactions for a 
+*       tree widget
+*
+*   @param node
+*       An element with the role=tree attribute
 */
 
-var Treeitem = function (node) {
+var Tree = function (node) {
   // Check whether node is a DOM element
   if (typeof node !== 'object') return;
 
-
-  this.treeitemNode = node;
-
-  if (node.tabIndex !== 0) node.tabIndex = -1;
+  this.treeNode = node;
 
   this.keyCode = Object.freeze({
     'TAB'      :  9,
@@ -68,34 +70,220 @@ var Treeitem = function (node) {
 };
 
 /*
-*   @method Treeitem.prototype.init
-*
-*   Initialize firstItem, lastItem
-*   Set tabindex for each treeitemitem
-*   Add event listeners for 'keydown', 'click', 'blur' and 'focus' events
+*   @desc
+*       Adds 'keydown', 'click', 'blur' and 'focus' event handlers to the treeitem in the tree
+*       Set tabindex for each treeitemitem
+*       Set the display of treeitems based on aria-expanded state
 */
-Treeitem.prototype.init = function (prevControl, nextControl) {
+Tree.prototype.init = function () {
+  var that = this;
 
-  if (typeof prevControl !== 'object') prevControl = null;
-  if (typeof nextControl !== 'object') nextControl = null;
+  var treeitems = this.getTreeitems(this.treeNode);
 
-  this.prevControl = prevControl;
-  this.nextControl = nextControl;
+  var flag = true;
 
-  var treeitem = this; // for reference from within event handler
-  this.treeitemNode.addEventListener('keydown', function (event) {
-    treeitem.handleKeydown(event);
-  });
+  for (var i = 0; i < treeitems.length; i++) {
+    var ti = treeitems[i];
 
-  if (this.treeitemNode.getAttribute('aria-expanded') && 
-      this.treeitemNode.getAttribute('aria-expanded') !== 'true') {
-    this.hideChildTreeitems()
+    if(flag) {
+      ti.tabIndex = 0;
+      flag = false;
+    }
+    else {
+      ti.tabIndex = -1;
+    }  
+
+    ti.addEventListener('keydown', function (event) {
+      that.handleKeydown(event);
+    });
+
+    if (ti.getAttribute('aria-expanded') === 'false') {
+      console.log('hide')
+      this.hideChildTreeitems(ti);
+    }
   }
+
 };
 
-/* Event handler methods */
+/*
+*   @desc
+*       Finds all the descendant treeitems of the node
+*
+*   @param node
+*       DOM node to start looking for descendant treeitems
+*
+*   @returns
+*       Array of DOM nodes 
+*/
 
-Treeitem.prototype.handleKeydown = function (event) {
+Tree.prototype.getTreeitems = function(node) {
+
+  var n = node.firstChild;
+  var ti = [];
+
+  while (n) {
+    if (n.nodeType === Node.ELEMENT_NODE) {
+
+      if (n.getAttribute('role') === 'treeitem') ti.push(n);
+
+      if (n.firstChild) ti = ti.concat(this.getTreeitems(n));
+
+    }
+    n = n.nextSibling;
+  }
+
+  return ti;
+
+};
+
+/*
+*   @desc
+*       Finds all the child treeitems of the node
+*
+*   @param node
+*       DOM node to start looking for child treeitems
+*
+*   @returns
+*       Array of DOM nodes 
+*/
+
+Tree.prototype.getChildTreeitems = function(node) {
+
+  var n = node.firstChild;
+  var ti = [];
+
+  while (n) {
+    if (n.nodeType === Node.ELEMENT_NODE) {
+      var flag = n.getAttribute('role') === 'treeitem';
+      if (flag) ti.push(n);
+      if (!flag && n.firstChild) ti = ti.concat(this.getTreeitems(n));
+    }
+    n = n.nextSibling;
+  }
+
+  return ti;
+
+};
+
+/*
+*   @desc
+*       Get previous sibling treeitem, if exists
+*
+*   @param node
+*       DOM node to start looking for previous sibling
+*
+*   @returns
+*       DOM node or False 
+*/
+
+Tree.prototype.getPreviousSiblingTreeitem = function(node) {
+
+  var ti = node.previousSibling;
+
+  while (ti) {
+    if (ti.nodeType === Node.ELEMENT_NODE) {
+      if (ti.getAttribute('role')  === 'treeitem') {
+        return ti;
+      }
+    }
+    ti = ti.previousSibling;
+  }
+
+  return false;
+};
+
+/*
+*   @desc
+*       Get previous sibling treeitem, if exists
+*
+*   @param node
+*       DOM node to start looking for previous sibling
+*
+*   @returns
+*       DOM node or False 
+*/
+
+Tree.prototype.getNextSiblingTreeitem = function(node) {
+
+  var ti = node.nextSibling;
+
+  while (ti) {
+    if (ti.nodeType === Node.ELEMENT_NODE) {
+      if (ti.getAttribute('role')  === 'treeitem') {
+        return ti;
+      }
+    }
+    ti = ti.nextSibling;
+  }
+
+  return false;
+};
+
+
+/*
+*   @desc
+*       Get previous sibling treeitem, if exists
+*
+*   @param node
+*       DOM node to start looking for previous sibling
+*
+*   @returns
+*       DOM node or False 
+*/
+
+Tree.prototype.getFirstSiblingTreeitem = function(node) {
+
+  var ti = node.nextSibling;
+
+  while (ti) {
+    if (ti.nodeType === Node.ELEMENT_NODE) {
+      if (ti.getAttribute('role')  === 'treeitem') {
+        return ti;
+      }
+    }
+    ti = ti.nextSibling;
+  }
+
+  return false;
+};
+
+/*
+*   @desc
+*       Get parent treeitem, if exists
+*
+*   @param node
+*       DOM node to start looking for parent treeitem
+*
+*   @returns
+*       DOM node or False 
+*/
+
+Tree.prototype.getParentTreeitem = function(node) {
+
+  var ti = node.parentElement;
+
+  while (ti) {
+    if (ti.nodeType === Node.ELEMENT_NODE) {
+      if (ti.getAttribute('role')  === 'treeitem') {
+        return ti;
+      }
+    }
+    ti = ti.parentElement;
+  }
+
+  return false;
+};
+
+
+/*
+*   @desc
+*       Keyboard event handler for treeitems
+*
+*   @param event
+*       DOM event object
+*/
+
+Tree.prototype.handleKeydown = function (event) {
   var ct = event.currentTarget,
       flag = false;
 
@@ -104,23 +292,23 @@ Treeitem.prototype.handleKeydown = function (event) {
   switch (event.keyCode) {
 
     case this.keyCode.UP:
-      this.previousTreeitem(ct);
+      this.moveFocusToPreviousTreeitem(ct);
       flag = true;
       break;
 
     case this.keyCode.DOWN:
-      this.nextTreeitem(ct);
+      this.moveFocusToNextTreeitem(ct);
       flag = true;
       break;
 
     case this.keyCode.LEFT:
 
       if (expanded) {
-        if (expanded === 'true') this.hideChildTreeitems();
-        else this.moveFocusToParentTreeitem();
+        if (expanded === 'true') this.hideChildTreeitems(ct);
+        else this.moveFocusToParentTreeitem(ct);
       }
       else {
-        this.moveFocusToParentTreeitem();
+        this.moveFocusToParentTreeitem(ct);
       } 
 
       flag = true;
@@ -128,22 +316,12 @@ Treeitem.prototype.handleKeydown = function (event) {
 
     case this.keyCode.RIGHT:
       if (expanded === 'false') {
-        this.showChildTreeitems();
+        this.showChildTreeitems(ct);
       } 
-      this.moveFocusToFirstChildTreeitem();
+      this.moveFocusToFirstChildTreeitem(ct);
       flag = true;
       break;
 
-    case this.keyCode.TAB:
-      if(this.prevControl && event.shiftKey){
-        this.prevControl.focus()
-        flag = true;
-      }
-      else if(this.nextControl && !event.shiftKey){
-        this.nextControl.focus()
-        flag = true;
-      }
-      
     default:
       break;
   }
@@ -154,138 +332,123 @@ Treeitem.prototype.handleKeydown = function (event) {
   }
 };
 
-/* show and hide child treeitems */
+/*
+*   @desc
+*       Hides child treeitems if aria-expanded=true (e.g. children are visible)
+*
+*   @param treeitem
+*       Treeitem with child treeitems 
+*/
 
+Tree.prototype.hideChildTreeitems = function (treeitem) {
 
-Treeitem.prototype.hideChildTreeitems = function () {
+  var treeitems = this.getChildTreeitems(treeitem);
 
-  if (this.treeitemNode.getAttribute('aria-expanded') === 'true') {
-    try {
-      var ul = this.treeitemNode.getElementsByTagName('UL')[0];
+  for(var i = 0; i < treeitems.length; i++) {
+    treeitems[i].style.display = 'none';
+  }
+  treeitem.setAttribute('aria-expanded', 'false');
 
-      var ti = ul.firstChild;
+};
 
-      while (ti) {
-        if (ti.nodeType === Node.ELEMENT_NODE) {
-          if (ti.getAttribute('role')  === 'treeitem') {
-            ti.style.display = 'none';
-          }
-        }
-        ti = ti.nextSibling;
-      }
-      this.treeitemNode.setAttribute('aria-expanded', 'false');
-    }
-    catch(e) {
-      console.log('Missing tree grouping element (UL)');
-    }
+/*
+*   @desc
+*       Show child treeitems if aria-expanded=false (e.g. children are invisible)
+*
+*   @param treeitem
+*       Treeitem with child treeitems 
+*/
+
+Tree.prototype.showChildTreeitems = function (treeitem) {
+
+  var treeitems = this.getChildTreeitems(treeitem);
+
+  for(var i = 0; i < treeitems.length; i++) {
+    treeitems[i].style.display = 'block';
+  }
+  treeitem.setAttribute('aria-expanded', 'true');
+
+};
+
+/*
+*   @desc
+*       Moves focus to parent treeitem, if it exists
+*
+*   @param treeitem
+*       Treeitem with current focus
+*/
+
+Tree.prototype.moveFocusToParentTreeitem = function (treeitem) {
+
+  var p = this.getParentTreeitem(treeitem);
+
+  if (p) {
+    treeitem.tabIndex = -1;
+    p.tabIndex = 0;
+    p.focus();
   }
 
 };
 
-Treeitem.prototype.showChildTreeitems = function () {
+/*
+*   @desc
+*       Moves focus to first child treeitem, if it exists
+*
+*   @param treeitem
+*       Treeitem with current focus
+*/
 
-  if (this.treeitemNode.getAttribute('aria-expanded') === 'false') {
-    try {
-      var ul = this.treeitemNode.getElementsByTagName('UL')[0];
+Tree.prototype.moveFocusToFirstChildTreeitem = function (treeitem) {
 
-      var ti = ul.firstChild;
+  var treeitem = this.getChildTreeitems(treeitem);
 
-      while (ti) {
-        if (ti.nodeType === Node.ELEMENT_NODE) {
-          if (ti.getAttribute('role')  === 'treeitem') {
-            ti.style.display = 'block';
-          }
-        }
-        ti = ti.nextSibling;
-      }
-      this.treeitemNode.setAttribute('aria-expanded', 'true');
-    }
-    catch(e) {
-      console.log('Missing tree grouping element (UL)');
-    }
-  }  
-};
-
-
-/* focus management treeitems: move focus to parent treeitem */
-Treeitem.prototype.moveFocusToParentTreeitem = function () {
-
-  try {
-    var pe = this.treeitemNode.parentElement;
-
-    while(pe) {
-      if (pe.getAttribute('role') === 'treeitem') {
-        this.treeitemNode.tabindex = -1;
-        pe.tabindex = 0;
-        pe.focus();
-        break;
-      }
-      pe = pe.parentElement;
-    }
-
-  }
-  catch(e) {
-    console.log('No parent treeitem');
-  }
-
-
-};
-
-/* focus management treeitems: move focus to first child treeitem */
-Treeitem.prototype.moveFocusToFirstChildTreeitem = function () {
-
-   try {
-    var ti = this.treeitemNode.getElementsByTagName('UL')[0].firstChild;
-
-    while(ti) {
-      if (ti.nodeType === Node.ELEMENT_NODE) {
-        if (ti.getAttribute('role') === 'treeitem') {
-          this.treeitemNode.tabindex = -1;
-          ti.tabindex = 0;
-          ti.focus();
-          break;
-        }       
-      }
-      ti = ti.nextSibling;
-    }
-
-  }
-  catch(e) {
-    console.log('No child treeitem');
-  }
-};
-
-
-/* find next tree item and previous item to manage focus, tabindex */
-Treeitem.prototype.previousTreeitem = function (currentItem) {
-
-  var ti = currentItem.previousSibling;
-  while (ti) {
-    if (ti.nodeType === Node.ELEMENT_NODE) {
-      if (ti.getAttribute('role')  === 'treeitem') {
-        ti.focus();
-        ti.tabIndex = 0;
-        currentItem.tabIndex = -1;
-        break;
-      }
-    }
-    ti = ti.previousSibling;
+  if (treeitem.length) {
+    treeitem.tabIndex = -1;
+    var ti = treeitem[0];
+    ti.tabIndex = 0;
+    ti.focus();
   }
 
 };
 
-Treeitem.prototype.nextTreeitem = function (currentItem) {
-  var ti = currentItem.nextSibling;
-  while (ti) {
-    if (ti.nodeType === Node.ELEMENT_NODE) {
-      if (ti.getAttribute('role')  === 'treeitem') {
-        ti.focus();
-        ti.tabIndex = 0;
-        currentItem.tabIndex = -1;
-        break;
-      }
-    }
-    ti = ti.nextSibling;
+
+/*
+*   @desc
+*       Moves focus to previous sibling treeitem, if it exists
+*
+*   @param treeitem
+*       Treeitem with current focus
+*/
+
+Tree.prototype.moveFocusToPreviousTreeitem = function (treeitem) {
+
+  var ti = this.getPreviousSiblingTreeitem(treeitem);
+
+  if (ti) {
+    ti.focus();
+    ti.tabIndex = 0;
+    treeitem.tabIndex = -1;
   }
+
+};
+
+/*
+*   @desc
+*       Moves focus to next sibling treeitem, if it exists
+*
+*   @param treeitem
+*       Treeitem with current focus
+*/
+
+Tree.prototype.moveFocusToNextTreeitem = function (treeitem) {
+
+  var ti = this.getNextSiblingTreeitem(treeitem);
+
+  if (ti) {
+    ti.focus();
+    ti.tabIndex = 0;
+    treeitem.tabIndex = -1;
+  }
+
 };
 

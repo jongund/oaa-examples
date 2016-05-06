@@ -66,6 +66,10 @@ main p a {
     text-decoration: underline;
 }
 
+aside a {
+    text-decoration: underline;
+}
+
 main [role="tabpanel"] > p,
 main [role="tabpanel"] > ul {
     margin-top: 0.5em;
