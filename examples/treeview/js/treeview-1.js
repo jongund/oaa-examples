@@ -20,7 +20,7 @@
 /**
  * ARIA Treeview example
  * @function onload
- * @desc  after page has loaded initializ all treeitems based on the selector li
+ * @desc  after page has loaded initializ all treeitems based on the role=treeitem
  */
 
 
