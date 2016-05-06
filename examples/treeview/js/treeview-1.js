@@ -222,10 +222,10 @@ Tree.prototype.getNextSiblingTreeitem = function(node) {
 
 /*
 *   @desc
-*       Get previous sibling treeitem, if exists
+*       Get first sibling treeitem, if exists
 *
 *   @param node
-*       DOM node to start looking for previous sibling
+*       DOM node to start looking for first sibling
 *
 *   @returns
 *       DOM node or False 
@@ -233,18 +233,47 @@ Tree.prototype.getNextSiblingTreeitem = function(node) {
 
 Tree.prototype.getFirstSiblingTreeitem = function(node) {
 
-  var ti = node.nextSibling;
+  var ti = node.previousSibling;
+  var first = false
 
   while (ti) {
     if (ti.nodeType === Node.ELEMENT_NODE) {
       if (ti.getAttribute('role')  === 'treeitem') {
-        return ti;
+        first = ti;
+      }
+    }
+    ti = ti.previousSibling;
+  }
+
+  return first;
+};
+
+/*
+*   @desc
+*       Get last sibling treeitem, if exists
+*
+*   @param node
+*       DOM node to start looking for last sibling
+*
+*   @returns
+*       DOM node or False 
+*/
+
+Tree.prototype.getLastSiblingTreeitem = function(node) {
+
+  var ti = node.nextSibling;
+  var last = false
+
+  while (ti) {
+    if (ti.nodeType === Node.ELEMENT_NODE) {
+      if (ti.getAttribute('role')  === 'treeitem') {
+        last = ti;
       }
     }
     ti = ti.nextSibling;
   }
 
-  return false;
+  return last;
 };
 
 /*
