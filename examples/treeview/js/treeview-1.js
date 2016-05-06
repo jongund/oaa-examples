@@ -98,7 +98,6 @@ Tree.prototype.init = function () {
     });
 
     if (ti.getAttribute('aria-expanded') === 'false') {
-      console.log('hide')
       this.hideChildTreeitems(ti);
     }
   }
