@@ -72,11 +72,40 @@
                     <li>The <code>role="form"</code> attribute defines a form landmark.</li>
                     <li>Use the <code>role="form"</code> to identify a region of the page; do not use it to identify every form field.</li>
                   </ul>
+
                   <h3>ARIA Example</h3>
+                  <div class="code">
+                    &nbsp;&nbsp;&lt;div <strong>role="form" aria-labelledby="form1"</strong>&gt;
+                    <br>
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;h2 <strong>id="form1"</strong>&gt;title for form area &lt;/h2&gt;
+                    <br>
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;... controls and content for form area ...
+                    <br>
+                    <br>
+                    &nbsp;&nbsp;&lt;/div&gt;
+                    <br>
+                  </div>
 
                 </div>
                 <div role="tabpanel" class="tab-pane" id="html5-techniques">
-                  <p>There is no HTML5 element with a default role of <code>form</code> landmark.</p>
+                  <p>If a <code>form</code> element has an accessible name it is considered <code>form</code> landmark.</p>
+
+                  <h3>HTML5 Example</h3>
+                  <div class="code">
+                    &nbsp;&nbsp;<strong>&lt;form aria-labelledby="form1"</strong>&gt;
+                    <br>
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;h2 <strong>id="form1"</strong>&gt;title for form area &lt;/h2&gt;
+                    <br>
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;... controls and content for form area ...
+                    <br>
+                    <br>
+                    &nbsp;&nbsp;<strong>&lt;/form&gt;</strong>
+                    <br>
+                  </div>
                 </div>
               </div>
             </div>
