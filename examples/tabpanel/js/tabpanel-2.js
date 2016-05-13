@@ -340,7 +340,8 @@ aria.widget.Tabpanel.prototype.tabClick = function(event, tabpanel){
 /**
  * @function getRadioPressed
  *
- * @desc  gets state of radio buttons.
+ * @desc
+ *     gets state of radio buttons.
  */
  
 getRadioPressed = function(event){
@@ -371,7 +372,8 @@ getRadioPressed = function(event){
 /**
  * @function getCheckboxPressed
  *
- * @desc  gets state of checkboxes.
+ * @desc
+ *     gets state of checkboxes.
  */
  
 getCheckboxPressed = function(event){
@@ -402,7 +404,8 @@ getCheckboxPressed = function(event){
 /**
  * @function getCheckboxPressed
  *
- * @desc  updates the order based on what raido buttons and checkboxes are pressed.
+ * @desc
+ *     updates the order based on what raido buttons and checkboxes are pressed.
  */
  
 updateOrder = function(category, text){

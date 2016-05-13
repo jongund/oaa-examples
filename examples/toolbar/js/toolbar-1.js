@@ -17,8 +17,11 @@
  
 /**
  * ARIA toolbar example
- * @function onload
- * @desc  after page has loaded initialize all toolbars based on the selector "div.toolbar"
+ *
+ * @function 
+ *     onload
+ * @desc
+ *     After page has loaded initialize all toolbars based on the selector "div.toolbar"
  */
 
 window.addEventListener('load', function(){
@@ -44,11 +47,14 @@ var aria = aria ||{};
 /* ---------------------------------------------------------------- */
 
 /**
- * @constructor Toolbar
+ * @desc  
+ *     Computes absolute position of an element
  *
- * @memberOf aria.Utils
+ * @param element
+ *     DOM node object
  *
- * @desc  Computes absolute position of an element
+ * @returns
+ *     Object contains left and top position
  */
 
 aria.Utils = aria.Utils ||{};
@@ -78,11 +84,13 @@ aria.widget = aria.widget ||{};
 /* ---------------------------------------------------------------- */
 
 /**
- * @constructor Toolbar
+ * @constructor aria.widget.Toolbar
  *
- * @memberOf aria.Widget
+ * @desc
+ *     Creates a toolbar widget
  *
- * @desc  Creates a toolbar widget using ARIA 
+ * @param node
+ *     DOM button object with class="toolbar"
  */
 
 aria.widget.Toolbar = function(node){
@@ -122,11 +130,10 @@ aria.widget.Toolbar = function(node){
 };
 
 /**
- * @method initToolbar
+ * @method aria.widget.Toolbar.prototype.initToolbar
  *
- * @memberOf aria.widget.Toolbar
- *
- * @desc  Adds event handlers to toolbar elements
+ * @desc
+ *     Adds event handlers to toolbar elements
  */
 
 aria.widget.Toolbar.prototype.initToolbar = function(){
@@ -143,11 +150,10 @@ aria.widget.Toolbar.prototype.initToolbar = function(){
 };
 
 /**
- * @method nextButton
+ * @method aria.widget.Toolbar.prototype.nextButton
  *
- * @memberOf aria.widget.Toolbar
- *
- * @desc  Moves focus to the next toolbar button 
+ * @desc
+ *     Moves focus to the next toolbar button 
  */
  
 aria.widget.Toolbar.prototype.nextButton = function(){
@@ -182,11 +188,10 @@ aria.widget.Toolbar.prototype.nextButton = function(){
 };
 
 /**
- * @method previousButton
+ * @method aria.widget.Toolbar.prototype.previousButton
  *
- * @memberOf aria.widget.Toolbar
- *
- * @desc  Moves focus to the previous toolbar button 
+ * @desc
+ *     Moves focus to the previous toolbar button 
  */
 
 aria.widget.Toolbar.prototype.previousButton = function(){
@@ -224,11 +229,15 @@ aria.widget.Toolbar.prototype.previousButton = function(){
 
 
 /**
- * @method buttonKeyDown
+ * @method aria.widget.Toolbar.prototype.buttonKeyDown
  *
- * @memberOf aria.widget.Toolbar
+ * @desc
+ *     Click event handler for toolbar objects
+ *     NOTE: The toolbar parameter is needed to provide a reference to the specific
+ *           toolbar
  *
- * @desc  handles keydown events for the buttons
+ * @param event, toolbar
+ *     DOM event object and toolbar object
  */
  
 aria.widget.Toolbar.prototype.buttonKeyDown = function(event, toolbar){
@@ -255,7 +264,8 @@ aria.widget.Toolbar.prototype.buttonKeyDown = function(event, toolbar){
 /**
  * @function increaseFontSize
  *
- * @desc  Increases the font size of the text area
+ * @desc
+ *     Increases the font size of the text area
  */
  
 increaseFontSize = function(event){
@@ -274,7 +284,8 @@ increaseFontSize = function(event){
 /**
  * @function decreaseFontSize
  *
- * @desc  Decreases the font size of the text area
+ * @desc
+ *     Decreases the font size of the text area
  */
  
 decreaseFontSize = function(event){
@@ -293,7 +304,8 @@ decreaseFontSize = function(event){
 /**
  * @function justify
  *
- * @desc  Justifies the text of the text area to the the specified direction
+ * @desc
+ *     Justifies the text of the text area to the the specified direction
  */
 justify = function(event, justification){
   var button = event.currentTarget;
@@ -308,7 +320,8 @@ justify = function(event, justification){
 /**
  * @function unhightlightJustify
  *
- * @desc  Unhighlights all of the justification buttons
+ * @desc
+ *     Unhighlights all of the justification buttons
  */
 
 unhightlightJustify = function(event){
@@ -334,7 +347,8 @@ unhightlightJustify = function(event){
 /**
  * @function highlightJustify
  *
- * @desc  Highlights the clicked justification button
+ * @desc
+ *     Highlights the clicked justification button
  */
 
 highlightJustify = function(event,item){
