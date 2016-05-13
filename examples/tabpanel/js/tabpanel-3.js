@@ -360,9 +360,13 @@ aria.widget.Tabpanel.prototype.tabCloseClick = function(event, tabpanel){
 }
 
 /**
- * @function closeCurrentTab
+ * @method aria.widget.Tabpanel.prototype.closeCurrentTab
  *
- * @desc  closes the current tab
+ * @desc
+ *     closes the current tab
+ *
+ * @param target
+ *     target of current event
  */
  
 aria.widget.Tabpanel.prototype.closeCurrentTab = function(target){
