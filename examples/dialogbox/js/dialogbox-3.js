@@ -1,7 +1,6 @@
-
-
 /*
- * Copyright 2011-2014 OpenAjax Alliance
+ * Copyright 2011-2014 University of Illinois
+ * Authors: Thomas Foltz and Jon Gunderson
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,9 +16,11 @@
  */
  
 /**
- * ARIA Menu Button example
- * @function onload
- * @desc Finds and initializes a guessing game
+ * ARIA dialogbox example
+ * @function 
+ *     onload
+ * @desc
+ *     After page has loaded initialize the id="numberGuessingGame" element
  */
 
 window.addEventListener('load', function(){
@@ -41,13 +42,16 @@ var aria = aria ||{};
 /* ---------------------------------------------------------------- */
 
 /**
- * @constructor Menu
+ * @desc  
+ *     Computes absolute position of an element
  *
- * @memberOf aria.Utils
+ * @param element
+ *     DOM node object
  *
- * @desc  Computes absolute position of an element
+ * @returns
+ *     Object contains left and top position
  */
-
+ 
 aria.Utils = aria.Utils ||{};
 
 aria.Utils.findPos = function(element){
@@ -75,11 +79,12 @@ aria.widget = aria.widget ||{};
 /* ---------------------------------------------------------------- */
 
 /**
- * @constructor GuessingGame
+ * @constructor aria.widget.DialogButton
  *
- * @memberOf aria.Widget
+ * @desc  Creates a guessing game widget
  *
- * @desc  Creates a GuessingGame widget
+ * @param node
+ *     DOM node element
  */
 
 aria.widget.GuessingGame = function(guessingDiv){
@@ -101,11 +106,10 @@ aria.widget.GuessingGame = function(guessingDiv){
 };
 
 /**
- * @method initGuessingGame
+ * @method aria.widget.DialogButton.prototype.initGuessingGame
  *
- * @memberOf aria.widget.GuessingGame
- *
- * @desc  Initializes a new guessing game and adds event listeners that allow for interaction with the game
+ * @desc
+ *     Adds event handlers that allow interaction with the game
  */
 
 aria.widget.GuessingGame.prototype.initGuessingGame = function(){
@@ -147,11 +151,10 @@ aria.widget.GuessingGame.prototype.initGuessingGame = function(){
 };
 
 /**
- * @method submitGuess
+ * @method aria.widget.GuessingGame.prototype.submitGuess
  *
- * @memberOf aria.Widget.GuessingGame
- *
- * @desc  Adds to the guess count and processes the guess
+ * @desc
+ *     Adds to the guess count and creates a new dialogBox
  */
  
 aria.widget.GuessingGame.prototype.submitGuess = function(){
@@ -161,11 +164,10 @@ aria.widget.GuessingGame.prototype.submitGuess = function(){
 }
 
 /**
- * @method initializeGame
+ * @method aria.widget.GuessingGame.prototype.initializeGame
  *
- * @memberOf aria.Widget.GuessingGame
- *
- * @desc  Creates the random number to be guessed and resets the guess count
+ * @desc
+ *     Creates the random number to be guessed and resets the guess count
  */
  
 aria.widget.GuessingGame.prototype.initializeGame = function(){
@@ -178,11 +180,10 @@ aria.widget.GuessingGame.prototype.initializeGame = function(){
 }
 
 /**
- * @method inputKeyDown
+ * @method aria.widget.GuessingGame.prototype.inputKeyDown
  *
- * @memberOf aria.Widget.GuessingGame
- *
- * @desc  handles events on the input field.
+ * @desc
+ *     Handles events on the input field.
  */
  
 aria.widget.GuessingGame.prototype.inputKeyDown = function(){
@@ -199,11 +200,10 @@ aria.widget.GuessingGame.prototype.inputKeyDown = function(){
 }
 
 /**
- * @method processGuess
+ * @method aria.widget.GuessingGame.prototype.processGuess
  *
- * @memberOf aria.Widget.GuessingGame
- *
- * @desc  updates the dialog box based on the value guessed.
+ * @desc
+ *     updates the dialog box based on the value guessed.
  */
 
 aria.widget.GuessingGame.prototype.processGuess = function(){

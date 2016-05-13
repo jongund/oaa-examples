@@ -1,7 +1,6 @@
-
-
 /*
- * Copyright 2011-2014 OpenAjax Alliance
+ * Copyright 2011-2014 University of Illinois
+ * Authors: Thomas Foltz and Jon Gunderson
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,9 +16,11 @@
  */
  
 /**
- * ARIA Menu Button example
- * @function onload
- * @desc after page has loaded initializ all dialog buttons based on the selector "button.dialogButton"
+ * ARIA dialogbox example
+ * @function 
+ *     onload
+ * @desc
+ *     After page has loaded initialize all dialog buttons based on the selector "button.dialogbox"
  */
 
 window.addEventListener('load', function(){
@@ -44,11 +45,14 @@ var aria = aria ||{};
 /* ---------------------------------------------------------------- */
 
 /**
- * @constructor Menu
+ * @desc  
+ *     Computes absolute position of an element
  *
- * @memberOf aria.Utils
+ * @param element
+ *     DOM node object
  *
- * @desc  Computes absolute position of an element
+ * @returns
+ *     Object contains left and top position
  */
 
 aria.Utils = aria.Utils ||{};
@@ -74,15 +78,16 @@ aria.widget = aria.widget ||{};
 
 
 /* ---------------------------------------------------------------- */
-/*                  dialogButton Widget                                  */
+/*                  DialogButton Widget                             */
 /* ---------------------------------------------------------------- */
 
 /**
- * @constructor dialogButton
- *
- * @memberOf aria.Widget
+ * @constructor aria.widget.DialogButton
  *
  * @desc  Creates a dialog button widget
+ *
+ * @param node
+ *     DOM node element
  */
 
 aria.widget.DialogButton = function(node){
@@ -94,9 +99,7 @@ aria.widget.DialogButton = function(node){
 };
 
 /**
- * @method initDialogButton
- *
- * @memberOf aria.widget.DialogButton
+ * @method aria.widget.DialogButton.prototype.initDialogButton
  *
  * @desc  Adds event handlers to button element 
  */
@@ -119,12 +122,17 @@ aria.widget.DialogButton.prototype.eventClick = function(){
 
 }
 
+/* ---------------------------------------------------------------- */
+/*                     DialogBox Widget                             */ 
+/* ---------------------------------------------------------------- */
+
 /**
- * @constructor Button
- *
- * @memberOf aria.Widget
+ * @constructor aria.widget.DialogBox
  *
  * @desc  Creates a dialog box widget using ARIA 
+ *
+ * @param dialogButton
+ *     dialogButton object
  */
 
 aria.widget.DialogBox = function(dialogButton){
@@ -146,9 +154,8 @@ aria.widget.DialogBox = function(dialogButton){
 /**
  * @method initDialogBox
  *
- * @memberOf aria.Widget.DialogBox
- *
- * @desc  creates a new dialog box, processes the current guess, and adds event listeners to the dialog box.
+ * @desc
+ *     Creates a new dialog box, processes the current guess, and adds event listeners to the dialog box.
  */
 
 aria.widget.DialogBox.prototype.initDialogBox = function(){
@@ -241,11 +248,10 @@ aria.widget.DialogBox.prototype.initDialogBox = function(){
 }
 
 /**
- * @method closeDialogBox
+ * @method aria.widget.DialogBox.prototype.closeDialogBox
  *
- * @memberOf aria.Widget.DialogBox
- *
- * @desc  removes the dialog box and all event listeners on it.
+ * @desc
+ *     Removes the dialog box and all event listeners on it.
  */
  
 aria.widget.DialogBox.prototype.closeDialogBox = function(){

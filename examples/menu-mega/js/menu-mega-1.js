@@ -1,7 +1,6 @@
-
-
 /*
- * Copyright 2011-2014 OpenAjax Alliance
+ * Copyright 2011-2014 University of Illinois
+ * Authors: Thomas Foltz and Jon Gunderson
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,11 +16,11 @@
  */
  
 /**
- * ARIA Menu Button example
+ * ARIA megamenu example
  * @function onload
- * @desc after page has loaded initializ all dialog buttons based on the selector "button.megaMenuButton"
+ * @desc after page has loaded initialize all megamenu buttons based on the selector "button.megamenu-button"
  */
-
+ 
 window.addEventListener('load', function(){
 
   var megaMenuButtons = document.querySelectorAll('button.megamenu-button');

@@ -1,7 +1,6 @@
-
-
 /*
- * Copyright 2011-2014 OpenAjax Alliance
+ * Copyright 2011-2014 University of Illinois
+ * Authors: Thomas Foltz and Jon Gunderson
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +15,14 @@
  * limitations under the License.
  */
  
-/*
- * ARIA Menu Button example
- * @function onload
- * @desc 
+/**
+ * ARIA combobox example
+ * @function 
+ *     onload
+ * @desc
+ *     After page has loaded initialize all comboboxes based on the selector "div.comboBox"
  */
+
 
 window.addEventListener('load', function(){
   var comboBoxes = document.querySelectorAll('div.combobox');
@@ -44,15 +46,14 @@ var aria = aria ||{};
 /* ---------------------------------------------------------------- */
 
 /**
- * @constructor Menu
+ * @desc  
+ *     Computes absolute position of an element
  *
- * @memberOf aria.Utils
-
- * @desc  Computes absolute position of an element
+ * @param element
+ *     DOM node object
  *
- * @param  element    DOM node  -  DOM node object
- *
- * @retruns  Object  Object contains left and top position
+ * @returns
+ *     Object contains left and top position
  */
 
 aria.Utils = aria.Utils ||{};
@@ -84,15 +85,11 @@ aria.widget = aria.widget ||{};
 /**
  * @constructor ComboBoxInput
  *
- * @memberOf aria.Widget
+ * @desc  
+ *     Object containing the information and events for a ARIA ComboBox widget  
  *
- * @desc  Creates a ComboBox widget using ARIA 
- *
- * @param  node    DOM node  -  DOM node object
- *
- * @property  keyCode      Object    -  Object containing the keyCodes used by the slider widget
- *
- * @property  node               Object    -  JQuery node object
+ * @param  combobox
+ *     DOM node of element with class=combobox
  */
 
 aria.widget.ListBox = function(comboBox){
@@ -123,11 +120,10 @@ aria.widget.ListBox = function(comboBox){
 };
 
 /**
- * @method initComboBox
+ * @method aria.widget.ListBox.prototype.initListBox
  *
- * @memberOf aria.widget.ListBox
- *
- * @desc  Add event listeners to all listbox elements 
+ * @desc
+ *     Add event listeners to all listbox elements 
  */
 
 aria.widget.ListBox.prototype.initListBox = function(){
@@ -165,11 +161,13 @@ aria.widget.ListBox.prototype.initListBox = function(){
 };
 
 /**
- * @method calcTabDistance
+ * @method aria.widget.ListBox.prototype.calcTabDistance
  *
- * @memberOf aria.widget.ListBox
+ * @desc
+ *     calculates the number of items to skip for quick scrolling.
  *
- * @desc  Moves focus to next item
+ * @param numItems
+ *     The number of listbox items
  */
  
 aria.widget.ListBox.prototype.calcTabDistance = function(numItems){
@@ -182,11 +180,13 @@ aria.widget.ListBox.prototype.calcTabDistance = function(numItems){
 }
 
 /**
- * @method nextComboItem
+ * @method aria.widget.ListBox.prototype.nextComboItem
  *
- * @memberOf aria.widget.ListBox
+ * @desc
+ *     Moves focus to next item
  *
- * @desc  Moves focus to next item
+ * @param ci
+ *     The current item with focus
  */
 
 aria.widget.ListBox.prototype.nextComboItem = function(ci){
@@ -211,11 +211,13 @@ aria.widget.ListBox.prototype.nextComboItem = function(ci){
 };
 
 /**
- * @method moveToNextComboItem
+ * @method aria.widget.ListBox.prototype.moveToNextComboItem
  *
- * @memberOf aria.widget.ListBox
+ * @desc  
+ *     Moves focus down the item list n items.
  *
- * @desc  Moves focus down the item list 
+ * @param ci, n
+ *     The current item with focus and n the distance down the list to travel
  */
 
 aria.widget.ListBox.prototype.moveToNextComboItem = function(ci , n){
@@ -241,9 +243,11 @@ aria.widget.ListBox.prototype.moveToNextComboItem = function(ci , n){
 /**
  * @method previousComboItem
  *
- * @memberOf aria.widget.ListBox
+ * @desc  
+ *     Moves focus to previous item
  *
- * @desc  Moves focus to previous item 
+ * @param ci
+ *     The current item with focus
  */
 
 aria.widget.ListBox.prototype.previousComboItem = function(ci){
@@ -268,11 +272,13 @@ aria.widget.ListBox.prototype.previousComboItem = function(ci){
 };
 
 /**
- * @method moveToPreviousComboItem
+ * @method aria.widget.ListBox.prototype.moveToPreviousComboItem
  *
- * @memberOf aria.widget.ListBox
+ * @desc  
+ *     Moves focus up the item list n items.
  *
- * @desc  Moves focus up the item list 
+ * @param ci, n
+ *     The current item with focus and n the distance up the list to travel
  */
 
 aria.widget.ListBox.prototype.moveToPreviousComboItem = function(ci, n){
@@ -295,11 +301,13 @@ aria.widget.ListBox.prototype.moveToPreviousComboItem = function(ci, n){
 };
 
 /**
- * @method setInput
+ * @method aria.widget.ListBox.prototype.setInput
  *
- * @memberOf aria.widget.ListBox
+ * @desc
+ *     Set the text of the input field.
  *
- * @desc  Set the text of the input field.
+ * @param ci
+ *     The current item with focus
  */
 
 aria.widget.ListBox.prototype.setInput = function(ci){
@@ -309,11 +317,12 @@ aria.widget.ListBox.prototype.setInput = function(ci){
 
 
 /**
- * @method setInput
+ * @method aria.widget.ListBox.prototype.activateSelectedItem
  *
- * @memberOf aria.widget.ListBox
+ * @desc
+ *     Makes sure that only the selected item has aria-selected='true'
+ *     and focuses the selected item
  *
- * @desc  Set the text of the input field.
  */
  
 aria.widget.ListBox.prototype.activateSelectedItem = function(){
@@ -333,11 +342,13 @@ aria.widget.ListBox.prototype.activateSelectedItem = function(){
 }
 
 /**
- * @method nextAlphaComboItem
+ * @method aria.widget.ListBox.prototype.nextAlphaComboItem
  *
- * @memberOf aria.widget.ListBox
+ * @desc
+ *     Find the next instance of a combo item matching the key pressed.
  *
- * @desc  Find the next instance of a combo item matching the key pressed.
+ * @param event
+ *     DOM event object
  */
 
 aria.widget.ListBox.prototype.nextAlphaComboItem = function(event){
@@ -380,13 +391,16 @@ aria.widget.ListBox.prototype.nextAlphaComboItem = function(event){
 }
 
 /**
- * @method eventKeyDown
+ * @method aria.widget.ListBox.prototype.eventKeyDown
  *
- * @memberOf aria.widget.ListBox
+ * @desc
+ *     Keydown event handler for ListBox Object
+ *     NOTE: The listBox parameter is needed to provide a reference to the specific
+ *           listBox
  *
- * @desc  Keydown event handler for ListBox Object
- *        NOTE: The listBox parameter is needed to provide a reference to the specific
- *               listBox 
+ * @param event, listBox
+ *     DOM event object and listBox object
+ *
  */
 
 aria.widget.ListBox.prototype.eventKeyDown = function(event, listBox){
@@ -466,13 +480,16 @@ aria.widget.ListBox.prototype.eventKeyDown = function(event, listBox){
 };
 
 /**
- * @method eventKeyDown
+ * @method aria.widget.ListBox.prototype.eventClick
  *
- * @memberOf aria.widget.ListBox
+ * @desc
+ *     Keydown event handler for ListBox Object
+ *     NOTE: The listBox parameter is needed to provide a reference to the specific
+ *           listBox
  *
- * @desc  Keydown event handler for ListBox Object
- *        NOTE: The listBox parameter is needed to provide a reference to the specific
- *               listBox 
+ * @param event, listBox
+ *     DOM event object and listBox object
+ *
  */
 
 aria.widget.ListBox.prototype.eventClick = function(event, listBox){
@@ -491,18 +508,15 @@ aria.widget.ListBox.prototype.eventClick = function(event, listBox){
 /* ---------------------------------------------------------------- */
 
 /**
- * @constructor ComboBox Input
+ * @constructor aria.widget.ComboBoxInput
  *
- * @memberOf aria.Widget
+ * @desc  Creates a combo box input widget using ARIA 
  *
- * @desc  Creates a combo bot input widget using ARIA 
+ * @param node
+ *     DOM node object
  *
- * @param  node    DOM node  -  DOM node object
- *
- * @property  keyCode      Object    -  Object containing the keyCodes used by the slider widget
- *
- * @property  node               Object    -  JQuery node object
  */
+
 
 aria.widget.ComboBoxInput = function(node){
   this.keyCode = Object.freeze({
@@ -533,11 +547,10 @@ aria.widget.ComboBoxInput = function(node){
 };
 
 /**
- * @method initComboBox
+ * @method aria.widget.ComboBoxInput.prototype.initComboBox
  *
- * @memberOf aria.widget.ComboBoxInput
- *
- * @desc  Adds event handlers to input element 
+ * @desc
+ *     Adds event handlers to input element 
  */
 
 aria.widget.ComboBoxInput.prototype.initComboBox = function(){
@@ -572,11 +585,10 @@ aria.widget.ComboBoxInput.prototype.initComboBox = function(){
 };
 
 /**
- * @method openListBox
+ * @method aria.widget.ComboBoxInput.prototype.openListBox
  *
- * @memberOf aria.widget.ComboBoxInput
- *
- * @desc  Opens the listBox
+ * @desc
+ *     Opens the listBox
  */
 
 aria.widget.ComboBoxInput.prototype.openListBox = function(){
@@ -598,11 +610,10 @@ aria.widget.ComboBoxInput.prototype.openListBox = function(){
 
 
 /**
- * @method closeListBox
+ * @method aria.widget.ComboBoxInput.prototype.closeListBox
  *
- * @memberOf aria.widget.ComboBoxInput
- *
- * @desc  Close the listBox
+ * @desc
+ *     Close the listBox
  */
 
 aria.widget.ComboBoxInput.prototype.closeListBox = function(){
@@ -616,11 +627,10 @@ aria.widget.ComboBoxInput.prototype.closeListBox = function(){
 };
 
 /**
- * @method toggleListBox
+ * @method aria.widget.ComboBoxInput.prototype.toggleListBox
  *
- * @memberOf aria.widget.ComboBoxInput
- *
- * @desc  Close or open the listBox depending on current state
+ * @desc
+ *     Close or open the listBox depending on current state
  */
 
 aria.widget.ComboBoxInput.prototype.toggleListBox = function(){
@@ -645,9 +655,11 @@ aria.widget.ComboBoxInput.prototype.toggleListBox = function(){
 /**
  * @method moveFocusToFirstListBoxItem
  *
- * @memberOf aria.widget.ComboBoxInput
+ * @desc
+ *     Move keyboard focus to first listBox item
  *
- * @desc  Move keyboard focus to first listBox item
+ * @param resetSelectedItem
+ *     A true false indicator of whether or not the selected item needs to be reset
  */
 
 aria.widget.ComboBoxInput.prototype.moveFocusToFirstListBoxItem = function(resetSelectedItem){
@@ -667,9 +679,11 @@ aria.widget.ComboBoxInput.prototype.moveFocusToFirstListBoxItem = function(reset
 /**
  * @method moveFocusToLastListBoxItem
  *
- * @memberOf aria.widget.ComboBoxInput
+ * @desc
+ *     Move keyboard focus to last listBox item
  *
- * @desc  Move keyboard focus to first listBox item
+ * @param resetSelectedItem
+ *     A true false indicator of whether or not the selected item needs to be reset
  */
 
 aria.widget.ComboBoxInput.prototype.moveFocusToLastListBoxItem = function(resetSelectedItem){
@@ -686,11 +700,13 @@ aria.widget.ComboBoxInput.prototype.moveFocusToLastListBoxItem = function(resetS
 };
 
 /**
- * @method nextAlphaComboItem
+ * @method aria.widget.ComboBoxInput.prototype.nextAlphaComboItem
  *
- * @memberOf aria.widget.ComboBoxInput
+ * @desc
+ *     Find the next instance of a combo item matching the key pressed.
  *
- * @desc  Find the next instance of a combo item matching the key pressed.
+ * @param event
+ *     DOM event object
  */
 
 aria.widget.ComboBoxInput.prototype.nextAlphaComboItem = function(event){
@@ -735,13 +751,15 @@ aria.widget.ComboBoxInput.prototype.nextAlphaComboItem = function(event){
 
 
 /**
- * @method eventKeyDown
+ * @method aria.widget.ComboBoxInput.prototype.eventKeyDown
  *
- * @memberOf aria.widget.ComboBoxInput
+ * @desc
+ *     Keydown event handler for ComboBoxInput Object
+ *     NOTE: The comboBox parameter is needed to provide a reference to the specific
+ *           comboBox
  *
- * @desc  Keydown event handler for ComboBoxInput Object
- *        NOTE: The comboBox parameter is needed to provide a reference to the specific
- *               comboBox 
+ * @param event, combobox
+ *     DOM event object and combobox object
  */
 
 aria.widget.ComboBoxInput.prototype.eventKeyDown = function(event, comboBox){
@@ -804,11 +822,13 @@ aria.widget.ComboBoxInput.prototype.eventKeyDown = function(event, comboBox){
 
 
 /**
- * @method eventClick
+ * @method aria.widget.ComboBoxInput.prototype.eventClick
  *
- * @memberOf aria.widget.ComboBoxInput
+ * @desc
+ *     click event handler for combobox input
  *
- * @desc  Click event handler for input object
+ * @param event, combobox
+ *     DOM event object and combobox object
  */
 
 aria.widget.ComboBoxInput.prototype.eventClick = function(event, comboBox){
@@ -830,17 +850,12 @@ aria.widget.ComboBoxInput.prototype.eventClick = function(event, comboBox){
 /* ---------------------------------------------------------------- */
 
 /**
- * @constructor Button
- *
- * @memberOf aria.Widget
+ * @constructor aria.widget.Button
  *
  * @desc  Creates a Button widget using ARIA 
  *
- * @param  node    DOM node  -  DOM node object
- *
- * @property  keyCode      Object    -  Object containing the keyCodes used by the slider widget
- *
- * @property  node               Object    -  JQuery node object
+ * @param combobox
+ *     combobox object
  */
 
 aria.widget.Button = function(comboBox){
@@ -848,11 +863,10 @@ aria.widget.Button = function(comboBox){
 };
 
 /**
- * @method initButton
+ * @method aria.widget.Button.prototype.initButton
  *
- * @memberOf aria.widget.Button
- *
- * @desc  Adds event handlers to button element 
+ * @desc
+ *     Adds event handlers to button element 
  */
 
 aria.widget.Button.prototype.initButton = function(){
@@ -867,6 +881,13 @@ aria.widget.Button.prototype.initButton = function(){
 
 
 };
+
+/**
+ * @method aria.widget.Button.prototype.highlightButton
+ *
+ * @desc
+ *     Highlights the button element 
+ */
 
 aria.widget.Button.prototype.highlightButton = function(){
 
@@ -883,6 +904,13 @@ aria.widget.Button.prototype.highlightButton = function(){
   }
 }
 
+/**
+ * @method aria.widget.Button.prototype.unHighlightButton
+ *
+ * @desc
+ *     Unhighlights the button element 
+ */
+
 aria.widget.Button.prototype.unHighlightButton = function(){
 
   var img = this.comboBox.buttonNode.firstChild;
@@ -897,6 +925,13 @@ aria.widget.Button.prototype.unHighlightButton = function(){
     img.src = "./images/button-arrow-down.png";
   }
 }
+
+/**
+ * @method aria.widget.Button.prototype.toggleHighlightButton
+ *
+ * @desc
+ *     If the button is highlighted it unhighlights it and vice versa.
+ */
 
 aria.widget.Button.prototype.toggleHighlightButton = function(){
 
@@ -920,11 +955,13 @@ aria.widget.Button.prototype.toggleHighlightButton = function(){
 /**
  * @method eventClick
  *
- * @memberOf aria.widget.ListBox
+ * @desc
+ *     Click event handler for button object
+ *     NOTE: The comboBox parameter is needed to provide a reference to the specific
+ *           comboBox
  *
- * @desc  Click event handler for button object
- *        NOTE: The listBox parameter is needed to provide a reference to the specific
- *               listBox 
+ * @param event, combobox
+ *     DOM event object and combobox object
  */
 
 aria.widget.Button.prototype.eventClick = function(event, comboBox){
@@ -948,17 +985,12 @@ aria.widget.Button.prototype.eventClick = function(event, comboBox){
 /* ---------------------------------------------------------------- */
 
 /**
- * @constructor Body
- *
- * @memberOf aria.Widget
+ * @constructor aria.widget.Body
  *
  * @desc  Creates a Body widget using ARIA 
  *
- * @param  node    DOM node  -  DOM node object
- *
- * @property  keyCode      Object    -  Object containing the keyCodes used by the slider widget
- *
- * @property  node               Object    -  JQuery node object
+ * @param combobox
+ *     combobox object
  */
 
 aria.widget.Body = function(comboBox){
@@ -967,11 +999,10 @@ aria.widget.Body = function(comboBox){
 };
 
 /**
- * @method initButton
+ * @method aria.widget.Body.prototype.initBody
  *
- * @memberOf aria.widget.Body
- *
- * @desc  Adds event handlers to body element 
+ * @desc
+ *     Adds event handlers to body element 
  */
 
 aria.widget.Body.prototype.initBody = function(){
@@ -988,13 +1019,15 @@ aria.widget.Body.prototype.initBody = function(){
 
 
 /**
- * @method eventClick
+ * @method aria.widget.Body.prototype.eventClick
  *
- * @memberOf aria.widget.ComboBoxInput
+ * @desc
+ *     Click event handler for body object
+ *     NOTE: The comboBox parameter is needed to provide a reference to the specific
+ *           comboBox
  *
- * @desc  Click event handler for body object
- *        NOTE: The listBox parameter is needed to provide a reference to the specific
- *               listBox 
+ * @param event, combobox
+ *     DOM event object and combobox object
  */
 
 aria.widget.Body.prototype.eventClick = function(event, comboBox){

@@ -1,7 +1,6 @@
-
-
 /*
- * Copyright 2011-2014 OpenAjax Alliance
+ * Copyright 2011-2014 University of Illinois
+ * Authors: Thomas Foltz and Jon Gunderson
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +16,7 @@
  */
  
 /**
- * ARIA Tabpanel example
+ * ARIA tabpanel example
  * @function onload
  * @desc  after page has loaded initializ all tabpanels based on the selector "div.tabpanel"
  */

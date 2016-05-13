@@ -23,7 +23,6 @@
  *     After page has loaded initialize all comboboxes based on the selector "div.comboBox"
  */
 
-
 window.addEventListener('load', function(){
 
   var comboBoxes = document.querySelectorAll('div.combobox');
@@ -139,7 +138,7 @@ aria.Utils.findPos = function(element){
 
 
 /* ---------------------------------------------------------------- */
-/*                  ARIA Widget Namespace                           */ 
+/*                  ARIA Widget Namespace                        */ 
 /* ---------------------------------------------------------------- */
 
 aria.widget = aria.widget ||{};
@@ -268,7 +267,7 @@ aria.widget.ListBox.prototype.calcTabDistance = function(){
  * @param ci
  *     The current item with focus
  */
- 
+
 aria.widget.ListBox.prototype.nextComboItem = function(ci){
 
   var mi = ci.nextSibling;
@@ -598,6 +597,7 @@ aria.widget.ListBox.prototype.eventClick = function(event, listBox){
  *
  * @param node
  *     DOM node object
+ *
  */
 
 
@@ -614,7 +614,7 @@ aria.widget.ComboBoxInput = function(node){
      "DOWN"  : 40
   });
   if (typeof node !== 'object' || !node.getElementsByClassName) return false;
-  this.comboBoxDiv = node
+
   this.mouseInMouseButton = false;
   
   var inputs = document.getElementsByTagName('input');
@@ -644,7 +644,7 @@ aria.widget.ComboBoxInput = function(node){
 aria.widget.ComboBoxInput.prototype.initComboBox = function(){
   
   var comboBox = this;
-  var id = this.inputNode.getAttribute('aria-controls');
+  var id = this.inputNode.getAttribute('aria-owns');
   var filter = this.filter;
 
   if (id){
@@ -696,7 +696,7 @@ aria.widget.ComboBoxInput.prototype.openListBox = function(){
     this.listBoxNode.style.top  = (pos.y + br.height) + "px"; 
     this.listBoxNode.style.left = pos.x + "px"; ;
     
-    this.comboBoxDiv.setAttribute('aria-expanded', 'true');
+    this.inputNode.setAttribute('aria-expanded', 'true');
   }  
 };
 
@@ -712,12 +712,12 @@ aria.widget.ComboBoxInput.prototype.closeListBox = function(){
   if(this.listBoxNode && this.listBox.numItems != 0){
     this.button.unhighlightButton();
     this.listBoxNode.style.display = 'none';
-    this.comboBoxDiv.setAttribute('aria-expanded', 'false');
+    this.inputNode.setAttribute('aria-expanded', 'false');
     this.inputNode.selectionStart = this.inputNode.value.length;
   }else if(this.listBoxNode){
     this.button.unhighlightButton();
     this.listBoxNode.style.display = 'none';
-    this.comboBoxDiv.setAttribute('aria-expanded', 'false');
+    this.inputNode.setAttribute('aria-expanded', 'false');
   }
 
 };
@@ -737,7 +737,7 @@ aria.widget.ComboBoxInput.prototype.toggleListBox = function(){
     if (this.listBoxNode.style.display === 'block'){
       this.listBoxNode.style.display = 'none';
       this.inputNode.focus();
-      this.comboBoxDiv.setAttribute('aria-expanded', 'false');
+      this.inputNode.setAttribute('aria-expanded', 'false');
     }
     else{
       filter = this.getFilter();
@@ -745,7 +745,7 @@ aria.widget.ComboBoxInput.prototype.toggleListBox = function(){
       this.listBox.initListBox(filter);
       this.listBoxNode.style.display = 'block';
       if(this.listBox.selectedItem)this.listBox.selectedItem.focus();
-      this.comboBoxDiv.setAttribute('aria-expanded', 'true');
+      this.inputNode.setAttribute('aria-expanded', 'true');
     }
   }
 
@@ -790,12 +790,15 @@ aria.widget.ComboBoxInput.prototype.moveFocusToLastListBoxItem = function(resetS
   if ((this.listBox.lastComboItem && !this.listBox.selectedItem) ||
       (this.listBox.lastComboItem && resetSelectedItem)){
     this.openListBox();
+    //this.listBox.lastComboItem.focus();
     this.listBox.selectedItem = this.listBox.lastComboItem;
   }else{
     this.openListBox();
+    //this.listBox.selectedItem.focus();
   }
 
 };
+
 
 /**
  * @method aria.widget.ComboBoxInput.prototype.getFilter
@@ -803,7 +806,6 @@ aria.widget.ComboBoxInput.prototype.moveFocusToLastListBoxItem = function(resetS
  * @desc
  *     Find the curren list filter
  */
-
 
 aria.widget.ComboBoxInput.prototype.getFilter = function(){
   var caretPosition = this.inputNode.selectionStart;
@@ -1052,7 +1054,6 @@ aria.widget.Button = function(comboBox){
  * @desc
  *     Adds event handlers to button element 
  */
-
 aria.widget.Button.prototype.initButton = function(){
 
   var button = this;
@@ -1184,7 +1185,6 @@ aria.widget.Body = function(comboBox){
  * @desc
  *     Adds event handlers to body element 
  */
-
 aria.widget.Body.prototype.initBody = function(){
 
   var body = this;
