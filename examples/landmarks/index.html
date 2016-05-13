@@ -52,13 +52,14 @@
               using HTML5 sectioning elements and ARIA landmark roles.
             </p>
             <p>Due to the complexity of todays web content, if using landmarks, <strong>all content</strong> should reside in a semantically meaningful landmark in order that content is not missed by the user.</p>
+
             <p style="font-weight: bold">Step 1: Identify the logical structure</p>
             <ul>
               <li>
                 Break the page into perceivable areas called "areas". 
               </li>
               <li>   
-                Typically designers indicate areas visually using alignment and spacing of content.
+                Typically, designers indicate areas visually using alignment and spacing of content.
               </li>
               <li>
                 Regions can be further defined into logical sub-areas as needed. 
@@ -67,6 +68,7 @@
                 An example of a sub-area is a portlet in a portal application.   
               </li>
             </ul>
+            
             <p style="font-weight: bold">Step 2: Assign landmark roles to each area</p>
             <ul>
               <li>
@@ -79,19 +81,20 @@
                 Landmark roles can be nested to identify parent/child relationships of the information being presented.
               </li>
             </ul>
+            
             <p style="font-weight: bold">Step 3: Label each area</p>
             <ul>
               <li>
                 If a specific landmark role is used more than once on a web page, it should have a unique label.
               </li>
               <li>
-                If a area begins with a heading element (e.g. <code>h1-h6</code>) it can be used as the label for the area using <code>aria-labelledby</code> attribute.
+                If a area begins with a heading element (e.g. <code>h1-h6</code>), it can be used as the label for the area using <code>aria-labelledby</code> attribute.
               </li>
               <li>
                 If a area does not have a heading element, provide a label using the <code>aria-label</code> attribute.
               </li>
               <li>
-                Do not use the landmark role as part of the label.  
+                Avoid using the landmark role as part of the label.  
                 For example, a navigation landmark with a label "Site Navigation" will be announced by a screen reader as "Site Navigation Navigation".  
                 The label should simply be "Site".
               </li>

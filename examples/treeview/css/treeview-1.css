@@ -9,11 +9,11 @@
   border-color: #bbb;
 }
 
-[role="treeitem"][aria-expanded]:before {
+[role="treeitem"][aria-expanded="false"] > span:before {
   content: url(../images/contracted.gif);
 }
 
-[role="treeitem"][aria-expanded="true"]:before {
+[role="treeitem"][aria-expanded="true"] > span:before {
   content: url(../images/expanded.gif);
 }
 

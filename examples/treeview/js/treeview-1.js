@@ -82,6 +82,10 @@ Tree.prototype.init = function () {
 
   var flag = true;
 
+  this.topTreeitem = false;
+
+  if (treeitems.length) this.topTreeitem =  treeitems[0];
+
   for (var i = 0; i < treeitems.length; i++) {
     var ti = treeitems[i];
 
@@ -97,10 +101,42 @@ Tree.prototype.init = function () {
       that.handleKeydown(event);
     });
 
+    if (ti.getAttribute('aria-expanded')) {
+      var label = this.getExpandableTreeitemLabel(ti);
+      label.addEventListener('click', function (event) {
+        that.handleClick(event);
+      });
+    }
+
     if (ti.getAttribute('aria-expanded') === 'false') {
       this.hideChildTreeitems(ti);
     }
   }
+
+};
+
+
+
+
+/*
+*   @desc
+*       Finds the label text for the expandable treeitem
+*
+*   @param node
+*       DOM node to start looking for label
+*
+*   @returns
+*       DOM node of label 
+*/
+
+Tree.prototype.getExpandableTreeitemLabel = function(node) {
+
+  var n = node.firstChild;
+  while (n) {
+    if (n.nodeType === Node.ELEMENT_NODE) return n;
+    n = n.nextSibling;
+  }
+  return false;
 
 };
 
@@ -148,20 +184,51 @@ Tree.prototype.getTreeitems = function(node) {
 
 Tree.prototype.getChildTreeitems = function(node) {
 
-  var n = node.firstChild;
+  var n = this.getFirstChildTreeitem(node);
   var ti = [];
 
   while (n) {
-    if (n.nodeType === Node.ELEMENT_NODE) {
-      var flag = n.getAttribute('role') === 'treeitem';
-      if (flag) ti.push(n);
-      if (!flag && n.firstChild) ti = ti.concat(this.getTreeitems(n));
+    if (n.nodeType === Node.ELEMENT_NODE && 
+        n.getAttribute('role') === 'treeitem') {
+        ti.push(n);
     }
     n = n.nextSibling;
   }
 
   return ti;
 
+};
+
+/*
+*   @desc
+*       Get first child treeitem, if exists
+*
+*   @param node
+*       DOM node to start looking for previous sibling
+*
+*   @returns
+*       DOM node or False 
+*/
+
+Tree.prototype.getFirstChildTreeitem = function(node) {
+
+  var n = node.firstChild;
+
+  while (n) {
+    if (n.nodeType === Node.ELEMENT_NODE) {
+      var flag = n.getAttribute('role')  === 'treeitem';
+      if (flag) {
+        return n;
+      }
+      else {
+        n1 = this.getFirstChildTreeitem(n);
+        if (n1) return n1;
+      }  
+    }
+    n = n.nextSibling;
+  }
+
+  return false;
 };
 
 /*
@@ -218,41 +285,9 @@ Tree.prototype.getNextSiblingTreeitem = function(node) {
   return false;
 };
 
-
 /*
 *   @desc
-*       Get first sibling treeitem, if exists
-*
-*   @param node
-*       DOM node to start looking for first sibling
-*
-*   @returns
-*       DOM node or False 
-*/
-
-Tree.prototype.getFirstSiblingTreeitem = function(node) {
-
-  var ti = node.previousSibling;
-  var first = false
-
-  while (ti) {
-    if (ti.nodeType === Node.ELEMENT_NODE) {
-      if (ti.getAttribute('role')  === 'treeitem') {
-        first = ti;
-      }
-    }
-    ti = ti.previousSibling;
-  }
-
-  return first;
-};
-
-/*
-*   @desc
-*       Get last sibling treeitem, if exists
-*
-*   @param node
-*       DOM node to start looking for last sibling
+*       Get last sibling treeitem
 *
 *   @returns
 *       DOM node or False 
@@ -260,7 +295,7 @@ Tree.prototype.getFirstSiblingTreeitem = function(node) {
 
 Tree.prototype.getLastSiblingTreeitem = function(node) {
 
-  var ti = node.nextSibling;
+  var ti = node;
   var last = false
 
   while (ti) {
@@ -273,6 +308,26 @@ Tree.prototype.getLastSiblingTreeitem = function(node) {
   }
 
   return last;
+};
+
+/*
+*   @desc
+*       Get last visible treeitem
+*
+*   @returns
+*       DOM node or False 
+*/
+
+Tree.prototype.getLastVisibleTreeitem = function() {
+
+  var lastVisible = this.getLastSiblingTreeitem(this.topTreeitem);
+
+  while (lastVisible.getAttribute('aria-expanded') === 'true') {
+    var node = this.getFirstChildTreeitem(lastVisible);
+    if (node) lastVisible = this.getLastSiblingTreeitem(node);
+    else break;
+  }
+  return lastVisible;
 };
 
 /*
@@ -350,6 +405,17 @@ Tree.prototype.handleKeydown = function (event) {
       flag = true;
       break;
 
+    case this.keyCode.HOME:
+      this.moveFocusToTopTreeitem(ct);
+      flag = true;
+      break;
+
+    case this.keyCode.END:
+      this.moveFocusToLastVisibleTreeitem(ct);
+      flag = true;
+      break;
+
+
     default:
       break;
   }
@@ -358,6 +424,32 @@ Tree.prototype.handleKeydown = function (event) {
     event.stopPropagation();
     event.preventDefault();
   }
+};
+
+/*
+*   @desc
+*       Click event handler for treeitems
+*
+*   @param event
+*       DOM event object
+*/
+
+Tree.prototype.handleClick = function (event) {
+  var ct = event.currentTarget.parentElement;
+
+  var expanded = ct.getAttribute('aria-expanded'); 
+
+  if (expanded === 'true') {
+    ct.setAttribute('aria-expanded', 'false')
+    this.hideChildTreeitems(ct);
+  }
+  else {
+    ct.setAttribute('aria-expanded', 'true')
+    this.showChildTreeitems(ct);
+  }
+
+  event.stopPropagation();
+  event.preventDefault();
 };
 
 /*
@@ -428,11 +520,11 @@ Tree.prototype.moveFocusToParentTreeitem = function (treeitem) {
 
 Tree.prototype.moveFocusToFirstChildTreeitem = function (treeitem) {
 
-  var treeitem = this.getChildTreeitems(treeitem);
+  var treeitem = this.getFirstChildTreeitem(treeitem);
 
-  if (treeitem.length) {
+  if (treeitem) {
     treeitem.tabIndex = -1;
-    var ti = treeitem[0];
+    var ti = treeitem;
     ti.tabIndex = 0;
     ti.focus();
   }
@@ -480,3 +572,43 @@ Tree.prototype.moveFocusToNextTreeitem = function (treeitem) {
 
 };
 
+/*
+*   @desc
+*       Moves focus to top treeitem,
+*
+*   @param treeitem
+*       Treeitem with current focus
+*/
+
+Tree.prototype.moveFocusToTopTreeitem = function (treeitem) {
+
+  var ti = this.topTreeitem;
+
+  if (ti) {
+    ti.focus();
+    ti.tabIndex = 0;
+    treeitem.tabIndex = -1;
+  }
+
+};
+
+
+/*
+*   @desc
+*       Moves focus to last visible treeitem,
+*
+*   @param treeitem
+*       Treeitem with current focus
+*/
+
+Tree.prototype.moveFocusToLastVisibleTreeitem = function (treeitem) {
+
+  var ti = this.getLastVisibleTreeitem();
+
+  if (ti) {
+    ti.focus();
+    ti.tabIndex = 0;
+    treeitem.tabIndex = -1;
+  }
+
+};
