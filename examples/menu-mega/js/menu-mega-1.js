@@ -17,8 +17,11 @@
  
 /**
  * ARIA megamenu example
- * @function onload
- * @desc after page has loaded initialize all megamenu buttons based on the selector "button.megamenu-button"
+ *
+ * @function 
+ *     onload
+ * @desc
+ *     After page has loaded initialize all megamenus based on the selector "button.megamenu-button"
  */
  
 window.addEventListener('load', function(){
@@ -43,11 +46,14 @@ var aria = aria ||{};
 /* ---------------------------------------------------------------- */
 
 /**
- * @constructor Menu
+ * @desc  
+ *     Computes absolute position of an element
  *
- * @memberOf aria.Utils
+ * @param element
+ *     DOM node object
  *
- * @desc  Computes absolute position of an element
+ * @returns
+ *     Object contains left and top position
  */
 
 aria.Utils = aria.Utils ||{};
@@ -77,11 +83,13 @@ aria.widget = aria.widget ||{};
 /* ---------------------------------------------------------------- */
 
 /**
- * @constructor megaMenuButton
+ * @constructor aria.widget.MegaMenuButton
  *
- * @memberOf aria.Widget
+ * @desc
+ *     Creates a dialog button widget
  *
- * @desc  Creates a dialog button widget
+ * @param node
+ *     DOM button object with class="megamenu-button"
  */
 
 aria.widget.MegaMenuButton = function(node){
@@ -93,11 +101,10 @@ aria.widget.MegaMenuButton = function(node){
 };
 
 /**
- * @method initMegaMenuButton
+ * @method aria.widget.MegaMenuButton.prototype.initMegaMenuButton
  *
- * @memberOf aria.widget.MegaMenuButton
- *
- * @desc  Adds event handlers to button element 
+ * @desc
+ *     Adds event handlers to button element 
  */
 
 aria.widget.MegaMenuButton.prototype.initMegaMenuButton = function(){
@@ -120,7 +127,13 @@ aria.widget.MegaMenuButton.prototype.eventClick = function(){
 }
 
 /**
- * @desc  Creates a dialog box widget 
+ * @constructor aria.widget.DialogBox
+ *
+ * @desc
+ *     Adds a dialog box widget
+ *
+ * @param megaMenuButton
+ *      A reference to the megaMenuButton object
  */
 
 aria.widget.DialogBox = function(megaMenuButton){
@@ -140,7 +153,10 @@ aria.widget.DialogBox = function(megaMenuButton){
 };
 
 /**
- * @desc  creates a new dialog box, adds event listeners to the dialog box and initalizes the menus.
+ * @method aria.widget.DialogBox.prototype.initDialogBox
+ *
+ * @desc
+ *     creates a new dialog box, adds event listeners to the dialog box and initalizes the menus.
  */
 
 aria.widget.DialogBox.prototype.initDialogBox = function(){
@@ -228,11 +244,10 @@ aria.widget.DialogBox.prototype.initDialogBox = function(){
 }
 
 /**
- * @method closeDialogBox
+ * @method aria.widget.DialogBox.prototype.closeDialogBox
  *
- * @memberOf aria.Widget.DialogBox
- *
- * @desc  removes the dialog box and all event listeners on it.
+ * @desc
+ *     removes the dialog box and all event listeners on it.
  */
  
 aria.widget.DialogBox.prototype.closeDialogBox = function(){
@@ -244,11 +259,13 @@ aria.widget.DialogBox.prototype.closeDialogBox = function(){
 }
 
 /**
- * @method keyDown
+ * @method aria.widget.DialogBox.prototype.keyDown
  *
- * @memberOf aria.Widget.DialogBox
+ * @desc
+ *     Makes sure the user cannot tab out of the dialog box
  *
- * @desc  makes sure the user cannot tab out of the dialog box
+ * @param event, dialogBox
+ *     DOM event object and dialogBox object
  */
 
 aria.widget.DialogBox.prototype.keyDown = function(event, dialogBox){ //Need to clean this up a lot.
@@ -287,11 +304,13 @@ aria.widget.DialogBox.prototype.keyDown = function(event, dialogBox){ //Need to 
 }
 
 /**
- * @method cancelButtonClick
+ * @method aria.widget.DialogBox.prototype.cancelButtonClick
  *
- * @memberOf aria.Widget.DialogBox
+ * @desc
+ *     Confirms that the cancel button was clicked
  *
- * @desc  closes the dialog box if the cancel button was clicked.
+ * @param event, dialogBox
+ *     DOM event object and dialogBox object
  */
  
 aria.widget.DialogBox.prototype.cancelButtonClick = function(event, dialogBox){
@@ -301,11 +320,14 @@ aria.widget.DialogBox.prototype.cancelButtonClick = function(event, dialogBox){
 }
 
 /**
- * @method bodyClick
+ * @method aria.widget.DialogBox.prototype.bodyClick
  *
- * @memberOf aria.Widget.DialogBox
+ * @desc
+ *     If the body was clicked when the dialog box is open
+ *     nothing happens.
  *
- * @desc  makes sure clicks outside of the dialog box do nothing
+ * @param event, dialogBox
+ *     DOM event object and dialogBox object
  */
 
 aria.widget.DialogBox.prototype.bodyClick = function(event, dialogBox){
@@ -316,11 +338,10 @@ aria.widget.DialogBox.prototype.bodyClick = function(event, dialogBox){
 }
 
 /**
- * @method openMegamenu
+ * @method aria.widget.DialogBox.prototype.openMegamenu
  *
- * @memberOf aria.Widget.DialogBox
- *
- * @desc  Opens the megamenu
+ * @desc
+ *     Opens the megamenu
  */
  
 aria.widget.DialogBox.prototype.openMegamenu = function(){
@@ -332,11 +353,13 @@ aria.widget.DialogBox.prototype.openMegamenu = function(){
 }
 
 /**
- * @method bodyKeyDown
+ * @method aria.widget.DialogBox.prototype.bodyKeyDown
  *
- * @memberOf aria.Widget.DialogBox
+ * @desc
+ *     Checks for tab keypress on the body element while the dialog box is open.
  *
- * @desc  Handles escape and tab presses on the body.
+ * @param event, dialogBox
+ *     DOM event object and dialogBox object
  */
  
 aria.widget.DialogBox.prototype.bodyKeyDown = function(event, dialogBox){
