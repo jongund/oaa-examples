@@ -374,6 +374,28 @@ Tree.prototype.handleKeydown = function (event) {
 
   switch (event.keyCode) {
 
+    case this.keyCode.SPACE:
+    case this.keyCode.RETURN:
+      // Create simulated mouse event to mimic the behavior of ATs
+      // and let the event handler handleClick do the housekeeping.
+      try {
+        clickEvent = new MouseEvent('click', {
+          'view': window,
+          'bubbles': true,
+          'cancelable': true
+        });
+      }
+      catch(err) {
+        if (document.createEvent) {
+          // DOM Level 3 for IE 9+
+          clickEvent = document.createEvent('MouseEvents');
+          clickEvent.initEvent('click', true, true);
+        }
+      }
+      ct.dispatchEvent(clickEvent);
+      flag = true;
+      break;
+
     case this.keyCode.UP:
       this.moveFocusToPreviousTreeitem(ct);
       flag = true;
