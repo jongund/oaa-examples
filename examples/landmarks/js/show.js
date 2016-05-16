@@ -1,11 +1,13 @@
 function showLandmarks(event) {
-    if (typeof window[initLandmarks] !== 'function') 
-        window[initLandmarks] = initLandmarks();
+    if (typeof window[initLandmarks] !== 'function') {
+        window[initLandmarks]    = initLandmarks();
+    }
+    ;
 
-    if (window[initLandmarks].run())
-        event.target.innerHTML = "Hide Landmarks";
+    if (window[initLandmarks].run()) 
+        event.target.innerHTML  = "Hide Landmarks";
     else 
-        event.target.innerHTML = "Show Landmarks";
+        event.target.innerHTML   = "Show Landmarks";
 }
 
 function showHeadings(event) {
