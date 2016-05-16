@@ -91,6 +91,7 @@ main .nav-tabs > li > a {
 
 nav {
     margin: 0;
+    margin-bottom: 1em;
 }
 
 nav li {
@@ -139,16 +140,18 @@ aside ul {
     margin-bottom: 0.5em;
 }
 
-aside .inst {
-    margin-top: 2em;
+header .inst {
+    margin: 0;
+    padding: 0;
     font-size: 90%;
     font-style: italic;
 }
 
-aside button {
+header button {
+    margin: 0;
     text-align: center;
     margin: 0.25em;
-    width: 95%;
+    margin-left: -.125em;
 }
 
 aside .note {
