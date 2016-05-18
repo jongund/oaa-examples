@@ -77,6 +77,27 @@
                   </ul>
 
                   <h3>ARIA Example</h3>
+
+                  <div role="form" aria-labelledby="form1">
+                    <fieldset>
+                      <legend id="from1">Add Contact</legend>
+                      <label>Name: <input id="name" type="text" size="25"></label>
+                      <label>E-mail: <input type="text" size="25"></label>
+                      <label>Phone: <input type="text" size="25"></label>
+                      <input type="submit" value="Add Contact">
+                    </fieldset>
+                  </form>
+
+                  <div role="form" aria-labelledby="form2">
+                    <fieldset>
+                      <legend id="from1">Add Organization</legend>
+                      <label>Organization: <input id="name" type="text" size="25"></label>
+                      <label>WWW: <input type="text" size="25"></label>
+                      <input type="submit" value="Add Organization">
+                    </fieldset>
+                  </form>
+
+
                   <div class="code">
                     &nbsp;&nbsp;&lt;div <strong>role="form" aria-labelledby="form1"</strong>&gt;
                     <br>
@@ -165,7 +186,8 @@
       {
         "settings": {
           "skipTo": {
-            "headings": "h1, h2"
+            "headings": "h1, h2",
+            "attachElement": "header"
           }
         }
       };

@@ -65,17 +65,24 @@
                 <div role="tabpanel" class="tab-pane active" id="aria-techniques">
                   <p>A <code>role="search"</code> attribute is used to define a <code>search</code> landmark.</p>
                    <h3>ARIA Example</h3>
+
+                  <form role="search">
+
+                  <input type="search" size="20" aria-label="search text"><input type="submit" value="Search">
+
+                  </form>
+
                   <div class="code">
-                    &lt;div <strong>role="search"</strong>&gt;
+                    &lt;form <strong>role="search"</strong>&gt;
                     <br>
                     <br>
                     &nbsp;&nbsp;&lt;input type="search" aria-label="search text" size="20"&gt;
                     <br>
                     <br>
-                    &nbsp;&nbsp;&lt;input type="submit" value="start search"&gt;
+                    &nbsp;&nbsp;&lt;input type="submit" value="Search""&gt;
                     <br>
                     <br>
-                    &lt;/div&gt;
+                    &lt;/form&gt;
                     <br>
                   </div>
                </div>
@@ -137,7 +144,8 @@
       {
         "settings": {
           "skipTo": {
-            "headings": "h1, h2"
+            "headings": "h1, h2",
+            "attachElement": "header"
           }
         }
       };
