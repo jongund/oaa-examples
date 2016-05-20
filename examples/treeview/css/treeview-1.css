@@ -21,7 +21,8 @@ li[role="treeitem"],
 li[role="treeitem"] span {
   list-style: none;
   border: thin transparent solid;
-  width: 6em;
+  width: 8em;
+  padding: 0.125em;
 }
 
 li[role="treeitem"].focus,
