@@ -494,7 +494,7 @@ Tree.prototype.handleFocus = function (event) {
   var ct = event.currentTarget;
   var node = ct.firstElementChild;
   if (!node) node = ct;
-  ct.classList.add('focus'); 
+  node.classList.add('focus'); 
 };
 
 /*
@@ -509,7 +509,7 @@ Tree.prototype.handleBlur = function (event) {
   var ct = event.currentTarget;
   var node = ct.firstElementChild;
   if (!node) node = ct;
-  ct.classList.remove('focus'); 
+  node.classList.remove('focus'); 
 };
 
 
