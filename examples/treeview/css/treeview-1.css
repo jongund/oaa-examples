@@ -17,8 +17,15 @@
   content: url(../images/expanded.gif);
 }
 
-li[role="treeitem"] {
-  list-style: none
+li[role="treeitem"],
+li[role="treeitem"] span {
+  list-style: none;
+  border: thin transparent solid;
+}
+
+li[role="treeitem"].focus,
+li[role="treeitem"] span.focus {
+  border-color: black;
 }
 
 ul[role="tree"] {

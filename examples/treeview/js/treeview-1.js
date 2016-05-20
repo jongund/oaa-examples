@@ -101,6 +101,14 @@ Tree.prototype.init = function () {
       that.handleKeydown(event);
     });
 
+    ti.addEventListener('focus', function (event) {
+      that.handleFocus(event);
+    });
+
+    ti.addEventListener('blur', function (event) {
+      that.handleBlur(event);
+    });
+
     if (ti.getAttribute('aria-expanded')) {
       var label = this.getExpandableTreeitemLabel(ti);
       label.addEventListener('click', function (event) {
@@ -451,6 +459,8 @@ Tree.prototype.handleKeydown = function (event) {
 /*
 *   @desc
 *       Click event handler for treeitems
+*       Doesn't cancel click event, so that other onclick events on element
+*       can be processed
 *
 *   @param event
 *       DOM event object
@@ -470,9 +480,38 @@ Tree.prototype.handleClick = function (event) {
     this.showChildTreeitems(ct);
   }
 
-  event.stopPropagation();
-  event.preventDefault();
 };
+
+/*
+*   @desc
+*       Styles focus of treeitem
+*
+*   @param event
+*       DOM event object
+*/
+
+Tree.prototype.handleFocus = function (event) {
+  var ct = event.currentTarget;
+  var node = ct.firstElementChild;
+  if (!node) node = ct;
+  ct.classList.add('focus'); 
+};
+
+/*
+*   @desc
+*       Styles blur of treeitem
+*
+*   @param event
+*       DOM event object
+*/
+
+Tree.prototype.handleBlur = function (event) {
+  var ct = event.currentTarget;
+  var node = ct.firstElementChild;
+  if (!node) node = ct;
+  ct.classList.remove('focus'); 
+};
+
 
 /*
 *   @desc
