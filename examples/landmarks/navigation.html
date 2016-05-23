@@ -55,11 +55,11 @@
             </ul>
             <section aria-label="Coding Techniques">
               <ul class="nav nav-tabs" role="tablist">
-                <li class="active"><a href="#aria-techniques" aria-controls="aria-techniques" role="tab" data-toggle="tab">ARIA Techniques</a></li>
-                <li><a href="#html5-techniques" aria-controls="html5-techniques" role="tab" data-toggle="tab">HTML5 Techniques</a></li>
+                <li class="active"><a id="tab1" href="#tabpanel1" aria-controls="tabpanel1" role="tab" data-toggle="tab">ARIA Techniques</a></li>
+                <li><a id="tab2" href="#tabpanel2" aria-controls="tabpanel2" role="tab" data-toggle="tab">HTML5 Techniques</a></li>
               </ul>
               <div class="tab-content">
-                <div role="tabpanel" class="tab-pane active" id="aria-techniques">
+                <div  id="tabpanel1" aria-labelledby="tab1" role="tabpanel" class="tab-pane active">
                   <p>A <code>role="navigation"</code> attribute is used to define a <code>navigation</code> landmark.</p>
                   
                   <h2>ARIA Example: One Navigation Landmark</h2>
@@ -115,7 +115,7 @@
                   </div>
                 </div>
 
-                <div role="tabpanel" class="tab-pane" id="html5-techniques">
+                <div id="tabpanel2" aria-labelledby="tab2" role="tabpanel" class="tab-pane">
                   <p>Use the HTML5 <code>nav</code> element to define a <code>navigation</code> landmark.</p>
 
                   <h3>HTML5 Example: One Navigation Landmark</h3>
@@ -194,9 +194,9 @@
           <aside aria-labelledby="id3">
             <h2 id="id3">Related W3C Specs</h2>
             <ul>
-              <li><a href="http://www.w3.org/TR/WCAG">WCAG 2.0</a></li>
-              <li><a href="http://www.w3.org/TR/html5">HTML5</a></li>
-              <li><a href="http://www.w3.org/TR/wai-aria">ARIA</a></li>
+              <li><a href="http://www.w3.org/TR/WCAG">WCAG 2.0 Specification</a></li>
+              <li><a href="http://www.w3.org/TR/html5">HTML5 Specification</a></li>
+              <li><a href="http://www.w3.org/TR/wai-aria">ARIA Specification</a></li>
               <li><a href="https://www.w3.org/TR/wai-aria-practices/">ARIA Authoring Practices</a></li>
               <li><a href="https://www.w3.org/TR/accname-aam-1.1/">ARIA Accessible Name Calc</a></li>
               <li><a href="https://www.w3.org/TR/aria-in-html/">ARIA in HTML5</a></li>
@@ -219,7 +219,8 @@
     </div>
     <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>        
     <script type="text/javascript" src="js/bootstrap.min.js"></script>        
-    <script type="text/javascript" src="js/bootstrap-accessibility.min.js"></script>        
+    <script type="text/javascript" src="js/bootstrap-accessibility.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap-accessibility-2.js"></script>       
     <script type="text/javascript" src="js/visua11y.js"></script>        
     <script type="text/javascript" src="js/show.js"></script>        
     <script type="text/javascript" >

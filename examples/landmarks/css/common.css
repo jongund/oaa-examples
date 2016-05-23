@@ -54,7 +54,8 @@ main ul {
     margin-bottom: 1em;
 }
 
-main li {
+main li,
+aside li {
     padding-bottom: 0.25em;
 }
 
