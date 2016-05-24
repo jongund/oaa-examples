@@ -21,14 +21,15 @@ li[role="treeitem"],
 li[role="treeitem"] span {
   list-style: none;
   border: thin transparent solid;
-  width: 8em;
   padding: 0.125em;
+  display: block;
 }
 
 li[role="treeitem"].focus,
 li[role="treeitem"] span.focus {
   border-color: black;
   background-color: #EEEEEE;
+  width: 8em;
 }
 
 ul[role="tree"] {
