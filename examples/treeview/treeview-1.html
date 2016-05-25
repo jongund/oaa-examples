@@ -3,7 +3,7 @@
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
-    <title>ARIA Tree View Example: Actions</title>
+    <title>ARIA Tree View Example</title>
     <link href="../css/core.css" rel="stylesheet">
     <link href="../css/table.css" rel="stylesheet">
     <link href="css/treeview-1.css" rel="stylesheet">
@@ -52,90 +52,133 @@
           <p><label>Last Action: <input id="last_action" type="output" size="15"></label></p>
         </section>
       </div>  
-      <section aria-labelledby="id_a11yfeature">
-      <h2 id="id_a11yfeature">Accessibility Features</h2>
-         <ul class="feature">
-            <li>The tree view container has a <code>role=tree</code></li> 
-            <li>Each node in a tree has the <code>role=treeitem</code> and should be a DOM child of tree.</li>
-            <li>A collection of <code>treeitems</code> to be expanded and collapsed are enclosed in a <code>group</code>.</li>
-            <li>Each tree node which is expanded should have <code> aria-expanded="true"</code></li>
-            <li>Each tree node which can be expanded should have <code> aria-expanded="false"</code></li>           
-          </ul>
+          <section aria-labelledby="id_events">
+        <h2 id="id_events">Events</h2>
+        <table aria-labelledby="id_events"> 
+          <thead>
+            <tr>
+              <th>Event</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>keydown</td>
+              <td>A <code>keydown</code> event listener is added to each element with <code>role=treeitem</code> to support moving focus between the <code>treeitem</code> with the keyboard.</td>
+            </tr>
+            <tr>
+              <td>click</td>
+              <td>Click event listener is added to each element with <code>role=treeitem</code> to support opening and closing a leaf of the tree with the mouse.</td>
+            </tr>
+            <tr>
+              <td>focus</td>
+              <td>Focus event listener is added to each element with <code>role=treeitem</code> to support visual styling of the <code>treeitem</code> when it recieves focus.</td>
+            </tr>
+            <tr>
+              <td>blur</td>
+              <td>Blur event listener is added to each element with <code>role=treeitem</code> to support visual styling of the <code>treeitem</code> when it does not have focus.</td>
+            </tr>
+          </tbody>
+        </table>    
       </section>
+
       <section aria-labelledby="id_kbd">
-      <h2 id="id_kbd">Keyboard Support: Tree view</h2>
-      <table aria-labelledby="id_kbd id_kbd1"> 
-        <thead>
-          <tr>
-            <th>Key</th>
-            <th>Function</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Arrow Key</td>
-            <td>Focus and select the node. Any previous selections are cleared</td>
-          </tr>
-          <tr>
-            <td>Up arrow Key</td>
-            <td>Move up to previous visible nodes.</td>
-          </tr>
-          <tr>
-            <td>Down arrow Key</td>
-            <td>Move down to next visible nodes.</td>
-          </tr>
-          <tr>
-            <td>Left Arrow Key</td>
-            <td>On an expanded node closes the node and on a closed or end node moves focus to the node's parent.</td>
-          </tr>
-          <tr>
-            <td>Right Arrow Key</td>
-            <td>Expands a closed node, moves to the first child of an open node, or does nothing on an end node.</td>
-          </tr>
-          <tr>
-            <td>Return Key</td>
-            <td>Performs the default action on end nodes.</td>
-          </tr>
-          <tr>
-            <td>Home Key</td>
-            <td>Moves to the top node in the tree view.</td>
-          </tr>
-          <tr>
-            <td>End Key</td>
-            <td>Moves to the last visible node in the tree view.</td>
-          </tr>
-        </tbody>
-      </table>
+
+      <h2 id="id_kbd">Keyboard Support</h2>
+      
+        <table aria-labelledby="id_kbd"> 
+          <thead>
+            <tr>
+              <th>Key</th>
+              <th>Function</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Arrow Key</td>
+              <td>Focus and select the node. Any previous selections are cleared</td>
+            </tr>
+            <tr>
+              <td>Up arrow Key</td>
+              <td>Move up to previous visible node.</td>
+            </tr>
+            <tr>
+              <td>Down arrow Key</td>
+              <td>Move down to next visible node.</td>
+            </tr>
+            <tr>
+              <td>Left Arrow Key</td>
+              <td>Closes the node on an expanded node, moves focus to the node's parent on a closed or end node.</td>
+            </tr>
+            <tr>
+              <td>Right Arrow Key</td>
+              <td>Expands on a closed node, moves focus to the first child of an open node, or does nothing on an end node.</td>
+            </tr>
+            <tr>
+              <td>Return Key</td>
+              <td>Performs the default action on end nodes.</td>
+            </tr>
+            <tr>
+              <td>Home Key</td>
+              <td>Moves to the top node in the tree view.</td>
+            </tr>
+            <tr>
+              <td>End Key</td>
+              <td>Moves to the last visible node in the tree view.</td>
+            </tr>
+          </tbody>
+        </table>
       
 
-      <h2 id="id_rps">ARIA Roles, Properties and States</h2>
+      <h2 id="id_roles">ARIA Roles</h2>
 
-      <table aria-labelledby="id_rps"> 
+      <table aria-labelledby="id_roles"> 
         <thead>
           <tr>
             <th>Role</th>
-            <th>Property/State</th>
             <th>Usage</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td>tree</td>
-            <td></td>
-            <td></td>
+            <td>The tree view container has a <code>role=tree</code>.</td>
           </tr>
           <tr>
             <td>treeitem</td>  
+            <td>Each node in a tree has the <code>role=treeitem</code> and should be a DOM child of tree.</td>
           </tr>
           <tr>
-            <td>aria-expanded</td>  
-            <td></td> 
+            <td>group</td>  
+            <td>A collection of <code>treeitem</code>s to be expanded and collapsed are enclosed in a element with <code>role=group</code>.  The <code>ul</code> element has the default role of <code>group</code>.</td>
           </tr>
         </tbody>
       </table>
       </section>
       
+      <h2 id="id_props">ARIA Properties and States</h2>
 
+      <table aria-labelledby="id_props"> 
+        <thead>
+          <tr>
+            <th>Property/State</th>
+            <th>Usage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>aria-expanded</td>
+            <td>
+              <ul>
+                <li>Each element with <code>role=treeitem</code> that can be expanded or contracted should have an <code>aria-expanded</code> attribute.</li>
+                <li>Each element with <code>role=treeitem</code> which is expanded should have <code> aria-expanded="true"</code>.</li>
+                <li>Each element with <code>role=treeitem</code> which is collapsed should have <code> aria-expanded="false"</code>.</li>           
+              </ul>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      </section>
       <section aria-labelledby="sc-ex1">
         <h2 id="sc-ex1">Source Code: Example</h2>
       
