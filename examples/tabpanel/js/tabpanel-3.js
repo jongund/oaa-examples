@@ -1,7 +1,6 @@
-
-
 /*
- * Copyright 2011-2014 OpenAjax Alliance
+ * Copyright 2011-2014 University of Illinois
+ * Authors: Thomas Foltz and Jon Gunderson
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +15,13 @@
  * limitations under the License.
  */
  
-/*
- * ARIA Menu Button example
- * @function onload
- * @desc 
+/**
+ * ARIA tabpanel example
+ *
+ * @function 
+ *     onload
+ * @desc
+ *     After page has loaded initialize all tabpanels based on the selector "div.tabpanel"
  */
 
 window.addEventListener('load', function(){
@@ -45,15 +47,14 @@ var aria = aria ||{};
 /* ---------------------------------------------------------------- */
 
 /**
- * @constructor Menu
+ * @desc  
+ *     Computes absolute position of an element
  *
- * @memberOf aria.Utils
-
- * @desc  Computes absolute position of an element
+ * @param element
+ *     DOM node object
  *
- * @param  element    DOM node  -  DOM node object
- *
- * @retruns  Object  Object contains left and top position
+ * @returns
+ *     Object contains left and top position
  */
 
 aria.Utils = aria.Utils ||{};
@@ -83,17 +84,13 @@ aria.widget = aria.widget ||{};
 /* ---------------------------------------------------------------- */
 
 /**
- * @constructor Tabpanel
+ * @constructor aria.widget.Tabpanel
  *
- * @memberOf aria.Widget
+ * @desc
+ *     Creates a tabpanel widget
  *
- * @desc  Creates a toolbar widget using ARIA 
- *
- * @param  node    DOM node  -  DOM node object
- *
- * @property  keyCode      Object    -  Object containing the keyCodes used by the slider widget
- *
- * @property  node               Object    -  JQuery node object
+ * @param node
+ *     DOM button object with class="tabpanel"
  */
 
 aria.widget.Tabpanel = function(node){
@@ -129,12 +126,12 @@ aria.widget.Tabpanel = function(node){
 };
 
 /**
- * @method initToolbar
+ * @method aria.widget.Tabpanel.prototype.initTabpanel
  *
- * @memberOf aria.widget.Tabpanel
- *
- * @desc  Adds event handlers to input element 
+ * @desc
+ *     Adds event handlers to tab element 
  */
+
 
 aria.widget.Tabpanel.prototype.initTabpanel = function(){
   
@@ -164,11 +161,10 @@ aria.widget.Tabpanel.prototype.initTabpanel = function(){
 };
 
 /**
- * @method nextTab
+ * @method aria.widget.Tabpanel.prototype.nextTab
  *
- * @memberOf aria.widget.Tabpanel
- *
- * @desc  Moves focus to the next tabpanel 
+ * @desc
+ *     Moves focus to the next tabpanel 
  */
  
 aria.widget.Tabpanel.prototype.nextTab = function(){
@@ -203,11 +199,10 @@ aria.widget.Tabpanel.prototype.nextTab = function(){
 };
 
 /**
- * @method previousButton
+ * @method aria.widget.Tabpanel.prototype.previousTab
  *
- * @memberOf aria.widget.Tabpanel
- *
- * @desc  Moves focus to the previous toolbar button 
+ * @desc
+ *     Moves focus to the previous tabpanel 
  */
 
 aria.widget.Tabpanel.prototype.previousTab = function(){
@@ -242,11 +237,10 @@ aria.widget.Tabpanel.prototype.previousTab = function(){
 };
 
 /**
- * @method closeTabs
+ * @method aria.widget.Tabpanel.prototype.closeTabs
  *
- * @memberOf aria.widget.Tabpanel
- *
- * @desc  closes all tabs     
+ * @desc
+ *     closes all tabs     
  */
  
 aria.widget.Tabpanel.prototype.closeTabs = function(){
@@ -272,11 +266,10 @@ aria.widget.Tabpanel.prototype.closeTabs = function(){
 
 
 /**
- * @method openActiveTab
- *    
- * @memberOf aria.widget.Tabpanel
+ * @method aria.widget.Tabpanel.prototype.openActiveTab
  *
- * @desc  closes all tabs
+ * @desc
+ *     opens the active tab
  */
  
 aria.widget.Tabpanel.prototype.openActiveTab = function(){
@@ -291,11 +284,15 @@ aria.widget.Tabpanel.prototype.openActiveTab = function(){
 }
 
 /**
- * @method tabKeyDown
+ * @method aria.widget.Tabpanel.prototype.tabKeyDown
  *
- * @memberOf aria.widget.Tabpanel
+ * @desc
+ *     Keydown event handler for tab objects
+ *     NOTE: The tabpanel parameter is needed to provide a reference to the specific
+ *           tabpanel
  *
- * @desc  handles keydown events for the tabs
+ * @param event, tabpanel
+ *     DOM event object and tabpanel object
  */
  
 aria.widget.Tabpanel.prototype.tabKeyDown = function(event, tabpanel){
@@ -327,11 +324,15 @@ aria.widget.Tabpanel.prototype.tabKeyDown = function(event, tabpanel){
 }
 
 /**
- * @method tabClick
+ * @method aria.widget.Tabpanel.prototype.tabClick
  *
- * @memberOf aria.widget.Tabpanel
+ * @desc
+ *     Click event handler for tab objects
+ *     NOTE: The tabpanel parameter is needed to provide a reference to the specific
+ *           tabpanel
  *
- * @desc  handles keydown events for the tabs
+ * @param event, tabpanel
+ *     DOM event object and tabpanel object
  */
  
 aria.widget.Tabpanel.prototype.tabClick = function(event, tabpanel){
@@ -344,10 +345,30 @@ aria.widget.Tabpanel.prototype.tabClick = function(event, tabpanel){
   tabpanel.openActiveTab();
 }
 
+/**
+ * @method aria.widget.Tabpanel.prototype.tabCloseClick
+ *
+ * @desc
+ *     Closes the current tab on click event
+ *
+ * @param event, tabpanel
+ *     DOM event object and tabpanel object
+ */
+ 
 aria.widget.Tabpanel.prototype.tabCloseClick = function(event, tabpanel){
   tabpanel.closeCurrentTab(event.currentTarget);
 }
 
+/**
+ * @method aria.widget.Tabpanel.prototype.closeCurrentTab
+ *
+ * @desc
+ *     closes the current tab
+ *
+ * @param target
+ *     target of current event
+ */
+ 
 aria.widget.Tabpanel.prototype.closeCurrentTab = function(target){
   console.log(this.tabs.length)
   if(this.tabs.length != 1){

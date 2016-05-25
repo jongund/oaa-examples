@@ -1,3 +1,20 @@
+/*
+ * Copyright 2011-2014 University of Illinois
+ * Authors: Thomas Foltz and Jon Gunderson
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 var KEYCODE = {
     DOWN: 40,
     LEFT: 37,
@@ -23,12 +40,10 @@ window.addEventListener('load', function() {
 
 });
 
-/* 
+/**
 * @function firstRadioButton
 *
 * @desc Returns the first radio button
-*
-* @param   {Object}  event  =  Standard W3C event object
 */
 
 function firstRadioButton(node) {
@@ -45,12 +60,10 @@ function firstRadioButton(node) {
   return null;
 }
 
-/* 
+/**
 * @function lastRadioButton
 *
 * @desc Returns the last radio button
-*
-* @param   {Object}  event  =  Standard W3C event object
 */
 
 function lastRadioButton(node) {
@@ -67,12 +80,10 @@ function lastRadioButton(node) {
   return last;
 }
 
-/* 
+/**
 * @function nextRadioButton
 *
 * @desc Returns the next radio button
-*
-* @param   {Object}  event  =  Standard W3C event object
 */
 
 function nextRadioButton(node) {
@@ -89,12 +100,10 @@ function nextRadioButton(node) {
   return null;
 }
 
-/* 
+/**
 * @function previousRadioButton
 *
 * @desc Returns the previous radio button
-*
-* @param   {Object}  event  =  Standard W3C event object
 */
 
 function previousRadioButton(node) {
@@ -111,12 +120,10 @@ function previousRadioButton(node) {
   return null;
 }
 
-/* 
+/**
 * @function getImage
 *
 * @desc Gets the image for radio box
-*
-* @param   {Object}  event  =  Standard W3C event object
 */
 
 function getImage(node) {
@@ -133,13 +140,10 @@ function getImage(node) {
   return null;
 }
 
-/*
+/**
 * @function setRadioButton
 *
 * @desc Toogles the state of a radio button
-*
-* @param   {Object}  event  -  Standard W3C event object
-*
 */
 
 function setRadioButton(node, state) {
@@ -158,12 +162,10 @@ function setRadioButton(node, state) {
   }  
 }
 
-/*
+/**
 * @function clickRadioGroup
 *
-* @desc 
-*
-* @param   {Object}  node  -  DOM node of updated group radio buttons
+* @desc activeates the clicked radio button and deactivates all others.
 */
 
 function clickRadioGroup(event) {

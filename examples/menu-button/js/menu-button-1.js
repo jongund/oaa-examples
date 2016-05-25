@@ -14,10 +14,10 @@
  * limitations under the License.
  */
  
-/*
+/**
  * ARIA Menu Button example
  * @function onload
- * @desc 
+ * @desc  after page has loaded initializ all menu buttons based on the selector "[aria-haspopup][aria-controls]"
  */
 
 window.addEventListener('load', function() {
@@ -47,12 +47,8 @@ window.addEventListener('load', function() {
  * @constructor Menu
  *
  * @memberOf aria.Utils
-
+ *
  * @desc  Computes absolute position of an element
- *
- * @param  element    DOM node  -  DOM node object
- *
- * @retruns  Object  Object contains left and top position
  */
 
 aria.Utils = aria.Utils || {};
@@ -87,12 +83,6 @@ aria.widget = aria.widget || {};
  * @memberOf aria.Widget
  *
  * @desc  Creates a Menu Button widget using ARIA 
- *
- * @param  node    DOM node  -  DOM node object
- *
- * @property  keyCode      Object    -  Object containing the keyCodes used by the slider widget
- *
- * @property  node               Object    -  JQuery node object
  */
 
 aria.widget.Menu = function(node, menuButton) {
@@ -130,7 +120,7 @@ aria.widget.Menu = function(node, menuButton) {
  *
  * @memberOf aria.widget.Menu
  *
- * @desc  Creates the HTML for the slider 
+ * @desc  Adds event handlers to button elements
  */
 
 aria.widget.Menu.prototype.initMenu = function() {
@@ -203,7 +193,7 @@ aria.widget.Menu.prototype.nextMenuItem = function(currentMenuItem) {
  *
  * @memberOf aria.widget.Menu
  *
- * @desc  Moves focus to next menuItem 
+ * @desc  Moves focus to previous menuItem 
  */
 
 aria.widget.Menu.prototype.previousMenuItem = function(currentMenuItem) {
@@ -357,7 +347,7 @@ aria.widget.Menu.prototype.eventBlur = function(event, menu) {
  *
  * @memberOf aria.widget.Menu
  *
- * @desc  eventBlur event handler for Menu Object
+ * @desc  eventFoucs event handler for Menu Object
  *        NOTE: The menu parameter is needed to provide a reference to the specific
  *               menu 
  */
@@ -377,14 +367,6 @@ aria.widget.Menu.prototype.eventFocus = function(event, menu) {
  * @memberOf aria.Widget
  *
  * @desc  Creates a Menu Button widget using ARIA 
- *
- * @param  node    DOM node  -  DOM node object
- *
- * @property  keyCode      Object    -  Object containing the keyCodes used by the slider widget
- *
- * @property  node               Object    -  JQuery node object
- * @property  mouseInMenuButton  Boolean   - Flag indicating the mouse is in menu button, so menu should stay open
- * @property  mouseInMenu        Boolean   - Flag indicating the mouse is in menu, so menu should stay open
  */
 
 aria.widget.MenuButton = function(node) {
@@ -421,7 +403,7 @@ aria.widget.MenuButton = function(node) {
  *
  * @memberOf aria.widget.MenuButton
  *
- * @desc  Adds event handlers to button element 
+ * @desc  Adds event handlers to button elements
  */
 
 aria.widget.MenuButton.prototype.initMenuButton = function() {
@@ -537,7 +519,7 @@ aria.widget.MenuButton.prototype.moveFocusToFirstMenuItem = function() {
  *
  * @memberOf aria.widget.MenuButton
  *
- * @desc  Move keyboard focus to first menu item
+ * @desc  Move keyboard focus to last menu item
  */
 
 aria.widget.MenuButton.prototype.moveFocusToLastMenuItem = function() {

@@ -21,6 +21,11 @@ function init() {
   
 }
 
+/**
+ * @function printButtonEventHandler
+ *
+ * @desc  Handles events for the print button
+ */
 function printButtonEventHandler(event) {
   var type = event.type;
 
@@ -36,6 +41,12 @@ function printButtonEventHandler(event) {
     window.print();
   }
 }
+
+/**
+ * @function alertButtonEventHandler
+ *
+ * @desc  Handles events for the alert button
+ */
 
 function alertButtonEventHandler(event) {
   var type = event.type;
@@ -54,6 +65,12 @@ function alertButtonEventHandler(event) {
   }
 }
 
+/**
+ * @function toggleButtonEventHandler
+ *
+ * @desc  Handles events for the toggle button
+ */
+
 function toggleButtonEventHandler(event) {
   var type = event.type;
 
@@ -69,6 +86,12 @@ function toggleButtonEventHandler(event) {
     toggleButtonState(event);
   }
 }
+
+/**
+ * @function toggleButtonState
+ *
+ * @desc  Toggles the state of the toggle button
+ */
 
 function toggleButtonState(event) {
   var button = event.target;

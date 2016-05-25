@@ -1,7 +1,7 @@
 
 
 /*
- * Copyright 2011-2014 OpenAjax Alliance
+ * Copyright 2011-2016 University of Illinois
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,350 +16,660 @@
  * limitations under the License.
  */
  
-/*
- * ARIA Menu Button example
+
+/**
+ * ARIA Treeview example
  * @function onload
- * @desc 
+ * @desc  after page has loaded initializ all treeitems based on the role=treeitem
  */
 
-window.addEventListener('load', function(){
 
-  var toolbars = document.querySelectorAll('div.toolbar');
+window.addEventListener('load', function() {
 
-  [].forEach.call(toolbars, function(toolbar){
-    if (toolbar){
-      var tb = new aria.widget.Toolbar(toolbar)
-      tb.initToolbar();
-    }  
-  });
+  var trees = document.querySelectorAll('[role="tree"]');
+
+  for(var i = 0; i <trees.length; i++ ) {
+    var t = new Tree(trees[i]);
+    t.init();
+
+  }
+
 });
 
-/** 
- * @namespace aria
- */
+/*
+*   @constructor 
+*
+*   @desc
+*       Tree item object for representing the state and user interactions for a 
+*       tree widget
+*
+*   @param node
+*       An element with the role=tree attribute
+*/
 
-var aria = aria ||{};
+var Tree = function (node) {
+  // Check whether node is a DOM element
+  if (typeof node !== 'object') return;
 
-/* ---------------------------------------------------------------- */
-/*                  ARIA Utils Namespace                        */ 
-/* ---------------------------------------------------------------- */
-
-/**
- * @constructor Menu
- *
- * @memberOf aria.Utils
-
- * @desc  Computes absolute position of an element
- *
- * @param  element    DOM node  -  DOM node object
- *
- * @retruns  Object  Object contains left and top position
- */
-
-aria.Utils = aria.Utils ||{};
-
-aria.Utils.findPos = function(element){
-    var xPosition = 0;
-    var yPosition = 0;
-  
-    while(element){
-        xPosition += (element.offsetLeft - element.scrollLeft + element.clientLeft);
-        yPosition += (element.offsetTop - element.scrollTop + element.clientTop);
-        element = element.offsetParent;
-    }
-    return{ x: xPosition, y: yPosition };
-};
-
-
-/* ---------------------------------------------------------------- */
-/*                  ARIA Widget Namespace                           */ 
-/* ---------------------------------------------------------------- */
-
-aria.widget = aria.widget ||{};
-
-
-/* ---------------------------------------------------------------- */
-/*                  Toolbar Widget                                  */
-/* ---------------------------------------------------------------- */
-
-/**
- * @constructor Toolbar
- *
- * @memberOf aria.Widget
- *
- * @desc  Creates a toolbar widget using ARIA 
- *
- * @param  node    DOM node  -  DOM node object
- *
- * @property  keyCode      Object    -  Object containing the keyCodes used by the slider widget
- *
- * @property  node               Object    -  JQuery node object
- */
-
-aria.widget.Toolbar = function(node){
+  this.treeNode = node;
 
   this.keyCode = Object.freeze({
-     "TAB"    : 9,
-     "RETURN" : 13,
-     "ESC"    : 27,
-     "SPACE"  : 32,
-     "ALT"    : 18,
-
-     "UP"    : 38,
-     "DOWN"  : 40,
-     "RIGHT" : 39,
-     "LEFT"  : 37
+    'TAB'      :  9,
+    'RETURN'   : 13,
+    'ESC'      : 27,
+    'SPACE'    : 32,
+    'PAGEUP'   : 33,
+    'PAGEDOWN' : 34,
+    'END'      : 35,
+    'HOME'     : 36,
+    'LEFT'     : 37,
+    'UP'       : 38,
+    'RIGHT'    : 39,
+    'DOWN'     : 40
   });
-  if (typeof node !== 'object' || !node.getElementsByClassName) return false;
-  
-  var textAreas = node.getElementsByTagName('textarea');
-  if (textAreas && textAreas[0]) this.textArea = textAreas[0];
-  
-  this.buttons = node.getElementsByTagName('button');
-  this.firstButton = this.buttons[0];
-  nb = this.firstButton;
-  while(nb){
-    if(nb.nodeType === Node.ELEMENT_NODE &&
-      (nb.tagName  === 'DIV')){
-      nb = nb.firstChild;
-    }
-    if(nb.nodeType === Node.ELEMENT_NODE &&
-      (nb.tagName  === 'BUTTON')){
-      this.lastButton = nb;
-    }
-    nb = nb.nextSibling;
-  }
-  this.currentButton = this.firstButton;
 };
 
-/**
- * @method initToolbar
- *
- * @memberOf aria.widget.Toolbar
- *
- * @desc  Adds event handlers to input element 
- */
+/*
+*   @desc
+*       Adds 'keydown', 'click', 'blur' and 'focus' event handlers to the treeitem in the tree
+*       Set tabindex for each treeitemitem
+*       Set the display of treeitems based on aria-expanded state
+*/
+Tree.prototype.init = function () {
+  var that = this;
 
-aria.widget.Toolbar.prototype.initToolbar = function(){
-  
-  var toolbar = this;
-  
-  var eventKeyDown = function (event){
-    toolbar.buttonKeyDown(event, toolbar);
-  };
-  for(i=0;i<this.buttons.length;i++){
-    this.buttons[i].addEventListener('keydown', eventKeyDown);
+  var treeitems = this.getTreeitems(this.treeNode);
+
+  var flag = true;
+
+  this.topTreeitem = false;
+
+  if (treeitems.length) this.topTreeitem =  treeitems[0];
+
+  for (var i = 0; i < treeitems.length; i++) {
+    var ti = treeitems[i];
+
+    if(flag) {
+      ti.tabIndex = 0;
+      flag = false;
+    }
+    else {
+      ti.tabIndex = -1;
+    }  
+
+    ti.addEventListener('keydown', function (event) {
+      that.handleKeydown(event);
+    });
+
+    ti.addEventListener('focus', function (event) {
+      that.handleFocus(event);
+    });
+
+    ti.addEventListener('blur', function (event) {
+      that.handleBlur(event);
+    });
+
+    if (ti.getAttribute('aria-expanded')) {
+      var label = this.getExpandableTreeitemLabel(ti);
+      label.addEventListener('click', function (event) {
+        that.handleClick(event);
+      });
+    }
+
+    if (ti.getAttribute('aria-expanded') === 'false') {
+      this.hideChildTreeitems(ti);
+    }
   }
 
 };
 
-/**
- * @method nextButton
- *
- * @memberOf aria.widget.Toolbar
- *
- * @desc  Moves focus to the next toolbar button 
- */
- 
-aria.widget.Toolbar.prototype.nextButton = function(){
-  var cb = this.currentButton
-  var nb = cb.nextSibling;
 
-  while (nb){
-    if((nb.nodeType === Node.ELEMENT_NODE &&
-      (nb.tagName  === 'DIV'))){
-        nb = nb.firstChild;
+
+
+/*
+*   @desc
+*       Finds the label text for the expandable treeitem
+*
+*   @param node
+*       DOM node to start looking for label
+*
+*   @returns
+*       DOM node of label 
+*/
+
+Tree.prototype.getExpandableTreeitemLabel = function(node) {
+
+  var n = node.firstChild;
+  while (n) {
+    if (n.nodeType === Node.ELEMENT_NODE) return n;
+    n = n.nextSibling;
+  }
+  return false;
+
+};
+
+/*
+*   @desc
+*       Finds all the descendant treeitems of the node
+*
+*   @param node
+*       DOM node to start looking for descendant treeitems
+*
+*   @returns
+*       Array of DOM nodes 
+*/
+
+Tree.prototype.getTreeitems = function(node) {
+
+  var n = node.firstChild;
+  var ti = [];
+
+  while (n) {
+    if (n.nodeType === Node.ELEMENT_NODE) {
+
+      if (n.getAttribute('role') === 'treeitem') ti.push(n);
+
+      if (n.firstChild) ti = ti.concat(this.getTreeitems(n));
+
+    }
+    n = n.nextSibling;
+  }
+
+  return ti;
+
+};
+
+/*
+*   @desc
+*       Finds all the child treeitems of the node
+*
+*   @param node
+*       DOM node to start looking for child treeitems
+*
+*   @returns
+*       Array of DOM nodes 
+*/
+
+Tree.prototype.getChildTreeitems = function(node) {
+
+  var n = this.getFirstChildTreeitem(node);
+  var ti = [];
+
+  while (n) {
+    if (n.nodeType === Node.ELEMENT_NODE && 
+        n.getAttribute('role') === 'treeitem') {
+        ti.push(n);
+    }
+    n = n.nextSibling;
+  }
+
+  return ti;
+
+};
+
+/*
+*   @desc
+*       Get first child treeitem, if exists
+*
+*   @param node
+*       DOM node to start looking for previous sibling
+*
+*   @returns
+*       DOM node or False 
+*/
+
+Tree.prototype.getFirstChildTreeitem = function(node) {
+
+  var n = node.firstChild;
+
+  while (n) {
+    if (n.nodeType === Node.ELEMENT_NODE) {
+      var flag = n.getAttribute('role')  === 'treeitem';
+      if (flag) {
+        return n;
       }
-    if(nb.nodeType === Node.ELEMENT_NODE &&
-      (nb.tagName  === 'BUTTON')){
-      cb.tabIndex = -1;
-      nb.tabIndex = 0;
-      nb.focus();
-      this.currentButton = nb;
-      return nb;
+      else {
+        n1 = this.getFirstChildTreeitem(n);
+        if (n1) return n1;
+      }  
     }
-    nb = nb.nextSibling;
+    n = n.nextSibling;
   }
 
-  if (!nb && this.firstButton){
-    nb = this.firstButton;
-    cb.tabIndex = -1;
-    nb.tabIndex = 0;
-    nb.focus();
-    this.currentButton = nb;
-    return nb;
-  }
   return false;
 };
 
-/**
- * @method previousButton
- *
- * @memberOf aria.widget.Toolbar
- *
- * @desc  Moves focus to the previous toolbar button 
- */
+/*
+*   @desc
+*       Get previous sibling treeitem, if exists
+*
+*   @param node
+*       DOM node to start looking for previous sibling
+*
+*   @returns
+*       DOM node or False 
+*/
 
-aria.widget.Toolbar.prototype.previousButton = function(){
-  var cb = this.currentButton;
-  var prntbttn = cb
-  flag = false;
-  while(prntbttn.getAttribute('class') != 'toolbar'){
-    prntbttn = prntbttn.parentNode;
-  }
-  var allChildren = prntbttn.getElementsByTagName('BUTTON');
+Tree.prototype.getPreviousSiblingTreeitem = function(node) {
 
-  for(var i=allChildren.length-1; i >= 0;i--){
-    if(flag){
-      this.currentButton.tabIndex = -1;
-      allChildren[i].tabIndex = 0;
-      allChildren[i].focus();
-      this.currentButton = allChildren[i];
-      return allChildren[i];
+  var ti = node.previousSibling;
+
+  while (ti) {
+    if (ti.nodeType === Node.ELEMENT_NODE) {
+      if (ti.getAttribute('role')  === 'treeitem') {
+        return ti;
+      }
     }
-    if(allChildren[i].tabIndex == 0){
-      flag = true;
-    }
+    ti = ti.previousSibling;
   }
 
-  if (this.lastButton){
-    pb = this.lastButton;
-    cb.tabIndex = -1;
-    pb.tabIndex = 0;
-    pb.focus();
-    this.currentButton = pb;
-    return pb;
+  return false;
+};
+
+/*
+*   @desc
+*       Get previous sibling treeitem, if exists
+*
+*   @param node
+*       DOM node to start looking for previous sibling
+*
+*   @returns
+*       DOM node or False 
+*/
+
+Tree.prototype.getNextSiblingTreeitem = function(node) {
+
+  var ti = node.nextSibling;
+
+  while (ti) {
+    if (ti.nodeType === Node.ELEMENT_NODE) {
+      if (ti.getAttribute('role')  === 'treeitem') {
+        return ti;
+      }
+    }
+    ti = ti.nextSibling;
   }
+
+  return false;
+};
+
+/*
+*   @desc
+*       Get last sibling treeitem
+*
+*   @returns
+*       DOM node or False 
+*/
+
+Tree.prototype.getLastSiblingTreeitem = function(node) {
+
+  var ti = node;
+  var last = false
+
+  while (ti) {
+    if (ti.nodeType === Node.ELEMENT_NODE) {
+      if (ti.getAttribute('role')  === 'treeitem') {
+        last = ti;
+      }
+    }
+    ti = ti.nextSibling;
+  }
+
+  return last;
+};
+
+/*
+*   @desc
+*       Get last visible treeitem
+*
+*   @returns
+*       DOM node or False 
+*/
+
+Tree.prototype.getLastVisibleTreeitem = function() {
+
+  var lastVisible = this.getLastSiblingTreeitem(this.topTreeitem);
+
+  while (lastVisible.getAttribute('aria-expanded') === 'true') {
+    var node = this.getFirstChildTreeitem(lastVisible);
+    if (node) lastVisible = this.getLastSiblingTreeitem(node);
+    else break;
+  }
+  return lastVisible;
+};
+
+/*
+*   @desc
+*       Get parent treeitem, if exists
+*
+*   @param node
+*       DOM node to start looking for parent treeitem
+*
+*   @returns
+*       DOM node or False 
+*/
+
+Tree.prototype.getParentTreeitem = function(node) {
+
+  var ti = node.parentElement;
+
+  while (ti) {
+    if (ti.nodeType === Node.ELEMENT_NODE) {
+      if (ti.getAttribute('role')  === 'treeitem') {
+        return ti;
+      }
+    }
+    ti = ti.parentElement;
+  }
+
   return false;
 };
 
 
-/**
- * @method buttonKeyDown
- *
- * @memberOf aria.widget.Toolbar
- *
- * @desc  handles keydown events for the buttons
- */
- 
-aria.widget.Toolbar.prototype.buttonKeyDown = function(event, toolbar){
-  
-  var flag = false;
-  
-  switch(event.keyCode){
-    case toolbar.keyCode.RIGHT:
-      cb = toolbar.nextButton();
+/*
+*   @desc
+*       Keyboard event handler for treeitems
+*
+*   @param event
+*       DOM event object
+*/
+
+Tree.prototype.handleKeydown = function (event) {
+  var ct = event.currentTarget,
+      flag = false;
+
+  var expanded = ct.getAttribute('aria-expanded'); 
+
+  switch (event.keyCode) {
+
+    case this.keyCode.SPACE:
+    case this.keyCode.RETURN:
+      // Create simulated mouse event to mimic the behavior of ATs
+      // and let the event handler handleClick do the housekeeping.
+      try {
+        clickEvent = new MouseEvent('click', {
+          'view': window,
+          'bubbles': true,
+          'cancelable': true
+        });
+      }
+      catch(err) {
+        if (document.createEvent) {
+          // DOM Level 3 for IE 9+
+          clickEvent = document.createEvent('MouseEvents');
+          clickEvent.initEvent('click', true, true);
+        }
+      }
+      ct.dispatchEvent(clickEvent);
       flag = true;
       break;
-    case toolbar.keyCode.LEFT:
-      cb = toolbar.previousButton();
+
+    case this.keyCode.UP:
+      this.moveFocusToPreviousTreeitem(ct);
       flag = true;
       break;
-    
+
+    case this.keyCode.DOWN:
+      this.moveFocusToNextTreeitem(ct);
+      flag = true;
+      break;
+
+    case this.keyCode.LEFT:
+
+      if (expanded) {
+        if (expanded === 'true') this.hideChildTreeitems(ct);
+        else this.moveFocusToParentTreeitem(ct);
+      }
+      else {
+        this.moveFocusToParentTreeitem(ct);
+      } 
+
+      flag = true;
+      break;
+
+    case this.keyCode.RIGHT:
+      if (expanded === 'false') {
+        this.showChildTreeitems(ct);
+      } 
+      this.moveFocusToFirstChildTreeitem(ct);
+      flag = true;
+      break;
+
+    case this.keyCode.HOME:
+      this.moveFocusToTopTreeitem(ct);
+      flag = true;
+      break;
+
+    case this.keyCode.END:
+      this.moveFocusToLastVisibleTreeitem(ct);
+      flag = true;
+      break;
+
+
+    default:
+      break;
   }
-  if (flag){
+
+  if (flag) {
     event.stopPropagation();
     event.preventDefault();
   }
-}
+};
 
-/**
- * @function increaseFontSize
- *
- * @desc  Increases the font size of the text area
- */
- 
-increaseFontSize = function(event){
-  var button = event.currentTarget;
-  var textArea = document.getElementById(button.getAttribute("aria-controls"));
-  fontSize = getComputedStyle(textArea).fontSize;
-  fontSize = fontSize.replace("px","");
-  fontSize = Number(fontSize);
-  if (fontSize < 24){
-    fontSize = Number(fontSize) + 2;
-    fontSize = fontSize.toString() + "px";
-    textArea.style.fontSize = fontSize;
+/*
+*   @desc
+*       Click event handler for treeitems
+*       Doesn't cancel click event, so that other onclick events on element
+*       can be processed
+*
+*   @param event
+*       DOM event object
+*/
+
+Tree.prototype.handleClick = function (event) {
+  var ct = event.currentTarget.parentElement;
+
+  var expanded = ct.getAttribute('aria-expanded'); 
+
+  if (expanded === 'true') {
+    ct.setAttribute('aria-expanded', 'false')
+    this.hideChildTreeitems(ct);
   }
-}
-
-/**
- * @function decreaseFontSize
- *
- * @desc  Decreases the font size of the text area
- */
- 
-decreaseFontSize = function(event){
-  var button = event.currentTarget;
-  var textArea = document.getElementById(button.getAttribute("aria-controls"));
-  fontSize = getComputedStyle(textArea).fontSize;
-  fontSize = fontSize.replace("px","");
-  fontSize = Number(fontSize);
-  if (fontSize > 10){
-    fontSize = Number(fontSize) - 2;
-    fontSize = fontSize.toString() + "px";
-    textArea.style.fontSize = fontSize;
+  else {
+    ct.setAttribute('aria-expanded', 'true')
+    this.showChildTreeitems(ct);
   }
-}
 
-/**
- * @function justify
- *
- * @desc  Justifies the text of the text area to the the specified direction
- */
-justify = function(event, justification){
-  var button = event.currentTarget;
-  var textArea = document.getElementById(button.getAttribute("aria-controls"));
-  textArea.style.textAlign = justification;
-  
-  unhightlightJustify(event);
-  highlightJustify(event, justification);
-}
+};
 
+/*
+*   @desc
+*       Styles focus of treeitem
+*
+*   @param event
+*       DOM event object
+*/
 
-/**
- * @function unhightlightJustify
- *
- * @desc  Unhighlights all of the justification buttons
- */
+Tree.prototype.handleFocus = function (event) {
+  var ct = event.currentTarget;
+  var node = ct.firstElementChild;
+  if (!node) node = ct;
+  node.classList.add('focus'); 
+};
 
-unhightlightJustify = function(event){
-  var button = event.currentTarget.parentNode.firstChild;  
-  while(button){
-    if (button.nodeType === Node.ELEMENT_NODE && 
-        button.tagName === 'BUTTON'){
-      img = button.firstChild;
-      while(img){
-        if (img.nodeType === Node.ELEMENT_NODE && 
-          img.tagName === 'IMG' && img.src.indexOf('-pressed') > 0){
-            var imgText = img.src.replace('-pressed','');
-            img.src = imgText;
-        }
-        img = img.nextSibling;
-      }
-    }
-    button = button.nextSibling;
-  }  
-}
+/*
+*   @desc
+*       Styles blur of treeitem
+*
+*   @param event
+*       DOM event object
+*/
+
+Tree.prototype.handleBlur = function (event) {
+  var ct = event.currentTarget;
+  var node = ct.firstElementChild;
+  if (!node) node = ct;
+  node.classList.remove('focus'); 
+};
 
 
-/**
- * @function highlightJustify
- *
- * @desc  Highlights the clicked justification button
- */
+/*
+*   @desc
+*       Hides child treeitems if aria-expanded=true (e.g. children are visible)
+*
+*   @param treeitem
+*       Treeitem with child treeitems 
+*/
 
-highlightJustify = function(event,item){
-  var img = event.currentTarget.firstChild;
-  var itemText = item.replace(".png","");
+Tree.prototype.hideChildTreeitems = function (treeitem) {
 
-  while(img) {
-    if (img.nodeType === Node.ELEMENT_NODE) {
-      if (img.tagName === 'IMG') break;
-    }
-    img = img.nextSibling;
+  var treeitems = this.getChildTreeitems(treeitem);
+
+  for(var i = 0; i < treeitems.length; i++) {
+    treeitems[i].style.display = 'none';
   }
-  if(img.src.indexOf(item + '.png') > 0){
-    var imgText = "./images/" + itemText + "-pressed.png";
-    img.src = imgText;
-  }  
-}
+  treeitem.setAttribute('aria-expanded', 'false');
+
+};
+
+/*
+*   @desc
+*       Show child treeitems if aria-expanded=false (e.g. children are invisible)
+*
+*   @param treeitem
+*       Treeitem with child treeitems 
+*/
+
+Tree.prototype.showChildTreeitems = function (treeitem) {
+
+  var treeitems = this.getChildTreeitems(treeitem);
+
+  for(var i = 0; i < treeitems.length; i++) {
+    treeitems[i].style.display = 'block';
+  }
+  treeitem.setAttribute('aria-expanded', 'true');
+
+};
+
+/*
+*   @desc
+*       Moves focus to parent treeitem, if it exists
+*
+*   @param treeitem
+*       Treeitem with current focus
+*/
+
+Tree.prototype.moveFocusToParentTreeitem = function (treeitem) {
+
+  var p = this.getParentTreeitem(treeitem);
+
+  if (p) {
+    treeitem.tabIndex = -1;
+    p.tabIndex = 0;
+    p.focus();
+  }
+
+};
+
+/*
+*   @desc
+*       Moves focus to first child treeitem, if it exists
+*
+*   @param treeitem
+*       Treeitem with current focus
+*/
+
+Tree.prototype.moveFocusToFirstChildTreeitem = function (treeitem) {
+
+  var treeitem = this.getFirstChildTreeitem(treeitem);
+
+  if (treeitem) {
+    treeitem.tabIndex = -1;
+    var ti = treeitem;
+    ti.tabIndex = 0;
+    ti.focus();
+  }
+
+};
+
+
+/*
+*   @desc
+*       Moves focus to previous sibling treeitem, if it exists
+*
+*   @param treeitem
+*       Treeitem with current focus
+*/
+
+Tree.prototype.moveFocusToPreviousTreeitem = function (treeitem) {
+
+  var ti = this.getPreviousSiblingTreeitem(treeitem);
+
+  if (ti) {
+    ti.focus();
+    ti.tabIndex = 0;
+    treeitem.tabIndex = -1;
+  }
+
+};
+
+/*
+*   @desc
+*       Moves focus to next sibling treeitem, if it exists
+*
+*   @param treeitem
+*       Treeitem with current focus
+*/
+
+Tree.prototype.moveFocusToNextTreeitem = function (treeitem) {
+
+  var ti = this.getNextSiblingTreeitem(treeitem);
+
+  if (ti) {
+    ti.focus();
+    ti.tabIndex = 0;
+    treeitem.tabIndex = -1;
+  }
+
+};
+
+/*
+*   @desc
+*       Moves focus to top treeitem,
+*
+*   @param treeitem
+*       Treeitem with current focus
+*/
+
+Tree.prototype.moveFocusToTopTreeitem = function (treeitem) {
+
+  var ti = this.topTreeitem;
+
+  if (ti) {
+    ti.focus();
+    ti.tabIndex = 0;
+    treeitem.tabIndex = -1;
+  }
+
+};
+
+
+/*
+*   @desc
+*       Moves focus to last visible treeitem,
+*
+*   @param treeitem
+*       Treeitem with current focus
+*/
+
+Tree.prototype.moveFocusToLastVisibleTreeitem = function (treeitem) {
+
+  var ti = this.getLastVisibleTreeitem();
+
+  if (ti) {
+    ti.focus();
+    ti.tabIndex = 0;
+    treeitem.tabIndex = -1;
+  }
+
+};

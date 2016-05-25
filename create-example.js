@@ -25,6 +25,4 @@ console.log('Open: ' + fname);
 })
 
 
-console.log(markdown("**bold** *italic* [link](http://www.neti.ee) `code block`"));
-
 
