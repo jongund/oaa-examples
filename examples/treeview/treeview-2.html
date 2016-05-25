@@ -56,24 +56,29 @@
           <thead>
             <tr>
               <th>Event</th>
+              <th>Element</th>
               <th>Description</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td>keydown</td>
+              <td><code>[role=treeitem]</code></td>
               <td>A <code>keydown</code> event listener is added to each element with <code>role=treeitem</code> to support moving focus between the <code>treeitem</code> with the keyboard.</td>
             </tr>
             <tr>
               <td>click</td>
-              <td>Click event listener is added to each element with <code>role=treeitem</code> to support opening and closing a leaf of the tree with the mouse.</td>
+              <td><code>[role=treeitem][aria-expanded]</code></td>
+              <td>Click event listener is added to each element with <code>role=treeitem</code> and <code>aria-expanded</code> to support opening and closing a branch of the tree with the mouse.</td>
             </tr>
             <tr>
               <td>focus</td>
+              <td><code>[role=treeitem]</code></td>
               <td>Focus event listener is added to each element with <code>role=treeitem</code> to support visual styling of the <code>treeitem</code> when it recieves focus.</td>
             </tr>
             <tr>
               <td>blur</td>
+              <td><code>[role=treeitem]</code></td>
               <td>Blur event listener is added to each element with <code>role=treeitem</code> to support visual styling of the <code>treeitem</code> when it does not have focus.</td>
             </tr>
           </tbody>
@@ -138,20 +143,29 @@
             <tr>
               <th>Role</th>
               <th>Usage</th>
+              <th>Accessible Name Source</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td>tree</td>
               <td>The tree view container has a <code>role=tree</code>.</td>
+              <td><code>aria-labelledby</code> to visible label.</td>
             </tr>
             <tr>
               <td>treeitem</td>  
               <td>Each node in a tree has the <code>role=treeitem</code> and should be a DOM child of tree.</td>
+              <td>
+                <ul>
+                  <li>Child text content of <code>treeitem</code>.</li>
+                  <li><code>aria-label</code> for <code>treeitem</code>s that expand and collapse.</li>
+                </ul>
+              </td>  
             </tr>
             <tr>
-              <td>group</td>  
+              <td>group</td>
               <td>A collection of <code>treeitem</code>s to be expanded and collapsed are enclosed in a element with <code>role=group</code>.  The <code>ul</code> element has the default role of <code>group</code>.</td>
+              <td>not needed</td>  
             </tr>
           </tbody>
         </table>
@@ -174,11 +188,19 @@
               <td>aria-expanded</td>
               <td>
                 <ul>
-                  <li>Each element with <code>role=treeitem</code> that can be expanded or contracted should have an <code>aria-expanded</code> attribute.</li>
+                  <li>Each element with <code>role=treeitem</code> that can be expanded or collapsed should have an <code>aria-expanded</code> attribute.</li>
                   <li>Each element with <code>role=treeitem</code> which is expanded should have <code> aria-expanded="true"</code>.</li>
                   <li>Each element with <code>role=treeitem</code> which is collapsed should have <code> aria-expanded="false"</code>.</li>           
                 </ul>
               </td>
+            </tr>
+            <tr>
+              <td>aria-labelledby</td>
+              <td>Provides accessible name for the <code>tree</code> role.</td>
+            </tr>
+            <tr>
+              <td>aria-label</td>
+              <td>Provides accessible name for the <code>treeitem</code>s that are expandable and collapsable.</td>
             </tr>
           </tbody>
         </table>
@@ -192,7 +214,7 @@
         <table aria-labelledby="id_tabindex"> 
           <thead>
             <tr>
-              <th style="min-width: 8em;">Element Selector</th>
+              <th style="min-width: 8em;" title="Element Selector">Elements</th>
               <th style="min-width: 4em;">Values</th>
               <th>Purpose</th>
             </tr>
@@ -201,12 +223,12 @@
             <tr>
               <td>[role=treeitem]</td>
               <td>0 or -1</td>
-              <td>The treeitem with the current focus should have tabindex=0, all other treeitems should have a tabindex value of -1.</td>
+              <td>The <code>treeitem</code> with the current focus should have tabindex=0, all other <code>treeitem</code>s should have a tabindex value of -1.</td>
             </tr>
             <tr>
               <td>[role=treeitem] a</td>
               <td>-1</td>
-              <td>Remove any links that are descendants of a <code>treeitem</code> from the tab order of the page by changing tabindex value to -1 (e.g. the default value is 0).</td>
+              <td>Remove any links that are descendants of a <code>treeitem</code> from the default tab order of the page by changing tabindex value to -1 (e.g. the default value for a link is 0).</td>
             </tr>
           </tbody>
         </table>
