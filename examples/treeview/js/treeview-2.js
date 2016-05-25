@@ -119,6 +119,11 @@ Tree.prototype.init = function () {
     if (ti.getAttribute('aria-expanded') === 'false') {
       this.hideChildTreeitems(ti);
     }
+
+    // if an treeitem contains a link set it's tabindex to -1
+    var links = ti.getElementsByTagName('a');
+    if (links.length) links[0].tabIndex = -1;
+
   }
 
 };
