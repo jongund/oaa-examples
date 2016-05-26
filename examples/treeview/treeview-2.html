@@ -49,43 +49,6 @@
         </section>
       </div>  
 
-      <section aria-labelledby="id_events">
-
-        <h2 id="id_events">Events</h2>
-        <table aria-labelledby="id_events"> 
-          <thead>
-            <tr>
-              <th>Event</th>
-              <th>Element</th>
-              <th>Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>keydown</td>
-              <td><code>[role=treeitem]</code></td>
-              <td>A <code>keydown</code> event listener is added to each element with <code>role=treeitem</code> to support moving focus between the <code>treeitem</code> with the keyboard.</td>
-            </tr>
-            <tr>
-              <td>click</td>
-              <td><code>[role=treeitem][aria-expanded]</code></td>
-              <td>Click event listener is added to each element with <code>role=treeitem</code> and <code>aria-expanded</code> to support opening and closing a branch of the tree with the mouse.</td>
-            </tr>
-            <tr>
-              <td>focus</td>
-              <td><code>[role=treeitem]</code></td>
-              <td>Focus event listener is added to each element with <code>role=treeitem</code> to support visual styling of the <code>treeitem</code> when it recieves focus.</td>
-            </tr>
-            <tr>
-              <td>blur</td>
-              <td><code>[role=treeitem]</code></td>
-              <td>Blur event listener is added to each element with <code>role=treeitem</code> to support visual styling of the <code>treeitem</code> when it does not have focus.</td>
-            </tr>
-          </tbody>
-        </table>    
-
-      </section>
-
       <section aria-labelledby="id_kbd">
 
         <h2 id="id_kbd">Keyboard Support</h2>
@@ -134,6 +97,7 @@
         </table>
 
       </section>    
+
 
       <section aria-labelledby="id_roles">
         <h2 id="id_roles">ARIA Roles</h2>
@@ -235,6 +199,80 @@
 
       </section>
 
+      <section aria-labelledby="id_events">
+
+        <h2 id="id_events">Events</h2>
+        <table aria-labelledby="id_events"> 
+          <thead>
+            <tr>
+              <th>Event</th>
+              <th>Element</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>keydown</td>
+              <td><code>[role=treeitem]</code></td>
+              <td>A <code>keydown</code> event listener is added to each element with <code>role=treeitem</code> to support moving focus between the <code>treeitem</code> with the keyboard.</td>
+            </tr>
+            <tr>
+              <td>click</td>
+              <td><code>[role=treeitem][aria-expanded]</code></td>
+              <td>Click event listener is added to each element with <code>role=treeitem</code> and <code>aria-expanded</code> to support opening and closing a branch of the tree with the mouse.</td>
+            </tr>
+            <tr>
+              <td>focus</td>
+              <td><code>[role=treeitem]</code></td>
+              <td>Focus event listener is added to each element with <code>role=treeitem</code> to support visual styling of the <code>treeitem</code> when it recieves focus.</td>
+            </tr>
+            <tr>
+              <td>blur</td>
+              <td><code>[role=treeitem]</code></td>
+              <td>Blur event listener is added to each element with <code>role=treeitem</code> to support visual styling of the <code>treeitem</code> when it does not have focus.</td>
+            </tr>
+          </tbody>
+        </table>    
+
+      </section>
+
+      <section aria-labelledby="id_focus">
+      
+        <h2 id="id_focus">Keyboard Focus Styling</h2>
+
+        <table aria-labelledby="id_focus"> 
+          <thead>
+            <tr>
+              <th style="min-width: 8em;" title="Element Selector">Elements</th>
+              <th>Focus Style</th>
+              <th>Focus Technique</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>[role=treeitem]</td>
+              <td>
+                <ul>
+                  <li>border</li>
+                  <li>background-color</li>
+                </ul>
+              </td>
+              <td><code>focus</code> and <code>blur</code> events are used to add and remove a "focus" class to the <cod>treeitem</code> element.</td>
+            </tr>
+            <tr>
+              <td>[role=treeitem][aria-expanded]</td>
+              <td>
+                <ul>
+                  <li>border</li>
+                  <li>background-color</li>
+                </ul>
+              </td>
+              <td><code>focus</code> and <code>blur</code> events are used to add and remove a "focus" class to the first child element (e.g <code>span</code> element) of the <cod>treeitem</code> element.</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </section>
       <section aria-labelledby="sc-ex1">
         <h2 id="sc-ex1">Source Code: Example</h2>
       
