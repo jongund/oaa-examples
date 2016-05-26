@@ -6,10 +6,10 @@
     <title>ARIA Tree View Example</title>
     <link href="../css/core.css" rel="stylesheet">
     <link href="../css/table.css" rel="stylesheet">
-    <link href="css/treeview-1.css" rel="stylesheet">
+    <link href="css/treeview.css" rel="stylesheet">
     <script type="text/javascript" src="http://www.oaa-accessibility.org/media/examples/js/jquery-1.4.2.min.js"></script>
     <script type="text/javascript" src="../js/examples.js" type="text/javascript"></script>
-    <script type="text/javascript" src="js/treeview-1.js" type="text/javascript"></script>
+    <script type="text/javascript" src="js/treeview.js" type="text/javascript"></script>
     <script type="text/javascript" src="js/treeview-1-onclick.js" type="text/javascript"></script>
 
   </head>
@@ -52,39 +52,9 @@
           <p><label>Last Action: <input id="last_action" type="output" size="15"></label></p>
         </section>
       </div>  
-          <section aria-labelledby="id_events">
-        <h2 id="id_events">Events</h2>
-        <table aria-labelledby="id_events"> 
-          <thead>
-            <tr>
-              <th>Event</th>
-              <th>Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>keydown</td>
-              <td>A <code>keydown</code> event listener is added to each element with <code>role=treeitem</code> to support moving focus between the <code>treeitem</code> with the keyboard.</td>
-            </tr>
-            <tr>
-              <td>click</td>
-              <td>Click event listener is added to each element with <code>role=treeitem</code> to support opening and closing a leaf of the tree with the mouse.</td>
-            </tr>
-            <tr>
-              <td>focus</td>
-              <td>Focus event listener is added to each element with <code>role=treeitem</code> to support visual styling of the <code>treeitem</code> when it recieves focus.</td>
-            </tr>
-            <tr>
-              <td>blur</td>
-              <td>Blur event listener is added to each element with <code>role=treeitem</code> to support visual styling of the <code>treeitem</code> when it does not have focus.</td>
-            </tr>
-          </tbody>
-        </table>    
-      </section>
-
       <section aria-labelledby="id_kbd">
 
-      <h2 id="id_kbd">Keyboard Support</h2>
+        <h2 id="id_kbd">Keyboard Support</h2>
       
         <table aria-labelledby="id_kbd"> 
           <thead>
@@ -128,63 +98,195 @@
             </tr>
           </tbody>
         </table>
-      
 
-      <h2 id="id_roles">ARIA Roles</h2>
+      </section>    
 
-      <table aria-labelledby="id_roles"> 
-        <thead>
-          <tr>
-            <th>Role</th>
-            <th>Usage</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>tree</td>
-            <td>The tree view container has a <code>role=tree</code>.</td>
-          </tr>
-          <tr>
-            <td>treeitem</td>  
-            <td>Each node in a tree has the <code>role=treeitem</code> and should be a DOM child of tree.</td>
-          </tr>
-          <tr>
-            <td>group</td>  
-            <td>A collection of <code>treeitem</code>s to be expanded and collapsed are enclosed in a element with <code>role=group</code>.  The <code>ul</code> element has the default role of <code>group</code>.</td>
-          </tr>
-        </tbody>
-      </table>
+
+      <section aria-labelledby="id_roles">
+        <h2 id="id_roles">ARIA Roles</h2>
+
+        <table aria-labelledby="id_roles"> 
+          <thead>
+            <tr>
+              <th>Role</th>
+              <th>Usage</th>
+              <th>Accessible Name Source</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>tree</td>
+              <td>The tree view container has a <code>role=tree</code>.</td>
+              <td><code>aria-labelledby</code> to visible label.</td>
+            </tr>
+            <tr>
+              <td>treeitem</td>  
+              <td>Each node in a tree has the <code>role=treeitem</code> and should be a DOM child of tree.</td>
+              <td>
+                <ul>
+                  <li>Child text content of <code>treeitem</code>.</li>
+                  <li><code>aria-label</code> for <code>treeitem</code>s that expand and collapse.</li>
+                </ul>
+              </td>  
+            </tr>
+            <tr>
+              <td>group</td>
+              <td>A collection of <code>treeitem</code>s to be expanded and collapsed are enclosed in a element with <code>role=group</code>.  The <code>ul</code> element has the default role of <code>group</code>.</td>
+              <td>not needed</td>  
+            </tr>
+          </tbody>
+        </table>
       </section>
       
-      <h2 id="id_props">ARIA Properties and States</h2>
 
-      <table aria-labelledby="id_props"> 
-        <thead>
-          <tr>
-            <th>Property/State</th>
-            <th>Usage</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>aria-expanded</td>
-            <td>
-              <ul>
-                <li>Each element with <code>role=treeitem</code> that can be expanded or contracted should have an <code>aria-expanded</code> attribute.</li>
-                <li>Each element with <code>role=treeitem</code> which is expanded should have <code> aria-expanded="true"</code>.</li>
-                <li>Each element with <code>role=treeitem</code> which is collapsed should have <code> aria-expanded="false"</code>.</li>           
-              </ul>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <section aria-labelledby="id_props">
+
+        <h2 id="id_props">ARIA Properties and States</h2>
+
+        <table aria-labelledby="id_props"> 
+          <thead>
+            <tr>
+              <th>Property/State</th>
+              <th>Usage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>aria-expanded</td>
+              <td>
+                <ul>
+                  <li>Each element with <code>role=treeitem</code> that can be expanded or collapsed should have an <code>aria-expanded</code> attribute.</li>
+                  <li>Each element with <code>role=treeitem</code> which is expanded should have <code> aria-expanded="true"</code>.</li>
+                  <li>Each element with <code>role=treeitem</code> which is collapsed should have <code> aria-expanded="false"</code>.</li>           
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <td>aria-labelledby</td>
+              <td>Provides accessible name for the <code>tree</code> role.</td>
+            </tr>
+            <tr>
+              <td>aria-label</td>
+              <td>Provides accessible name for the <code>treeitem</code>s that are expandable and collapsable.</td>
+            </tr>
+          </tbody>
+        </table>
+
       </section>
-      <section aria-labelledby="sc-ex1">
+
+      <section aria-labelledby="id_tabindex">
+      
+        <h2 id="id_tabindex"><code>tabindex</code> values</h2>
+
+        <table aria-labelledby="id_tabindex"> 
+          <thead>
+            <tr>
+              <th style="min-width: 8em;" title="Element Selector">Elements</th>
+              <th style="min-width: 4em;">Values</th>
+              <th>Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>[role=treeitem]</td>
+              <td>0 or -1</td>
+              <td>The <code>treeitem</code> with the current focus should have tabindex=0, all other <code>treeitem</code>s should have a tabindex value of -1.</td>
+            </tr>
+            <tr>
+              <td>[role=treeitem] a</td>
+              <td>-1</td>
+              <td>Remove any links that are descendants of a <code>treeitem</code> from the default tab order of the page by changing tabindex value to -1 (e.g. the default value for a link is 0).</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </section>
+
+      <section aria-labelledby="id_events">
+
+        <h2 id="id_events">Events</h2>
+        <table aria-labelledby="id_events"> 
+          <thead>
+            <tr>
+              <th>Event</th>
+              <th>Element</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>keydown</td>
+              <td><code>[role=treeitem]</code></td>
+              <td>A <code>keydown</code> event listener is added to each element with <code>role=treeitem</code> to support moving focus between the <code>treeitem</code> with the keyboard.</td>
+            </tr>
+            <tr>
+              <td>click</td>
+              <td><code>[role=treeitem][aria-expanded]</code></td>
+              <td>
+                <ul>
+                  <li>Click event listener is added to each element with <code>role=treeitem</code> and <code>aria-expanded</code> to support opening and closing a branch of the tree with the mouse.</li>
+                  <li>Click triggers "action" event associated with the element with <code>role=treeitem</code>.</li>
+              </td>
+            </tr>
+            <tr>
+              <td>focus</td>
+              <td><code>[role=treeitem]</code></td>
+              <td>Focus event listener is added to each element with <code>role=treeitem</code> to support visual styling of the <code>treeitem</code> when it recieves focus.</td>
+            </tr>
+            <tr>
+              <td>blur</td>
+              <td><code>[role=treeitem]</code></td>
+              <td>Blur event listener is added to each element with <code>role=treeitem</code> to support visual styling of the <code>treeitem</code> when it does not have focus.</td>
+            </tr>
+          </tbody>
+        </table>    
+
+      </section>
+
+      <section aria-labelledby="id_focus">
+      
+        <h2 id="id_focus">Keyboard Focus Styling</h2>
+
+        <table aria-labelledby="id_focus"> 
+          <thead>
+            <tr>
+              <th style="min-width: 8em;" title="Element Selector">Elements</th>
+              <th>Focus Style</th>
+              <th>Focus Technique</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>[role=treeitem]</td>
+              <td>
+                <ul>
+                  <li>border</li>
+                  <li>background-color</li>
+                </ul>
+              </td>
+              <td><code>focus</code> and <code>blur</code> events are used to add and remove a "focus" class to the <code>treeitem</code> element.</td>
+            </tr>
+            <tr>
+              <td>[role=treeitem][aria-expanded]</td>
+              <td>
+                <ul>
+                  <li>border</li>
+                  <li>background-color</li>
+                </ul>
+              </td>
+              <td><code>focus</code> and <code>blur</code> events are used to add and remove a "focus" class to the first child element (e.g <code>span</code> element) of the <code>treeitem</code> element.</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </section>
+
+     <section aria-labelledby="sc-ex1">
         <h2 id="sc-ex1">Source Code: Example</h2>
       
         <ul>
-          <li>CSS: <a href="css/treeview-1.css" type="tex/css">treeview-1.css</a></li>
-          <li>Javascript: <a href="js/treeview-1.js" type="text/javascript">treeview-1.js</a></li>
+          <li>CSS: <a href="css/treeview.css" type="tex/css">treeview-1.css</a></li>
+          <li>Javascript: <a href="js/treeview.js" type="text/javascript">treeview-1.js</a></li>
         </ul>
       
         <div id="sc1">

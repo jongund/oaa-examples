@@ -405,8 +405,10 @@ Tree.prototype.handleKeydown = function (event) {
           clickEvent.initEvent('click', true, true);
         }
       }
-      var link = ct.getElementsByTagName('a')[0];
-      if (link) window.location.href=link.href;
+      // Id treeitem contains a link, dispatch the click event to the link
+      var ce = ct.firstElementChild;
+      if (ce && (ce.tagName.toLowerCase() === 'a')) ce.dispatchEvent(clickEvent);
+      else ct.dispatchEvent(clickEvent);
       flag = true;
       break;
 
