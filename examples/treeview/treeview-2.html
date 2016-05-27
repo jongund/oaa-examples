@@ -62,40 +62,50 @@
           </thead>
           <tbody>
             <tr>
-              <td>Arrow Key</td>
-              <td>Focus and select the node. Any previous selections are cleared</td>
-            </tr>
-            <tr>
               <td>Up arrow Key</td>
-              <td>Move up to previous visible node.</td>
+              <td>Moves focus to previous sibling <code>treeitem</code>. If no previous sibling, focus stays on current <code>treeitem</code>.</td>
             </tr>
             <tr>
               <td>Down arrow Key</td>
-              <td>Move down to next visible node.</td>
+              <td>Moves focus to next sibling <code>treeitem</code>. If no next sibling, focus stays on current <code>treeitem</code>.</td>
             </tr>
             <tr>
               <td>Left Arrow Key</td>
-              <td>Closes the node on an expanded node, moves focus to the node's parent on a closed or end node.</td>
+              <td>
+                <ul>
+                  <li>For a <code>treeitem</code> that is in the expanded state (e.g. has <code>[aria-expanded=true]</code>) it toogles to the collapsed state.   Focus remains on the current <code>treeitem</code>.</li>
+                  <li>For a <code>treeitem</code> that is in the collapsed state or is not expandable/collapsable, focus moves to the parent <code>treeitem</code>.
+                    If no parent, focus stays on current <code>treeitem</code>.
+                  </li> 
+                </ul>
+              </td>
             </tr>
             <tr>
               <td>Right Arrow Key</td>
-              <td>Expands on a closed node, moves focus to the first child of an open node, or does nothing on an end node.</td>
+              <td>
+                <ul>
+                  <li>For a <code>treeitem</code> that is in the collapsed state (e.g. has <code>[aria-expanded=false]</code>) it toogles to the expanded state.   Focus remains on the current <code>treeitem</code>.</li>
+                  <li>For a <code>treeitem</code> is in the expanded state, focus moves to the first child <code>treeitem</code>.
+                    If no child, focus stays on current <code>treeitem</code>.
+                  </li> 
+                </ul>
+              </td>
             </tr>
             <tr>
               <td>Return Key</td>
-              <td>Performs the default action (e.g. onclick event) on child <code>a</code> element.</td>
+              <td>Performs the default action (e.g. onclick event) on the <code>a</code> element that is a child of the current <code>treeitem</code>.</td>
             </tr>
             <tr>
               <td>Space Key</td>
-              <td>Performs the default action (e.g. onclick event) on child <code>a</code> element.</td>
+              <td>Performs the default action (e.g. onclick event) on the <code>a</code> element that is a child of the current <code>treeitem</code>.</td>
             </tr>
             <tr>
               <td>Home Key</td>
-              <td>Moves to the top node in the tree view.</td>
+              <td>Moves focus to first sibling of the current <code>treeitem</code>.</td>
             </tr>
             <tr>
               <td>End Key</td>
-              <td>Moves to the last visible node in the tree view.</td>
+              <td>Moves focus to last sibling of the current <code>treeitem</code>.</td>
             </tr>
           </tbody>
         </table>
