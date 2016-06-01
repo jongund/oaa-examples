@@ -54,7 +54,7 @@
       </div>  
       <section aria-labelledby="id_kbd">
 
-        <h2 id="id_kbd">Keyboard Interaction</h2>
+        <h2 id="id_kbd">Keyboard Interaction and Focus Management</h2>
       
         <table aria-labelledby="id_kbd"> 
           <thead>
@@ -77,7 +77,7 @@
               <td>
                 <ul>
                   <li>For a <code>treeitem</code> that is an end node (e.g. no child <code>treeitem</code>s) or is in the collapsed state (e.g. has <code>[aria-expanded=false]</code>), focus moves to the parent <code>treeitem</code>.
-                    If a top level <code>treeitem</code>, focus stays on current <code>treeitem</code>.
+                    If a top level <code>treeitem</code> (e.g. parent is <code>tree</code>), focus stays on current <code>treeitem</code>.
                   </li> 
                   <li>For a <code>treeitem</code> that is in the expanded state (e.g. has <code>[aria-expanded=true]</code>) it toogles to the collapsed state.   Focus remains on the current <code>treeitem</code>.</li>
                 </ul>
