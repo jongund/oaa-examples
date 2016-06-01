@@ -54,7 +54,7 @@
       </div>  
       <section aria-labelledby="id_kbd">
 
-        <h2 id="id_kbd">Keyboard Support</h2>
+        <h2 id="id_kbd">Keyboard Interaction</h2>
       
         <table aria-labelledby="id_kbd"> 
           <thead>
@@ -76,10 +76,10 @@
               <td>Left Arrow Key</td>
               <td>
                 <ul>
-                  <li>For a <code>treeitem</code> that is in the expanded state (e.g. has <code>[aria-expanded=true]</code>) it toogles to the collapsed state.   Focus remains on the current <code>treeitem</code>.</li>
-                  <li>For a <code>treeitem</code> that is in the collapsed state or is not expandable/collapsable, focus moves to the parent <code>treeitem</code>.
-                    If no parent, focus stays on current <code>treeitem</code>.
+                  <li>For a <code>treeitem</code> that is an end node (e.g. no child <code>treeitem</code>s) or is in the collapsed state (e.g. has <code>[aria-expanded=false]</code>), focus moves to the parent <code>treeitem</code>.
+                    If a top level <code>treeitem</code>, focus stays on current <code>treeitem</code>.
                   </li> 
+                  <li>For a <code>treeitem</code> that is in the expanded state (e.g. has <code>[aria-expanded=true]</code>) it toogles to the collapsed state.   Focus remains on the current <code>treeitem</code>.</li>
                 </ul>
               </td>
             </tr>
@@ -87,7 +87,8 @@
               <td>Right Arrow Key</td>
               <td>
                 <ul>
-                  <li>For a <code>treeitem</code> that is in the collapsed state (e.g. has <code>[aria-expanded=false]</code>) it toogles to the expanded state.   Focus remains on the current <code>treeitem</code>.</li>
+                  <li>For a <code>treeitem</code> that is an end node (e.g. no child <code>treeitem</code>s) focus stays on current <code>treeitem</code>.</li>
+                  <li>For a <code>treeitem</code> that is in the collapsed state (e.g. has <code>[aria-expanded=false]</code>) it toogles to the expanded state and focus moves to the first child <code>treeitem</code>.  If no child, focus stays on current <code>treeitem</code>.</li>
                   <li>For a <code>treeitem</code> is in the expanded state, focus moves to the first child <code>treeitem</code>.
                     If no child, focus stays on current <code>treeitem</code>.
                   </li> 
@@ -104,12 +105,13 @@
             </tr>
             <tr>
               <td>Home Key</td>
-              <td>Moves focus to first sibling of the current <code>treeitem</code>.</td>
+              <td>Moves focus to first <code>treeitem</code> in the <code>tree</code>.</td>
             </tr>
             <tr>
               <td>End Key</td>
-              <td>Moves focus to last sibling of the current <code>treeitem</code>.</td>
-            </tr>          </tbody>
+              <td>Moves focus to last visible <code>treeitem</code> (e.g. depth first) in the <code>tree</code>.</td>
+            </tr>
+          </tbody>
         </table>
 
       </section>    
