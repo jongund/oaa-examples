@@ -21,96 +21,151 @@
         <section id="code-ex-1" aria-labelledby="id1">
           <h2 id="tree1">Foods</h2>
           <ul role="tree" aria-labelledby="tree1" >
-            <li role="treeitem" aria-expanded="false" aria-label="Fruits">
+            <li role="treeitem"
+                aria-level="1" 
+                aria-setsize="3" 
+                aria-posinset="1" 
+                aria-expanded="false" 
+                aria-label="Fruits">
               <span> Fruits</span>
               <ul>
-                <li role="treeitem"> Oranges</li>
-                <li role="treeitem"> Pineapple</li>
-                <li role="treeitem" aria-expanded="false" aria-label="Apples">
+                <li role="treeitem" aria-level="2" aria-setsize="5" aria-posinset="1"> Oranges</li>
+                <li role="treeitem" aria-level="2" aria-setsize="5" aria-posinset="2"> Pineapple</li>
+                <li role="treeitem" 
+                    aria-level="2" 
+                    aria-setsize="5" 
+                    aria-posinset="3"
+                    aria-expanded="false" 
+                    aria-label="Apples">
                   <span> Apples</span>
                   <ul>
-                    <li role="treeitem"> Macintosh</li>
-                    <li role="treeitem"> Granny Smith</li>
-                    <li role="treeitem"> Fuji</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="3" aria-posinset="1"> Macintosh</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="3" aria-posinset="2"> Granny Smith</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="3" aria-posinset="3"> Fuji</li>
                   </ul>
                 </li>  
-                <li role="treeitem">Bananas</li>    
-                <li role="treeitem"  aria-expanded="false" aria-label="Pears">
+                <li role="treeitem" aria-level="2" aria-setsize="5" aria-posinset="4">Bananas</li>    
+                <li role="treeitem"
+                    aria-level="2" 
+                    aria-setsize="5" 
+                    aria-posinset="5"
+                    aria-expanded="false" 
+                    aria-label="Pears">
                   <span> Pears</span>
                   <ul>
-                    <li role="treeitem"> Anjou</li>
-                    <li role="treeitem"> Bartlett</li>
-                    <li role="treeitem"> Bosc</li>
-                    <li role="treeitem"> Concorde</li>
-                    <li role="treeitem"> Seckel</li>
-                    <li role="treeitem"> Starkrimson</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="6" aria-posinset="1"> Anjou</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="6" aria-posinset="2"> Bartlett</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="6" aria-posinset="3"> Bosc</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="6" aria-posinset="4"> Concorde</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="6" aria-posinset="5"> Seckel</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="6" aria-posinset="6"> Starkrimson</li>
                   </ul>
                 </li>    
               </ul>
             </li>
-           <li role="treeitem" aria-expanded="false" aria-label="Vegetables">
+           <li role="treeitem"
+                aria-level="1" 
+                aria-setsize="3" 
+                aria-posinset="2" 
+                aria-expanded="false" 
+                aria-label="Vegetables">
               <span> Vegetables</span>
               <ul>
-                <li role="treeitem" aria-expanded="false" aria-label="Podded Vegetables">
+                <li role="treeitem" 
+                    aria-level="2" 
+                    aria-setsize="3" 
+                    aria-posinset="1"
+                    aria-expanded="false" 
+                    aria-label="Podded Vegetables">
                   <span> Podded Vegetables</span>
                   <ul>
-                    <li role="treeitem"> Lentil</li>
-                    <li role="treeitem"> Pea</li>
-                    <li role="treeitem"> Peanut</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="3" aria-posinset="1"> Lentil</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="3" aria-posinset="2"> Pea</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="3" aria-posinset="3"> Peanut</li>
                   </ul>
                 </li>  
-                <li role="treeitem"  aria-expanded="false" aria-label="Bulb and Stem Vegetables">
+                <li role="treeitem"  
+                    aria-level="2" 
+                    aria-setsize="3" 
+                    aria-posinset="2"
+                    aria-expanded="false" 
+                    aria-label="Bulb and Stem Vegetables">
                   <span> Bulb and Stem Vegetables</span>
                   <ul>
-                    <li role="treeitem"> Asparagus</li>
-                    <li role="treeitem"> Celery</li>
-                    <li role="treeitem"> Leek</li>
-                    <li role="treeitem"> Onion</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="1"> Asparagus</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="2"> Celery</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="3"> Leek</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="4"> Onion</li>
                   </ul>
                 </li>    
-                <li role="treeitem"  aria-expanded="false" aria-label="Root and Tuberous Vegetables">
+                <li role="treeitem"  
+                    aria-level="2" 
+                    aria-setsize="3" 
+                    aria-posinset="3"
+                    aria-expanded="false" 
+                    aria-label="Root and Tuberous Vegetables">
                   <span> Root and Tuberous Vegetables</span>
                   <ul>
-                    <li role="treeitem"> Carrot</li>
-                    <li role="treeitem"> Ginger</li>
-                    <li role="treeitem"> Parsnip</li>
-                    <li role="treeitem"> Patato</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="1"> Carrot</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="2"> Ginger</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="3"> Parsnip</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="4"> Patato</li>
                   </ul>
                 </li>    
               </ul>
             </li>
-            <li role="treeitem" aria-expanded="false" aria-label=" Grains">
+            <li role="treeitem" 
+                aria-level="1" 
+                aria-setsize="3" 
+                aria-posinset="3" 
+                aria-expanded="false" 
+                aria-label=" Grains">
               <span> Grains</span>
               <ul>
-                <li role="treeitem" aria-expanded="false" aria-label="Cereal grains">
+                <li role="treeitem" 
+                    aria-level="2" 
+                    aria-setsize="3" 
+                    aria-posinset="1"
+                    aria-expanded="false" 
+                    aria-label="Cereal grains">
                   <span> Cereal Grains</span>
                   <ul>
-                    <li role="treeitem">Barle</li>
-                    <li role="treeitem">Oat</li>
-                    <li role="treeitem">Rice</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="3" aria-posinset="1">Barle</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="3" aria-posinset="2">Oat</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="3" aria-posinset="3">Rice</li>
                   </ul>
                 </li>  
-                <li role="treeitem"  aria-expanded="false" aria-label="Pseudocereal grains">
+                <li role="treeitem"  
+                    aria-level="2" 
+                    aria-setsize="3" 
+                    aria-posinset="2"
+                    aria-expanded="false" 
+                    aria-label="Pseudocereal grains">
                   <span> Pseudocereal Grains</span>
                   <ul>
-                    <li role="treeitem"> Amaranth</li>
-                    <li role="treeitem"> Buckwheat</li>
-                    <li role="treeitem"> Chia</li>
-                    <li role="treeitem"> Quinoa</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="1"> Amaranth</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="2"> Buckwheat</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="3"> Chia</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="4"> Quinoa</li>
                   </ul>
                 </li>    
-                <li role="treeitem"  aria-expanded="false" aria-label="Oilseeds">
+                <li role="treeitem"  
+                    aria-level="2" 
+                    aria-setsize="3" 
+                    aria-posinset="3"
+                    aria-expanded="false" 
+                  aria-label="Oilseeds">
                   <span> Oilseeds</span>
                   <ul>
-                    <li role="treeitem"> India Mustard</li>
-                    <li role="treeitem"> Safflower</li>
-                    <li role="treeitem"> Flax Seed</li>
-                    <li role="treeitem"> Poppy Seed</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="1"> India Mustard</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="2"> Safflower</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="3"> Flax Seed</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="4"> Poppy Seed</li>
                   </ul>
                 </li>    
               </ul>
             </li>
-          </ul>          </ul>
+          </ul>
           <p><label>Last Action: <input id="last_action" type="output" size="15"></label></p>
         </section>
       </div>  

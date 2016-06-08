@@ -54,6 +54,77 @@
 
       </script>
 
+      <section aria-labelledby="mbw">
+        <h2 id="mbw" class="widget">Menu Button Widget</h2>
+
+        <h3 id="mbw_kbd">Keyboard Interaction and Focus Management</h3>
+        <table aria-labelledby="mbw mbw_kbd"> 
+          <thead>
+            <tr>
+              <th>Key</th>
+              <th>Function</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Space or Enter Key</td>
+              <td>Open <code>menu</code> and move focus to first <code>menuitem</code></td>
+            </tr>
+            <tr>
+              <td>Up Arrow Key</td>
+              <td>Open <code>menu</code> and move focus to last <code>menuitem</code></td>
+            </tr>
+             <tr>
+              <td>Down Arrow Key</td>
+              <td>Open <code>menu</code> and move focus to first <code>menuitem</code></td>
+            </tr>
+          </tbody>
+        </table>
+
+
+      </section>
+
+
+      <section aria-labelledby="mw">
+        <h2 id="mw" class="widget">Menu Widget</h2>
+
+        <h3 id="mw_kbd">Keyboard Interaction and Focus Management</h3>
+        <table aria-labelledby="mw mw_kbd"> 
+          <thead>
+            <tr>
+              <th style="min-width: 8em">Key</th>
+              <th>Function</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Space or Enter Keys</td>
+              <td>
+                <ul>
+                  <li>Activates any <code>click</code> event associated with the <code>menuitem</code>.  In this example updates the "Last Action" textbox.</li>
+                  <li>Moves focus back to <code>menu button</code> and then closes the <code>menu</code>.  NOTE: This sequence is important since hidding the element with focus will cause the focus to move to the beginning of the page.</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <td>Up Arrow Key </td>
+              <td>Move focus to previous <code>menuitem</code>.</td>
+            </tr>
+            <tr>
+              <td>Down Arrow Key </td>
+              <td>Move focus to next <code>menuitem</code>.</td>
+            </tr>
+            <tr>
+              <td>Escape Key</td>
+              <td>Move focus back to <code>menu button</code> and then close <code>menu</code>.  NOTE: This sequence is important since hidding the element with focus will cause the focus to move to the beginning of the page.</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </section>
+
+
+
       <h2 id="id_a11yfeature">Accessibility Features</h2>
              <ul>
                 <li>The <code>aria-haspopup="true"</code> attribute on the <code>button</code> element identifies that activating the button will result in either a menu or dialog box opening.</li>
@@ -70,62 +141,9 @@
 
       <h2 id="id_kbd">Keyboard Support</h2>
 
-      <h3 id="id_kbd1">Menu Button</h3>
-      <table aria-labelledby="id_kbd id_kbd1"> 
-        <thead>
-          <tr>
-            <th>Key</th>
-            <th>Function</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Space or Enter Key</td>
-            <td>Open menu and move focus to first menu item</td>
-          </tr>
-          <tr>
-            <td>Up Arrow Key</td>
-            <td>Open menu and moves focus to last menu item</td>
-          </tr>
-           <tr>
-            <td>Down Arrow Key</td>
-            <td>Open menu and moves focus to first menu item</td>
-          </tr>
-        </tbody>
-      </table>
 
-      <h3 id="id_kbd2">Menu</h3>
-      <table aria-labelledby="id_kbd id_kbd2"> 
-        <thead>
-          <tr>
-            <th>Key</th>
-            <th>Function</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Space or Enter Keys</td>
-            <td>
-              <ul id="list">
-                <li>Applies the styling associated with the menu item with focus</li>
-                <li>Closes menu and moves focus back to menu button</li>
-              </ul>
-            </td>
-          </tr>
-          <tr>
-            <td>Up or Left Arrow Key </td>
-            <td>Move focus to previous menu item</td>
-          </tr>
-          <tr>
-            <td>Down or Right Arrow Key </td>
-            <td>Move focus to next menu item</td>
-          </tr>
-          <tr>
-            <td>Escape Key</td>
-            <td> Close menu and move focus back to menu button</td>
-          </tr>
-        </tbody>
-      </table>
+
+
       <h2 id="id_rps">ARIA Roles, Properties and States</h2>
 
       <table aria-labelledby="id_rps"> 

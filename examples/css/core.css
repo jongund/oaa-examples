@@ -23,6 +23,7 @@ h3 {
   background: transparent;
 }
 
+
 h1 {
   padding: 0.2em;
 }
@@ -32,9 +33,19 @@ h2 {
   margin-top: 2em;
 }
 
-h3 {
-  font: normal 140%/120% Helvetica, Verdana, Arial, sans-serif;
+h2.widget {
+  border-bottom: thin solid #630;
 }
+
+
+h3 {
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  font: normal 120%/95% Helvetica, Verdana, Arial, sans-serif;
+
+}
+
+
 
 a {
   color: #009;
