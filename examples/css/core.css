@@ -39,13 +39,15 @@ header nav ul {
 header nav li {
   margin: 0;
   padding: 0;
-  margin-right: 0.25em;
+  margin-left: 0.5em;
   background-color: #630;
   display: inline;
 }
 
 header nav li a {
   padding: 0.25em;
+  padding-left: 0.75em;
+  padding-right: 0.75em;
   color: white;
 }
 
