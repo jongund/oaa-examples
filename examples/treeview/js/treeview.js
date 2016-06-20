@@ -136,28 +136,6 @@ Tree.prototype.init = function () {
 
 /*
 *   @desc
-*       Finds the label text for the expandable treeitem
-*
-*   @param node
-*       DOM node to start looking for label
-*
-*   @returns
-*       DOM node of label 
-*/
-
-Tree.prototype.getExpandableTreeitemLabel = function(node) {
-
-  var n = node.firstChild;
-  while (n) {
-    if (n.nodeType === Node.ELEMENT_NODE) return n;
-    n = n.nextSibling;
-  }
-  return false;
-
-};
-
-/*
-*   @desc
 *       Finds all the descendant treeitems of the node
 *
 *   @param node
@@ -169,18 +147,16 @@ Tree.prototype.getExpandableTreeitemLabel = function(node) {
 
 Tree.prototype.getTreeitems = function(node) {
 
-  var n = node.firstChild;
+  var n = node.firstElementChild;
   var ti = [];
 
   while (n) {
-    if (n.nodeType === Node.ELEMENT_NODE) {
 
-      if (n.getAttribute('role') === 'treeitem') ti.push(n);
+    if (n.getAttribute('role') === 'treeitem') ti.push(n);
 
-      if (n.firstChild) ti = ti.concat(this.getTreeitems(n));
+    if (n.firstElementChild) ti = ti.concat(this.getTreeitems(n));
 
-    }
-    n = n.nextSibling;
+    n = n.nextElementSibling;
   }
 
   return ti;
@@ -204,11 +180,10 @@ Tree.prototype.getChildTreeitems = function(node) {
   var ti = [];
 
   while (n) {
-    if (n.nodeType === Node.ELEMENT_NODE && 
-        n.getAttribute('role') === 'treeitem') {
+    if (n.getAttribute('role') === 'treeitem') {
         ti.push(n);
     }
-    n = n.nextSibling;
+    n = n.nextElementSibling;
   }
 
   return ti;
@@ -220,7 +195,7 @@ Tree.prototype.getChildTreeitems = function(node) {
 *       Get first child treeitem, if exists
 *
 *   @param node
-*       DOM node to start looking for previous sibling
+*       DOM node to start looking for first child
 *
 *   @returns
 *       DOM node or False 
@@ -228,20 +203,17 @@ Tree.prototype.getChildTreeitems = function(node) {
 
 Tree.prototype.getFirstChildTreeitem = function(node) {
 
-  var n = node.firstChild;
+  var n = node.firstElementChild;
 
   while (n) {
-    if (n.nodeType === Node.ELEMENT_NODE) {
-      var flag = n.getAttribute('role')  === 'treeitem';
-      if (flag) {
-        return n;
-      }
-      else {
-        n1 = this.getFirstChildTreeitem(n);
-        if (n1) return n1;
-      }  
+    if (n.getAttribute('role')  === 'treeitem') {
+      return n;
     }
-    n = n.nextSibling;
+    else {
+      n1 = this.getFirstChildTreeitem(n);
+      if (n1) return n1;
+    }  
+    n = n.nextElementSibling;
   }
 
   return false;
@@ -303,13 +275,13 @@ Tree.prototype.isExpanded = function(node) {
 
 Tree.prototype.getPreviousSiblingTreeitem = function(node) {
 
-  var ti = node.previousElementSibling;
+  var n = node.previousElementSibling;
 
-  while (ti) {
-    if (ti.getAttribute('role')  === 'treeitem') {
-      return ti;
+  while (n) {
+    if (n.getAttribute('role')  === 'treeitem') {
+      return n;
     }
-    ti = ti.previousElementSibling;
+    n = ti.previousElementSibling;
   }
 
   return false;
@@ -328,13 +300,13 @@ Tree.prototype.getPreviousSiblingTreeitem = function(node) {
 
 Tree.prototype.getNextSiblingTreeitem = function(node) {
 
-  var ti = node.nextElementSibling;
+  var n = node.nextElementSibling;
 
-  while (ti) {
-    if (ti.getAttribute('role')  === 'treeitem') {
-      return ti;
+  while (n) {
+    if (n.getAttribute('role')  === 'treeitem') {
+      return n;
     }
-    ti = ti.nextElementSibling;
+    n = n.nextElementSibling;
   }
 
   return false;
@@ -350,14 +322,14 @@ Tree.prototype.getNextSiblingTreeitem = function(node) {
 
 Tree.prototype.getFirstSiblingTreeitem = function(node) {
 
-  var ti = node;
+  var n = node;
   var first = false
 
-  while (ti) {
-    if (ti.getAttribute('role')  === 'treeitem') {
-      first = ti;
+  while (n) {
+    if (n.getAttribute('role')  === 'treeitem') {
+      first = n;
     }
-    ti = ti.previousElementSibling;
+    n = n.previousElementSibling;
   }
 
   return first;
@@ -507,6 +479,7 @@ Tree.prototype.handleKeydown = function (event) {
   var ct = event.currentTarget,
       flag = false;
 
+
   switch (event.keyCode) {
 
     case this.keyCode.SPACE:
@@ -601,9 +574,8 @@ Tree.prototype.handleKeypress = function (event) {
  var  ct = event.currentTarget,
       flag = false,
       char = event.key;
- 
-  if ((char >= 'A' && char <= 'Z') || 
-      (char >= 'a' && char <= 'z')){
+
+  if ('abcdefghijklmnopqrstuvABCDEFGHIJKLMNOPQRSTUVWXYZ'.indexOf(char) >= 0) {
     this.moveFocusToTreeitemUsingFirstChar(ct, char);
     flag = true;
   }
@@ -614,6 +586,7 @@ Tree.prototype.handleKeypress = function (event) {
   }
 
   if (flag) {
+ 
     event.stopPropagation();
     event.preventDefault();
   }
