@@ -10,15 +10,16 @@
 }
 
 [role="treeitem"][aria-expanded="false"] > span:before {
-  content: url(../images/collapsed-32.png);
+  content: url(../images/collapsed-16.png);
 }
 
 [role="treeitem"][aria-expanded="true"] > span:before {
-  content: url(../images/expanded-32.png);
+  content: url(../images/expanded-16.png);
 }
 
 li[role="treeitem"],
 li[role="treeitem"] span {
+  font-size: 15pt;
   list-style: none;
   border: thin transparent solid;
   padding: 0.125em;
