@@ -10,11 +10,11 @@
 }
 
 [role="treeitem"][aria-expanded="false"] > span:before {
-  content: url(../images/collapsed.gif);
+  content: url(../images/collapsed-32.png);
 }
 
 [role="treeitem"][aria-expanded="true"] > span:before {
-  content: url(../images/expanded.gif);
+  content: url(../images/expanded-32.png);
 }
 
 li[role="treeitem"],
