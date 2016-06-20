@@ -78,6 +78,9 @@ var Tree = function (node) {
 Tree.prototype.init = function () {
   var that = this;
 
+  this.initTreeitems(this.treeNode);
+
+
   var treeitems = this.getTreeitems(this.treeNode);
 
   var flag = true;
@@ -132,8 +135,6 @@ Tree.prototype.init = function () {
 };
 
 
-
-
 /*
 *   @desc
 *       Finds all the descendant treeitems of the node
@@ -142,7 +143,7 @@ Tree.prototype.init = function () {
 *       DOM node to start looking for descendant treeitems
 *
 *   @returns
-*       Array of DOM nodes 
+*       Array of DOM nodes with role=treeitem 
 */
 
 Tree.prototype.getTreeitems = function(node) {
@@ -152,7 +153,9 @@ Tree.prototype.getTreeitems = function(node) {
 
   while (n) {
 
-    if (n.getAttribute('role') === 'treeitem') ti.push(n);
+    if (n.getAttribute('role') === 'treeitem') {
+      ti.push(n);
+    }
 
     if (n.firstElementChild) ti = ti.concat(this.getTreeitems(n));
 
@@ -165,76 +168,91 @@ Tree.prototype.getTreeitems = function(node) {
 
 /*
 *   @desc
-*       Finds all the child treeitems of the node
+*       Defines parent/child/sibling relationships between treeitems
 *
 *   @param node
-*       DOM node to start looking for child treeitems
+*       DOM node to start looking for descendant treeitems
+*
+*   @param previous
+*       Previous treeitem
+*
+*   @param parent
+*       Parent treeitem
 *
 *   @returns
-*       Array of DOM nodes 
+*       Last treeitem node 
 */
 
-Tree.prototype.getChildTreeitems = function(node) {
+Tree.prototype.initTreeitems = function(node, previous, parent) {
 
-  var n = this.getFirstChildTreeitem(node);
-  var ti = [];
-
+  var n = node.firstElementChild;
+ 
   while (n) {
+
     if (n.getAttribute('role') === 'treeitem') {
-        ti.push(n);
+      n.parentTreeitem = parent;
+      n.previousTreeitem = previous;
+      n.nextTreeitem = false;
+      if (previous) previous.nextTreeitem = n;
+      previous = n;
     }
+
+    if (n.firstElementChild) {
+      if (n.getAttribute('role') === 'treeitem' && 
+          typeof n.getAttribute('aria-expanded') === 'string') previous = this.initTreeitems(n, n, n);
+      else previous = this.initTreeitems(n, previous, parent);
+    }
+      
     n = n.nextElementSibling;
   }
 
-  return ti;
+  return previous;
 
 };
 
 /*
 *   @desc
-*       Get first child treeitem, if exists
+*       Finds all the child treeitems of the node
 *
-*   @param node
-*       DOM node to start looking for first child
+*   @param treeitem
+*       treeitem DOM node to start looking for child treeitems
 *
 *   @returns
-*       DOM node or False 
+*       Array of treeitem DOM nodes 
 */
 
-Tree.prototype.getFirstChildTreeitem = function(node) {
+Tree.prototype.getChildTreeitems = function(treeitem) {
 
-  var n = node.firstElementChild;
+  var ti = treeitem.nextTreeitem;
+  var children = [];
 
-  while (n) {
-    if (n.getAttribute('role')  === 'treeitem') {
-      return n;
+  while (ti) {
+    if (ti.parentTreeitem === treeitem) {
+      children.push(ti);
     }
-    else {
-      n1 = this.getFirstChildTreeitem(n);
-      if (n1) return n1;
-    }  
-    n = n.nextElementSibling;
+    ti = ti.nextTreeitem;
   }
 
-  return false;
-};
+  return children;
 
+};
 
 /*
 *   @desc
 *       Returns True if the treeitem is expandable and has children
 *
-*   @param node
-*       DOM node to start looking for previous sibling
+*   @param treeitem
+*       treeitem DOM node to start looking for previous sibling
 *
 *   @returns
 *       True or False 
 */
 
-Tree.prototype.isExpandable = function(node) {
+Tree.prototype.isExpandable = function(treeitem) {
 
-  if (node.getAttribute('aria-expanded') &&
-     this.getFirstChildTreeitem(node)) return true;
+  if (treeitem.getAttribute('aria-expanded')  &&
+     treeitem.nextTreeitem &&
+     treeitem.nextTreeitem.parentTreeitem === treeitem) return true;
 
   return false;  
 
@@ -244,18 +262,19 @@ Tree.prototype.isExpandable = function(node) {
 *   @desc
 *       Returns True if the treeitem is expandable, is expanded and has children
 *
-*   @param node
-*       DOM node to start looking for previous sibling
+*   @param treeitem
+*       treeitem DOM node to start looking for previous sibling
 *
 *   @returns
 *       True or False 
 */
 
-Tree.prototype.isExpanded = function(node) {
+Tree.prototype.isExpanded = function(treeitem) {
 
-  if (node.getAttribute('aria-expanded') && 
-     (node.getAttribute('aria-expanded') === 'true') &&
-     this.getFirstChildTreeitem(node)) return true;
+  if (treeitem.getAttribute('aria-expanded') && 
+     (treeitem.getAttribute('aria-expanded') === 'true') &&
+     treeitem.nextTreeitem &&
+     treeitem.nextTreeitem.parentTreeitem === treeitem) return true;
 
   return false;  
 
@@ -264,99 +283,49 @@ Tree.prototype.isExpanded = function(node) {
 
 /*
 *   @desc
-*       Get previous sibling treeitem, if exists
+*       Get next sibling treeitem, if exists
 *
-*   @param node
-*       DOM node to start looking for previous sibling
+*   @param treeitem
+*       treeitem DOM node to start looking for next sibling
 *
 *   @returns
-*       DOM node or False 
+*       treeitem DOM node or False 
 */
 
-Tree.prototype.getPreviousSiblingTreeitem = function(node) {
+Tree.prototype.getNextSiblingTreeitem = function(treeitem) {
 
-  var n = node.previousElementSibling;
+  var ti = treeitem.nextTreeitem;
+  var next = false;
 
-  while (n) {
-    if (n.getAttribute('role')  === 'treeitem') {
-      return n;
-    }
-    n = ti.previousElementSibling;
+  if (ti && ti.parentTreeitem === treeitem.parentTreeitem) {
+    next = ti;
   }
 
-  return false;
+  return next;
 };
 
 /*
 *   @desc
-*       Get previous sibling treeitem, if exists
+*       Get first sibling treeitem, if first return false
 *
-*   @param node
-*       DOM node to start looking for previous sibling
-*
-*   @returns
-*       DOM node or False 
-*/
-
-Tree.prototype.getNextSiblingTreeitem = function(node) {
-
-  var n = node.nextElementSibling;
-
-  while (n) {
-    if (n.getAttribute('role')  === 'treeitem') {
-      return n;
-    }
-    n = n.nextElementSibling;
-  }
-
-  return false;
-};
-
-/*
-*   @desc
-*       Get first sibling treeitem
+*   @param treeitem
+*       treeitem DOM node
 *
 *   @returns
-*       DOM node or False 
+*       treeitem DOM node of treeitem or False 
 */
 
-Tree.prototype.getFirstSiblingTreeitem = function(node) {
+Tree.prototype.getFirstSiblingTreeitem = function(treeitem) {
 
-  var n = node;
-  var first = false
+  var ti = treeitem.previousTreeitem;
+  var first = false;
 
-  while (n) {
-    if (n.getAttribute('role')  === 'treeitem') {
-      first = n;
-    }
-    n = n.previousElementSibling;
+  while (ti && ti.parentTreeitem === treeitem.parentTreeitem) {
+    first = ti;
+    ti = ti.previousTreeitem;
   }
 
   return first;
-};
-
-
-/*
-*   @desc
-*       Get last sibling treeitem
-*
-*   @returns
-*       DOM node or False 
-*/
-
-Tree.prototype.getLastSiblingTreeitem = function(node) {
-
-  var ti = node;
-  var last = false
-
-  while (ti) {
-    if (ti.getAttribute('role')  === 'treeitem') {
-      last = ti;
-    }
-    ti = ti.nextElementSibling;
-  }
-
-  return last;
 };
 
 /*
@@ -364,73 +333,60 @@ Tree.prototype.getLastSiblingTreeitem = function(node) {
 *       Get last visible treeitem
 *
 *   @returns
-*       DOM node or False 
+*       treeitem DOM node or False 
 */
 
 Tree.prototype.getLastVisibleTreeitem = function() {
 
-  var lastVisible = this.getLastSiblingTreeitem(this.topTreeitem);
+  var ti = this.topTreeitem;
 
-  while (lastVisible.getAttribute('aria-expanded') === 'true') {
-    var node = this.getFirstChildTreeitem(lastVisible);
-    if (node) lastVisible = this.getLastSiblingTreeitem(node);
-    else break;
-  }
-  return lastVisible;
-};
+  while(this.getNextVisibleTreeitem(ti)) ti = this.getNextVisibleTreeitem(ti);
 
-/*
-*   @desc
-*       Get parent treeitem, unless top treeitem
-*
-*   @param node
-*       DOM node to start looking for parent treeitem
-*
-*   @returns
-*       DOM node or False 
-*/
-
-Tree.prototype.getParentTreeitem = function(node) {
-
-  var ti = node.parentElement;
-
-  while (ti) {
-    if (ti.getAttribute('role') === 'treeitem') {
-      return ti;
-    }
-    ti = ti.parentElement;
-  }
-
-  return false;
+  return ti;
 };
 
 
 /*
 *   @desc
-*       Returns the next treeitem, unless at last treeitem
+*       Returns the previous visible treeitem, unless at first treeitem
 *
 *   @param treeitem
-*       False, or DOM node
+*       treeitem DOM node
+*
+*   @returns
+*       treeitem DOM node or False 
 */
 
-Tree.prototype.getNextTreeitem = function (node) {
+Tree.prototype.getPreviousVisibleTreeitem = function (treeitem) {
 
-  var ti = false;
+  var ti = treeitem.previousTreeitem;
 
-  if (node) {
-    // if treeitem is expanded 
-    if (this.isExpanded(node)) {
-      ti = this.getFirstChildTreeitem(node);
-    }
-    else {
-      ti = this.getNextSiblingTreeitem(node);
-      pi = this.getParentTreeitem(node);
+  while (ti && 
+         ti.parentTreeitem &&
+         ti.parentTreeitem.getAttribute('aria-expanded') === 'false') {
+    ti = ti.previousTreeitem;
+  }
 
-      while (pi && !ti) {
-        ti = this.getNextSiblingTreeitem(pi);
-        pi = this.getParentTreeitem(pi);
-      }  
-    }
+  return ti;
+
+};
+
+/*
+*   @desc
+*       Returns the next visible treeitem, unless at last treeitem
+*
+*   @param treeitem
+*       treeitem DOM node or false
+*/
+
+Tree.prototype.getNextVisibleTreeitem = function (treeitem) {
+
+  var ti = treeitem.nextTreeitem;
+
+  while (ti && 
+         ti.parentTreeitem &&
+         ti.parentTreeitem.getAttribute('aria-expanded') === 'false') {
+    ti = ti.nextTreeitem;
   }
 
   return ti;
@@ -580,7 +536,7 @@ Tree.prototype.handleKeypress = function (event) {
     flag = true;
   }
 
-  if (char === '*' ) {
+  if ('*'.indexOf(char) === 0) {
     this.expandSiblingTreeitems(ct);
     flag = true;        
   }
@@ -702,7 +658,7 @@ Tree.prototype.showChildTreeitems = function (treeitem) {
 
 Tree.prototype.moveFocusToParentTreeitem = function (treeitem) {
 
-  var p = this.getParentTreeitem(treeitem);
+  var p = treeitem.parentTreeitem;
 
   if (p) {
     treeitem.tabIndex = -1;
@@ -744,16 +700,7 @@ Tree.prototype.moveFocusToFirstChildTreeitem = function (treeitem) {
 
 Tree.prototype.moveFocusToPreviousTreeitem = function (treeitem) {
 
-  var ti = this.getPreviousSiblingTreeitem(treeitem);
-
-  if (ti) {
-    while (this.isExpanded(ti)) {
-      ti = this.getLastSiblingTreeitem(this.getFirstChildTreeitem(ti))
-    }
-  }
-  else {
-    ti = this.getParentTreeitem(treeitem);
-  }
+  var ti = this.getPreviousVisibleTreeitem(treeitem);
 
   if (ti) {
     ti.focus();
@@ -772,7 +719,7 @@ Tree.prototype.moveFocusToPreviousTreeitem = function (treeitem) {
 
 Tree.prototype.moveFocusToNextTreeitem = function (treeitem) {
 
-  var ti = this.getNextTreeitem(treeitem);
+  var ti = this.getNextVisibleTreeitem(treeitem);
 
   if (ti) {
     ti.focus();
@@ -836,12 +783,12 @@ Tree.prototype.moveFocusToLastVisibleTreeitem = function (treeitem) {
 */
 
 Tree.prototype.moveFocusToTreeitemUsingFirstChar = function(treeitem, char) {
-  var ti = this.getNextTreeitem(treeitem);
+  var ti = this.getNextVisibleTreeitem(treeitem);
   if (!ti) ti = this.topTreeitem;
 
   while (ti && (treeitem !== ti)) {
     if (this.compareFirstChar(ti, char)) break;
-    ti = this.getNextTreeitem(ti);
+    ti = this.getNextVisibleTreeitem(ti);
     // if at last item, go to top of tree
     if (!ti) ti = this.topTreeitem;
   }
