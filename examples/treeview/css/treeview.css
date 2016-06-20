@@ -9,6 +9,8 @@
   border-color: #bbb;
 }
 
+
+
 [role="treeitem"][aria-expanded="false"] > span:before {
   content: url(../images/collapsed-16.png);
 }
@@ -17,24 +19,21 @@
   content: url(../images/expanded-16.png);
 }
 
-li[role="treeitem"],
-li[role="treeitem"] span {
+[role="treeitem"],
+[role="treeitem"] span {
   font-size: 15pt;
-  list-style: none;
   border: thin transparent solid;
   padding: 0.125em;
   display: block;
 }
 
-li[role="treeitem"].focus,
-li[role="treeitem"] span.focus {
+[role="treeitem"].focus,
+[role="treeitem"] span.focus {
   border-color: black;
   background-color: #EEEEEE;
   width: 16em;
 }
 
-ul[role="tree"] {
-}
-ul.feature li{
-	list-style-type: disc;
+ul[role="tree"] li {
+  list-style: none;
 }
