@@ -10,7 +10,7 @@
 }
 
 [role="treeitem"][aria-expanded="false"] > span:before {
-  content: url(../images/contracted.gif);
+  content: url(../images/collapsed.gif);
 }
 
 [role="treeitem"][aria-expanded="true"] > span:before {
