@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Mute Button</title>
+    <link href="../css/core.css" rel="stylesheet">
+    <link href="../css/table.css" rel="stylesheet">
+    <link href="css/button.css" rel="stylesheet">
+    <script type="text/javascript" src="http://www.oaa-accessibility.org/media/examples/js/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="../js/examples.js"></script>
+    <script src="js/button.js" type="text/javascript"></script>
+
+  </head>
+  <body>
+    <header>
+      <h1>Button 2 Example</h1>
+      <nav>
+        <ul>
+          <li><a href="overview.html">Overview</a></li>
+          <li><a href="button-1.html">Button 1</a></li>
+          <li class="active"><a href="button-2.html" aria-current="page">Button 2</a></li>
+          <li><a href="button-3.html">Botton 3</a></li>
+          <li><a href="button-4.html">Button 4</a></li>
+        </ul>
+      </nav>
+
+    </header>
+
+    <main>
+      <h1 id="id1">Mute Button</h1>
+
+      <ul>
+        <li><code>div</code> element with <code>role="button"</code>.</li>
+        <li><code>div</code> element has <code>onclick</code> event to handle mouse clicks.</li>
+        <li><code>div</code> element has <code>onkeydown</code> event to handle keyboard support.</li>
+        <li>Aria property/status from <code>aria-pressed</code> attribute.</li>
+      </ul>
+
+      <h2 id="ex_title">Example</h2>
+
+      <section id="example" aria-labelledby="ex_title">
+        <span tabindex="0" role="button" id="toggle" aria-pressed="false">Mute</span>
+      </section>
+
+
+      <h2 id="id_kbd">Keyboard Interaction and Focus Management</h2>
+
+      <table aria-labelledby="id_kbd">
+        <thead>
+          <tr>
+            <th>Key</th>
+            <th>Function</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Space or enter</td>
+            <td>Activate or toggle button</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 id="id_rps">ARIA Roles</h2>
+
+      <table aria-labelledby="id_rps">
+        <thead>
+          <tr>
+            <th>Role</th>
+            <th>Usage</th>
+            <th>Accessible Name Source</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>button</td>
+            <td>Identify element with the button behavior</td>
+            <td>Child text content</td>
+          </tr>
+        </tbody>
+      </table>
+
+
+      <h2 id="id_rps">ARIA Properties and States</h2>
+
+      <table aria-labelledby="id_rps">
+        <thead>
+          <tr>
+            <th>Property/State</th>
+            <th>Usage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>aria-pressed</td>
+            <td>Identify element with the button behavior</td>
+          </tr>
+        </tbody>
+      </table>
+
+
+
+      <h2 id="id_rps"><code>tabindex</code> values</h2>
+
+      <table aria-labelledby="id_rps">
+        <thead>
+          <tr>
+            <th>Elements</th>
+            <th>Values</th>
+            <th>Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>role="button"</code></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+
+
+
+      <h2 id="id_rps">Keyboard Focus Styling</h2>
+
+      <table aria-labelledby="id_rps">
+        <thead>
+          <tr>
+            <th>Elements</th>
+            <th>Focus Style</th>
+            <th>Focus Technique</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>role="button"</code></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+
+
+
+      <h2 id="id_rps">Synchronization of Visual and ARIA States</h2>
+
+      <table aria-labelledby="id_rps">
+        <thead>
+          <tr>
+            <th>Elements</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>role="button"</code></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+
+
+
+      <section aria-labelledby="sc-ex1">
+        <h2 id="sc-ex1">Source Code: Example</h2>
+      
+        <ul>
+          <li>CSS: <a href="css/button.css" type="tex/css">button.css</a></li>
+          <li>Javascript: <a href="js/button.js" type="text/javascript">button.js</a></li>
+        </ul>
+      
+        <div id="sc1">
+       
+        </div>
+      </section>
+
+
+      <script>
+        sourceCode.add('sc1', 'toggle')
+        sourceCode.make()
+      </script>
+
+
+  </main>
+  </body>
+  </html>
