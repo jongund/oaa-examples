@@ -10,14 +10,24 @@
 }
 
 
+[role="treeitem"].doc:before
+{
+    content: url(../images/file.png);
+}
+
 
 [role="treeitem"][aria-expanded="false"] > span:before {
-  content: url(../images/collapsed-16.png);
+  content: url(../images/closed.png);
 }
 
 [role="treeitem"][aria-expanded="true"] > span:before {
-  content: url(../images/expanded-16.png);
+  content: url(../images/open.png);
 }
+/*[role="group"]>[role="treeitem"]:before {*/
+/*    content: url(../images/file.png);*/
+/*}*/
+
+
 
 [role="treeitem"],
 [role="treeitem"] span {
@@ -25,6 +35,7 @@
   border: thin transparent solid;
   padding: 0.125em;
   display: block;
+  
 }
 
 [role="treeitem"].focus,

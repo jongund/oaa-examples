@@ -32,7 +32,7 @@
       <ul>
         <li>In this example the ARIA treeview relationships (e.g. <code>tree</code>, <code>group</code> and <code>treeitem</code>) are defined in the parent child relationships defined int he DOM structure.</li>
         <li>This example the author specifies the values of <code>aria-level</code>, <code>aria-setsize</code> and <code>aria-posinset</code> for communication to accessibility APIs.  Therefore this example does not rely on the browser to compute the values.</li>
-        <li>Pressing "space" or "enter" will trigger the click event added to each <code>treeitem</code>, which updates the "last action" textbox.</li>
+        <li>Pressing "space" or "enter" will trigger the click event added to each <code>treeitem</code>, which updates the "File or Folder Selected" textbox.</li>
         <li>Example based on the <a href="https://www.w3.org/TR/wai-aria-practices-1.1/#TreeView">WAI-ARIA 1.1: Tree View authoring practices</a></li>
         <li><a href="treeviews.html#features">Details of Treeview accessibility features</a></li>
       </ul>
@@ -43,46 +43,46 @@
       <section id="example" aria-labelledby="ex_title">  
 
         <div id="code-ex-1">
-          <h3 id="tree1">Foods</h3>
+          <h3 id="tree1">File Viewer</h3>
           <ul role="tree" aria-labelledby="tree1" >
             <li role="treeitem"
                 aria-level="1" 
                 aria-setsize="3" 
                 aria-posinset="1" 
                 aria-expanded="false" 
-                aria-label="Fruits">
-              <span>Fruits</span>
+                aria-label="Projects">
+              <span> Projects</span>
               <ul role="group">
-                <li role="treeitem" aria-level="2" aria-setsize="5" aria-posinset="1">Oranges</li>
-                <li role="treeitem" aria-level="2" aria-setsize="5" aria-posinset="2">Pineapple</li>
+                <li role="treeitem" aria-level="2" aria-setsize="5" aria-posinset="1" class="doc"> project-1.docx</li>
+                <li role="treeitem" aria-level="2" aria-setsize="5" aria-posinset="2" class="doc" class="doc"> project-2.docx</li>
                 <li role="treeitem" 
                     aria-level="2" 
                     aria-setsize="5" 
                     aria-posinset="3"
                     aria-expanded="false" 
-                    aria-label="Apples">
-                  <span>Apples</span>
+                    aria-label="project-3">
+                  <span> project-3</span>
                   <ul role="group">
-                    <li role="treeitem" aria-level="3" aria-setsize="3" aria-posinset="1">Macintosh</li>
-                    <li role="treeitem" aria-level="3" aria-setsize="3" aria-posinset="2">Granny Smith</li>
-                    <li role="treeitem" aria-level="3" aria-setsize="3" aria-posinset="3">Fuji</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="3" aria-posinset="1" class="doc"> project-3A.docx</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="3" aria-posinset="2" class="doc"> project-3B.docx</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="3" aria-posinset="3" class="doc"> project-3C.docx</li>
                   </ul>
                 </li>  
-                <li role="treeitem" aria-level="2" aria-setsize="5" aria-posinset="4">Bananas</li>    
+                <li role="treeitem" aria-level="2" aria-setsize="5" aria-posinset="4" class="doc"> project-4.docx</li>
                 <li role="treeitem"
                     aria-level="2" 
                     aria-setsize="5" 
                     aria-posinset="5"
                     aria-expanded="false" 
-                    aria-label="Pears">
-                  <span>Pears</span>
+                    aria-label="project-5">
+                  <span> project-5</span>
                   <ul role="group">
-                    <li role="treeitem" aria-level="3" aria-setsize="6" aria-posinset="1">Anjou</li>
-                    <li role="treeitem" aria-level="3" aria-setsize="6" aria-posinset="2">Bartlett</li>
-                    <li role="treeitem" aria-level="3" aria-setsize="6" aria-posinset="3">Bosc</li>
-                    <li role="treeitem" aria-level="3" aria-setsize="6" aria-posinset="4">Concorde</li>
-                    <li role="treeitem" aria-level="3" aria-setsize="6" aria-posinset="5">Seckel</li>
-                    <li role="treeitem" aria-level="3" aria-setsize="6" aria-posinset="6">Starkrimson</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="6" aria-posinset="1" class="doc"> project-5A.docx</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="6" aria-posinset="2" class="doc"> project-5B.docx</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="6" aria-posinset="3" class="doc"> project-5C.docx</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="6" aria-posinset="4" class="doc"> project-5D.docx</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="6" aria-posinset="5" class="doc"> project-5E.docx</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="6" aria-posinset="6" class="doc"> project-5F.docx</li>
                   </ul>
                 </li>    
               </ul>
@@ -92,20 +92,20 @@
                 aria-setsize="3" 
                 aria-posinset="2" 
                 aria-expanded="false" 
-                aria-label="Vegetables">
-              <span>Vegetables</span>
+                aria-label="Reports">
+              <span> Reports</span>
               <ul role="group">
                 <li role="treeitem" 
                     aria-level="2" 
                     aria-setsize="3" 
                     aria-posinset="1"
                     aria-expanded="false" 
-                    aria-label="Podded Vegetables">
-                  <span>Podded Vegetables</span>
+                    aria-label="report-1">
+                  <span> report-1</span>
                   <ul role="group">
-                    <li role="treeitem" aria-level="3" aria-setsize="3" aria-posinset="1">Lentil</li>
-                    <li role="treeitem" aria-level="3" aria-setsize="3" aria-posinset="2">Pea</li>
-                    <li role="treeitem" aria-level="3" aria-setsize="3" aria-posinset="3">Peanut</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="3" aria-posinset="1" class="doc"> report-1A.docx</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="3" aria-posinset="2" class="doc"> report-1B.docx</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="3" aria-posinset="3" class="doc"> report-1C.docx</li>
                   </ul>
                 </li>  
                 <li role="treeitem"  
@@ -113,13 +113,13 @@
                     aria-setsize="3" 
                     aria-posinset="2"
                     aria-expanded="false" 
-                    aria-label="Bulb and Stem Vegetables">
-                  <span>Bulb and Stem Vegetables</span>
+                    aria-label="report-2">
+                  <span> report-2</span>
                   <ul role="group">
-                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="1">Asparagus</li>
-                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="2">Celery</li>
-                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="3">Leek</li>
-                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="4">Onion</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="1" class="doc"> report-2A.docx</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="2" class="doc"> report-2B.docx</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="3" class="doc"> report-2C.docx</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="4" class="doc"> report-2D.docx</li>
                   </ul>
                 </li>    
                 <li role="treeitem"  
@@ -127,13 +127,13 @@
                     aria-setsize="3" 
                     aria-posinset="3"
                     aria-expanded="false" 
-                    aria-label="Root and Tuberous Vegetables">
-                  <span>Root and Tuberous Vegetables</span>
+                    aria-label="report-3">
+                  <span> report-3</span>
                   <ul role="group">
-                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="1">Carrot</li>
-                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="2">Ginger</li>
-                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="3">Parsnip</li>
-                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="4">Patato</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="1" class="doc"> report-3A.docx</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="2" class="doc"> report-3B.docx</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="3" class="doc"> report-3C.docx</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="4" class="doc"> report-3D.docx</li>
                   </ul>
                 </li>    
               </ul>
@@ -143,20 +143,20 @@
                 aria-setsize="3" 
                 aria-posinset="3" 
                 aria-expanded="false" 
-                aria-label="Grains">
-              <span>Grains</span>
+                aria-label="Letters">
+              <span> Letters</span>
               <ul role="group">
                 <li role="treeitem" 
                     aria-level="2" 
                     aria-setsize="3" 
                     aria-posinset="1"
                     aria-expanded="false" 
-                    aria-label="Cereal grains">
-                  <span>Cereal Grains</span>
+                    aria-label="letter-1">
+                  <span> letter-1</span>
                   <ul>
-                    <li role="treeitem" aria-level="3" aria-setsize="3" aria-posinset="1">Barle</li>
-                    <li role="treeitem" aria-level="3" aria-setsize="3" aria-posinset="2">Oat</li>
-                    <li role="treeitem" aria-level="3" aria-setsize="3" aria-posinset="3">Rice</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="3" aria-posinset="1" class="doc"> letter-1A.docx</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="3" aria-posinset="2" class="doc"> letter-1B.docx</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="3" aria-posinset="3" class="doc"> letter-1C.docx</li>
                   </ul>
                 </li>  
                 <li role="treeitem"  
@@ -164,13 +164,13 @@
                     aria-setsize="3" 
                     aria-posinset="2"
                     aria-expanded="false" 
-                    aria-label="Pseudocereal grains">
-                  <span>Pseudocereal Grains</span>
+                    aria-label="letter-2">
+                  <span> letter-2</span>
                   <ul role="group">
-                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="1">Amaranth</li>
-                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="2">Buckwheat</li>
-                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="3">Chia</li>
-                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="4">Quinoa</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="1" class="doc"> letter-2A.docx</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="2" class="doc"> letter-2B.docx</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="3" class="doc"> letter-2C.docx</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="4" class="doc"> letter-2D.docx</li>
                   </ul>
                 </li>    
                 <li role="treeitem"  
@@ -178,19 +178,19 @@
                     aria-setsize="3" 
                     aria-posinset="3"
                     aria-expanded="false" 
-                  aria-label="Oilseeds">
-                  <span>Oilseeds</span>
+                  aria-label="letter-3">
+                  <span> letter-3</span>
                   <ul role="group">
-                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="1">India Mustard</li>
-                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="2">Safflower</li>
-                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="3">Flax Seed</li>
-                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="4">Poppy Seed</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="1" class="doc"> letter-3A.docx</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="2" class="doc"> letter-3B.docx</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="3" class="doc"> letter-3C.docx</li>
+                    <li role="treeitem" aria-level="3" aria-setsize="4" aria-posinset="4" class="doc"> letter-3D.docx</li>
                   </ul>
                 </li>    
               </ul>
             </li>
           </ul>
-          <p><label>Last Action: <input id="last_action" type="output" size="15"></label></p>
+          <p><label>File or Folder Selected: <input id="last_action" type="output" size="15"></label></p>
         </div>
       </section>
 
