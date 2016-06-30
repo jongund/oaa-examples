@@ -9,24 +9,13 @@
   border-color: #bbb;
 }
 
-
-[role="treeitem"].doc:before
-{
-    content: url(../images/file.png);
-}
-
-
 [role="treeitem"][aria-expanded="false"] > span:before {
-  content: url(../images/closed.png);
+  content: url(../images/collapsed-16.png);
 }
 
 [role="treeitem"][aria-expanded="true"] > span:before {
-  content: url(../images/open.png);
+  content: url(../images/expanded-16.png);
 }
-/*[role="group"]>[role="treeitem"]:before {*/
-/*    content: url(../images/file.png);*/
-/*}*/
-
 
 
 [role="treeitem"],
