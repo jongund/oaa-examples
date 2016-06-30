@@ -562,6 +562,7 @@ Tree.prototype.handleKeypress = function (event) {
 Tree.prototype.handleClick = function (event) {
 
   if (event.target.tagName.toLowerCase() === 'span') {
+
     var ct = event.currentTarget;
     var expanded = ct.getAttribute('aria-expanded'); 
 
@@ -573,6 +574,10 @@ Tree.prototype.handleClick = function (event) {
       ct.setAttribute('aria-expanded', 'true')
       this.showChildTreeitems(ct);
     }
+
+    event.stopPropagation();
+    event.preventDefault();      
+
   }  
 
 };
