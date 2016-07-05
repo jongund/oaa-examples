@@ -7,6 +7,8 @@
   <link href="../css/core.css" rel="stylesheet">
   <link href="../css/table.css" rel="stylesheet">
   <link href="css/slider.css" rel="stylesheet">
+  <script src="../js/examples.js" type="text/javascript"></script>
+  <script src="js/slider.js" type="text/javascript"></script>
   <style type="text/css">
     #idColorBox {
       width: 200px;
@@ -23,22 +25,37 @@
 </head>
 <body>
   <header role="banner">
-    <h1>ARIA Example: Horizontal Sliders using <code>aria-valuenow</code></h1>
+    <h1>Slider 1 Example</h1>
+    
+    <nav>
+      <ul>
+        <li><a href="sliders.html">Overview</a></li>
+        <li class="active"><a href="slider-1.html" aria-current="page">Slider 1</a></li>
+        <li><a href="slider-2.html">Slider 2</a></li>
+        <li><a href="slider-3.html">Slider 3</a></li>
+      </ul>
+    </nav>
+    
   </header>
   
   <main role="main">
 
     <h1>Color Picker Using Slider Widgets</h1>
-    <p>Change sliders to update the background color of box (note: the box is visually left of the 3 slider controls), with the HEX color value in a form control.</p>
+    <ul>
+      <li>
+        Change sliders to update the background color of box (note: the box is visually left of the 3 slider controls), with the HEX color value in a form control.
+      </li>
+    </ul>
     
     <h2 id="example1_h2">Horizontal Sliders</h2>
-    <div id="example1" class="example" role="region" aria-labelledby="example1_h2>
+    <div id="example1" class="example" aria-labelledby="example1_h2>
 
       <div id="idSliders">
         <div id="idRed" class="label">Red</div>
         <div class="aria-widget-slider">
           <div class="rail" style="width: 300px">
-            <div id="idRedValue" class="thumb" aria-valuemin="0" aria-valuenow="100" aria-valuemax="255" aria-labelledby="idRed"></div>
+            <div id="idRedValue" class="thumb" aria-valuemin="0" aria-valuenow="100" aria-valuemax="255" aria-labelledby="idRed">
+            </div>
           </div>
           <div class="value">0</div>
         </div>
@@ -151,9 +168,6 @@
       </tbody>
     </table>
     
-    
-    <script src="../js/examples.js" type="text/javascript"></script>
-    
     <h2>Source Code</h2>
     
     <ul>
@@ -172,6 +186,5 @@
     </script>
     
   </main>
-  <script src="js/slider.js" type="text/javascript"></script>
 </body>
 </html>

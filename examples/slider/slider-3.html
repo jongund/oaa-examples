@@ -13,14 +13,14 @@
 </head>
 <body>
   <header role="banner">
-    <h1>Slider 2 Example</h1>
+    <h1>Slider 3 Example</h1>
     
     <nav>
       <ul>
         <li><a href="sliders.html">Overview</a></li>
         <li><a href="slider-1.html">Slider 1</a></li>
-        <li class="active" aria-current="page"><a href="slider-2.html">Slider 2</a></li>
-        <li><a href="slider-3.html">Slider 3</a></li>
+        <li><a href="slider-2.html">Slider 2</a></li>
+        <li class="active" aria-current="page"><a href="slider-3.html">Slider 3</a></li>
       </ul>
     </nav>
     
@@ -29,7 +29,6 @@
   <main role="main">
 
     <h1>Thermostat Controls using ARIA Sliders</h1>
-
     <ul>
       <li>
         Change sliders to set values for setting a vertical temperature, fan speed and heat/air conditioning.  The examples also use <code>aria-valuetext</code> property.
@@ -38,17 +37,32 @@
     
     <div role="region" aria-label="Examples">
 
-      <h2>Vertical Slider Example</h2>
+      <h2>Slider Examples using using <code>aria-valuetext</code></h2>
       
-      <div id="example1" class="example">
-        <div class="aria-widget-vertical-slider" >
-            <div id="idTemp" class="label">Temperature</div>
-            <div id="idTempValue" class="value">0</div>
-            <div class="rail" style="height: 200px">
-              <div id="idTempThumb" class="thumb" aria-valuemin="50" aria-valuenow="68" aria-valuemax="100" aria-labelledby="idTemp"></div>
-            </div>
+      <div id="example2" class="example">
+      
+        <div class="aria-widget-text-slider" >
+          <div id="idFan" class="label">Fan</div>
+          <div class="rail" style="width: 160px">
+            <div id="idFanThumb" class="thumb" aria-valuetext="Off" aria-labelledby="idFan" aria-orientation="horizontal"></div>
+            <div class="value">Off</div>
+            <div class="value">Low</div>
+            <div class="value">High</div>
+            <div class="value">Auto</div>
+          </div>
         </div>
-      </div>
+
+        <div class="aria-widget-text-slider" >
+          <div id="idHeat" class="label">Heat/Cool</div>
+          <div class="rail" style="width: 120px">
+            <div id="idHeatThumb" class="thumb" aria-valuetext="Off" aria-labelledby="idHeat" aria-orientation="horizontal"></div>
+            <div class="value">Off</div>
+            <div class="value">Heat</div>
+            <div class="value">Cool</div>
+          </div>
+        </div>
+        
+      </div>  
         
     </div>
     
@@ -152,24 +166,20 @@
     
     <h2>Source Code</h2>
     
-    <h3>Temperature Slider</h3>
     
+    <h3>Fan/Heat Sliders</h3>
+
     <ul>
-      <li>CSS: <a href="css/vertical-slider.css" type="tex/css">vertical-slider.css</a></li>
-      <li>Javascript: <a href="js/vertical-slider.js" type="text/javascript">vertical-slider.js</a></li>
+      <li>CSS: <a href="css/text-slider.css" type="tex/css">text-slider.css</a></li>
+      <li>Javascript: <a href="js/text-slider.js" type="text/javascript">text-slider.js</a></li>
     </ul>
-    
-    <div id="sc1">
-    
-    </div>
     
     <div id="sc2">
     
     </div>
     
     <script>
-      console.log(sourceCode)
-      sourceCode.add('sc1', 'example1')
+      sourceCode.add('sc2', 'example2')
       sourceCode.make()
     
     </script>

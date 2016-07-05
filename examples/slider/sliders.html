@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>ARIA Example: Horizontal Sliders using aria-valuenow</title>
+  <meta name="generator" content="BBEdit 10.5" />
+  <link href="../css/core.css" rel="stylesheet">
+  <link href="../css/table.css" rel="stylesheet">
+  <link href="css/slider.css" rel="stylesheet">
+  <style type="text/css">
+    #idColorBox {
+      width: 200px;
+      height: 200px;
+      border: black solid medium;
+      text-align: center;
+      padding: 0.25em;
+    }
+
+    #idColorInfo {
+      padding-top: 5px;
+    }  
+  </style>
+</head>
+<body>
+  <header role="banner">
+    <h1>ARIA Example: Horizontal Sliders using <code>aria-valuenow</code></h1>
+    
+    <nav>
+      <ul>
+        <li class="active"><a href="sliders.html" aria-current="page">Overview</a></li>
+        <li><a href="slider-1.html">Slider 1</a></li>
+        <li><a href="slider-2.html">Slider 2</a></li>
+        <li><a href="slider-3.html">Slider 3</a></li>
+      </ul>
+    </nav>
+      
+  </header>
+  
+  <main role="main">
+    <h1 id="id1">Overview of Slider Examples</h1>
+    
+    <table aria-labelledby="id1">
+      <thead>
+        <tr>
+          <th style="min-width: 6em">Example ID</th>
+          <th><code>aria-orientation</code></th>
+          <th><code>aria-valuetext</code></th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="slider-1.html">Slider-1</a></td>
+          <td class="nu">-</td>
+          <td class="nu">-</td>
+          <td>
+            <ul>
+              <li>Color Picker</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><a href="slider-2.html">Slider-2</a></td>
+          <td>x</td>
+          <td class="nu">-</td>
+          <td>
+            <ul>
+              <li>Temperature Control</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><a href="slider-3.html">Slider-3</a></td>
+          <td class="nu">-</td>
+          <td>x</td>
+          <td>
+            <ul>
+              <li>Thermostat Controls</li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    
+  </main>
+  <script src="js/slider.js" type="text/javascript"></script>
+</body>
+</html>
