@@ -295,13 +295,13 @@ Tree.prototype.isExpanded = function(treeitem) {
 Tree.prototype.getNextSiblingTreeitem = function(treeitem) {
 
   var ti = treeitem.nextTreeitem;
-  var next = false;
 
-  if (ti && ti.parentTreeitem === treeitem.parentTreeitem) {
-    next = ti;
-  }
+  while (ti) {
+    if (ti.parentTreeitem === treeitem.parentTreeitem) return ti;
+    ti = ti.nextTreeitem;
+  } 
 
-  return next;
+  return false;
 };
 
 /*
@@ -819,6 +819,7 @@ Tree.prototype.expandSiblingTreeitems = function(treeitem) {
   if (!ti) ti = treeitem;
 
   while (ti) {
+    console.log('TREEITEM: ' + ti + ' ' + ti.nextTreeitem);
     if (this.isExpandable(ti)) this.showChildTreeitems(ti);
     ti = this.getNextSiblingTreeitem(ti);
   }

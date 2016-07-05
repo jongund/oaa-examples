@@ -423,19 +423,28 @@
               <td><code>aria-labelledby</code> to visible label.</td>
             </tr>
             <tr>
-              <td>treeitem</td>  
-              <td>Each node in a tree has the <code>role=treeitem</code> and should be a DOM child of tree.</td>
+              <td>group</td>
               <td>
                 <ul>
-                  <li>Child text content of <code>treeitem</code>.</li>
-                  <li><code>aria-label</code> for <code>treeitem</code>s that expand and collapse.</li>
-                </ul>
-              </td>  
+                  <li>The <code>group</code> role identifies a collection of <code>treeitem</code> elements to be expanded and collapsed.</li>
+                  <li>In this example the <code>group</code> role overrides the <code>ul</code> element has the default role of.</li>
+                </ul>  
+              </td>
+              <td>
+                <code>aria-labelledby</code> to associated treeitem accessible name.
+              </td>
             </tr>
             <tr>
-              <td>group</td>
-              <td>A collection of <code>treeitem</code>s to be expanded and collapsed are enclosed in a element with <code>role=group</code>.  The <code>ul</code> element has the default role of <code>group</code>.</td>
-              <td>not needed</td>  
+              <td>treeitem</td>  
+              <td>
+                <ul>
+                  <li>The <code>role=treeitem</code> identify the leaves and branchs in the tree and must be childeren of <code>tree</code> or <code>group</code> roles.</li>
+                  <li>In this example the  <code>role=treeitem</code> overrides the default role of <code>link</code> of the <code>a</code> element.</li>
+                </ul>   
+              </td>
+              <td>
+                Child text nodes
+              </td>
             </tr>
           </tbody>
         </table>
