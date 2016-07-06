@@ -17,7 +17,7 @@ function printButtonEventHandler(event) {
   var type = event.type;
   
   // Grab the keydown and click events
-  if (type === 'keydown') {
+  if (type === 'keydown' || type === 'keypress') {
     // If either enter or space is pressed, execute the funtion
     if (event.keyCode === 13 || event.keyCode === 32) {
       window.print();
