@@ -5,6 +5,7 @@ function init() {
   // Add event listeners to the various buttons
   alert1Button.addEventListener('click', alertButtonEventHandler);
   alert1Button.addEventListener('keydown', alertButtonEventHandler);
+  alert1Button.addEventListener('keypress', alertButtonEventHandler); // for chrome compatibility
 
 }
 
@@ -19,12 +20,13 @@ function alertButtonEventHandler(event) {
   var message = 'Hej, hello, ciao, こんにちは';
   
   // Grab the keydown and click events
-  if (type === 'keydown') {
+  if (type === 'keydown' || type === 'keypress') {
     // If either enter or space is pressed, execute the funtion
     if (event.keyCode === 13 || event.keyCode === 32) {
       alert(message);
       
       event.preventDefault();
+      event.stopPropagation();
     }
   } else if (type === 'click') {
     alert(message);
