@@ -46,7 +46,7 @@ Event |	Element |	Description
 ------------ | ------------- | -------------
 keydown | [role=treeitem] | <ul><li>A <code>keydown</code> event listener is added to each element with <code>role=treeitem</code> to support moving focus between the <code>treeitem</code> with the keyboard.</li><li>The <code>keydown</code> event listener is useful for identifying the key codes associated with the <kbd>Left</kbd>, <kbd>Right</kbd>, <kbd>Up</kbd>, <kbd>Down</kbd>, <kbd>Home</kbd>, <kbd>End</kbd>, <kbd>Enter</kbd> and <kbd>space</kbd> keys.</li></ul>
 keypress | [role=treeitem] | <ul><li>A <code>keypress</code> event listener is added to each element with <code>role=treeitem</code> to support moving focus between the <code>treeitem</code> with the keyboard.</li><li>The <code>keypress</code> event listener is useful for identifying the characters associated with the <kbd>a-z</kbd>, <kbd>A-Z</kbd> and <kbd>*</kbd> when typed by the user, since the <code>keypress</code> event computes a character based on the combination of the keys typed by the user.</li></ul>
-click | [role=treeitem][aria-expanded] | <ul><li>Click event listener is added to each element with <code>role=treeitem</code> and <code>aria-expanded</code> to support opening and closing a branch of the tree with the mouse.</li><li>Click triggers "action" event associated with the element with <code>role=treeitem</code>.</li></ul>
+click | [role=treeitem]  [aria-expanded] | <ul><li>Click event listener is added to each element with <code>role=treeitem</code> and <code>aria-expanded</code> to support opening and closing a branch of the tree with the mouse.</li><li>Click triggers "action" event associated with the element with <code>role=treeitem</code>.</li></ul>
 focus | [role=treeitem] | Focus event listener is added to each element with <code>role=treeitem</code> to support visual styling of the <code>treeitem</code> when it recieves focus.
 blur | [role=treeitem] | Blur event listener is added to each element with <code>role=treeitem</code> to support visual styling of the <code>treeitem</code> when it does not have focus.
 
@@ -54,8 +54,234 @@ blur | [role=treeitem] | Blur event listener is added to each element with <code
 Elements | Focus Style | Focus Technique
 ------------ | ------------- | -------------
 [role=treeitem] | <ul><li>border</li><li>background-color</li></ul> | <code>focus</code> and <code>blur</code> events are used to add and remove a "focus" class to the <code>treeitem</code> element.
-[role=treeitem][aria-expanded] | <ul><li>border</li><li>background-color</li></ul> | <code>focus</code> and <code>blur</code> events are used to add and remove a "focus" class to the first child element (e.g <code>span</code> element) of the <code>treeitem</code> element.
+[role=treeitem]  [aria-expanded] | <ul><li>border</li><li>background-color</li></ul> | <code>focus</code> and <code>blur</code> events are used to add and remove a "focus" class to the first child element (e.g <code>span</code> element) of the <code>treeitem</code> element.
 
 ## Synchronization of Visual and ARIA States
 Elements | Description
 ------------ | ------------- 
+[role=treeitem]  [aria-expanded] | <ul><li>The <code>:before</code> psuedo selector for <code>[aria-expanded=false]</code> and <code>[aria-expanded=true]</code> are used to change a <code>content</code> property.</li><li>The image source defined in the <code>content</code> property is used for visually indicating the expanded and collapsed states of an expandable <code>treeitem</code>.</li><li>The <code>content</code> property is preferred since it supports rendering of the image in high contrast settings of browsers and operating systems.  Other CSS techniques like <code>background-image</code> are not supported in high contrast modes.</li></ul>  
+
+## Source Code: Example
+<ul><li>HTML: <a href="treeview-1a.html" type="text/css">treeview-1a-code.html</a></li>
+<li>CSS: <a href="treeview-1.css" type="tex/css">treeview-1.css</a></li>
+<li>Javascript: <a href="treeview.js" type="text/javascript">treeview.js</a></li>
+<li>Javascript: <a href="treeview-1-onclick.js"type="text/javascript">treeview-1-onclick.js</a></li></ul>
+
+``` 
+<div id="code-ex-1">
+  <h3 id="tree1">
+    File Viewer
+  </h3>
+  <ul role="tree" aria-labelledby="tree1">
+    <li role="treeitem"
+      aria-expanded="false"
+      aria-label="Projects">
+      <span>
+         Projects
+      </span>
+      <ul role="group">
+        <li role="treeitem" class="doc">
+           project-1.docx
+        </li>
+        <li role="treeitem" class="doc">
+           project-2.docx
+        </li>
+        <li role="treeitem"
+          aria-expanded="false"
+          aria-label="project-3">
+          <span>
+             project-3
+          </span>
+          <ul role="group">
+            <li role="treeitem" class="doc">
+               project-3A.docx
+            </li>
+            <li role="treeitem" class="doc">
+               project-3B.docx
+            </li>
+            <li role="treeitem" class="doc">
+               project-3C.docx
+            </li>
+          </ul>
+        </li>
+        <li role="treeitem" class="doc">
+           project-4.docx
+        </li>
+        <li role="treeitem"
+          aria-expanded="false"
+          aria-label="project-5">
+          <span>
+             project-5
+          </span>
+          <ul role="group">
+            <li role="treeitem" class="doc">
+               project-5A.docx
+            </li>
+            <li role="treeitem" class="doc">
+               project-5B.docx
+            </li>
+            <li role="treeitem" class="doc">
+               project-5C.docx
+            </li>
+            <li role="treeitem" class="doc">
+               project-5D.docx
+            </li>
+            <li role="treeitem" class="doc">
+               project-5E.docx
+            </li>
+            <li role="treeitem" class="doc">
+               project-5F.docx
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li role="treeitem"
+      aria-expanded="false"
+      aria-label="Reports">
+      <span>
+         Reports
+      </span>
+      <ul role="group">
+        <li role="treeitem"
+          aria-expanded="false"
+          aria-label="report-1">
+          <span>
+             report-1
+          </span>
+          <ul role="group">
+            <li role="treeitem" class="doc">
+               report-1A.docx
+            </li>
+            <li role="treeitem" class="doc">
+               report-1B.docx
+            </li>
+            <li role="treeitem" class="doc">
+               report-1C.docx
+            </li>
+          </ul>
+        </li>
+        <li role="treeitem"
+          aria-expanded="false"
+          aria-label="report-2">
+          <span>
+             report-2
+          </span>
+          <ul role="group">
+            <li role="treeitem" class="doc">
+               report-2A.docx
+            </li>
+            <li role="treeitem" class="doc">
+               report-2B.docx
+            </li>
+            <li role="treeitem" class="doc">
+               report-2C.docx
+            </li>
+            <li role="treeitem" class="doc">
+               report-2D.docx
+            </li>
+          </ul>
+        </li>
+        <li role="treeitem"
+          aria-expanded="false"
+          aria-label="report-3">
+          <span>
+             report-3
+          </span>
+          <ul role="group">
+            <li role="treeitem" class="doc">
+               report-3A.docx
+            </li>
+            <li role="treeitem" class="doc">
+               report-3B.docx
+            </li>
+            <li role="treeitem" class="doc">
+               report-3C.docx
+            </li>
+            <li role="treeitem" class="doc">
+               report-3D.docx
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li role="treeitem"
+      aria-expanded="false"
+      aria-label=" Letters">
+      <span>
+         Letters
+      </span>
+      <ul role="group">
+        <li role="treeitem"
+          aria-expanded="false"
+          aria-label="letter-1">
+          <span>
+             letter-1
+          </span>
+          <ul>
+            <li role="treeitem" class="doc">
+               letter-1A.docx
+            </li>
+            <li role="treeitem" class="doc">
+               letter-1B.docx
+            </li>
+            <li role="treeitem" class="doc">
+               letter-1C.docx
+            </li>
+          </ul>
+        </li>
+        <li role="treeitem"
+          aria-expanded="false"
+          aria-label="letter-2">
+          <span>
+             letter-2
+          </span>
+          <ul role="group">
+            <li role="treeitem" class="doc">
+               letter-2A.docx
+            </li>
+            <li role="treeitem" class="doc">
+               letter-2B.docx
+            </li>
+            <li role="treeitem" class="doc">
+               letter-2C.docx
+            </li>
+            <li role="treeitem" class="doc">
+               letter-2D.docx
+            </li>
+          </ul>
+        </li>
+        <li role="treeitem"
+          aria-expanded="false"
+          aria-label="letter-3">
+          <span>
+             letter-3
+          </span>
+          <ul role="group">
+            <li role="treeitem" class="doc">
+               letter-3A.docx
+            </li>
+            <li role="treeitem" class="doc">
+               letter-3B.docx
+            </li>
+            <li role="treeitem" class="doc">
+               letter-3C.docx
+            </li>
+            <li role="treeitem" class="doc">
+               letter-3D.docx
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+  <p>
+    <label>
+      File or Folder Selected: 
+      <input id="last_action"
+           type="output"
+           size="15">
+    </label>
+  </p>
+</div>
+```
