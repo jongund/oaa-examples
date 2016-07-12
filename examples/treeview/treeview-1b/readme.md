@@ -61,7 +61,7 @@ Elements | Description
 [role=treeitem]  [aria-expanded] | <ul><li>The <code>:before</code> psuedo selector for <code>[aria-expanded=false]</code> and <code>[aria-expanded=true]</code> are used to change a <code>content</code> property.</li><li>The image source defined in the <code>content</code> property is used for visually indicating the expanded and collapsed states of an expandable <code>treeitem</code>.</li><li>The <code>content</code> property is preferred since it supports rendering of the image in high contrast settings of browsers and operating systems.  Other CSS techniques like <code>background-image</code> are not supported in high contrast modes.</li></ul> 
 
 ## Source Code: Example
-<ul><li>HTML: <a href="treeview-1b-code.html" type="text/css">treeview-1b-code.html</a></li><li>CSS: <a href="treeview-1.css" type="tex/css">treeview-1.css</a></li><li>Javascript: <a href="treeview.js" type="text/javascript">treeview.js</a></li><li>Javascript: <a href="treeview-1-onclick.js" type="text/javascript">treeview-1-onclick.js</a></li></ul>
+<ul><li>HTML: <a href="treeview-1b.html" type="text/css">treeview-1b.html</a></li><li>CSS: <a href="treeview-1.css" type="tex/css">treeview-1.css</a></li><li>Javascript: <a href="treeview.js" type="text/javascript">treeview.js</a></li><li>Javascript: <a href="treeview-1-onclick.js" type="text/javascript">treeview-1-onclick.js</a></li></ul>
 
 ```
 <div id="code-ex-1">
