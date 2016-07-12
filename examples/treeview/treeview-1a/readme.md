@@ -262,7 +262,7 @@ Elements | Description
                letter-3A.docx
             </li>
             <li role="treeitem" class="doc">
-               letter-3B.docx
+               letter-3B.docx 
             </li>
             <li role="treeitem" class="doc">
                letter-3C.docx
