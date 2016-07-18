@@ -107,8 +107,8 @@ aria.widget.slider = function(node, inc, jump, width) {
 
   
   
-  this.thumbHeight  = 28;
-  this.thumbWidth   = 8;
+  this.thumbHeight  = 25;
+  this.thumbWidth   = 20;
   
   if (typeof width !== 'number') {
     width = window.getComputedStyle(this.rail).getPropertyValue("width");

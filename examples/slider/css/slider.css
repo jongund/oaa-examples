@@ -25,12 +25,14 @@ div.aria-widget-slider .thumb  {
 }
 
 div#thumb-1 {
-  content:url('leftArrow.png');
+  z-index: 2;
+  content:url('rightArrow.png');
   background-color: transparent;
   border: none;
 }
 div#thumb-2 {
-  content:url('rightArrow.png');
+  z-index: 2;
+  content:url('leftArrow.png');
   background-color: transparent;
   border: none;
 }
@@ -52,8 +54,9 @@ div.focus .rail {
 }
 
 div.range{
+  z-index: 1;
   height: 7px;
-  bottom: 59px;
+  bottom: 53px;
   position:relative;
   background-color:purple;
 }
