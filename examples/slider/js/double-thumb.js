@@ -237,6 +237,7 @@ aria.widget.slider.prototype.initSlider = function() {
 
 aria.widget.slider.prototype.updateThumbPosition = function(i) {
   //changed--------changed--------changed---------changed---------changed--------changed
+  var oldValue = this.valueNow[i];
   var currThumbMax = this.valueMax;
   var currThumbMin = this.valueMin;
   
@@ -252,7 +253,6 @@ aria.widget.slider.prototype.updateThumbPosition = function(i) {
   
   this.thumb[i].style.left = pos + "px";
   this.value[i].innerHTML = this.valueNow[i].toString();
-  
   
   var thumb_1_pos = Math.round((this.valueNow[0] * this.sliderWidth) / (this.valueMax - this.valueMin)) - (this.thumbWidth/2);
   var thumb_2_pos = Math.round((this.valueNow[1] * this.sliderWidth) / (this.valueMax - this.valueMin)) - (this.thumbWidth/2);
