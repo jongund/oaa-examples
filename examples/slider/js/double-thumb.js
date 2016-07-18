@@ -84,6 +84,11 @@ aria.widget.slider = function(node, inc, jump, width) {
   if (rails) this.rail = rails[0];
   else return false;
 
+  var _range = node.getElementsByClassName('range');
+  if (_range) this.range = _range[0];
+  else return false;
+
+  
   var thumbs = node.getElementsByClassName('thumb');
   //changed--------changed--------changed---------changed---------changed--------changed
   if (thumbs) this.thumb = thumbs;
@@ -141,7 +146,7 @@ aria.widget.slider = function(node, inc, jump, width) {
   {
     var curr_value = parseInt(this.thumb[i].getAttribute('aria-valuenow'));
     this.valueNow.push(curr_value);
-    if (isNaN(this.valueNow[i]))this.valueNow[i] = Math.round((this.valueMax - this.valueMin) / 2);
+    if (isNaN(this.valueNow[i]))this.valueNow[i] = Math.round((this.valueMax - this.  valueMin) / 2);
     i++;
   }
   
@@ -172,19 +177,21 @@ aria.widget.slider.prototype.initSlider = function() {
 
   this.rail.style.height = "1px";
   this.rail.style.width = this.sliderWidth + "px";
+  
   //changed--------changed--------changed---------changed---------changed--------changed
   var i = 0;
   while(i<this.thumb.length)
   {
     this.thumb[i].style.height = this.thumbHeight + "px";
     this.thumb[i].style.width = this.thumbWidth + "px";
-    this.thumb[i].style.top = (-1 * this.thumbHeight/2)-(i*1.07*this.thumbHeight) + "px";//align
+    this.thumb[i].style.top = (-1 * this.thumbHeight/2)-(i*this.thumbHeight) + "px";//align
     
     this.value[i].style.top = (this.rail.offsetTop + (this.value[0].offsetHeight / 2) + 2) + "px";
     this.value[i].style.left = (this.rail.offsetLeft + i*this.rail.offsetWidth - 25) + "px";
     i++;
   }
   
+
   
   
   this.rangeLeftPos =  this.rail.offsetLeft;
@@ -246,6 +253,12 @@ aria.widget.slider.prototype.updateThumbPosition = function(i) {
   this.thumb[i].style.left = pos + "px";
   this.value[i].innerHTML = this.valueNow[i].toString();
   
+  
+  var thumb_1_pos = Math.round((this.valueNow[0] * this.sliderWidth) / (this.valueMax - this.valueMin)) - (this.thumbWidth/2);
+  var thumb_2_pos = Math.round((this.valueNow[1] * this.sliderWidth) / (this.valueMax - this.valueMin)) - (this.thumbWidth/2);
+  var length = thumb_2_pos-thumb_1_pos;
+  this.range.style.width = (length-this.thumbWidth)+ "px";
+  this.range.style.left = (thumb_1_pos+this.thumbWidth) + "px";
 };
 
 /**

@@ -16,11 +16,23 @@ div.aria-widget-slider .rail {
 }
 
 div.aria-widget-slider .thumb  {
+  
   border: 1px solid #888;
   border-top-color:  #666;
   border-left-color: #666;
   background-color: #DDD;
   position: relative;
+}
+
+div#thumb-1 {
+  content:url('leftArrow.png');
+  background-color: transparent;
+  border: none;
+}
+div#thumb-2 {
+  content:url('rightArrow.png');
+  background-color: transparent;
+  border: none;
 }
 
 div.aria-widget-slider .value  {
@@ -39,7 +51,12 @@ div.focus .rail {
   background-color: #CCC;
 }
 
-
+div.range{
+  height: 7px;
+  bottom: 59px;
+  position:relative;
+  background-color:purple;
+}
 
 label {
   display: block;
