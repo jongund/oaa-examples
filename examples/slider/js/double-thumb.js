@@ -240,8 +240,8 @@ aria.widget.slider.prototype.updateThumbPosition = function(i) {
   var currThumbMax = this.valueMax;
   var currThumbMin = this.valueMin;
   
-  if((i+1)<this.thumb.length) currThumbMax = this.valueNow[i+1];
-  if((i-1)>=0) currThumbMin = this.valueNow[i-1];
+  if((i+1)<this.thumb.length) currThumbMax = this.valueNow[i+1]-2;
+  if((i-1)>=0) currThumbMin = this.valueNow[i-1]+2;
   
   if (this.valueNow[i] > currThumbMax) this.valueNow[i] = currThumbMax;
   if (this.valueNow[i] < currThumbMin) this.valueNow[i] = currThumbMin;
