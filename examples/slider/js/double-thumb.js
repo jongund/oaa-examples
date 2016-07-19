@@ -88,10 +88,12 @@ aria.widget.slider = function(node, inc, jump, width) {
   if (_range) this.range = _range[0];
   else return false;
 
+  var valTags = node.getElementsByClassName('limit');
+  if(valTags) this.tags = valTags;
+  else return false;
   
   var thumbs = node.getElementsByClassName('thumb');
-  //changed--------changed--------changed---------changed---------changed--------changed
-  if (thumbs) this.thumb = thumbs;
+    if (thumbs) this.thumb = thumbs;
   else return false;
 
   var values = node.getElementsByClassName('value');
@@ -104,8 +106,6 @@ aria.widget.slider = function(node, inc, jump, width) {
     this.value[i].innerHTML = "0";
     i++;
   }
-
-  
   
   this.thumbHeight  = 25;
   this.thumbWidth   = 20;
@@ -133,8 +133,7 @@ aria.widget.slider = function(node, inc, jump, width) {
   if (typeof height === 'Number') this.sliderHeight = height;
   if (typeof width  === 'Number') this.sliderWidth  = width;
   
-  //changed--------changed--------changed---------changed---------changed--------changed
-  this.valueMin = parseInt(this.thumb[0].getAttribute('aria-valuemin'));
+    this.valueMin = parseInt(this.thumb[0].getAttribute('aria-valuemin'));
   if (isNaN(this.valueMin)) this.valueMin = 0;
   
   this.valueMax = parseInt(this.thumb[0].getAttribute('aria-valuemax'));
@@ -150,8 +149,6 @@ aria.widget.slider = function(node, inc, jump, width) {
     i++;
   }
   
-  
-  //changed--------changed--------changed---------changed---------changed--------changed
   i = 0;
   while(i<this.thumb.length)
   {
@@ -178,7 +175,6 @@ aria.widget.slider.prototype.initSlider = function() {
   this.rail.style.height = "1px";
   this.rail.style.width = this.sliderWidth + "px";
   
-  //changed--------changed--------changed---------changed---------changed--------changed
   var i = 0;
   while(i<this.thumb.length)
   {
@@ -186,13 +182,9 @@ aria.widget.slider.prototype.initSlider = function() {
     this.thumb[i].style.width = this.thumbWidth + "px";
     this.thumb[i].style.top = (-1 * this.thumbHeight/2)-(i*this.thumbHeight) + "px";//align
     
-    this.value[i].style.top = (this.rail.offsetTop + (this.value[0].offsetHeight / 2) + 2) + "px";
-    this.value[i].style.left = (this.rail.offsetLeft + i*this.rail.offsetWidth - 25) + "px";
+    this.value[i].style.top = (this.rail.offsetTop -30) + "px";
     i++;
   }
-  
-
-  
   
   this.rangeLeftPos =  this.rail.offsetLeft;
   
@@ -214,8 +206,7 @@ aria.widget.slider.prototype.initSlider = function() {
     slider.eventBlur(event, slider);
   };
   
-  //changed--------changed--------changed---------changed---------changed--------changed
-  i = 0;
+    i = 0;
   while(i<this.thumb.length)
   {
     this.thumb[i].addEventListener('keydown',   eventKeyDown);
@@ -236,26 +227,30 @@ aria.widget.slider.prototype.initSlider = function() {
  */
 
 aria.widget.slider.prototype.updateThumbPosition = function(i) {
-  //changed--------changed--------changed---------changed---------changed--------changed
   var oldValue = this.valueNow[i];
   var currThumbMax = this.valueMax;
   var currThumbMin = this.valueMin;
   
-  if((i+1)<this.thumb.length) currThumbMax = this.valueNow[i+1]-2;
-  if((i-1)>=0) currThumbMin = this.valueNow[i-1]+2;
+  if((i+1)<this.thumb.length) currThumbMax = this.valueNow[i+1];
+  if((i-1)>=0) currThumbMin = this.valueNow[i-1];
   
   if (this.valueNow[i] > currThumbMax) this.valueNow[i] = currThumbMax;
   if (this.valueNow[i] < currThumbMin) this.valueNow[i] = currThumbMin;
   
   this.thumb[i].setAttribute('aria-valuenow', this.valueNow[i]);
   
-  var pos = Math.round((this.valueNow[i] * this.sliderWidth) / (this.valueMax - this.valueMin)) - (this.thumbWidth/2);
+  var pos = Math.round((this.valueNow[i] * this.sliderWidth) / (this.valueMax - this.valueMin)) + (i-1)*this.thumbWidth;
   
   this.thumb[i].style.left = pos + "px";
-  this.value[i].innerHTML = this.valueNow[i].toString();
   
-  var thumb_1_pos = Math.round((this.valueNow[0] * this.sliderWidth) / (this.valueMax - this.valueMin)) - (this.thumbWidth/2);
-  var thumb_2_pos = Math.round((this.valueNow[1] * this.sliderWidth) / (this.valueMax - this.valueMin)) - (this.thumbWidth/2);
+  this.value[i].innerHTML = this.valueNow[i].toString();
+  this.value[i].style.left = (pos+(i-1)*4+this.thumbWidth)+ "px";
+  
+  this.tags[i].style.top = (this.rail.offsetTop + this.thumbHeight/2) + "px";
+  this.tags[i].style.left = (this.rail.offsetLeft + i*this.rail.offsetWidth - 25) + "px";
+  
+  var thumb_1_pos = Math.round((this.valueNow[0] * this.sliderWidth) / (this.valueMax - this.valueMin)) - this.thumbWidth;
+  var thumb_2_pos = Math.round((this.valueNow[1] * this.sliderWidth) / (this.valueMax - this.valueMin));
   var length = thumb_2_pos-thumb_1_pos;
   this.range.style.width = (length-this.thumbWidth)+ "px";
   this.range.style.left = (thumb_1_pos+this.thumbWidth) + "px";
@@ -280,7 +275,6 @@ aria.widget.slider.prototype.eventKeyDown = function(event, slider) {
     event.stopPropagation();
   }
   
-//changed--------changed--------changed---------changed---------changed--------changed
   var i = 0;
   while(i<slider.thumb.length)
   {
@@ -337,7 +331,7 @@ aria.widget.slider.prototype.eventKeyDown = function(event, slider) {
 aria.widget.slider.prototype.eventMouseDown = function(event, slider) {
   // Set focus to the clicked handle
   event.target.focus();
-
+  
   var i = 0;
   while(i<slider.thumb.length)
   {
@@ -345,7 +339,6 @@ aria.widget.slider.prototype.eventMouseDown = function(event, slider) {
     i++;
   }
   if(i==slider.thumb.length)return;
-  
   
   
   var mouseMove = function (event) {
@@ -368,8 +361,6 @@ aria.widget.slider.prototype.eventMouseDown = function(event, slider) {
 
   event.preventDefault();
   event.stopPropagation();
-  
-
 };
 
 /**
@@ -426,6 +417,7 @@ aria.widget.slider.prototype.eventMouseUp = function(event, slider) {
 aria.widget.slider.prototype.eventFocus = function(event, slider) {
 
   slider.container.className = "aria-widget-slider focus";
+  event.target.className += " focused";
   
   event.preventDefault();
   event.stopPropagation();
@@ -445,6 +437,7 @@ aria.widget.slider.prototype.eventFocus = function(event, slider) {
 aria.widget.slider.prototype.eventBlur = function(event, slider) {
 
   slider.container.className = "aria-widget-slider";
+  event.target.classList.remove("focused");
   
   event.preventDefault();
   event.stopPropagation();

@@ -16,7 +16,6 @@ div.aria-widget-slider .rail {
 }
 
 div.aria-widget-slider .thumb  {
-  
   border: 1px solid #888;
   border-top-color:  #666;
   border-left-color: #666;
@@ -37,19 +36,33 @@ div#thumb-2 {
   border: none;
 }
 
-div.aria-widget-slider .value  {
+div.aria-widget-slider .value {
   width:      2em;
   text-align: right;
   position: absolute;
 }
 
-div.focus .thumb  {
+div.aria-widget-slider .limit {
+  width:      2em;
+  text-align: right;
+  position: absolute;
+}
+
+div.focus .thumb {
   border: 1px solid #444;
   background-color: #888;
   position: relative;
+  margin:0px;
 }
 
-div.focus .rail {
+div.focused {
+  outline: yellow dotted;
+  position: relative;
+  margin: -40px;
+}
+
+
+.rail {
   background-color: #CCC;
 }
 
