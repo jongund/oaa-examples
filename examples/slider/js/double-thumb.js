@@ -418,7 +418,8 @@ aria.widget.slider.prototype.eventFocus = function(event, slider) {
 
   slider.container.className = "aria-widget-slider focus";
   event.target.className += " focused";
-  
+  slider.range.className += " focused";
+
   event.preventDefault();
   event.stopPropagation();
   
@@ -438,7 +439,8 @@ aria.widget.slider.prototype.eventBlur = function(event, slider) {
 
   slider.container.className = "aria-widget-slider";
   event.target.classList.remove("focused");
-  
+  slider.range.classList.remove("focused");
+
   event.preventDefault();
   event.stopPropagation();
   
