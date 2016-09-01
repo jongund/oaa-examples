@@ -159,8 +159,6 @@
               </div>
               
             </section>
-<!--            </code>-->
-<!--            </pre>-->
 
             <section aria-labelledby="id_kbd">
              
@@ -231,7 +229,7 @@
                  </tr>
                  <tr>
                    <td>*</td>
-                   <td>Opens all the expandable <code>treeitem</code>s in the current leaf (e.g. siblings and current <code>treeitem</code>s), keyboard focus does not change.
+                   <td>Opens all the expandable <code>treeitem</code>s in the current leaf (e.g. siblings of the current <code>treeitem</code>), keyboard focus does not change.
                    </td>
                  </tr>
                </tbody>
@@ -255,11 +253,11 @@
                  <tr>
                    <td>tree</td>
                    <td>The tree view container has a <code>role=tree</code>.</td>
-                   <td><code>aria-labelledby</code> to visible label.</td>
+                   <td><code>aria-labelledby</code> to a visible label.</td>
                  </tr>
                  <tr>
                    <td>treeitem</td>
-                   <td>Each node in a tree has the <code>role=treeitem</code> and should be a DOM child of tree.</td>
+                   <td>Each interactive item in the tree view has the <code>role=treeitem</code> and is a DOM child of tree.</td>
                    <td>
                      <ul>
                        <li>Child text content of <code>treeitem</code>.</li>
@@ -269,7 +267,12 @@
                  </tr>
                  <tr>
                    <td>group</td>
-                   <td>A collection of <code>treeitem</code>s to be expanded and collapsed are enclosed in a element with <code>role=group</code>.  The <code>ul</code> element has the default role of <code>group</code>.</td>
+                   <td>
+                      <ul>
+                        <li>A collection of <code>treeitem</code>s to be expanded and collapsed are enclosed in a element with <code>role=group</code>.</li>
+                        <li>The <code>role=group</code> on the <code>ul</code> element overrides the default role of <code>list</code>.</li>
+                      </ul>
+                    </td>
                    <td>not needed</td>
                  </tr>
                </tbody>
@@ -293,9 +296,9 @@
                    <td>aria-expanded</td>
                    <td>
                      <ul>
-                       <li>Each element with <code>role=treeitem</code> that can be expanded or collapsed should have an <code>aria-expanded</code> attribute.</li>
-                       <li>Each element with <code>role=treeitem</code> which is expanded should have <code> aria-expanded="true"</code>.</li>
-                       <li>Each element with <code>role=treeitem</code> which is collapsed should have <code> aria-expanded="false"</code>.</li>
+                       <li>Each element with <code>role=treeitem</code> that can be expanded or collapsed has an <code>aria-expanded</code> attribute.</li>
+                       <li>Each element with <code>role=treeitem</code> which is expanded sets <code> aria-expanded="true"</code>.</li>
+                       <li>Each element with <code>role=treeitem</code> which is collapsed sets <code> aria-expanded="false"</code>.</li>
                      </ul>
                    </td>
                  </tr>
@@ -308,31 +311,32 @@
                    <td>Provides accessible name for the <code>treeitem</code>s that are expandable and collapsable.</td>
                  </tr>
                  <tr>
-                   <td>aria-level</td>
+                   <td>aria-level<br/>(computed)</td>
                    <td>
                      <ul>
                        <li>Provides level information on how <em>deep</em> a <code>treeitem</code> is the nested structure of the treeview.</li>
-                       <li>User agents are <strong>not</strong> required to compute the value of the <code>aria-level</code> property for a <code>treeitem</code> based on the nesting structure in the treeview, so authors must supply the <code>aria-level</code> value.</li>
-                       <li><code>aria-level</code> is important since keyboard navigation of the tree results in changing levels and assistive technologies need this information to inform users of the change in level.</li>
+                       <li>This example is relies on the user agent to compute the value of the <code>aria-level</code>, so this example can be used to test user agent impelementation of this feature. (NOTE: In the ARIA specification the user agents are encouraged but not required to support this feature)</li>
+                       <li>The <code>aria-level</code> property is based on the nesting of the <code>treeitem</code> in structure in the treeview.</li>
+                       <li>Assistive technologies need use <code>aria-level</code> to inform users of changes in level as the user navigates the tree structure with keyboard commands.</li>
                      </ul>
                    </td>
                  </tr>
                  <tr>
-                   <td>aria-setsize</td>
+                   <td>aria-setsize<br/>(computed)</td>
                    <td>
                      <ul>
-                       <li>Provides information on the <em>number</em> of <code>treeitems</code> in the leaf of the tree.</li>
-                       <li>User agents are <strong>not</strong> required to automatically compute the value of the <code>aria-setsize</code> property for a <code>treeitem</code> based on the number of sibling <code>treeitem</code>s in the leaf of the treeview, so authors should supply the <code>aria-setsize</code> value based on the number of sibling <code>treeitem</code>s.</li>
+                       <li>Provides information on the <em>number</em> of <code>treeitems</code> in the branch of the tree.</li>                       
+                       <li>This example is relies on the user agent to compute the value of the <code>aria-setsize</code>, so this example can be used to test user agent impelementation of this feature. (NOTE: In the ARIA specification the user agents are encouraged but not required to support this feature)</li>
                        <li>Assistive technologies use <code>aria-setsize</code> information to inform the user of how may items are in the leaf of a treeview.</li>
-                       </td>
+                      </td>
                  </tr>
                  <tr>
-                   <td>aria-posinset</td>
+                   <td>aria-posinset<br/>(computed)</td>
                    <td>
                      <ul>
-                       <li>Provides information on the <em>position</em> of a <code>treeitem</code> in the leaf of the tree.</li>
-                       <li>User agents are <strong>not</strong> required to automatically compute the value of the <code>aria-posinest</code> property for a <code>treeitem</code> based on the it position in the leaf of the treeview, so authors should supply the <code>aria-posinset</code> value based on the position of <code>treeitem</code>.</li>
-                       <li>Assistive technologies use <code>aria-posinset</code> information to inform the user of position of the <code>treeitem</code> in a leaf.</li>
+                       <li>Provides information on the <em>position</em> of a <code>treeitem</code> in the branch of the tree.</li>
+                       <li>This example is relies on the user agent to compute the value of the <code>aria-posinsize</code>, so this example can be used to test user agent impelementation of this feature. (NOTE: In the ARIA specification the user agents are encouraged but not required to support this feature)</li>
+                       <li>Assistive technologies use <code>aria-posinset</code> information to inform the user of position of the <code>treeitem</code> in a branch of a tree.</li>
                        </ul>
                     </td>
                  </tr>
@@ -357,7 +361,7 @@
                  <tr>
                    <td>[role=treeitem]</td>
                    <td>0 or -1</td>
-                   <td>The <code>treeitem</code> with the current focus should have <code>tabindex=0</code>, all other <code>treeitem</code>s should have a tabindex value of -1.</td>
+                   <td>When the element with <code>role=treeitem</code> has focus, <code>tabindex</code> is set to 0, all other <code>treeitem</code>s are set to a <code>tabindex</code> value of -1.</td>
                  </tr>
                </tbody>
              </table>
@@ -382,7 +386,7 @@
                    <td>
                      <ul>
                        <li>A <code>keydown</code> event listener is added to each element with <code>role=treeitem</code> to support moving focus between the <code>treeitem</code> with the keyboard.</li>
-                       <li>The <code>keydown</code> event listener is useful for identifying the key codes associated with the <kbd>Left</kbd>, <kbd>Right</kbd>, <kbd>Up</kbd>, <kbd>Down</kbd>, <kbd>Home</kbd>, <kbd>End</kbd>, <kbd>Enter</kbd> and <kbd>space</kbd> keys.</li>
+                       <li>The <code>keydown</code> event listener is used for identifying the key codes associated with the <kbd>Left</kbd>, <kbd>Right</kbd>, <kbd>Up</kbd>, <kbd>Down</kbd>, <kbd>Home</kbd>, <kbd>End</kbd>, <kbd>Enter</kbd> and <kbd>space</kbd> keys.</li>
                      </ul>
                    </td>
                  </tr>
@@ -392,7 +396,7 @@
                    <td>
                      <ul>
                        <li>A <code>keypress</code> event listener is added to each element with <code>role=treeitem</code> to support moving focus between the <code>treeitem</code> with the keyboard.</li>
-                       <li>The <code>keypress</code> event listener is useful for identifying the characters associated with the <kbd>a-z</kbd>, <kbd>A-Z</kbd> and <kbd>*</kbd> when typed by the user, since the <code>keypress</code> event computes a character based on the combination of the keys typed by the user.</li>
+                       <li>The <code>keypress</code> event listener is used for identifying the characters associated with the <kbd>a-z</kbd>, <kbd>A-Z</kbd> and <kbd>*</kbd> when typed by the user, since the <code>keypress</code> event computes a character based on the combination of the keys typed by the user.</li>
                      </ul>
                    </td>
                  </tr>
@@ -402,7 +406,7 @@
                    <td>
                      <ul>
                        <li>Click event listener is added to each element with <code>role=treeitem</code> and <code>aria-expanded</code> to support opening and closing a branch of the tree with the mouse.</li>
-                       <li>Click triggers "action" event associated with the element with <code>role=treeitem</code>.</li>
+                       <li>Click triggers "action" event associated with the element with <code>role=treeitem</code>, in this example the textbox is updated with the label of the current <code>treeitem</code>.</li>
                      </ul>
                    </td>
                  </tr>
@@ -475,9 +479,9 @@
                     <td>[role=treeitem][aria-expanded]</td>
                     <td>
                       <ul>
-                        <li>The <code>:before</code> psuedo selector for <code>[aria-expanded=false]</code> and <code>[aria-expanded=true]</code> are used to change a <code>content</code> property.</li>
-                        <li>The image source defined in the <code>content</code> property is used for visually indicating the expanded and collapsed states of an expandable <code>treeitem</code>.</li>
-                        <li>The <code>content</code> property is preferred since it supports rendering of the image in high contrast settings of browsers and operating systems.  Other CSS techniques like <code>background-image</code> are not supported in high contrast modes.</li>
+                        <li>The CSS <code>:before</code> psuedo selector for <code>[aria-expanded=false]</code> and <code>[aria-expanded=true]</code> are used to change the CSS <code>content</code> property.</li>
+                        <li>The image source defined in the CSS <code>content</code> property is used to visually indicate the expanded and collapsed states of an expandable <code>treeitem</code>.</li>
+                        <li>The <code>content</code> property is preferred since it supports rendering of the image in high contrast settings of browsers and operating systems.  Other CSS techniques like <code>background-image</code> are not endered in high contrast modes.</li>
                       </ul>  
                     </td>
                   </tr>
