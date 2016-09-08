@@ -1,12 +1,30 @@
-button {
+ul[role="menubar"] {
   margin: 10px;
   padding: 10px;
   font-size: 110%;
+  list-style: none;
 }
 
-div[role="menu"] a {
-  display: block;
+ul[role="menubar"] li {
+  display: inline;
+  padding: 0;
 }
+
+ul[role="menubar"] li a {
+  padding-left: 0.15em;
+  padding-right: 0.15em;
+}
+
+ul[role="menubar"] li a:before {
+  content: url('../images/down-arrow.png');
+}
+
+ul[role="menubar"] li a:focus,
+ul[role="menubar"] li a:hover {
+  background-color: black;
+  color: white;
+}
+
 
 ul[role="menu"] {
   display: none;

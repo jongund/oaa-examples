@@ -12,6 +12,10 @@
     <link href="css/menubar.css" rel="stylesheet">
 
     <script src="js/menubar.js" type="text/javascript"></script> 
+    <script src="js/MenubarItemAgent.js" type="text/javascript"></script> 
+
+    <script src="js/PopupMenu.js" type="text/javascript"></script> 
+    <script src="js/MenuItemAgent.js" type="text/javascript"></script> 
 
   </head>
   <body>
@@ -30,7 +34,7 @@
         <ul id="menubar1" role="menubar" aria-label="Links to W3C resources">
 
           <li>
-            <a role="menuitem" href="menu1.html">Menu 1</a>
+            <a role="menuitem" href="menu1.html">Drop Down 1</a>
 
             <ul role="menu">
               <li><a role="menuitem" href="link11.html">Link 11</a></li>
@@ -40,7 +44,7 @@
           </li>
 
           <li>
-            <a role="menuitem" href="menu2.html">Menu 2</a>
+            <a role="menuitem" href="menu2.html">Drop Down 2</a>
 
             <ul role="menu">
               <li><a role="menuitem" href="link21.html">Link 21</a></li>
@@ -51,7 +55,7 @@
           </li>
 
           <li>
-            <a role="menuitem" href="menu3.html">Menu 3</a>
+            <a role="menuitem" href="menu3.html">Drop Down 3</a>
 
             <ul role="menu">
               <li><a role="menuitem" href="link31.html">Link 31</a></li>
@@ -60,6 +64,8 @@
           </li>
 
         </ul>
+
+        <p><a href="#dummy">Dummy link</a></p>
 
         <script type="text/javascript">
           var menubar = new Menubar(document.getElementById('menubar1'));

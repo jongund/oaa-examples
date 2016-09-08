@@ -28,8 +28,8 @@
 *
 *   @param menuNode
 *       The DOM element node that serves as the menubar container. Each
-*       child element of menubarNode that represents a menuitem must have a
-*       'role' attribute with value 'menuitem'.
+*       child element of menubarNode that represents a menubaritem must 
+*       be an A element
 */
 var Menubar = function (menubarNode) {
   var elementChildren,
@@ -47,26 +47,26 @@ var Menubar = function (menubarNode) {
   if (menubarNode.childElementCount === 0)
     throw new Error(msgPrefix + "has no element children.")
 
-  // Check whether menubarNode children (e.g. A elements) elements with the role='menuitem'
+  // Check whether menubarNode has A elements
   console.log(menubarNode.tagName);
   e = menubarNode.firstElementChild;
   while (e) {
-    console.log(e.tagName + " " + e.firstElementChild.tagName)
-    if (e && e.firstElementChild && e.firstElementChild.getAttribute('role') !== 'menuitem')
-      throw new Error(msgPrefix +
-        "has child elements that do not specify role=\"menuitem\".");
+    var menubarItem = e.firstElementChild;
+    console.log(e.tagName + " " + menubarItem.tagName)
+    if (e && menubarItem && menubarItem.tagName !== 'A')
+      throw new Error(msgPrefix + "has child elements are note A elements.");
     e = e.nextElementSibling;
   }
 
   this.menubarNode = menubarNode;
 
-  this.menuitems  = [];      // see Menubar init method
+  this.menubarItems  = [];   // see Menubar init method
   this.firstChars = [];      // see Menubar init method
 
   this.firstItem  = null;    // see Menubar init method
   this.lastItem   = null;    // see Menubar init method
 
-  this.hasFocus   = false;   // see MenuItem handleFocus, handleBlur
+  this.hasFocus   = false;   // see MenubarItem handleFocus, handleBlur
   this.hasHover   = false;   // see Menubar handleMouseover, handleMouseout
 };
 
@@ -79,53 +79,41 @@ var Menubar = function (menubarNode) {
 *       array. Initialize firstItem and lastItem properties.
 */
 Menubar.prototype.init = function () {
-  var menuItemAgent = new MenuItemAgent(this),
+  var menubarItemAgent = new MenubarItemAgent(this),
       childElement, menuElement, textContent, numItems;
 
-  // Configure the menubarNode itself
-  this.menubarNode.tabIndex = -1;
-  this.menubarNode.addEventListener('mouseover', this.handleMouseover.bind(this));
-  this.menubarNode.addEventListener('mouseout',  this.handleMouseout.bind(this));
 
   // Traverse the element children of menubarNode: configure each with
   // menuitem role behavior and store reference in menuitems array.
-  childElement = this.menuNode.firstElementChild;
+  e = this.menubarNode.firstElementChild;
 
-  while (childElement) {
-    menuElement = childElement.firstElementChild;
-    if (menuElement.getAttribute('role')  === 'menuitem') {
-      menuItemAgent.configure(menuElement);
-      this.menuitems.push(menuElement);
+  while (e) {
+    var menuElement = e.firstElementChild;
+
+    if (e && menuElement) console.log(menuElement.tagName)
+
+    if (e && menuElement && menuElement.tagName === 'A') {
+      menubarItemAgent.configure(menuElement);
+      this.menubarItems.push(menuElement);
       textContent = menuElement.textContent.trim();
       this.firstChars.push(textContent.substring(0, 1).toLowerCase());
     }
-    childElement = childElement.nextElementSibling;
+
+    e = e.nextElementSibling;
   }
 
   // Use populated menuitems array to initialize firstItem and lastItem.
-  numItems = this.menuitems.length;
+  numItems = this.menubarItems.length;
   if (numItems > 0) {
-    this.firstItem = this.menuitems[0];
-    this.lastItem  = this.menuitems[numItems - 1]
+    this.firstItem = this.menubarItems[0];
+    this.lastItem  = this.menubarItems[numItems - 1]
   }
+
+  this.firstItem.tabIndex = 0;
 };
 
-/* EVENT HANDLERS */
-
-Menubar.prototype.handleMouseover = function (event) {
-  this.hasHover = true;
-};
-
-Menubar.prototype.handleMouseout = function (event) {
-  this.hasHover = false;
-  setTimeout(this.close.bind(this, false), 300);
-};
 
 /* FOCUS MANAGEMENT METHODS */
-
-Menubar.prototype.setFocusToController = function () {
-  this.controller.domNode.focus();
-};
 
 Menubar.prototype.setFocusToFirstItem = function () {
   this.firstItem.focus();
@@ -137,25 +125,31 @@ Menubar.prototype.setFocusToLastItem = function () {
 
 Menubar.prototype.setFocusToPreviousItem = function (currentItem) {
   var index;
+  currentItem.tabIndex = -1;
 
   if (currentItem === this.firstItem) {
     this.lastItem.focus();
+    this.lastItem.tabIndex = 0;
   }
   else {
-    index = this.menuitems.indexOf(currentItem);
-    this.menuitems[index - 1].focus();
+    index = this.menubarItems.indexOf(currentItem);
+    this.menubarItems[index - 1].focus();
+    this.menubarItems[index - 1].tabIndex = 0;
   }
 };
 
 Menubar.prototype.setFocusToNextItem = function (currentItem) {
   var index;
+  currentItem.tabIndex = -1;
 
   if (currentItem === this.lastItem) {
     this.firstItem.focus();
+    this.firstItem.tabIndex = 0;
   }
   else {
-    index = this.menuitems.indexOf(currentItem);
-    this.menuitems[index + 1].focus();
+    index = this.menubarItems.indexOf(currentItem);
+    this.menubarItems[index + 1].focus();
+    this.menubarItems[index + 1].tabIndex = 0;
   }
 };
 
@@ -163,8 +157,8 @@ Menubar.prototype.setFocusByFirstCharacter = function (currentItem, char) {
   var start, index, char = char.toLowerCase();
 
   // Get start index for search based on position of currentItem
-  start = this.menuitems.indexOf(currentItem) + 1;
-  if (start === this.menuitems.length) {
+  start = this.menubarItems.indexOf(currentItem) + 1;
+  if (start === this.menubarItems.length) {
     start = 0;
   }
 
@@ -178,7 +172,9 @@ Menubar.prototype.setFocusByFirstCharacter = function (currentItem, char) {
 
   // If match was found...
   if (index > -1) {
-    this.menuitems[index].focus();
+    this.menubarItems[index].focus();
+    this.menubarItems[index].tabIndex = 0;
+    currentItem.tabIndex = -1;
   }
 };
 
@@ -204,23 +200,9 @@ Menubar.prototype.getPosition = function (element) {
 };
 
 Menubar.prototype.open = function () {
-  // get position and bounding rectangle of controller object's DOM node
-  var pos  = this.getPosition(this.controller.domNode);
-  var rect = this.controller.domNode.getBoundingClientRect();
-
-  // set CSS properties
-  this.menuNode.style.display = 'block';
-  this.menuNode.style.position = 'absolute';
-  this.menuNode.style.top  = (pos.y + rect.height) + "px";
-  this.menuNode.style.left = pos.x + "px";
-
-  // set aria-expanded attribute
-  this.controller.domNode.setAttribute('aria-expanded', 'true');
 };
 
 Menubar.prototype.close = function (force) {
-  if (force || (!this.hasFocus && !this.hasHover && !this.controller.hasHover)) {
-    this.menuNode.style.display = 'none';
-    this.controller.domNode.setAttribute('aria-expanded', 'false');
-  }
 };
+
+
