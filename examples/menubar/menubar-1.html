@@ -1,14 +1,18 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<html lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
     <meta charset="utf-8">
+
     <title>ARIA Menubar Example: Links</title>
-    <meta name="generator" content="BBEdit 10.5">
+
     <link href="../css/core.css" rel="stylesheet">
     <link href="../css/table.css" rel="stylesheet">
-    <link href="css/menu-button-2.css" rel="stylesheet">
-    <script src="../js/examples.js" type="text/javascript"></script>
-    <script src="js/menu-button-2.js" type="text/javascript"></script> 
+    <link href="css/menubar.css" rel="stylesheet">
+
+    <script src="js/menubar.js" type="text/javascript"></script> 
+
   </head>
   <body>
     <main>
@@ -18,46 +22,50 @@
         <li>List of pull down menu items that are links to other pages</li> 
       </ul>
  
-      <p><a href="../../aria-practices.html#menu">Authoring Practice Design Patten for Menubar/a></p>
+      <p><a href="../../aria-practices.html#menu">Authoring Practice Design Patten for Menubar</a></p>
 
       <section id="code-ex-1">
 
 
-        <ul role="menubar" aria-label="Links to W3C resources">
+        <ul id="menubar1" role="menubar" aria-label="Links to W3C resources">
 
           <li>
-            <a role="menuitem">Menu 1</a>
+            <a role="menuitem" href="menu1.html">Menu 1</a>
 
             <ul role="menu">
-              <li><a role="menuitem">Link 11</li>
-              <li><a role="menuitem">Link 12</li>
-              <li><a role="menuitem">Link 13</li>
+              <li><a role="menuitem" href="link11.html">Link 11</a></li>
+              <li><a role="menuitem" href="link12.html">Link 12</a></li>
+              <li><a role="menuitem" href="link13.html">Link 13</a></li>
             </ul>
           </li>
 
           <li>
-            <a role="menuitem">Menu 2</a>
+            <a role="menuitem" href="menu2.html">Menu 2</a>
 
             <ul role="menu">
-              <li><a role="menuitem">Link 21</li>
-              <li><a role="menuitem">Link 22</li>
-              <li><a role="menuitem">Link 23</li>
-              <li><a role="menuitem">Link 24</li>
+              <li><a role="menuitem" href="link21.html">Link 21</a></li>
+              <li><a role="menuitem" href="link22.html">Link 22</a></li>
+              <li><a role="menuitem" href="link23.html">Link 23</a></li>
+              <li><a role="menuitem" href="link24.html">Link 24</a></li>
             </ul>
           </li>
 
           <li>
-            <a role="menuitem">Menu 3</a>
+            <a role="menuitem" href="menu3.html">Menu 3</a>
 
             <ul role="menu">
-              <li><a role="menuitem">Link 31</li>
-              <li><a role="menuitem">Link 32</li>
+              <li><a role="menuitem" href="link31.html">Link 31</a></li>
+              <li><a role="menuitem" href="link32.html">Link 32</a></li>
             </ul>
           </li>
-
 
         </ul>
 
+        <script type="text/javascript">
+          var menubar = new Menubar(document.getElementById('menubar1'));
+          menubar.init();
+        </script>
+  
       </section>    
 
       <h2 id="id_kbd">Keyboard Support</h2>
