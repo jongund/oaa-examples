@@ -37,9 +37,9 @@
             <a role="menuitem" href="menu1.html">Drop Down 1</a>
 
             <ul role="menu">
-              <li><a role="menuitem" href="link11.html">Link 11</a></li>
-              <li><a role="menuitem" href="link12.html">Link 12</a></li>
-              <li><a role="menuitem" href="link13.html">Link 13</a></li>
+              <li><a role="menuitem" href="link11.html">Link 1a</a></li>
+              <li><a role="menuitem" href="link12.html">Link 1b</a></li>
+              <li><a role="menuitem" href="link13.html">Link 1c</a></li>
             </ul>
           </li>
 
@@ -47,10 +47,10 @@
             <a role="menuitem" href="menu2.html">Drop Down 2</a>
 
             <ul role="menu">
-              <li><a role="menuitem" href="link21.html">Link 21</a></li>
-              <li><a role="menuitem" href="link22.html">Link 22</a></li>
-              <li><a role="menuitem" href="link23.html">Link 23</a></li>
-              <li><a role="menuitem" href="link24.html">Link 24</a></li>
+              <li><a role="menuitem" href="link21.html">Link 2a</a></li>
+              <li><a role="menuitem" href="link22.html">Link 2b</a></li>
+              <li><a role="menuitem" href="link23.html">Link 2c</a></li>
+              <li><a role="menuitem" href="link24.html">Link 2d</a></li>
             </ul>
           </li>
 
@@ -58,8 +58,43 @@
             <a role="menuitem" href="menu3.html">Drop Down 3</a>
 
             <ul role="menu">
-              <li><a role="menuitem" href="link31.html">Link 31</a></li>
-              <li><a role="menuitem" href="link32.html">Link 32</a></li>
+              <li><a role="menuitem" href="link31.html">Link 3a</a></li>
+              <li><a role="menuitem" href="link32.html">Link 3b</a></li>
+            </ul>
+          </li>
+
+        </ul>
+
+
+        <ul id="menubar2" role="menubar" aria-label="Links to W3C resources">
+
+          <li>
+            <a role="menuitem" href="menu1.html">Drop Down 4</a>
+
+            <ul role="menu">
+              <li><a role="menuitem" href="link11.html">Link 4a</a></li>
+              <li><a role="menuitem" href="link12.html">Link 4b</a></li>
+              <li><a role="menuitem" href="link13.html">Link 4c</a></li>
+            </ul>
+          </li>
+
+          <li>
+            <a role="menuitem" href="menu2.html">Drop Down 5</a>
+
+            <ul role="menu">
+              <li><a role="menuitem" href="link21.html">Link 5a</a></li>
+              <li><a role="menuitem" href="link22.html">Link 5b</a></li>
+              <li><a role="menuitem" href="link23.html">Link 5c</a></li>
+              <li><a role="menuitem" href="link24.html">Link 5d</a></li>
+            </ul>
+          </li>
+
+          <li>
+            <a role="menuitem" href="menu3.html">Drop Down 6</a>
+
+            <ul role="menu">
+              <li><a role="menuitem" href="link31.html">Link 6a</a></li>
+              <li><a role="menuitem" href="link32.html">Link 6b</a></li>
             </ul>
           </li>
 
@@ -68,7 +103,11 @@
         <p><a href="#dummy">Dummy link</a></p>
 
         <script type="text/javascript">
+          
           var menubar = new Menubar(document.getElementById('menubar1'));
+          menubar.init();
+
+          menubar = new Menubar(document.getElementById('menubar2'));
           menubar.init();
         </script>
   
