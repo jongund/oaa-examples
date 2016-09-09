@@ -79,8 +79,7 @@ var Menubar = function (menubarNode) {
 *       array. Initialize firstItem and lastItem properties.
 */
 Menubar.prototype.init = function () {
-  var menubarItemAgent = new MenubarItemAgent(this),
-      childElement, menuElement, textContent, numItems;
+  var menubarItem, childElement, menuElement, textContent, numItems;
 
 
   // Traverse the element children of menubarNode: configure each with
@@ -93,8 +92,9 @@ Menubar.prototype.init = function () {
     if (e && menuElement) console.log(menuElement.tagName)
 
     if (e && menuElement && menuElement.tagName === 'A') {
-      menubarItemAgent.configure(menuElement);
-      this.menubarItems.push(menuElement);
+      menubarItem = new MenubarItem(menuElement, this);
+      menubarItem.init();
+      this.menubarItems.push(menubarItem);
       textContent = menuElement.textContent.trim();
       this.firstChars.push(textContent.substring(0, 1).toLowerCase());
     }
@@ -109,18 +109,18 @@ Menubar.prototype.init = function () {
     this.lastItem  = this.menubarItems[numItems - 1]
   }
 
-  this.firstItem.tabIndex = 0;
+  this.firstItem.menubarElement.tabIndex = 0;
 };
 
 
 /* FOCUS MANAGEMENT METHODS */
 
 Menubar.prototype.setFocusToFirstItem = function () {
-  this.firstItem.focus();
+  this.firstItem.menubarElement.focus();
 };
 
 Menubar.prototype.setFocusToLastItem = function () {
-  this.lastItem.focus();
+  this.lastItem.menubarElement.focus();
 };
 
 Menubar.prototype.setFocusToPreviousItem = function (currentItem) {
@@ -128,13 +128,13 @@ Menubar.prototype.setFocusToPreviousItem = function (currentItem) {
   currentItem.tabIndex = -1;
 
   if (currentItem === this.firstItem) {
-    this.lastItem.focus();
-    this.lastItem.tabIndex = 0;
+    this.lastItem.menubarElement.focus();
+    this.lastItem.menubarElement.tabIndex = 0;
   }
   else {
     index = this.menubarItems.indexOf(currentItem);
-    this.menubarItems[index - 1].focus();
-    this.menubarItems[index - 1].tabIndex = 0;
+    this.menubarItems[index - 1].menubarElement.focus();
+    this.menubarItems[index - 1].menubarElement.tabIndex = 0;
   }
 };
 
@@ -143,13 +143,13 @@ Menubar.prototype.setFocusToNextItem = function (currentItem) {
   currentItem.tabIndex = -1;
 
   if (currentItem === this.lastItem) {
-    this.firstItem.focus();
-    this.firstItem.tabIndex = 0;
+    this.firstItem.menubarElement.focus();
+    this.firstItem.menubarElement.tabIndex = 0;
   }
   else {
     index = this.menubarItems.indexOf(currentItem);
-    this.menubarItems[index + 1].focus();
-    this.menubarItems[index + 1].tabIndex = 0;
+    this.menubarItems[index + 1].menubarElement.focus();
+    this.menubarItems[index + 1].menubarElement.tabIndex = 0;
   }
 };
 
@@ -172,8 +172,8 @@ Menubar.prototype.setFocusByFirstCharacter = function (currentItem, char) {
 
   // If match was found...
   if (index > -1) {
-    this.menubarItems[index].focus();
-    this.menubarItems[index].tabIndex = 0;
+    this.menubarItems[index].menubarElement.focus();
+    this.menubarItems[index].menubarElement.tabIndex = 0;
     currentItem.tabIndex = -1;
   }
 };

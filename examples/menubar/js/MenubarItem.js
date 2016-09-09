@@ -13,7 +13,7 @@
 *   See the License for the specific language governing permissions and
 *   limitations under the License.
 *
-*   File:   MenubarItemAgent.js
+*   File:   MenubarItem.js
 *
 *   Desc:   Object that configures menu item elements in compliance with
 *           the ARIA Authoring Practices for role menuitem.
@@ -22,7 +22,7 @@
 */
 
 /*
-*   @constructor MenubarItemAgent
+*   @constructor MenubarItem
 *
 *   @desc
 *       Object that configures menu item elements by setting tabIndex
@@ -33,16 +33,17 @@
 *       delegating those responsibilities to its associated menu object.
 *
 *       Consequently, it is only necessary to create one instance of
-*       MenubarItemAgent from within the menu object; its configure method
+*       MenubarItem from within the menu object; its configure method
 *       can then be called on each menuitem element.
 *
 *   @param menuObj
 *       The PopupMenu object that is a delegate for the menu DOM element
 *       that contains the menuitem element.
 */
-var MenubarItemAgent = function (menuObj) {
+var MenubarItem = function (menubarElement, menuObj) {
 
   this.menubar = menuObj;
+  this.menubarElement = menubarElement;
 
   this.keyCode = Object.freeze({
     'TAB'      :  9,
@@ -60,23 +61,25 @@ var MenubarItemAgent = function (menuObj) {
   });
 };
 
-MenubarItemAgent.prototype.configure = function (element) {
-  element.tabIndex = -1;
+MenubarItem.prototype.init = function () {
+  this.menubarElement.tabIndex = -1;
 
-  element.addEventListener('keydown',  this);
-  element.addEventListener('keypress', this);
-  element.addEventListener('click',    this);
-  element.addEventListener('focus',    this);
-  element.addEventListener('blur',     this);
+  var that = this;
+
+  this.menubarElement.addEventListener('keydown',  function(event) { that.handleKeydown(event);});
+  this.menubarElement.addEventListener('keypress', function(event) { that.handleKeypress(event);});
+  this.menubarElement.addEventListener('click',    function(event) { that.handleClick(event);});
+  this.menubarElement.addEventListener('focus',    function(event) { that.handleFocus(event);});
+  this.menubarElement.addEventListener('blur',     function(event) { that.handleBlur(event);});
 
   // initialize pop up menus
 
-  console.log(element.nextSiblingElement);
+  console.log(this.menubarElement.nextSiblingElement);
 
-  var nextElement = element.nextElementSibling;
+  var nextElement = this.menubarElement.nextElementSibling;
 
   if (nextElement && nextElement.tagName === 'UL') {
-    console.log("Creating popup menu: " + element.innerHTML)
+    console.log("Creating popup menu: " + this.menubarElement.innerHTML)
     this.menu = new PopupMenu(nextElement, this);
     this.menu.init();
     console.log("done")
@@ -84,31 +87,8 @@ MenubarItemAgent.prototype.configure = function (element) {
 
 };
 
-/* EVENT HANDLERS */
 
-MenubarItemAgent.prototype.handleEvent = function (event) {
-  switch (event.type) {
-    case 'keydown':
-      this.handleKeydown(event);
-      break;
-    case 'keypress':
-      this.handleKeypress(event);
-      break;
-    case 'click':
-      this.handleClick(event);
-      break;
-    case 'focus':
-      this.handleFocus(event);
-      break;
-    case 'blur':
-      this.handleBlur(event);
-      break;
-    default:
-      break;
-  }
-};
-
-MenubarItemAgent.prototype.handleKeydown = function (event) {
+MenubarItem.prototype.handleKeydown = function (event) {
   var tgt = event.currentTarget,
       flag = false, clickEvent;
 
@@ -138,12 +118,12 @@ MenubarItemAgent.prototype.handleKeydown = function (event) {
       break;
 
     case this.keyCode.LEFT:
-      this.menubar.setFocusToPreviousItem(tgt);
+      this.menubar.setFocusToPreviousItem(this);
       flag = true;
       break;
 
     case this.keyCode.RIGHT:
-      this.menubar.setFocusToNextItem(tgt);
+      this.menubar.setFocusToNextItem(this);
       flag = true;
       break;
 
@@ -181,7 +161,7 @@ MenubarItemAgent.prototype.handleKeydown = function (event) {
   }
 };
 
-MenubarItemAgent.prototype.handleKeypress = function (event) {
+MenubarItem.prototype.handleKeypress = function (event) {
   var tgt = event.currentTarget,
       char = String.fromCharCode(event.charCode);
 
@@ -194,14 +174,14 @@ MenubarItemAgent.prototype.handleKeypress = function (event) {
   }
 };
 
-MenubarItemAgent.prototype.handleClick = function (event) {
+MenubarItem.prototype.handleClick = function (event) {
 };
 
-MenubarItemAgent.prototype.handleFocus = function (event) {
+MenubarItem.prototype.handleFocus = function (event) {
   this.menubar.hasFocus = true;
 };
 
-MenubarItemAgent.prototype.handleBlur = function (event) {
+MenubarItem.prototype.handleBlur = function (event) {
   this.menubar.hasFocus = false;
   setTimeout(this.menubar.close.bind(this.menubar, false), 300);
 };

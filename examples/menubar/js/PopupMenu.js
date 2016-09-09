@@ -59,12 +59,14 @@ var PopupMenu = function (menuNode, controllerObj) {
   if (menuNode.childElementCount === 0)
     throw new Error(msgPrefix + "has no element children.")
 
-  // Check whether menuNode child elements all have role='menuitem'
-  elementChildren = menuNode.children;
-  for (var i = 0; i < elementChildren.length; i++) {
-    if (elementChildren[i].getAttribute('role') !== 'menuitem')
+  // Check whether menuNode descendant elements have A elements
+  var childElement = menuNode.firstElementChild;
+  while (childElement) {
+    var menuitem = childElement.firstElementChild;
+    if (menuitem && menuitem === 'A')
       throw new Error(msgPrefix +
-        "has child elements that do not specify role=\"menuitem\".");
+        "has descendant elements that are not A elements.");
+    childElement = childElement.nextElementSibling;
   }
 
   this.menuNode = menuNode;
@@ -90,7 +92,7 @@ var PopupMenu = function (menuNode, controllerObj) {
 */
 PopupMenu.prototype.init = function () {
   var menuItemAgent = new MenuItemAgent(this),
-      childElement, textContent, numItems;
+      childElement, menuitem, textContent, numItems;
 
   // Configure the menuNode itself
   this.menuNode.tabIndex = -1;
@@ -102,10 +104,13 @@ PopupMenu.prototype.init = function () {
   childElement = this.menuNode.firstElementChild;
 
   while (childElement) {
-    if (childElement.getAttribute('role')  === 'menuitem') {
-      menuItemAgent.configure(childElement);
-      this.menuitems.push(childElement);
-      textContent = childElement.textContent.trim();
+    menuitem = childElement.firstElementChild;
+    console.log(childElement.tagName + " > " + menuitem.tagName )
+
+    if (menuitem.tagName === 'A') {
+      menuItemAgent.configure(menuitem);
+      this.menuitems.push(menuitem);
+      textContent = menuitem.textContent.trim();
       this.firstChars.push(textContent.substring(0, 1).toLowerCase());
     }
     childElement = childElement.nextElementSibling;
