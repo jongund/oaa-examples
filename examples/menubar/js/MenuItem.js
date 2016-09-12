@@ -63,15 +63,14 @@ MenuItem.prototype.init = function () {
     this.domNode.setAttribute('role', 'menuitem');
   }
 
-  var that = this;
+  this.domNode.addEventListener('keydown',    this.handleKeydown.bind(this) );
+  this.domNode.addEventListener('keypress',   this.handleKeypress.bind(this) );
+  this.domNode.addEventListener('click',      this.handleClick.bind(this) );
+  this.domNode.addEventListener('focus',      this.handleFocus.bind(this) );
+  this.domNode.addEventListener('blur',       this.handleBlur.bind(this) );
+  this.domNode.addEventListener('mouseover',  this.handleMouseover.bind(this) );
+  this.domNode.addEventListener('mouseout',   this.handleMouseout.bind(this) );
 
-  this.domNode.addEventListener('keydown',    function(event) { that.handleKeydown(event);  });
-  this.domNode.addEventListener('keypress',   function(event) { that.handleKeypress(event); });
-  this.domNode.addEventListener('click',      function(event) { that.handleClick(event);    });
-  this.domNode.addEventListener('focus',      function(event) { that.handleFocus(event);    });
-  this.domNode.addEventListener('blur',       function(event) { that.handleBlur(event);     });
-  this.domNode.addEventListener('mouseover',  function(event) { that.handleMouseover(event);});
-  this.domNode.addEventListener('mouseout',   function(event) { that.handleMouseout(event); });
 };
 
 /* EVENT HANDLERS */
