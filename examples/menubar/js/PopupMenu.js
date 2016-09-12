@@ -51,10 +51,6 @@ var PopupMenu = function (domNode, controllerObj) {
   if (!domNode instanceof Element)
     throw new TypeError(msgPrefix + "is not a DOM Element.");
 
-  // Check whether domNode has role='menu'
-  if (domNode.getAttribute('role') !== 'menu')
-    throw new Error(msgPrefix + "does not specify role=\"menu\".");
-
   // Check whether domNode has child elements
   if (domNode.childElementCount === 0)
     throw new Error(msgPrefix + "has no element children.")
@@ -91,10 +87,21 @@ var PopupMenu = function (domNode, controllerObj) {
 *       array. Initialize firstItem and lastItem properties.
 */
 PopupMenu.prototype.init = function () {
-  var childElement, menuElement, menuItem, textContent, numItems;
+  var childElement, menuElement, menuItem, textContent, numItems, label;
 
   // Configure the domNode itself
   this.domNode.tabIndex = -1;
+
+  this.domNode.setAttribute('role', 'menu');
+  console.log("[PopupMenu][init]: " + this.controller.domNode.innerHTML)
+
+  if (!this.domNode.getAttribute('aria-labelledby') && 
+      !this.domNode.getAttribute('aria-label') &&
+      !this.domNode.getAttribute('title')) {
+    label = this.controller.domNode.innerHTML;
+    this.domNode.setAttribute('aria-label', label);
+  }
+
   this.domNode.addEventListener('mouseover', this.handleMouseover.bind(this));
   this.domNode.addEventListener('mouseout',  this.handleMouseout.bind(this));
 
@@ -105,7 +112,7 @@ PopupMenu.prototype.init = function () {
   while (childElement) {
     menuElement= childElement.firstElementChild;
 
-    if (menuElement.tagName === 'A') {
+    if (menuElement && menuElement.tagName === 'A') {
       menuItem = new MenuItem(menuElement, this);
       menuItem.init();
       this.menuitems.push(menuItem);

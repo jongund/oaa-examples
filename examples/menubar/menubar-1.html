@@ -30,77 +30,95 @@
 
       <section id="code-ex-1">
 
+        <h2>Example 1: Explcit ARIA markup</h2>
 
-        <ul id="menubar1" role="menubar" aria-label="Links to W3C resources">
+        <ul id="menubar1" role="menubar" aria-label="Mythical University Menu 1">
 
           <li>
-            <a role="menuitem" href="menu1.html">Drop Down 1</a>
+            <a role="menuitem" aria-haspopup="true" aria-expanded="false" href="#about">About</a>
 
             <ul role="menu">
-              <li><a role="menuitem" href="link11.html">Link 1a</a></li>
-              <li><a role="menuitem" href="link12.html">Link 1b</a></li>
-              <li><a role="menuitem" href="link13.html">Link 1c</a></li>
+              <li><a role="menuitem" href="#overview">Overview</a></li>
+              <li><a role="menuitem" href="#admin">Administration</a></li>
+              <li><a role="menuitem" href="#facts">Facts</a></li>
+              <li><a role="menuitem" href="#tours">Campus Tours</a></li>
             </ul>
           </li>
 
           <li>
-            <a role="menuitem" href="menu2.html">Drop Down 2</a>
+            <a role="menuitem" aria-haspopup="true" aria-expanded="false" href="#admissions">Admissions</a>
 
             <ul role="menu">
-              <li><a role="menuitem" href="link21.html">Link 2a</a></li>
-              <li><a role="menuitem" href="link22.html">Link 2b</a></li>
-              <li><a role="menuitem" href="link23.html">Link 2c</a></li>
-              <li><a role="menuitem" href="link24.html">Link 2d</a></li>
+              <li><a role="menuitem" href="#apply">Apply</a></li>
+              <li><a role="menuitem" href="#tuition">Tuition</a></li>
+              <li><a role="menuitem" href="#signup">Sign Up</a></li>
+              <li role="separator"></li>
+              <li><a role="menuitem" href="#visit">Visit</a></li>
+              <li><a role="menuitem" href="#photo">Photo Tour</a></li>
+              <li><a role="menuitem" href="#connect">Connect</a></li>http://illinois.edu/academics/index.html
             </ul>
           </li>
 
           <li>
-            <a role="menuitem" href="menu3.html">Drop Down 3</a>
+            <a role="menuitem" aria-haspopup="true" aria-expanded="false" href="#academics">Academics</a>
 
             <ul role="menu">
-              <li><a role="menuitem" href="link31.html">Link 3a</a></li>
-              <li><a role="menuitem" href="link32.html">Link 3b</a></li>
+              <li><a role="menuitem" href="#colleges">Colleges &amp; Schools</a></li>
+              <li><a role="menuitem" href="#programs">Programs of Study</a></li>
+              <li><a role="menuitem" href="#honors">Honors Programs</a></li>
+              <li><a role="menuitem" href="#online">Online Courses</a></li>
+              <li role="separator"></li>
+              <li><a role="menuitem" href="#explorer">Course Explorer</a></li>
+              <li><a role="menuitem" href="#register">Register for Class</a></li>
+              <li><a role="menuitem" href="#academic">Academic Calendar</a></li>
+              <li><a role="menuitem" href="#tanscripts">Transscripts</a></li>
+            </ul>
+          </li>
+        </ul>
+
+        <h2>Example 2: ARIA markup added dynamically</h2>
+
+        <ul id="menubar2" aria-label="Mythical University Menu 1" >
+
+          <li>
+            <a href="#research">Research</a>
+
+            <ul>
+              <li><a href="#res-news">Research News</a></li>
+              <li><a href="#res-centers">Reseach Centers</a></li>
+              <li><a href="#res-find">Find an Expert</a></li>
+              <li><a href="#res-park">Research Park</a></li>
+              <li><a href="#res-comm">Technology Commercialization</a></li>
+            </ul>
+          </li>
+
+          <li>
+            <a href="#outreach">Outreach</a>
+
+            <ul>
+              <li><a href="#comm-engage">Community Engagement</a></li>
+              <li><a href="#copr-rel">Corporate Relations</a></li>
+              <li><a href="#extension">Extension</a></li>
+              <li><a href="#outreach-events">Outreach Events</a></li>
+            </ul>
+          </li>
+
+          <li>
+            <a href="#arts-culture">Arts and Culture</a>
+
+            <ul>
+              <li><a href="#fas">College of Fine and Applied Arts</a></li>
+              <li><a href="#las">College of Liberal Arts and Sciences</a></li>
+              <li role="separator"></li>
+              <li><a href="#cultural-center">Cultural Center</a></li>
+              <li><a href="#perfoming-arts">Performing Arts</a></li>
+              <li><a href="#art-museum">Art Museum</a></li>
+              <li><a href="#history-museum">History Museum</a></li>
+              <li><a href="#union">Student Union</a></li>
             </ul>
           </li>
 
         </ul>
-
-
-        <ul id="menubar2" role="menubar" aria-label="Links to W3C resources" style="margin-top: 10em;">
-
-          <li>
-            <a role="menuitem" href="menu1.html">Drop Down 4</a>
-
-            <ul role="menu">
-              <li><a role="menuitem" href="link11.html">Link 4a</a></li>
-              <li><a role="menuitem" href="link12.html">Link 4b</a></li>
-              <li><a role="menuitem" href="link13.html">Link 4c</a></li>
-            </ul>
-          </li>
-
-          <li>
-            <a role="menuitem" href="menu2.html">Drop Down 5</a>
-
-            <ul role="menu">
-              <li><a role="menuitem" href="link21.html">Link 5a</a></li>
-              <li><a role="menuitem" href="link22.html">Link 5b</a></li>
-              <li><a role="menuitem" href="link23.html">Link 5c</a></li>
-              <li><a role="menuitem" href="link24.html">Link 5d</a></li>
-            </ul>
-          </li>
-
-          <li>
-            <a role="menuitem" href="menu3.html">Drop Down 6</a>
-
-            <ul role="menu">
-              <li><a role="menuitem" href="link31.html">Link 6a</a></li>
-              <li><a role="menuitem" href="link32.html">Link 6b</a></li>
-            </ul>
-          </li>
-
-        </ul>
-
-        <p><a href="#dummy">Dummy link</a></p>
 
         <script type="text/javascript">
           
@@ -115,7 +133,7 @@
 
       <h2 id="id_kbd">Keyboard Support</h2>
 
-      <h3 id="id_kbd1">Menu Button</h3>
+      <h3 id="id_kbd1">Menubar Menu Items</h3>
       <table aria-labelledby="id_kbd id_kbd1"> 
         <thead>
           <tr>
@@ -126,15 +144,163 @@
         <tbody>
           <tr>
             <td>Space or Enter Key</td>
-            <td>Open menu and move focus to first menu item</td>
+            <td>
+              <ul>
+                <li>Follow link.</li>  
+                <li>NOTE: In this example all the links are all internal and therefore fo not leave the page.</li>
+              </ul>  
+            </td>
+          </tr>
+          <tr>
+            <td>Left Arrow Key</td>
+            <td>
+              <ul>
+                <li>Moves focus to previous menubar menu item.</li>
+                <li>If focus on first menubar menu item, focus is moved to last menubar menu item.</li>
+              </ul>  
+            </td>
+          </tr>
+           <tr>
+            <td>Right Arrow Key</td>
+            <td>
+              <ul>
+                <li>Moves focus to next menubar menu item.</li>
+                <li>If focus on last menubar menu item, focus is moved to first menubar menu item.</li>
+              </ul>  
+            </td>
+          </tr>
+          <tr>
+            <td>Down Arrow Key</td>
+            <td>
+              <ul>
+                <li>Open popup menu.</li>
+                <li>Moves focus to first popup menu item.</li>
+              </ul>  
+            </td>
+          </tr>
+           <tr>
+            <td>Up Arrow Key</td>
+            <td>
+              <ul>
+                <li>Open popup menu.</li>
+                <li>Moves focus to last popup menu item.</li>
+              </ul>  
+            </td>
+          </tr>
+          <tr>
+            <td>Home</td>
+            <td>
+              <ul>
+                <li>Moves focus to first menubar menu item.</li>
+              </ul>  
+            </td>
+          </tr>
+           <tr>
+            <td>End</td>
+            <td>
+              <ul>
+                <li>Moves focus to last menubar menu item.</li>
+              </ul>  
+            </td>
+          </tr>
+           <tr>
+            <td>Character Key</td>
+            <td><ul>
+                <li>Moves focus to next menubar item that starts with that letter.</li>
+                <li>If no menubar menu item starts with the letter focus does not move./li>
+              </ul>  
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3 id="id_kbd2">Popup Menu Items</h3>
+      <table aria-labelledby="id_kbd id_kbd2"> 
+        <thead>
+          <tr>
+            <th>Key</th>
+            <th>Function</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Space or Enter Key</td>
+            <td>
+              <ul>
+                <li>Follow link.</li>
+                <li>NOTE: In this example all the links are all internal and therefore fo not leave the page.</li>
+              </ul>  
+            </td>
+          </tr>
+          <tr>
+            <td>Escape Key</td>
+            <td>
+              <ul>
+                <li>Closes popup menu.</li>
+                <li>Moves focus to current menubar menu item.</li>
+              </ul>  
+            </td>
+          </tr>
+          <tr>
+            <td>Left Arrow Key</td>
+            <td>
+              <ul>
+                <li>Closes popup menu.</li>
+                <li>Moves focus to previous menubar menu item.</li>
+              </ul>  
+            </td>
+          </tr>
+           <tr>
+            <td>Right Arrow Key</td>
+            <td>
+              <ul>
+                <li>Closes popup menu.</li>
+                <li>Moves focus to next menubar menu item.</li>
+              </ul>  
+            </td>
           </tr>
           <tr>
             <td>Up Arrow Key</td>
-            <td>Open menu and moves focus to last menu item</td>
+            <td>
+              <ul>
+                <li>Moves focus to previous popup menu item.</li>
+                <li>If first popup menu item, focus is moved to the last popup menu item.</li>
+              </ul>  
+            </td>
           </tr>
            <tr>
             <td>Down Arrow Key</td>
-            <td>Open menu and moves focus to first menu item</td>
+            <td>
+              <ul>
+                <li>Moves focus to next popup menu item.</li>
+                <li>If last popup menu item, focus is moved to the first popup menu item.</li>
+              </ul>  
+            </td>
+          </tr>
+          <tr>
+            <td>Home</td>
+            <td>
+              <ul>
+                <li>Moves focuse to first popup menu item.</li>
+              </ul>  
+            </td>
+          </tr>
+           <tr>
+            <td>End</td>
+            <td>
+              <ul>
+                <li>Moves focus to last popup menu item.</li>
+              </ul>  
+            </td>
+          </tr>
+           <tr>
+            <td>Character Key</td>
+            <td>
+              <ul>
+                <li>Moves focus to the next popup item that starts with that letter.</li>
+                <li>If no popup menu item starts with the letter focus does not move.</li>
+              </ul>  
+            </td>
           </tr>
         </tbody>
       </table>

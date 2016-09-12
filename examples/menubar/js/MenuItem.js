@@ -59,16 +59,19 @@ var MenuItem = function (domNode, menuObj) {
 MenuItem.prototype.init = function () {
   this.domNode.tabIndex = -1;
 
+  if (!this.domNode.getAttribute('role')) {
+    this.domNode.setAttribute('role', 'menuitem');
+  }
+
   var that = this;
 
-  this.domNode.addEventListener('keydown',    function(event) { that.handleKeydown(event);});
-  this.domNode.addEventListener('keypress',   function(event) { that.handleKeypress(event);});
-  this.domNode.addEventListener('click',      function(event) { that.handleClick(event);});
-  this.domNode.addEventListener('focus',      function(event) { that.handleFocus(event);});
-  this.domNode.addEventListener('blur',       function(event) { that.handleBlur(event);});
+  this.domNode.addEventListener('keydown',    function(event) { that.handleKeydown(event);  });
+  this.domNode.addEventListener('keypress',   function(event) { that.handleKeypress(event); });
+  this.domNode.addEventListener('click',      function(event) { that.handleClick(event);    });
+  this.domNode.addEventListener('focus',      function(event) { that.handleFocus(event);    });
+  this.domNode.addEventListener('blur',       function(event) { that.handleBlur(event);     });
   this.domNode.addEventListener('mouseover',  function(event) { that.handleMouseover(event);});
-  this.domNode.addEventListener('mouseout',   function(event) { that.handleMouseout(event);});
-  console.log("[MenuItem][init]");
+  this.domNode.addEventListener('mouseout',   function(event) { that.handleMouseout(event); });
 };
 
 /* EVENT HANDLERS */
@@ -77,7 +80,7 @@ MenuItem.prototype.handleKeydown = function (event) {
   var tgt = event.currentTarget,
       flag = false, clickEvent;
 
-  console.log("[MenuItem][handleKeydown]: " + event.keyCode + " " + this.menu)
+//  console.log("[MenuItem][handleKeydown]: " + event.keyCode + " " + this.menu)
 
   switch (event.keyCode) {
     case this.keyCode.SPACE:
@@ -156,6 +159,19 @@ MenuItem.prototype.handleKeydown = function (event) {
     event.preventDefault();
   }
 };
+
+MenuItem.prototype.handleKeypress = function (event) {
+  var char = String.fromCharCode(event.charCode);
+
+  function isPrintableCharacter (str) {
+    return str.length === 1 && str.match(/\S/);
+  }
+
+  if (isPrintableCharacter(char)) {
+    this.menu.setFocusByFirstCharacter(this, char);
+  }
+};
+
 
 MenuItem.prototype.handleClick = function (event) {
   this.menu.setFocusToController();

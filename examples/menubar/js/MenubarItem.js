@@ -73,15 +73,19 @@ var MenubarItem = function (domNode, menuObj) {
 MenubarItem.prototype.init = function () {
   this.domNode.tabIndex = -1;
 
+  this.domNode.setAttribute('role', 'menuitem')
+  this.domNode.setAttribute('aria-haspopup', 'true')
+  this.domNode.setAttribute('aria-expanded', 'false')
+
   var that = this;
 
-  this.domNode.addEventListener('keydown',    function(event) { that.handleKeydown(event);});
-  this.domNode.addEventListener('keypress',   function(event) { that.handleKeypress(event);});
-  this.domNode.addEventListener('click',      function(event) { that.handleClick(event);});
-  this.domNode.addEventListener('focus',      function(event) { that.handleFocus(event);});
-  this.domNode.addEventListener('blur',       function(event) { that.handleBlur(event);});
+  this.domNode.addEventListener('keydown',    function(event) { that.handleKeydown(event);}  );
+  this.domNode.addEventListener('keypress',   function(event) { that.handleKeypress(event);} );
+  this.domNode.addEventListener('click',      function(event) { that.handleClick(event);}    );
+  this.domNode.addEventListener('focus',      function(event) { that.handleFocus(event);}    );
+  this.domNode.addEventListener('blur',       function(event) { that.handleBlur(event);}     );
   this.domNode.addEventListener('mouseover',  function(event) { that.handleMouseover(event);});
-  this.domNode.addEventListener('mouseout',   function(event) { that.handleMouseout(event);});
+  this.domNode.addEventListener('mouseout',   function(event) { that.handleMouseout(event);} );
 
   // initialize pop up menus
 
@@ -174,15 +178,14 @@ MenubarItem.prototype.handleKeydown = function (event) {
 };
 
 MenubarItem.prototype.handleKeypress = function (event) {
-  var tgt = event.currentTarget,
-      char = String.fromCharCode(event.charCode);
+  var char = String.fromCharCode(event.charCode);
 
   function isPrintableCharacter (str) {
     return str.length === 1 && str.match(/\S/);
   }
 
   if (isPrintableCharacter(char)) {
-    this.menubar.setFocusByFirstCharacter(tgt, char);
+    this.menubar.setFocusByFirstCharacter(this, char);
   }
 };
 

@@ -31,24 +31,20 @@
 *       child element of menubarNode that represents a menubaritem must 
 *       be an A element
 */
-var Menubar = function (menubarNode) {
+var Menubar = function (domNode) {
   var elementChildren,
       msgPrefix = "Menubar constructor argument menubarNode ";
 
   // Check whether menubarNode is a DOM element
-  if (!menubarNode instanceof Element)
+  if (!domNode instanceof Element)
     throw new TypeError(msgPrefix + "is not a DOM Element.");
 
-  // Check whether menubarNode has role='menubar'
-  if (menubarNode.getAttribute('role') !== 'menubar')
-    throw new Error(msgPrefix + "does not specify role=\"menubar\".");
-
   // Check whether menubarNode has descendant elements
-  if (menubarNode.childElementCount === 0)
+  if (domNode.childElementCount === 0)
     throw new Error(msgPrefix + "has no element children.")
 
   // Check whether menubarNode has A elements
-  e = menubarNode.firstElementChild;
+  e = domNode.firstElementChild;
   while (e) {
     var menubarItem = e.firstElementChild;
     if (e && menubarItem && menubarItem.tagName !== 'A')
@@ -56,7 +52,7 @@ var Menubar = function (menubarNode) {
     e = e.nextElementSibling;
   }
 
-  this.domNode = menubarNode;
+  this.domNode = domNode;
 
   this.menubarItems  = [];   // see Menubar init method
   this.firstChars = [];      // see Menubar init method
@@ -79,6 +75,7 @@ var Menubar = function (menubarNode) {
 Menubar.prototype.init = function () {
   var menubarItem, childElement, menuElement, textContent, numItems;
 
+  this.domNode.setAttribute('role', 'menubar');
 
   // Traverse the element children of menubarNode: configure each with
   // menuitem role behavior and store reference in menuitems array.

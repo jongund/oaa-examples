@@ -6,15 +6,24 @@ ul[role="menubar"] {
   background-color: #EEEEEE;
 }
 
-ul[role="menubar"] [role="menuitem"] {
+ul[role="menubar"] [role="menuitem"],
+ul[role="menubar"] [role="separator"] {
   padding: 0.25em;
   background-color: #EEEEEE;
   border: 2px solid #EEEEEE;
 }
 
+ul[role="menubar"] [role="separator"] {
+  padding-top: 0.15em;
+  background-image: url('../images/separator.png');
+  background-position: center;
+  background-repeat: repeat-x;
+}
 
 ul[role="menubar"] [role="menuitem"]:focus,
-ul[role="menubar"] [role="menuitem"]:hover {
+ul[role="menubar"] [role="menuitem"]:hover,
+ul[role="menubar"] [role="separator"]:focus,
+ul[role="menubar"] [role="separator"]:hover {
   background-color: black;
   color: white;
 }
