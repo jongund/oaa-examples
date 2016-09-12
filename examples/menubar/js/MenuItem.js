@@ -59,10 +59,16 @@ var MenuItem = function (domNode, menuObj) {
 MenuItem.prototype.init = function () {
   this.domNode.tabIndex = -1;
 
-  this.domNode.addEventListener('keydown', this.handleKeydown.bind(this));
-  this.domNode.addEventListener('click',   this.handleClick.bind(this));
-  this.domNode.addEventListener('focus',   this.handleFocus.bind(this));
-  this.domNode.addEventListener('blur',    this.handleBlur.bind(this));
+  var that = this;
+
+  this.domNode.addEventListener('keydown',    function(event) { that.handleKeydown(event);});
+  this.domNode.addEventListener('keypress',   function(event) { that.handleKeypress(event);});
+  this.domNode.addEventListener('click',      function(event) { that.handleClick(event);});
+  this.domNode.addEventListener('focus',      function(event) { that.handleFocus(event);});
+  this.domNode.addEventListener('blur',       function(event) { that.handleBlur(event);});
+  this.domNode.addEventListener('mouseover',  function(event) { that.handleMouseover(event);});
+  this.domNode.addEventListener('mouseout',   function(event) { that.handleMouseout(event);});
+  console.log("[MenuItem][init]");
 };
 
 /* EVENT HANDLERS */
@@ -70,6 +76,8 @@ MenuItem.prototype.init = function () {
 MenuItem.prototype.handleKeydown = function (event) {
   var tgt = event.currentTarget,
       flag = false, clickEvent;
+
+  console.log("[MenuItem][handleKeydown]: " + event.keyCode + " " + this.menu)
 
   switch (event.keyCode) {
     case this.keyCode.SPACE:
@@ -101,12 +109,24 @@ MenuItem.prototype.handleKeydown = function (event) {
       break;
 
     case this.keyCode.UP:
-      this.menu.setFocusToPreviousItem(tgt);
+      this.menu.setFocusToPreviousItem(this);
       flag = true;
       break;
 
     case this.keyCode.DOWN:
-      this.menu.setFocusToNextItem(tgt);
+      this.menu.setFocusToNextItem(this);
+      flag = true;
+      break;
+
+    case this.keyCode.LEFT:
+      this.menu.setFocusToController('previous');
+      this.menu.close(true);
+      flag = true;
+      break;
+
+    case this.keyCode.RIGHT:
+      this.menu.setFocusToController('next');
+      this.menu.close(true);
       flag = true;
       break;
 
@@ -148,5 +168,16 @@ MenuItem.prototype.handleFocus = function (event) {
 
 MenuItem.prototype.handleBlur = function (event) {
   this.menu.hasFocus = false;
+  setTimeout(this.menu.close.bind(this.menu, false), 300);
+};
+
+MenuItem.prototype.handleMouseover = function (event) {
+  this.menu.hasHover = true
+  this.menu.open();
+
+};
+
+MenuItem.prototype.handleMouseout = function (event) {
+  this.menu.hasHover = false;
   setTimeout(this.menu.close.bind(this.menu, false), 300);
 };

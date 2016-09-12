@@ -36,14 +36,23 @@
 *       MenubarItem from within the menu object; its configure method
 *       can then be called on each menuitem element.
 *
+*   @param domNode
+*       The DOM element node that serves as the menu item container.
+*       The menuObj PopupMenu is responsible for checking that it has
+*       requisite metadata, e.g. role="menuitem".
+*
 *   @param menuObj
 *       The PopupMenu object that is a delegate for the menu DOM element
 *       that contains the menuitem element.
 */
-var MenubarItem = function (menubarElement, menuObj) {
+var MenubarItem = function (domNode, menuObj) {
 
-  this.menubar = menuObj;
-  this.menubarElement = menubarElement;
+  this.menubar   = menuObj;
+  this.domNode   = domNode;
+  this.popupMenu = false;
+
+  this.hasFocus = false;
+  this.hasHover = false;
 
   this.keyCode = Object.freeze({
     'TAB'      :  9,
@@ -62,27 +71,26 @@ var MenubarItem = function (menubarElement, menuObj) {
 };
 
 MenubarItem.prototype.init = function () {
-  this.menubarElement.tabIndex = -1;
+  this.domNode.tabIndex = -1;
 
   var that = this;
 
-  this.menubarElement.addEventListener('keydown',  function(event) { that.handleKeydown(event);});
-  this.menubarElement.addEventListener('keypress', function(event) { that.handleKeypress(event);});
-  this.menubarElement.addEventListener('click',    function(event) { that.handleClick(event);});
-  this.menubarElement.addEventListener('focus',    function(event) { that.handleFocus(event);});
-  this.menubarElement.addEventListener('blur',     function(event) { that.handleBlur(event);});
+  this.domNode.addEventListener('keydown',    function(event) { that.handleKeydown(event);});
+  this.domNode.addEventListener('keypress',   function(event) { that.handleKeypress(event);});
+  this.domNode.addEventListener('click',      function(event) { that.handleClick(event);});
+  this.domNode.addEventListener('focus',      function(event) { that.handleFocus(event);});
+  this.domNode.addEventListener('blur',       function(event) { that.handleBlur(event);});
+  this.domNode.addEventListener('mouseover',  function(event) { that.handleMouseover(event);});
+  this.domNode.addEventListener('mouseout',   function(event) { that.handleMouseout(event);});
 
   // initialize pop up menus
 
-  console.log(this.menubarElement.nextSiblingElement);
-
-  var nextElement = this.menubarElement.nextElementSibling;
+  var nextElement = this.domNode.nextElementSibling;
 
   if (nextElement && nextElement.tagName === 'UL') {
-    console.log("Creating popup menu: " + this.menubarElement.innerHTML)
-    this.menu = new PopupMenu(nextElement, this);
-    this.menu.init();
-    console.log("done")
+    this.popupMenu = new PopupMenu(nextElement, this);
+    this.popupMenu.init();
+    console.log("Created PopupMenu: " + this.popupMenu)
   }
 
 };
@@ -92,7 +100,7 @@ MenubarItem.prototype.handleKeydown = function (event) {
   var tgt = event.currentTarget,
       flag = false, clickEvent;
 
-  console.log(event.keyCode)    
+  console.log("[MenubarItem][handleKeydown]: " + event.keyCode)
 
   switch (event.keyCode) {
     case this.keyCode.SPACE:
@@ -128,15 +136,19 @@ MenubarItem.prototype.handleKeydown = function (event) {
       break;
 
     case this.keyCode.UP:
-      this.menu.open();
-      this.menu.setFocusToLastItem();
-      flag = true;
+      if (this.popupMenu) {
+        this.popupMenu.open();
+        this.popupMenu.setFocusToLastItem();
+        flag = true;
+      }
       break;
 
     case this.keyCode.DOWN:
-      this.menu.open();
-      this.menu.setFocusToFirstItem();
-      flag = true;
+      if (this.popupMenu) {
+        this.popupMenu.open();
+        this.popupMenu.setFocusToFirstItem();
+        flag = true;        
+      }
       break;      
 
     case this.keyCode.HOME:
@@ -183,5 +195,14 @@ MenubarItem.prototype.handleFocus = function (event) {
 
 MenubarItem.prototype.handleBlur = function (event) {
   this.menubar.hasFocus = false;
-  setTimeout(this.menubar.close.bind(this.menubar, false), 300);
+};
+
+MenubarItem.prototype.handleMouseover = function (event) {
+  this.hasHover = true;
+  this.popupMenu.open();
+};
+
+MenubarItem.prototype.handleMouseout = function (event) {
+  this.hasHover = false;
+  setTimeout(this.popupMenu.close.bind(this.popupMenu, false), 300);
 };

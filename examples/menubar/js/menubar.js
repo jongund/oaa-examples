@@ -26,7 +26,7 @@
 *   @desc
 *       Wrapper object for a menubar (with nested submenus of links)
 *
-*   @param menuNode
+*   @param domNode
 *       The DOM element node that serves as the menubar container. Each
 *       child element of menubarNode that represents a menubaritem must 
 *       be an A element
@@ -48,17 +48,15 @@ var Menubar = function (menubarNode) {
     throw new Error(msgPrefix + "has no element children.")
 
   // Check whether menubarNode has A elements
-  console.log(menubarNode.tagName);
   e = menubarNode.firstElementChild;
   while (e) {
     var menubarItem = e.firstElementChild;
-    console.log(e.tagName + " " + menubarItem.tagName)
     if (e && menubarItem && menubarItem.tagName !== 'A')
       throw new Error(msgPrefix + "has child elements are note A elements.");
     e = e.nextElementSibling;
   }
 
-  this.menubarNode = menubarNode;
+  this.domNode = menubarNode;
 
   this.menubarItems  = [];   // see Menubar init method
   this.firstChars = [];      // see Menubar init method
@@ -84,12 +82,10 @@ Menubar.prototype.init = function () {
 
   // Traverse the element children of menubarNode: configure each with
   // menuitem role behavior and store reference in menuitems array.
-  e = this.menubarNode.firstElementChild;
+  e = this.domNode.firstElementChild;
 
   while (e) {
     var menuElement = e.firstElementChild;
-
-    if (e && menuElement) console.log(menuElement.tagName)
 
     if (e && menuElement && menuElement.tagName === 'A') {
       menubarItem = new MenubarItem(menuElement, this);
@@ -109,47 +105,47 @@ Menubar.prototype.init = function () {
     this.lastItem  = this.menubarItems[numItems - 1]
   }
 
-  this.firstItem.menubarElement.tabIndex = 0;
+  this.firstItem.domNode.tabIndex = 0;
 };
 
 
 /* FOCUS MANAGEMENT METHODS */
 
 Menubar.prototype.setFocusToFirstItem = function () {
-  this.firstItem.menubarElement.focus();
+  this.firstItem.domNode.focus();
 };
 
 Menubar.prototype.setFocusToLastItem = function () {
-  this.lastItem.menubarElement.focus();
+  this.lastItem.domNode.focus();
 };
 
 Menubar.prototype.setFocusToPreviousItem = function (currentItem) {
   var index;
-  currentItem.tabIndex = -1;
+  currentItem.domNode.tabIndex = -1;
 
   if (currentItem === this.firstItem) {
-    this.lastItem.menubarElement.focus();
-    this.lastItem.menubarElement.tabIndex = 0;
+    this.lastItem.domNode.focus();
+    this.lastItem.domNode.tabIndex = 0;
   }
   else {
     index = this.menubarItems.indexOf(currentItem);
-    this.menubarItems[index - 1].menubarElement.focus();
-    this.menubarItems[index - 1].menubarElement.tabIndex = 0;
+    this.menubarItems[index - 1].domNode.focus();
+    this.menubarItems[index - 1].domNode.tabIndex = 0;
   }
 };
 
 Menubar.prototype.setFocusToNextItem = function (currentItem) {
   var index;
-  currentItem.tabIndex = -1;
+  currentItem.domNode.tabIndex = -1;
 
   if (currentItem === this.lastItem) {
-    this.firstItem.menubarElement.focus();
-    this.firstItem.menubarElement.tabIndex = 0;
+    this.firstItem.domNode.focus();
+    this.firstItem.domNode.tabIndex = 0;
   }
   else {
     index = this.menubarItems.indexOf(currentItem);
-    this.menubarItems[index + 1].menubarElement.focus();
-    this.menubarItems[index + 1].menubarElement.tabIndex = 0;
+    this.menubarItems[index + 1].domNode.focus();
+    this.menubarItems[index + 1].domNode.tabIndex = 0;
   }
 };
 
@@ -172,8 +168,8 @@ Menubar.prototype.setFocusByFirstCharacter = function (currentItem, char) {
 
   // If match was found...
   if (index > -1) {
-    this.menubarItems[index].menubarElement.focus();
-    this.menubarItems[index].menubarElement.tabIndex = 0;
+    this.menubarItems[index].domNode.focus();
+    this.menubarItems[index].domNode.tabIndex = 0;
     currentItem.tabIndex = -1;
   }
 };

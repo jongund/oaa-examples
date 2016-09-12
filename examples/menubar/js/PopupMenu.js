@@ -26,15 +26,15 @@
 *   @desc
 *       Wrapper object for a simple popup menu (without nested submenus)
 *
-*   @param menuNode
+*   @param domNode
 *       The DOM element node that serves as the popup menu container. Each
-*       child element of menuNode that represents a menuitem must have a
+*       child element of domNode that represents a menuitem must have a
 *       'role' attribute with value 'menuitem'.
 *
 *   @param controllerObj
 *       The object that is a wrapper for the DOM element that controls the
 *       menu, e.g. a button element, with an 'aria-controls' attribute that
-*       references this menu's menuNode. See MenuButton.js
+*       references this menu's domNode. See MenuButton.js
 *
 *       The controller object is expected to have the following properties:
 *       1. domNode: The controller object's DOM element node, needed for
@@ -43,24 +43,24 @@
 *          domNode has responded to a mouseover event with no subsequent
 *          mouseout event having occurred.
 */
-var PopupMenu = function (menuNode, controllerObj) {
+var PopupMenu = function (domNode, controllerObj) {
   var elementChildren,
-      msgPrefix = "PopupMenu constructor argument menuNode ";
+      msgPrefix = "PopupMenu constructor argument domNode ";
 
-  // Check whether menuNode is a DOM element
-  if (!menuNode instanceof Element)
+  // Check whether domNode is a DOM element
+  if (!domNode instanceof Element)
     throw new TypeError(msgPrefix + "is not a DOM Element.");
 
-  // Check whether menuNode has role='menu'
-  if (menuNode.getAttribute('role') !== 'menu')
+  // Check whether domNode has role='menu'
+  if (domNode.getAttribute('role') !== 'menu')
     throw new Error(msgPrefix + "does not specify role=\"menu\".");
 
-  // Check whether menuNode has child elements
-  if (menuNode.childElementCount === 0)
+  // Check whether domNode has child elements
+  if (domNode.childElementCount === 0)
     throw new Error(msgPrefix + "has no element children.")
 
-  // Check whether menuNode descendant elements have A elements
-  var childElement = menuNode.firstElementChild;
+  // Check whether domNode descendant elements have A elements
+  var childElement = domNode.firstElementChild;
   while (childElement) {
     var menuitem = childElement.firstElementChild;
     if (menuitem && menuitem === 'A')
@@ -69,7 +69,7 @@ var PopupMenu = function (menuNode, controllerObj) {
     childElement = childElement.nextElementSibling;
   }
 
-  this.menuNode = menuNode;
+  this.domNode = domNode;
   this.controller = controllerObj;
 
   this.menuitems  = [];      // see PopupMenu init method
@@ -86,31 +86,30 @@ var PopupMenu = function (menuNode, controllerObj) {
 *   @method PopupMenu.prototype.init
 *
 *   @desc
-*       Add menuNode event listeners for mouseover and mouseout. Traverse
-*       menuNode children to configure each menuitem and populate menuitems
+*       Add domNode event listeners for mouseover and mouseout. Traverse
+*       domNode children to configure each menuitem and populate menuitems
 *       array. Initialize firstItem and lastItem properties.
 */
 PopupMenu.prototype.init = function () {
-  var menuItemAgent = new MenuItemAgent(this),
-      childElement, menuitem, textContent, numItems;
+  var childElement, menuElement, menuItem, textContent, numItems;
 
-  // Configure the menuNode itself
-  this.menuNode.tabIndex = -1;
-  this.menuNode.addEventListener('mouseover', this.handleMouseover.bind(this));
-  this.menuNode.addEventListener('mouseout',  this.handleMouseout.bind(this));
+  // Configure the domNode itself
+  this.domNode.tabIndex = -1;
+  this.domNode.addEventListener('mouseover', this.handleMouseover.bind(this));
+  this.domNode.addEventListener('mouseout',  this.handleMouseout.bind(this));
 
-  // Traverse the element children of menuNode: configure each with
+  // Traverse the element children of domNode: configure each with
   // menuitem role behavior and store reference in menuitems array.
-  childElement = this.menuNode.firstElementChild;
+  childElement = this.domNode.firstElementChild;
 
   while (childElement) {
-    menuitem = childElement.firstElementChild;
-    console.log(childElement.tagName + " > " + menuitem.tagName )
+    menuElement= childElement.firstElementChild;
 
-    if (menuitem.tagName === 'A') {
-      menuItemAgent.configure(menuitem);
-      this.menuitems.push(menuitem);
-      textContent = menuitem.textContent.trim();
+    if (menuElement.tagName === 'A') {
+      menuItem = new MenuItem(menuElement, this);
+      menuItem.init();
+      this.menuitems.push(menuItem);
+      textContent = menuElement.textContent.trim();
       this.firstChars.push(textContent.substring(0, 1).toLowerCase());
     }
     childElement = childElement.nextElementSibling;
@@ -137,27 +136,31 @@ PopupMenu.prototype.handleMouseout = function (event) {
 
 /* FOCUS MANAGEMENT METHODS */
 
-PopupMenu.prototype.setFocusToController = function () {
-  this.controller.domNode.focus();
+PopupMenu.prototype.setFocusToController = function (command) {
+  if (typeof command !== 'string') command = '';
+
+  if (command === 'previous') this.controller.menubar.setFocusToPreviousItem(this.controller);
+  else if (command === 'next') this.controller.menubar.setFocusToNextItem(this.controller);
+  else this.controller.domNode.focus();
 };
 
 PopupMenu.prototype.setFocusToFirstItem = function () {
-  this.firstItem.focus();
+  this.firstItem.domNode.focus();
 };
 
 PopupMenu.prototype.setFocusToLastItem = function () {
-  this.lastItem.focus();
+  this.lastItem.domNode.focus();
 };
 
 PopupMenu.prototype.setFocusToPreviousItem = function (currentItem) {
   var index;
 
   if (currentItem === this.firstItem) {
-    this.lastItem.focus();
+    this.lastItem.domNode.focus();
   }
   else {
     index = this.menuitems.indexOf(currentItem);
-    this.menuitems[index - 1].focus();
+    this.menuitems[index - 1].domNode.focus();
   }
 };
 
@@ -165,11 +168,11 @@ PopupMenu.prototype.setFocusToNextItem = function (currentItem) {
   var index;
 
   if (currentItem === this.lastItem) {
-    this.firstItem.focus();
+    this.firstItem.domNode.focus();
   }
   else {
     index = this.menuitems.indexOf(currentItem);
-    this.menuitems[index + 1].focus();
+    this.menuitems[index + 1].domNode.focus();
   }
 };
 
@@ -192,7 +195,7 @@ PopupMenu.prototype.setFocusByFirstCharacter = function (currentItem, char) {
 
   // If match was found...
   if (index > -1) {
-    this.menuitems[index].focus();
+    this.menuitems[index].domNode.focus();
   }
 };
 
@@ -223,18 +226,19 @@ PopupMenu.prototype.open = function () {
   var rect = this.controller.domNode.getBoundingClientRect();
 
   // set CSS properties
-  this.menuNode.style.display = 'block';
-  this.menuNode.style.position = 'absolute';
-  this.menuNode.style.top  = (pos.y + rect.height) + "px";
-  this.menuNode.style.left = pos.x + "px";
+  this.domNode.style.display = 'block';
+  this.domNode.style.position = 'absolute';
+  this.domNode.style.top  = (pos.y + rect.height) + "px";
+  this.domNode.style.left = pos.x + "px";
 
   // set aria-expanded attribute
   this.controller.domNode.setAttribute('aria-expanded', 'true');
 };
 
 PopupMenu.prototype.close = function (force) {
+
   if (force || (!this.hasFocus && !this.hasHover && !this.controller.hasHover)) {
-    this.menuNode.style.display = 'none';
+    this.domNode.style.display = 'none';
     this.controller.domNode.setAttribute('aria-expanded', 'false');
   }
 };
