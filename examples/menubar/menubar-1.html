@@ -120,14 +120,7 @@
 
         </ul>
 
-        <script type="text/javascript">
-          
-          var menubar = new Menubar(document.getElementById('menubar1'));
-          menubar.init();
 
-          menubar = new Menubar(document.getElementById('menubar2'));
-          menubar.init();
-        </script>
   
       </section>    
 
@@ -306,5 +299,18 @@
       </table>
 
   </main>
+
+  <script type="text/javascript">
+
+    window.load=function() {
+      var menubar = new Menubar(document.getElementById('menubar1'));
+      menubar.init();
+
+      menubar = new Menubar(document.getElementById('menubar2'));
+      menubar.init();
+    }    
+    
+  </script>
+
   </body>
   </html>
