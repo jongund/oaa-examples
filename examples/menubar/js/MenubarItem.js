@@ -15,10 +15,9 @@
 *
 *   File:   MenubarItem.js
 *
-*   Desc:   Object that configures menu item elements in compliance with
-*           the ARIA Authoring Practices for role menuitem.
+*   Desc:   Menubar Menuitem widget that implements ARIA Authoring Practices
 *
-*   Author: Nicholas Hoyt
+*   Author: Jon Gunderson and Ku Ja Eun
 */
 
 /*
