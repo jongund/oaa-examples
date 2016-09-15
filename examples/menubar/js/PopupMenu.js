@@ -17,7 +17,7 @@
 *
 *   Desc:   Popup menu widget that implements ARIA Authoring Practices
 *
-*   Author: Nicholas Hoyt
+*   Author: Jon Gunderson and Ku Ja Eun
 */
 
 /*

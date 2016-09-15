@@ -17,7 +17,7 @@
 *
 *   Desc:   Menubar Menuitem widget that implements ARIA Authoring Practices
 *
-*   Author: Jon Gunderson and Ku Ja Eun
+*   Author: Jon Gunderson, Ku Ja Eun and Nicholas Hoyt
 */
 
 /*
