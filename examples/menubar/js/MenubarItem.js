@@ -93,7 +93,6 @@ MenubarItem.prototype.init = function () {
   if (nextElement && nextElement.tagName === 'UL') {
     this.popupMenu = new PopupMenu(nextElement, this);
     this.popupMenu.init();
-    console.log("Created PopupMenu: " + this.popupMenu)
   }
 
 };
@@ -102,8 +101,6 @@ MenubarItem.prototype.init = function () {
 MenubarItem.prototype.handleKeydown = function (event) {
   var tgt = event.currentTarget,
       flag = false, clickEvent;
-
-  console.log("[MenubarItem][handleKeydown]: " + event.keyCode)
 
   switch (event.keyCode) {
     case this.keyCode.SPACE:

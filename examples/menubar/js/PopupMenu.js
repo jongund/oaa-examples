@@ -93,7 +93,6 @@ PopupMenu.prototype.init = function () {
   this.domNode.tabIndex = -1;
 
   this.domNode.setAttribute('role', 'menu');
-  console.log("[PopupMenu][init]: " + this.controller.domNode.innerHTML)
 
   if (!this.domNode.getAttribute('aria-labelledby') && 
       !this.domNode.getAttribute('aria-label') &&
