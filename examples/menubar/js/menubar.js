@@ -68,9 +68,9 @@ var Menubar = function (domNode) {
 *   @method Menubar.prototype.init
 *
 *   @desc
-*       Add menubarNode event listeners for mouseover and mouseout. Traverse
-*       menubarNode children (e.g. A elements) to configure each menuitem and populate menuitems
-*       array. Initialize firstItem and lastItem properties.
+*       Adds ARIA role to the menubar node
+*       Traverse menubar children for A elements to configure each A element as a ARIA menuitem 
+*       and populate menuitems array. Initialize firstItem and lastItem properties.
 */
 Menubar.prototype.init = function () {
   var menubarItem, childElement, menuElement, textContent, numItems;
