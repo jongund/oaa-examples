@@ -78,7 +78,7 @@
 
         <h2>Example 2: ARIA markup added dynamically</h2>
 
-        <ul id="menubar2" aria-label="Mythical University Menu 1" >
+        <ul id="menubar2" aria-label="Mythical University Menu 2" >
 
           <li>
             <a href="#research">Research</a>
@@ -307,6 +307,7 @@
       menubar.init();
 
       menubar = new Menubar(document.getElementById('menubar2'));
+      console.log(menubar);
       menubar.init();
     }    
 
