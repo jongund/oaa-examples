@@ -13,9 +13,10 @@
 *   See the License for the specific language governing permissions and
 *   limitations under the License.
 *
-*   File:   MenubarItem.js
+*   File:   MenubarItemLinks.js
 *
 *   Desc:   Menubar Menuitem widget that implements ARIA Authoring Practices
+*           for a menu of links
 *
 *   Author: Jon Gunderson, Ku Ja Eun and Nicholas Hoyt
 */
