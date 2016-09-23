@@ -58,3 +58,67 @@ ul[role="menubar"] ul[role="menu"] li a {
   display: block;
 }
 
+
+
+/*
+* checked, hover and focus styling
+*/
+
+
+li.checked {
+  font-weight: bold;
+  background-image: url('http://www.oaa-accessibility.org/media/examples/images/dot.png');
+  background-repeat: no-repeat;
+  background-position: 5px 10px;
+}
+
+.menu-hover {
+  background-color: #700 !important;
+  color: white !important;
+}
+
+.menu-hover-checked {
+  background-color: #700 !important;
+  color: white !important;
+  background-image: url('http://www.oaa-accessibility.org/media/examples/images/dot-selected.png') !important;
+}
+
+.menu-focus {
+  background-color: black;
+  font-weight: bold;
+  color: white !important;
+}
+
+li.menu-focus-checked {
+  background-color: black;
+  font-weight: bold;
+  color: white !important;
+  background-image: url('http://www.oaa-accessibility.org/media/examples/images/dot-selected.png') !important;
+}
+.hidden {
+   position: absolute;
+   left: -200em;
+   top: -20em;
+}
+
+
+/*
+* Text area styles
+*/
+.italic {
+  font-style: italic;
+}
+.bold {
+  font-weight: bold;
+}
+.underline {
+  text-decoration: underline;
+}
+#textarea1 {
+  padding: .5em;
+  border: 1px solid black;
+  height: 400px;
+  width: 70%;
+  font-size: medium;
+  font-family: sans-serif;
+}
