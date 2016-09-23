@@ -13,7 +13,7 @@
 *   See the License for the specific language governing permissions and
 *   limitations under the License.
 *
-*   File:   MenubarItem.js
+*   File:   MenubarItemAction.js
 *
 *   Desc:   Menubar Menuitem widget that implements ARIA Authoring Practices
 *
@@ -44,7 +44,7 @@
 *       The PopupMenu object that is a delegate for the menu DOM element
 *       that contains the menuitem element.
 */
-var MenubarItem = function (domNode, menuObj) {
+var MenubarItemAction = function (domNode, menuObj) {
 
   this.menubar   = menuObj;
   this.domNode   = domNode;
@@ -69,12 +69,13 @@ var MenubarItem = function (domNode, menuObj) {
   });
 };
 
-MenubarItem.prototype.init = function () {
+MenubarItemAction.prototype.init = function () {
   this.domNode.tabIndex = -1;
 
-  this.domNode.setAttribute('role', 'menuitem')
-  this.domNode.setAttribute('aria-haspopup', 'true')
-  this.domNode.setAttribute('aria-expanded', 'false')
+  this.domNode.setAttribute('role', 'menuitem');
+  this.domNode.setAttribute('aria-haspopup', 'true');
+  this.domNode.setAttribute('aria-expanded', 'false');
+  this.domNode.tabIndex = -1;
 
 
   this.domNode.addEventListener('keydown',    this.handleKeydown.bind(this) );
@@ -90,14 +91,15 @@ MenubarItem.prototype.init = function () {
   var nextElement = this.domNode.nextElementSibling;
 
   if (nextElement && nextElement.tagName === 'UL') {
-    this.popupMenu = new PopupMenu(nextElement, this);
+    console.log("Initalizing popup: " + this.domNode.innerHTML)
+    this.popupMenu = new PopupMenuAction(nextElement, this);
     this.popupMenu.init();
   }
 
 };
 
 
-MenubarItem.prototype.handleKeydown = function (event) {
+MenubarItemAction.prototype.handleKeydown = function (event) {
   var tgt = event.currentTarget,
       flag = false, clickEvent;
 
@@ -172,7 +174,7 @@ MenubarItem.prototype.handleKeydown = function (event) {
   }
 };
 
-MenubarItem.prototype.handleKeypress = function (event) {
+MenubarItemAction.prototype.handleKeypress = function (event) {
   var char = String.fromCharCode(event.charCode);
 
   function isPrintableCharacter (str) {
@@ -184,23 +186,23 @@ MenubarItem.prototype.handleKeypress = function (event) {
   }
 };
 
-MenubarItem.prototype.handleClick = function (event) {
+MenubarItemAction.prototype.handleClick = function (event) {
 };
 
-MenubarItem.prototype.handleFocus = function (event) {
+MenubarItemAction.prototype.handleFocus = function (event) {
   this.menubar.hasFocus = true;
 };
 
-MenubarItem.prototype.handleBlur = function (event) {
+MenubarItemAction.prototype.handleBlur = function (event) {
   this.menubar.hasFocus = false;
 };
 
-MenubarItem.prototype.handleMouseover = function (event) {
+MenubarItemAction.prototype.handleMouseover = function (event) {
   this.hasHover = true;
   this.popupMenu.open();
 };
 
-MenubarItem.prototype.handleMouseout = function (event) {
+MenubarItemAction.prototype.handleMouseout = function (event) {
   this.hasHover = false;
   setTimeout(this.popupMenu.close.bind(this.popupMenu, false), 300);
 };

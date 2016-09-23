@@ -5,32 +5,36 @@
 
     <meta charset="utf-8">
 
-    <title>ARIA Menubar Example: Text Styling Menu</title>
+    <title>ARIA Menubar Example: Menuitemradio and Menuitemcheckbox</title>
 
     <link href="../../css/core.css" rel="stylesheet">
     <link href="../../css/table.css" rel="stylesheet">
     <link href="css/menubarAction.css" rel="stylesheet">
 
-    <script src="js/menubarAction.js"     type="text/javascript"></script> 
+    <script src="js/TextStyling.js"     type="text/javascript"></script> 
+
+    <script src="js/MenubarAction.js"     type="text/javascript"></script> 
     <script src="js/MenubarItemAction.js" type="text/javascript"></script> 
 
     <script src="js/PopupMenuAction.js" type="text/javascript"></script> 
-    <script src="js/MenuItemAction.js" type="text/javascript"></script> 
+    <script src="js/MenuItemAction.js"  type="text/javascript"></script> 
 
   </head>
   <body>
     <main>
-      <h1>ARIA Menubar Example: Text Styling Menu</h1>
+
+      <h1>ARIA Menubar Example: <code>menuitemradio</code> and <code>menuitemcheckbox</code></h1>
 
       <ul>
-        <li>List of pull down menu items that are change the styling of the text.</li> 
+        <li>List of pull down menu items that change the styling of the text.</li> 
+        <li>Menuitems include radio and checkboxes to indicate the state of the styling of the text.</li> 
       </ul>
  
       <p><a href="../../aria-practices.html#menu">Authoring Practice Design Patten for Menubar</a></p>
 
       <section id="code-ex-1">
 
-        <h2>Example 2a: Explcit ARIA markup</h2>
+        <h2>Example 2: Explcit ARIA markup</h2>
         <ul>
           <li>This example includes the ARIA roles and properties in the source code for authors to easily see which elements the roles and properties need to be included.</li>
           <li>This is useful for peole writing their own scripts to see which elements need roles and properties.</li>
@@ -40,53 +44,69 @@
 
           <li>
             <span role="menuitem" aria-haspopup="true" aria-expanded="false">Font</span>
-            <ul role="menu" class="font-family" >
-              <li role="menuitemradio" aria-checked="true"  onclick="setFontFamily('textarea1', 'sans-serif')">Sans-serif</li>
-              <li role="menuitemradio" aria-checked="false" onclick="setFontFamily('textarea1', 'serif')">Serif</li>
-              <li role="menuitemradio" aria-checked="false" onclick="setFontFamily('textarea1', 'monospace')">Monospace</li>
-              <li role="menuitemradio" aria-checked="false" onclick="setFontFamily('textarea1', 'fantasy')">Fantasy</li>
+            <ul role="menu" class="font-family"  onclick="setFontFamily(event, 'textarea1')">
+              <li role="menuitemradio" aria-checked="true">Sans-serif</li>
+              <li role="menuitemradio" aria-checked="false">Serif</li>
+              <li role="menuitemradio" aria-checked="false">Monospace</li>
+              <li role="menuitemradio" aria-checked="false">Fantasy</li>
             </ul>
           </li>
 
           <li>
             <span role="menuitem" aria-haspopup="true" aria-expanded="false">Style/Color</span>
-            <ul class="font-" role="menu">
-              <li role="menuitemcheckbox" aria-checked="false" onclick="setFontWeight('textarea1', 'bold')">Bold</li>
-              <li role="menuitemcheckbox" aria-checked="false" onclick="setFontStyle( 'textarea1', 'italic')">Italic</li>
+            <ul role="menu">
+              <li role="menuitemcheckbox" aria-checked="false" onclick="toggleBold(event, 'textarea1')">Bold</li>
+              <li role="menuitemcheckbox" aria-checked="false" onclick="toggleItalic(event,  'textarea1')">Italic</li>
               <li role="separator"></li>
               <li>
-                <ul role="group" class="color" aria-label="Text Color">
-                  <li role="menuitemradio" aria-checked="true"  onclick="setColor('textarea1', 'black')">Black</li>
-                  <li role="menuitemradio" aria-checked="false" onclick="setColor('textarea1', 'blue')">Blue</li>
-                  <li role="menuitemradio" aria-checked="false" onclick="setColor('textarea1', 'red')">Red</li>
-                  <li role="menuitemradio" aria-checked="false" onclick="setColor('textarea1', 'green')">Green</li>
+                <ul role="group" class="color" aria-label="Text Color" onclick="setColor(event, 'textarea1', 'black')">
+                  <li role="menuitemradio" aria-checked="true">Black</li>
+                  <li role="menuitemradio" aria-checked="false">Blue</li>
+                  <li role="menuitemradio" aria-checked="false">Red</li>
+                  <li role="menuitemradio" aria-checked="false">Green</li>
                 </ul>
               <li role="separator"></li>
               <li>
-                <ul role="group" class="text-decoration" aria-label="Text Decoration">
-                  <li role="menuitemradio" aria-checked="true"  onclick="setTextDecoration('textarea1', 'none')">No decoration</li>
-                  <li role="menuitemradio" aria-checked="false" onclick="setTextDecoration('textarea1', 'overline')">Overline</li>
-                  <li role="menuitemradio" aria-checked="false" onclick="setTextDecoration('textarea1', 'line-through')">Line Through</li>
-                  <li role="menuitemradio" aria-checked="false" onclick="setTextDecoration('textarea1', 'underline')">Underline</li>
+                <ul role="group" class="text-decoration" aria-label="Text Decoration" onclick="setTextDecoration(event, 'textarea1')"">
+                  <li role="menuitemradio" aria-checked="true">No decoration</li>
+                  <li role="menuitemradio" aria-checked="false">Overline</li>
+                  <li role="menuitemradio" aria-checked="false">Line Through</li>
+                  <li role="menuitemradio" aria-checked="false">Underline</li>
                 </ul>
             </ul>
           </li>
 
           <li>
-            <span role="menuitem" aria-haspopup="true" aria-expanded="false">Justification</span>
-            <ul role="menu" class="font-family" >
-              <li role="menuitemradio" aria-checked="true"  onclick="setTextAlign('textarea1', 'sans-serif')">Left</li>
-              <li role="menuitemradio" aria-checked="false" onclick="setTextAlign('textarea1', 'centred')">Centered</li>
-              <li role="menuitemradio" aria-checked="false" onclick="setTextAlign('textarea1', 'right')">Right</li>
-              <li role="menuitemradio" aria-checked="false" onclick="setTextAlign('textarea1', 'justified')">Justified</li>
+            <span role="menuitem" aria-haspopup="true" aria-expanded="false">Text Align</span>
+            <ul role="menu" class="font-family" onclick="setTextAlign(event, 'textarea1')">
+              <li role="menuitemradio" aria-checked="true">Left</li>
+              <li role="menuitemradio" aria-checked="false">Center</li>
+              <li role="menuitemradio" aria-checked="false">Right</li>
+              <li role="menuitemradio" aria-checked="false">Justify</li>
             </ul>
           </li>
 
+          <li>
+            <span role="menuitem" aria-haspopup="true" aria-expanded="false">Size</span>
+            <ul role="menu" class="font-size" onclick="setFontSize(event, 'textarea1')">
+              <li role="menuitem">Smaller</li>
+              <li role="menuitem">Larger</li>
+              <li role="separator"></li>
+              <li>
+                <ul role="group" aria-label="Font Sizes">
+                  <li role="menuitemradio" aria-checked="false">X-Small</li>
+                  <li role="menuitemradio" aria-checked="false">Small</li>
+                  <li role="menuitemradio" aria-checked="true" >Medium</li>
+                  <li role="menuitemradio" aria-checked="false">Large</li>
+                  <li role="menuitemradio" aria-checked="false">X-Large</li>
+                </ul>  
+            </ul>
+          </li>
         </ul>
 
         <label for="st1" class="hidden">Text Sample 1</label>
 
-        <textarea id="textarea1">
+        <textarea id="textarea1" rows="30" cols="80" style="font-size: medium; font-family: sans-serif">
           Four score and seven years ago our fathers brought forth on this continent a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal.
 
           Now we are engaged in a great civil war, testing whether that nation, or any nation, so conceived and so dedicated, can long endure. We are met on a great battle-field of that war. We have come to dedicate a portion of that field, as a final resting place for those who here gave their lives that that nation might live. It is altogether fitting and proper that we should do this.
@@ -105,52 +125,7 @@
             <li>This can be used by authors to more easily add this script to their own projects and websites.</li>
         </ul>
 
-        <ul id="menubar2" aria-label="Mythical University Menu 2" >
-
-          <li>
-            <a href="#research">Research</a>
-
-            <ul>
-              <li><a href="#res-news">Research News</a></li>
-              <li><a href="#res-centers">Reseach Centers</a></li>
-              <li><a href="#res-find">Find an Expert</a></li>
-              <li><a href="#res-park">Research Park</a></li>
-              <li><a href="#res-comm">Technology Commercialization</a></li>
-            </ul>
-          </li>
-
-          <li>
-            <a href="#outreach">Outreach</a>
-
-            <ul>
-              <li><a href="#comm-engage">Community Engagement</a></li>
-              <li><a href="#copr-rel">Corporate Relations</a></li>
-              <li><a href="#extension">Extension</a></li>
-              <li><a href="#outreach-events">Outreach Events</a></li>
-            </ul>
-          </li>
-
-          <li>
-            <a href="#arts-culture">Arts and Culture</a>
-
-            <ul>
-              <li><a href="#fas">College of Fine and Applied Arts</a></li>
-              <li><a href="#las">College of Liberal Arts and Sciences</a></li>
-              <li role="separator"></li>
-              <li><a href="#cultural-center">Cultural Center</a></li>
-              <li><a href="#perfoming-arts">Performing Arts</a></li>
-              <li><a href="#art-museum">Art Museum</a></li>
-              <li><a href="#history-museum">History Museum</a></li>
-              <li><a href="#union">Student Union</a></li>
-            </ul>
-          </li>
-
-        </ul>
-
-
-  
-      </section>    
-
+ 
       <h2 id="id_kbd">Keyboard Support</h2>
 
       <h3 id="id_kbd1">Menubar Menu Items</h3>
@@ -330,12 +305,9 @@
   <script type="text/javascript">
 
     window.onload=function() {
-      var menubar = new Menubar(document.getElementById('menubar1'));
+      var menubar = new MenubarAction(document.getElementById('menubar1'));
       menubar.init();
 
-      menubar = new Menubar(document.getElementById('menubar2'));
-      console.log(menubar);
-      menubar.init();
     }    
 
   </script>

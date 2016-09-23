@@ -13,7 +13,7 @@
 *   See the License for the specific language governing permissions and
 *   limitations under the License.
 *
-*   File:   PopupMenu.js
+*   File:   PopupMenuAction.js
 *
 *   Desc:   Popup menu widget that implements ARIA Authoring Practices
 *
@@ -21,7 +21,7 @@
 */
 
 /*
-*   @constructor PopupMenu
+*   @constructor PopupMenuAction
 *
 *   @desc
 *       Wrapper object for a simple popup menu (without nested submenus)
@@ -43,7 +43,7 @@
 *          domNode has responded to a mouseover event with no subsequent
 *          mouseout event having occurred.
 */
-var PopupMenu = function (domNode, controllerObj) {
+var PopupMenuAction = function (domNode, controllerObj) {
   var elementChildren,
       msgPrefix = "PopupMenu constructor argument domNode ";
 
@@ -79,15 +79,15 @@ var PopupMenu = function (domNode, controllerObj) {
 };
 
 /*
-*   @method PopupMenu.prototype.init
+*   @method PopupMenuAction.prototype.init
 *
 *   @desc
 *       Add domNode event listeners for mouseover and mouseout. Traverse
 *       domNode children to configure each menuitem and populate menuitems
 *       array. Initialize firstItem and lastItem properties.
 */
-PopupMenu.prototype.init = function () {
-  var childElement, menuElement, menuItem, textContent, numItems, label;
+PopupMenuAction.prototype.init = function () {
+  var childElement, menuElement, firstChildElement, menuItem, textContent, numItems, label;
 
   // Configure the domNode itself
   this.domNode.tabIndex = -1;
@@ -106,19 +106,20 @@ PopupMenu.prototype.init = function () {
 
   // Traverse the element children of domNode: configure each with
   // menuitem role behavior and store reference in menuitems array.
-  childElement = this.domNode.firstElementChild;
+  menuElements = this.domNode.getElementsByTagName('LI');
 
-  while (childElement) {
-    menuElement= childElement.firstElementChild;
+  for(var i = 0; i < menuElements.length; i++) {
 
-    if (menuElement && menuElement.tagName === 'A') {
+    menuElement = menuElements[i];
+
+    if (!menuElement.firstElementChild && menuElement.getAttribute('role') != 'separator') {
       menuItem = new MenuItem(menuElement, this);
       menuItem.init();
       this.menuitems.push(menuItem);
       textContent = menuElement.textContent.trim();
       this.firstChars.push(textContent.substring(0, 1).toLowerCase());
     }
-    childElement = childElement.nextElementSibling;
+
   }
 
   // Use populated menuitems array to initialize firstItem and lastItem.
@@ -131,18 +132,18 @@ PopupMenu.prototype.init = function () {
 
 /* EVENT HANDLERS */
 
-PopupMenu.prototype.handleMouseover = function (event) {
+PopupMenuAction.prototype.handleMouseover = function (event) {
   this.hasHover = true;
 };
 
-PopupMenu.prototype.handleMouseout = function (event) {
+PopupMenuAction.prototype.handleMouseout = function (event) {
   this.hasHover = false;
   setTimeout(this.close.bind(this, false), 300);
 };
 
 /* FOCUS MANAGEMENT METHODS */
 
-PopupMenu.prototype.setFocusToController = function (command) {
+PopupMenuAction.prototype.setFocusToController = function (command) {
   if (typeof command !== 'string') command = '';
 
   if (command === 'previous') this.controller.menubar.setFocusToPreviousItem(this.controller);
@@ -150,15 +151,15 @@ PopupMenu.prototype.setFocusToController = function (command) {
   else this.controller.domNode.focus();
 };
 
-PopupMenu.prototype.setFocusToFirstItem = function () {
+PopupMenuAction.prototype.setFocusToFirstItem = function () {
   this.firstItem.domNode.focus();
 };
 
-PopupMenu.prototype.setFocusToLastItem = function () {
+PopupMenuAction.prototype.setFocusToLastItem = function () {
   this.lastItem.domNode.focus();
 };
 
-PopupMenu.prototype.setFocusToPreviousItem = function (currentItem) {
+PopupMenuAction.prototype.setFocusToPreviousItem = function (currentItem) {
   var index;
 
   if (currentItem === this.firstItem) {
@@ -170,7 +171,7 @@ PopupMenu.prototype.setFocusToPreviousItem = function (currentItem) {
   }
 };
 
-PopupMenu.prototype.setFocusToNextItem = function (currentItem) {
+PopupMenuAction.prototype.setFocusToNextItem = function (currentItem) {
   var index;
 
   if (currentItem === this.lastItem) {
@@ -182,7 +183,7 @@ PopupMenu.prototype.setFocusToNextItem = function (currentItem) {
   }
 };
 
-PopupMenu.prototype.setFocusByFirstCharacter = function (currentItem, char) {
+PopupMenuAction.prototype.setFocusByFirstCharacter = function (currentItem, char) {
   var start, index, char = char.toLowerCase();
 
   // Get start index for search based on position of currentItem
@@ -205,7 +206,7 @@ PopupMenu.prototype.setFocusByFirstCharacter = function (currentItem, char) {
   }
 };
 
-PopupMenu.prototype.getIndexFirstChars = function (startIndex, char) {
+PopupMenuAction.prototype.getIndexFirstChars = function (startIndex, char) {
   for (var i = startIndex; i < this.firstChars.length; i++) {
     if (char === this.firstChars[i]) return i;
   }
@@ -214,7 +215,7 @@ PopupMenu.prototype.getIndexFirstChars = function (startIndex, char) {
 
 /* MENU DISPLAY METHODS */
 
-PopupMenu.prototype.getPosition = function (element) {
+PopupMenuAction.prototype.getPosition = function (element) {
   var x = 0, y = 0;
 
   while (element) {
@@ -226,7 +227,7 @@ PopupMenu.prototype.getPosition = function (element) {
   return { x: x, y: y };
 };
 
-PopupMenu.prototype.open = function () {
+PopupMenuAction.prototype.open = function () {
   // get position and bounding rectangle of controller object's DOM node
   var pos  = this.getPosition(this.controller.domNode);
   var rect = this.controller.domNode.getBoundingClientRect();
@@ -241,7 +242,7 @@ PopupMenu.prototype.open = function () {
   this.controller.domNode.setAttribute('aria-expanded', 'true');
 };
 
-PopupMenu.prototype.close = function (force) {
+PopupMenuAction.prototype.close = function (force) {
 
   if (force || (!this.hasFocus && !this.hasHover && !this.controller.hasHover)) {
     this.domNode.style.display = 'none';

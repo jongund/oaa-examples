@@ -13,7 +13,7 @@
 *   See the License for the specific language governing permissions and
 *   limitations under the License.
 *
-*   File:   Menubar.js
+*   File:   MenubarAction.js
 *
 *   Desc:   Menubar widget that implements ARIA Authoring Practices
 *
@@ -21,7 +21,7 @@
 */
 
 /*
-*   @constructor Menubar
+*   @constructor MenubarAction
 *
 *   @desc
 *       Wrapper object for a menubar (with nested submenus of links)
@@ -31,7 +31,7 @@
 *       child element of menubarNode that represents a menubaritem must 
 *       be an A element
 */
-var Menubar = function (domNode) {
+var MenubarAction = function (domNode) {
   var elementChildren,
       msgPrefix = "Menubar constructor argument menubarNode ";
 
@@ -43,12 +43,12 @@ var Menubar = function (domNode) {
   if (domNode.childElementCount === 0)
     throw new Error(msgPrefix + "has no element children.")
 
-  // Check whether menubarNode has A elements
+  // Check whether menubarNode has SPAN elements
   e = domNode.firstElementChild;
   while (e) {
     var menubarItem = e.firstElementChild;
-    if (e && menubarItem && menubarItem.tagName !== 'A')
-      throw new Error(msgPrefix + "has child elements are note A elements.");
+    if (e && menubarItem && menubarItem.tagName !== 'SPAN')
+      throw new Error(msgPrefix + "has child elements are not SPAN elements.");
     e = e.nextElementSibling;
   }
 
@@ -65,14 +65,14 @@ var Menubar = function (domNode) {
 };
 
 /*
-*   @method Menubar.prototype.init
+*   @method MenubarAction.prototype.init
 *
 *   @desc
 *       Adds ARIA role to the menubar node
 *       Traverse menubar children for A elements to configure each A element as a ARIA menuitem 
 *       and populate menuitems array. Initialize firstItem and lastItem properties.
 */
-Menubar.prototype.init = function () {
+MenubarAction.prototype.init = function () {
   var menubarItem, childElement, menuElement, textContent, numItems;
 
   this.domNode.setAttribute('role', 'menubar');
@@ -84,8 +84,8 @@ Menubar.prototype.init = function () {
   while (e) {
     var menuElement = e.firstElementChild;
 
-    if (e && menuElement && menuElement.tagName === 'A') {
-      menubarItem = new MenubarItem(menuElement, this);
+    if (e && menuElement && menuElement.tagName === 'SPAN') {
+      menubarItem = new MenubarItemAction(menuElement, this);
       menubarItem.init();
       this.menubarItems.push(menubarItem);
       textContent = menuElement.textContent.trim();
@@ -108,15 +108,15 @@ Menubar.prototype.init = function () {
 
 /* FOCUS MANAGEMENT METHODS */
 
-Menubar.prototype.setFocusToFirstItem = function () {
+MenubarAction.prototype.setFocusToFirstItem = function () {
   this.firstItem.domNode.focus();
 };
 
-Menubar.prototype.setFocusToLastItem = function () {
+MenubarAction.prototype.setFocusToLastItem = function () {
   this.lastItem.domNode.focus();
 };
 
-Menubar.prototype.setFocusToPreviousItem = function (currentItem) {
+MenubarAction.prototype.setFocusToPreviousItem = function (currentItem) {
   var index;
   currentItem.domNode.tabIndex = -1;
 
@@ -131,7 +131,7 @@ Menubar.prototype.setFocusToPreviousItem = function (currentItem) {
   }
 };
 
-Menubar.prototype.setFocusToNextItem = function (currentItem) {
+MenubarAction.prototype.setFocusToNextItem = function (currentItem) {
   var index;
   currentItem.domNode.tabIndex = -1;
 
@@ -146,7 +146,7 @@ Menubar.prototype.setFocusToNextItem = function (currentItem) {
   }
 };
 
-Menubar.prototype.setFocusByFirstCharacter = function (currentItem, char) {
+MenubarAction.prototype.setFocusByFirstCharacter = function (currentItem, char) {
   var start, index, char = char.toLowerCase();
 
   // Get start index for search based on position of currentItem
@@ -171,7 +171,7 @@ Menubar.prototype.setFocusByFirstCharacter = function (currentItem, char) {
   }
 };
 
-Menubar.prototype.getIndexFirstChars = function (startIndex, char) {
+MenubarAction.prototype.getIndexFirstChars = function (startIndex, char) {
   for (var i = startIndex; i < this.firstChars.length; i++) {
     if (char === this.firstChars[i]) return i;
   }
@@ -180,7 +180,7 @@ Menubar.prototype.getIndexFirstChars = function (startIndex, char) {
 
 /* MENU DISPLAY METHODS */
 
-Menubar.prototype.getPosition = function (element) {
+MenubarAction.prototype.getPosition = function (element) {
   var x = 0, y = 0;
 
   while (element) {
@@ -192,10 +192,10 @@ Menubar.prototype.getPosition = function (element) {
   return { x: x, y: y };
 };
 
-Menubar.prototype.open = function () {
+MenubarAction.prototype.open = function () {
 };
 
-Menubar.prototype.close = function (force) {
+MenubarAction.prototype.close = function (force) {
 };
 
 
