@@ -11,6 +11,11 @@ ul[role="menubar"] ul[role="group"] {
   padding: 0;
 }  
 
+ul[role="menubar"] li[aria-disabled="true"] {
+  color: #666666;
+  text-decoration: line-through;
+}  
+
 ul[role="menubar"] [role="menuitem"],
 ul[role="menubar"] [role="menuitemcheckbox"],
 ul[role="menubar"] [role="menuitemradio"], 
