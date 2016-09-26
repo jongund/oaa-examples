@@ -91,7 +91,6 @@ MenubarItemAction.prototype.init = function () {
   var nextElement = this.domNode.nextElementSibling;
 
   if (nextElement && nextElement.tagName === 'UL') {
-    console.log("Initalizing popup: " + this.domNode.innerHTML)
     this.popupMenu = new PopupMenuAction(nextElement, this);
     this.popupMenu.init();
   }
@@ -106,33 +105,24 @@ MenubarItemAction.prototype.handleKeydown = function (event) {
   switch (event.keyCode) {
     case this.keyCode.SPACE:
     case this.keyCode.RETURN:
-      // Create simulated mouse event to mimic the behavior of ATs
-      // and let the event handler handleClick do the housekeeping.
-      try {
-        clickEvent = new MouseEvent('click', {
-          'view': window,
-          'bubbles': true,
-          'cancelable': true
-        });
+      if (tgt.getAttribute('aria-expanded') === 'true' && this.popupMenu) {
+        this.popupMenu.close();
       }
-      catch(err) {
-        if (document.createEvent) {
-          // DOM Level 3 for IE 9+
-          clickEvent = document.createEvent('MouseEvents');
-          clickEvent.initEvent('click', true, true);
-        }
-      }
-      tgt.dispatchEvent(clickEvent);
+      else {
+        this.popupMenu.open();
+      }  
       flag = true;
       break;
 
     case this.keyCode.LEFT:
       this.menubar.setFocusToPreviousItem(this);
+      if (this.popupMenu) this.popupMenu.close();
       flag = true;
       break;
 
     case this.keyCode.RIGHT:
       this.menubar.setFocusToNextItem(this);
+      if (this.popupMenu) this.popupMenu.close();
       flag = true;
       break;
 
@@ -155,12 +145,14 @@ MenubarItemAction.prototype.handleKeydown = function (event) {
     case this.keyCode.HOME:
     case this.keyCode.PAGEUP:
       this.menubar.setFocusToFirstItem();
+      if (this.popupMenu) this.popupMenu.close();
       flag = true;
       break;
 
     case this.keyCode.END:
     case this.keyCode.PAGEDOWN:
       this.menubar.setFocusToLastItem();
+      if (this.popupMenu) this.popupMenu.close();
       flag = true;
       break;
 
