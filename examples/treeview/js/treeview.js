@@ -513,6 +513,7 @@ Tree.prototype.handleKeydown = function (event) {
   if (flag) {
     event.stopPropagation();
     event.preventDefault();
+    return false;
   }
 };
 
