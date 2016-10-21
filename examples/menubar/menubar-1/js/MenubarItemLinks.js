@@ -105,32 +105,29 @@ MenubarItem.prototype.handleKeydown = function (event) {
   switch (event.keyCode) {
     case this.keyCode.SPACE:
     case this.keyCode.RETURN:
-      // Create simulated mouse event to mimic the behavior of ATs
-      // and let the event handler handleClick do the housekeeping.
-      try {
-        clickEvent = new MouseEvent('click', {
-          'view': window,
-          'bubbles': true,
-          'cancelable': true
-        });
+      if (this.popupMenu) {
+          if (this.domNode.getAttribute('aria-expanded') == 'true') {
+            this.popupMenu.close(true);
+          }
+          else {
+            this.popupMenu.open();
+          }
       }
-      catch(err) {
-        if (document.createEvent) {
-          // DOM Level 3 for IE 9+
-          clickEvent = document.createEvent('MouseEvents');
-          clickEvent.initEvent('click', true, true);
-        }
-      }
-      tgt.dispatchEvent(clickEvent);
       flag = true;
       break;
 
     case this.keyCode.LEFT:
+      if (this.popupMenu) {
+          this.popupMenu.close(true);
+      }
       this.menubar.setFocusToPreviousItem(this);
       flag = true;
       break;
 
     case this.keyCode.RIGHT:
+      if (this.popupMenu) {
+          this.popupMenu.close(true);
+      }
       this.menubar.setFocusToNextItem(this);
       flag = true;
       break;
