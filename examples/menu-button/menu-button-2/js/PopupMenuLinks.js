@@ -13,7 +13,7 @@
 *   See the License for the specific language governing permissions and
 *   limitations under the License.
 *
-*   File:   PopupMenuAction.js
+*   File:   PopupMenuLinks.js
 *
 *   Desc:   Popup menu widget that implements ARIA Authoring Practices
 *
@@ -21,7 +21,7 @@
 */
 
 /*
-*   @constructor PopupMenuAction
+*   @constructor PopupMenuLinks
 *
 *   @desc
 *       Wrapper object for a simple popup menu (without nested submenus)
@@ -43,9 +43,9 @@
 *          domNode has responded to a mouseover event with no subsequent
 *          mouseout event having occurred.
 */
-var PopupMenuAction = function (domNode, controllerObj) {
+var PopupMenuLinks = function (domNode, controllerObj) {
   var elementChildren,
-      msgPrefix = "PopupMenu constructor argument domNode ";
+      msgPrefix = "PopupMenuLinks constructor argument domNode ";
 
   // Check whether domNode is a DOM element
   if (!domNode instanceof Element)
@@ -68,26 +68,26 @@ var PopupMenuAction = function (domNode, controllerObj) {
   this.domNode = domNode;
   this.controller = controllerObj;
 
-  this.menuitems  = [];      // see PopupMenu init method
-  this.firstChars = [];      // see PopupMenu init method
+  this.menuitems  = [];      // see PopupMenuLinks init method
+  this.firstChars = [];      // see PopupMenuLinks init method
 
-  this.firstItem  = null;    // see PopupMenu init method
-  this.lastItem   = null;    // see PopupMenu init method
+  this.firstItem  = null;    // see PopupMenuLinks init method
+  this.lastItem   = null;    // see PopupMenuLinks init method
 
   this.hasFocus   = false;   // see MenuItem handleFocus, handleBlur
-  this.hasHover   = false;   // see PopupMenu handleMouseover, handleMouseout
+  this.hasHover   = false;   // see PopupMenuLinks handleMouseover, handleMouseout
 };
 
 /*
-*   @method PopupMenuAction.prototype.init
+*   @method PopupMenuLinks.prototype.init
 *
 *   @desc
 *       Add domNode event listeners for mouseover and mouseout. Traverse
 *       domNode children to configure each menuitem and populate menuitems
 *       array. Initialize firstItem and lastItem properties.
 */
-PopupMenuAction.prototype.init = function () {
-  var childElement, menuElement, firstChildElement, menuItem, textContent, numItems, label;
+PopupMenuLinks.prototype.init = function () {
+  var childElement, menuElement, menuItem, textContent, numItems, label;
 
   // Configure the domNode itself
   this.domNode.tabIndex = -1;
@@ -106,20 +106,19 @@ PopupMenuAction.prototype.init = function () {
 
   // Traverse the element children of domNode: configure each with
   // menuitem role behavior and store reference in menuitems array.
-  menuElements = this.domNode.getElementsByTagName('LI');
+  childElement = this.domNode.firstElementChild;
 
-  for(var i = 0; i < menuElements.length; i++) {
+  while (childElement) {
+    menuElement= childElement.firstElementChild;
 
-    menuElement = menuElements[i];
-
-    if (!menuElement.firstElementChild && menuElement.getAttribute('role') != 'separator') {
+    if (menuElement && menuElement.tagName === 'A') {
       menuItem = new MenuItem(menuElement, this);
       menuItem.init();
       this.menuitems.push(menuItem);
       textContent = menuElement.textContent.trim();
       this.firstChars.push(textContent.substring(0, 1).toLowerCase());
     }
-
+    childElement = childElement.nextElementSibling;
   }
 
   // Use populated menuitems array to initialize firstItem and lastItem.
@@ -132,34 +131,34 @@ PopupMenuAction.prototype.init = function () {
 
 /* EVENT HANDLERS */
 
-PopupMenuAction.prototype.handleMouseover = function (event) {
+PopupMenuLinks.prototype.handleMouseover = function (event) {
   this.hasHover = true;
 };
 
-PopupMenuAction.prototype.handleMouseout = function (event) {
+PopupMenuLinks.prototype.handleMouseout = function (event) {
   this.hasHover = false;
   setTimeout(this.close.bind(this, false), 300);
 };
 
 /* FOCUS MANAGEMENT METHODS */
 
-PopupMenuAction.prototype.setFocusToController = function (command) {
+PopupMenuLinks.prototype.setFocusToController = function (command) {
   if (typeof command !== 'string') command = '';
 
-  if (command === 'previous') this.controller.menubutton.setFocusToPreviousItem(this.controller);
-  else if (command === 'next') this.controller.menubutton.setFocusToNextItem(this.controller);
+  if (command === 'previous') this.controller.menubar.setFocusToPreviousItem(this.controller);
+  else if (command === 'next') this.controller.menubar.setFocusToNextItem(this.controller);
   else this.controller.domNode.focus();
 };
 
-PopupMenuAction.prototype.setFocusToFirstItem = function () {
+PopupMenuLinks.prototype.setFocusToFirstItem = function () {
   this.firstItem.domNode.focus();
 };
 
-PopupMenuAction.prototype.setFocusToLastItem = function () {
+PopupMenuLinks.prototype.setFocusToLastItem = function () {
   this.lastItem.domNode.focus();
 };
 
-PopupMenuAction.prototype.setFocusToPreviousItem = function (currentItem) {
+PopupMenuLinks.prototype.setFocusToPreviousItem = function (currentItem) {
   var index;
 
   if (currentItem === this.firstItem) {
@@ -171,7 +170,7 @@ PopupMenuAction.prototype.setFocusToPreviousItem = function (currentItem) {
   }
 };
 
-PopupMenuAction.prototype.setFocusToNextItem = function (currentItem) {
+PopupMenuLinks.prototype.setFocusToNextItem = function (currentItem) {
   var index;
 
   if (currentItem === this.lastItem) {
@@ -183,7 +182,7 @@ PopupMenuAction.prototype.setFocusToNextItem = function (currentItem) {
   }
 };
 
-PopupMenuAction.prototype.setFocusByFirstCharacter = function (currentItem, char) {
+PopupMenuLinks.prototype.setFocusByFirstCharacter = function (currentItem, char) {
   var start, index, char = char.toLowerCase();
 
   // Get start index for search based on position of currentItem
@@ -206,7 +205,7 @@ PopupMenuAction.prototype.setFocusByFirstCharacter = function (currentItem, char
   }
 };
 
-PopupMenuAction.prototype.getIndexFirstChars = function (startIndex, char) {
+PopupMenuLinks.prototype.getIndexFirstChars = function (startIndex, char) {
   for (var i = startIndex; i < this.firstChars.length; i++) {
     if (char === this.firstChars[i]) return i;
   }
@@ -215,7 +214,7 @@ PopupMenuAction.prototype.getIndexFirstChars = function (startIndex, char) {
 
 /* MENU DISPLAY METHODS */
 
-PopupMenuAction.prototype.getPosition = function (element) {
+PopupMenuLinks.prototype.getPosition = function (element) {
   var x = 0, y = 0;
 
   while (element) {
@@ -227,7 +226,7 @@ PopupMenuAction.prototype.getPosition = function (element) {
   return { x: x, y: y };
 };
 
-PopupMenuAction.prototype.open = function () {
+PopupMenuLinks.prototype.open = function () {
   // get position and bounding rectangle of controller object's DOM node
   var pos  = this.getPosition(this.controller.domNode);
   var rect = this.controller.domNode.getBoundingClientRect();
@@ -242,7 +241,7 @@ PopupMenuAction.prototype.open = function () {
   this.controller.domNode.setAttribute('aria-expanded', 'true');
 };
 
-PopupMenuAction.prototype.close = function (force) {
+PopupMenuLinks.prototype.close = function (force) {
 
   if (force || (!this.hasFocus && !this.hasHover && !this.controller.hasHover)) {
     this.domNode.style.display = 'none';

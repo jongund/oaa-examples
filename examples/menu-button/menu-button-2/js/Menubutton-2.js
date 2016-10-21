@@ -13,15 +13,15 @@
 *   See the License for the specific language governing permissions and
 *   limitations under the License.
 *
-*   File:   MenubarItemAction.js
+*   File:   menubuttonItemAction.js
 *
-*   Desc:   Menubar Menuitem widget that implements ARIA Authoring Practices
+*   Desc:   Menubutton Menuitem widget that implements ARIA Authoring Practices
 *
 *   Author: Jon Gunderson, Ku Ja Eun and Nicholas Hoyt
 */
 
 /*
-*   @constructor MenubarItem
+*   @constructor MenubuttonItem
 *
 *   @desc
 *       Object that configures menu item elements by setting tabIndex
@@ -32,7 +32,7 @@
 *       delegating those responsibilities to its associated menu object.
 *
 *       Consequently, it is only necessary to create one instance of
-*       MenubarItem from within the menu object; its configure method
+*       MenubuttonItem from within the menu object; its configure method
 *       can then be called on each menuitem element.
 *
 *   @param domNode
@@ -44,9 +44,8 @@
 *       The PopupMenu object that is a delegate for the menu DOM element
 *       that contains the menuitem element.
 */
-var MenubarItemAction = function (domNode, menuObj) {
+var Menubutton = function (domNode) {
 
-  this.menubar   = menuObj;
   this.domNode   = domNode;
   this.popupMenu = false;
 
@@ -69,17 +68,14 @@ var MenubarItemAction = function (domNode, menuObj) {
   });
 };
 
-MenubarItemAction.prototype.init = function () {
-  this.domNode.tabIndex = -1;
+Menubutton.prototype.init = function () {
 
-  this.domNode.setAttribute('role', 'menuitem');
   this.domNode.setAttribute('aria-haspopup', 'true');
   this.domNode.setAttribute('aria-expanded', 'false');
-  this.domNode.tabIndex = -1;
+
 
 
   this.domNode.addEventListener('keydown',    this.handleKeydown.bind(this) );
-  this.domNode.addEventListener('keypress',   this.handleKeypress.bind(this) );
   this.domNode.addEventListener('click',      this.handleClick.bind(this) );
   this.domNode.addEventListener('focus',      this.handleFocus.bind(this) );
   this.domNode.addEventListener('blur',       this.handleBlur.bind(this) );
@@ -88,17 +84,18 @@ MenubarItemAction.prototype.init = function () {
 
   // initialize pop up menus
 
-  var nextElement = this.domNode.nextElementSibling;
+  var popupMenu = document.getElementById(this.domNode.getAttribute("aria-controls"));
 
-  if (nextElement && nextElement.tagName === 'UL') {
-    this.popupMenu = new PopupMenuAction(nextElement, this);
+
+  if (popupMenu) {
+    this.popupMenu = new PopupMenuLinks(popupMenu, this);
     this.popupMenu.init();
   }
 
 };
 
 
-MenubarItemAction.prototype.handleKeydown = function (event) {
+Menubutton.prototype.handleKeydown = function (event) {
   var tgt = event.currentTarget,
       flag = false, clickEvent;
 
@@ -111,18 +108,6 @@ MenubarItemAction.prototype.handleKeydown = function (event) {
       else {
         this.popupMenu.open();
       }  
-      flag = true;
-      break;
-
-    case this.keyCode.LEFT:
-      this.menubar.setFocusToPreviousItem(this);
-      if (this.popupMenu) this.popupMenu.close();
-      flag = true;
-      break;
-
-    case this.keyCode.RIGHT:
-      this.menubar.setFocusToNextItem(this);
-      if (this.popupMenu) this.popupMenu.close();
       flag = true;
       break;
 
@@ -142,20 +127,6 @@ MenubarItemAction.prototype.handleKeydown = function (event) {
       }
       break;      
 
-    case this.keyCode.HOME:
-    case this.keyCode.PAGEUP:
-      this.menubar.setFocusToFirstItem();
-      if (this.popupMenu) this.popupMenu.close();
-      flag = true;
-      break;
-
-    case this.keyCode.END:
-    case this.keyCode.PAGEDOWN:
-      this.menubar.setFocusToLastItem();
-      if (this.popupMenu) this.popupMenu.close();
-      flag = true;
-      break;
-
     default:
       break;
   }
@@ -166,35 +137,30 @@ MenubarItemAction.prototype.handleKeydown = function (event) {
   }
 };
 
-MenubarItemAction.prototype.handleKeypress = function (event) {
-  var char = String.fromCharCode(event.charCode);
 
-  function isPrintableCharacter (str) {
-    return str.length === 1 && str.match(/\S/);
+Menubutton.prototype.handleClick = function (event) {
+  if(this.domNode.getAttribute("aria-expanded")=="true"){
+      this.popupMenu.close();
   }
-
-  if (isPrintableCharacter(char)) {
-    this.menubar.setFocusByFirstCharacter(this, char);
+  else{
+    this.popupMenu.open();
   }
 };
 
-MenubarItemAction.prototype.handleClick = function (event) {
+Menubutton.prototype.handleFocus = function (event) {
+  this.popupMenu.hasFocus = true;
 };
 
-MenubarItemAction.prototype.handleFocus = function (event) {
-  this.menubar.hasFocus = true;
+Menubutton.prototype.handleBlur = function (event) {
+  this.popupMenu.hasFocus = false;
 };
 
-MenubarItemAction.prototype.handleBlur = function (event) {
-  this.menubar.hasFocus = false;
-};
-
-MenubarItemAction.prototype.handleMouseover = function (event) {
+Menubutton.prototype.handleMouseover = function (event) {
   this.hasHover = true;
   this.popupMenu.open();
 };
 
-MenubarItemAction.prototype.handleMouseout = function (event) {
+Menubutton.prototype.handleMouseout = function (event) {
   this.hasHover = false;
   setTimeout(this.popupMenu.close.bind(this.popupMenu, false), 300);
 };
