@@ -1,24 +1,14 @@
 /*
-*   Copyright 2016 University of Illinois
+*   This content is licensed according to the W3C Software License at 
+*   https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document
 *
-*   Licensed under the Apache License, Version 2.0 (the "License");
-*   you may not use this file except in compliance with the License.
-*   You may obtain a copy of the License at
-*
-*       http://www.apache.org/licenses/LICENSE-2.0
-*
-*   Unless required by applicable law or agreed to in writing, software
-*   distributed under the License is distributed on an "AS IS" BASIS,
-*   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-*   See the License for the specific language governing permissions and
-*   limitations under the License.
 *
 *   File:   MenubarItemLinks.js
 *
 *   Desc:   Menubar Menuitem widget that implements ARIA Authoring Practices
 *           for a menu of links
 *
-*   Author: Jon Gunderson, Ku Ja Eun and Nicholas Hoyt
+*   Author: Jon Gunderson, JaEun Jemma Ku and Nicholas Hoyt
 */
 
 /*
@@ -105,29 +95,32 @@ MenubarItem.prototype.handleKeydown = function (event) {
   switch (event.keyCode) {
     case this.keyCode.SPACE:
     case this.keyCode.RETURN:
-      if (this.popupMenu) {
-          if (this.domNode.getAttribute('aria-expanded') == 'true') {
-            this.popupMenu.close(true);
-          }
-          else {
-            this.popupMenu.open();
-          }
+      // Create simulated mouse event to mimic the behavior of ATs
+      // and let the event handler handleClick do the housekeeping.
+      try {
+        clickEvent = new MouseEvent('click', {
+          'view': window,
+          'bubbles': true,
+          'cancelable': true
+        });
       }
+      catch(err) {
+        if (document.createEvent) {
+          // DOM Level 3 for IE 9+
+          clickEvent = document.createEvent('MouseEvents');
+          clickEvent.initEvent('click', true, true);
+        }
+      }
+      tgt.dispatchEvent(clickEvent);
       flag = true;
       break;
 
     case this.keyCode.LEFT:
-      if (this.popupMenu) {
-          this.popupMenu.close(true);
-      }
       this.menubar.setFocusToPreviousItem(this);
       flag = true;
       break;
 
     case this.keyCode.RIGHT:
-      if (this.popupMenu) {
-          this.popupMenu.close(true);
-      }
       this.menubar.setFocusToNextItem(this);
       flag = true;
       break;
