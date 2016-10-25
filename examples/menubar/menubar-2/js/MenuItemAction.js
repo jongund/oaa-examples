@@ -1,17 +1,6 @@
 /*
-*   Copyright 2016 University of Illinois
-*
-*   Licensed under the Apache License, Version 2.0 (the "License");
-*   you may not use this file except in compliance with the License.
-*   You may obtain a copy of the License at
-*
-*       http://www.apache.org/licenses/LICENSE-2.0
-*
-*   Unless required by applicable law or agreed to in writing, software
-*   distributed under the License is distributed on an "AS IS" BASIS,
-*   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-*   See the License for the specific language governing permissions and
-*   limitations under the License.
+*   This content is licensed according to the W3C Software License at
+*   https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document
 *
 *   File:   MenuItem.js
 *
@@ -41,18 +30,18 @@ var MenuItem = function (domNode, menuObj) {
   this.menu = menuObj;
 
   this.keyCode = Object.freeze({
-    'TAB'      :  9,
-    'RETURN'   : 13,
-    'ESC'      : 27,
-    'SPACE'    : 32,
-    'PAGEUP'   : 33,
-    'PAGEDOWN' : 34,
-    'END'      : 35,
-    'HOME'     : 36,
-    'LEFT'     : 37,
-    'UP'       : 38,
-    'RIGHT'    : 39,
-    'DOWN'     : 40
+    'TAB': 9,
+    'RETURN': 13,
+    'ESC': 27,
+    'SPACE': 32,
+    'PAGEUP': 33,
+    'PAGEDOWN': 34,
+    'END': 35,
+    'HOME': 36,
+    'LEFT': 37,
+    'UP': 38,
+    'RIGHT': 39,
+    'DOWN': 40
   });
 };
 
@@ -63,13 +52,13 @@ MenuItem.prototype.init = function () {
     this.domNode.setAttribute('role', 'menuitem');
   }
 
-  this.domNode.addEventListener('keydown',    this.handleKeydown.bind(this) );
-  this.domNode.addEventListener('keypress',   this.handleKeypress.bind(this) );
-  this.domNode.addEventListener('click',      this.handleClick.bind(this) );
-  this.domNode.addEventListener('focus',      this.handleFocus.bind(this) );
-  this.domNode.addEventListener('blur',       this.handleBlur.bind(this) );
-  this.domNode.addEventListener('mouseover',  this.handleMouseover.bind(this) );
-  this.domNode.addEventListener('mouseout',   this.handleMouseout.bind(this) );
+  this.domNode.addEventListener('keydown', this.handleKeydown.bind(this));
+  this.domNode.addEventListener('keypress', this.handleKeypress.bind(this));
+  this.domNode.addEventListener('click', this.handleClick.bind(this));
+  this.domNode.addEventListener('focus', this.handleFocus.bind(this));
+  this.domNode.addEventListener('blur', this.handleBlur.bind(this));
+  this.domNode.addEventListener('mouseover', this.handleMouseover.bind(this));
+  this.domNode.addEventListener('mouseout', this.handleMouseout.bind(this));
 
 };
 
@@ -77,9 +66,10 @@ MenuItem.prototype.init = function () {
 
 MenuItem.prototype.handleKeydown = function (event) {
   var tgt = event.currentTarget,
-      flag = false, clickEvent;
+      flag = false,
+ clickEvent;
 
-//  console.log("[MenuItem][handleKeydown]: " + event.keyCode + " " + this.menu)
+  //  console.log("[MenuItem][handleKeydown]: " + event.keyCode + " " + this.menu)
 
   switch (event.keyCode) {
     case this.keyCode.SPACE:
@@ -93,7 +83,7 @@ MenuItem.prototype.handleKeydown = function (event) {
           'cancelable': true
         });
       }
-      catch(err) {
+      catch (err) {
         if (document.createEvent) {
           // DOM Level 3 for IE 9+
           clickEvent = document.createEvent('MouseEvents');
@@ -171,7 +161,6 @@ MenuItem.prototype.handleKeypress = function (event) {
   }
 };
 
-
 MenuItem.prototype.handleClick = function (event) {
   this.menu.setFocusToController();
   this.menu.close(true);
@@ -187,7 +176,7 @@ MenuItem.prototype.handleBlur = function (event) {
 };
 
 MenuItem.prototype.handleMouseover = function (event) {
-  this.menu.hasHover = true
+  this.menu.hasHover = true;
   this.menu.open();
 
 };

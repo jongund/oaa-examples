@@ -61,6 +61,7 @@ ul[role="menubar"] li[aria-checked='true']:before {
 ul[role="menubar"] li[aria-checked='true']:hover,
 ul[role="menubar"] li[aria-checked='true']:focus {
   background-image: url('../images/checkmark-inverse.png');
+  background-repeat: no-repeat;
 }
 
 ul[role="menubar"] li {

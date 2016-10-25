@@ -47,44 +47,43 @@
 */
 var MenubarItem = function (domNode, menuObj) {
 
-  this.menubar   = menuObj;
-  this.domNode   = domNode;
+  this.menubar = menuObj;
+  this.domNode = domNode;
   this.popupMenu = false;
 
   this.hasFocus = false;
   this.hasHover = false;
 
   this.keyCode = Object.freeze({
-    'TAB'      :  9,
-    'RETURN'   : 13,
-    'ESC'      : 27,
-    'SPACE'    : 32,
-    'PAGEUP'   : 33,
-    'PAGEDOWN' : 34,
-    'END'      : 35,
-    'HOME'     : 36,
-    'LEFT'     : 37,
-    'UP'       : 38,
-    'RIGHT'    : 39,
-    'DOWN'     : 40
+    'TAB': 9,
+    'RETURN': 13,
+    'ESC': 27,
+    'SPACE': 32,
+    'PAGEUP': 33,
+    'PAGEDOWN': 34,
+    'END': 35,
+    'HOME': 36,
+    'LEFT': 37,
+    'UP': 38,
+    'RIGHT': 39,
+    'DOWN': 40
   });
 };
 
 MenubarItem.prototype.init = function () {
   this.domNode.tabIndex = -1;
 
-  this.domNode.setAttribute('role', 'menuitem')
-  this.domNode.setAttribute('aria-haspopup', 'true')
-  this.domNode.setAttribute('aria-expanded', 'false')
+  this.domNode.setAttribute('role', 'menuitem');
+  this.domNode.setAttribute('aria-haspopup', 'true');
+  this.domNode.setAttribute('aria-expanded', 'false');
 
-
-  this.domNode.addEventListener('keydown',    this.handleKeydown.bind(this) );
-  this.domNode.addEventListener('keypress',   this.handleKeypress.bind(this) );
-  this.domNode.addEventListener('click',      this.handleClick.bind(this) );
-  this.domNode.addEventListener('focus',      this.handleFocus.bind(this) );
-  this.domNode.addEventListener('blur',       this.handleBlur.bind(this) );
-  this.domNode.addEventListener('mouseover',  this.handleMouseover.bind(this) );
-  this.domNode.addEventListener('mouseout',   this.handleMouseout.bind(this) );
+  this.domNode.addEventListener('keydown', this.handleKeydown.bind(this));
+  this.domNode.addEventListener('keypress', this.handleKeypress.bind(this));
+  this.domNode.addEventListener('click', this.handleClick.bind(this));
+  this.domNode.addEventListener('focus', this.handleFocus.bind(this));
+  this.domNode.addEventListener('blur', this.handleBlur.bind(this));
+  this.domNode.addEventListener('mouseover', this.handleMouseover.bind(this));
+  this.domNode.addEventListener('mouseout', this.handleMouseout.bind(this));
 
   // initialize pop up menus
 
@@ -97,28 +96,28 @@ MenubarItem.prototype.init = function () {
 
 };
 
-
 MenubarItem.prototype.handleKeydown = function (event) {
   var tgt = event.currentTarget,
-      flag = false, clickEvent;
+      flag = false,
+ clickEvent;
 
   switch (event.keyCode) {
     case this.keyCode.SPACE:
     case this.keyCode.RETURN:
       if (this.popupMenu) {
-          if (this.domNode.getAttribute('aria-expanded') == 'true') {
-            this.popupMenu.close(true);
-          }
-          else {
-            this.popupMenu.open();
-          }
+        if (this.domNode.getAttribute('aria-expanded') == 'true') {
+          this.popupMenu.close(true);
+        }
+        else {
+          this.popupMenu.open();
+        }
       }
       flag = true;
       break;
 
     case this.keyCode.LEFT:
       if (this.popupMenu) {
-          this.popupMenu.close(true);
+        this.popupMenu.close(true);
       }
       this.menubar.setFocusToPreviousItem(this);
       flag = true;
@@ -126,7 +125,7 @@ MenubarItem.prototype.handleKeydown = function (event) {
 
     case this.keyCode.RIGHT:
       if (this.popupMenu) {
-          this.popupMenu.close(true);
+        this.popupMenu.close(true);
       }
       this.menubar.setFocusToNextItem(this);
       flag = true;
@@ -144,9 +143,9 @@ MenubarItem.prototype.handleKeydown = function (event) {
       if (this.popupMenu) {
         this.popupMenu.open();
         this.popupMenu.setFocusToFirstItem();
-        flag = true;        
+        flag = true;
       }
-      break;      
+      break;
 
     case this.keyCode.HOME:
     case this.keyCode.PAGEUP:

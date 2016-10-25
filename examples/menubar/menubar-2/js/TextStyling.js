@@ -1,17 +1,6 @@
 /*
-*   Copyright 2016 University of Illinois
-*
-*   Licensed under the Apache License, Version 2.0 (the "License");
-*   you may not use this file except in compliance with the License.
-*   You may obtain a copy of the License at
-*
-*       http://www.apache.org/licenses/LICENSE-2.0
-*
-*   Unless required by applicable law or agreed to in writing, software
-*   distributed under the License is distributed on an "AS IS" BASIS,
-*   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-*   See the License for the specific language governing permissions and
-*   limitations under the License.
+*   This content is licensed according to the W3C Software License at
+*   https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document
 *
 *   File:   TextStyling.js
 *
@@ -38,20 +27,20 @@
 *       value for the CSS font-family property
 *
 */
-function setFontFamily(event, id) {
-    var currentTarget = event.currentTarget;
+function setFontFamily (event, id) {
+  var currentTarget = event.currentTarget;
 
-    var value = event.target.innerHTML; 
-    
-    if (value) document.getElementById(id).style.fontFamily = value;
+  var value = event.target.innerHTML;
 
-    var childElement = currentTarget.firstElementChild;
+  if (value) document.getElementById(id).style.fontFamily = value;
 
-    while(childElement) {
-        if (childElement.innerHTML === value) childElement.setAttribute('aria-checked', 'true');
-        else childElement.setAttribute('aria-checked', 'false');
-        childElement = childElement.nextElementSibling;
-    }
+  var childElement = currentTarget.firstElementChild;
+
+  while (childElement) {
+    if (childElement.innerHTML === value) childElement.setAttribute('aria-checked', 'true');
+    else childElement.setAttribute('aria-checked', 'false');
+    childElement = childElement.nextElementSibling;
+  }
 };
 
 
@@ -70,22 +59,21 @@ function setFontFamily(event, id) {
 *       id property of the element to apply the styling
 *
 */
-function setTextDecoration(event, id) {
+function setTextDecoration (event, id) {
 
-    var currentTarget = event.currentTarget;
+  var currentTarget = event.currentTarget;
 
-    var value = event.target.innerHTML; 
-    
-    if (value) document.getElementById(id).style.textDecoration = value;
+  var value = event.target.innerHTML;
 
+  if (value) document.getElementById(id).style.textDecoration = value;
 
-    var childElement = currentTarget.firstElementChild;
+  var childElement = currentTarget.firstElementChild;
 
-    while(childElement) {
-        if (childElement.innerHTML === value) childElement.setAttribute('aria-checked', 'true');
-        else childElement.setAttribute('aria-checked', 'false');
-        childElement = childElement.nextElementSibling;
-    }
+  while (childElement) {
+    if (childElement.innerHTML === value) childElement.setAttribute('aria-checked', 'true');
+    else childElement.setAttribute('aria-checked', 'false');
+    childElement = childElement.nextElementSibling;
+  }
 };
 
 /*
@@ -102,21 +90,21 @@ function setTextDecoration(event, id) {
 *   @param id
 *       id property of the element to apply the styling
 */
-function setTextAlign(event, id) {
+function setTextAlign (event, id) {
 
-    var currentTarget = event.currentTarget;
+  var currentTarget = event.currentTarget;
 
-    var value = event.target.innerHTML; 
-    
-    if (value) document.getElementById(id).style.textAlign = value;
+  var value = event.target.innerHTML;
 
-    var childElement = currentTarget.firstElementChild;
+  if (value) document.getElementById(id).style.textAlign = value;
 
-    while(childElement) {
-        if (childElement.innerHTML === value) childElement.setAttribute('aria-checked', 'true');
-        else childElement.setAttribute('aria-checked', 'false');
-        childElement = childElement.nextElementSibling;
-    }
+  var childElement = currentTarget.firstElementChild;
+
+  while (childElement) {
+    if (childElement.innerHTML === value) childElement.setAttribute('aria-checked', 'true');
+    else childElement.setAttribute('aria-checked', 'false');
+    childElement = childElement.nextElementSibling;
+  }
 };
 
 /*
@@ -137,85 +125,80 @@ function setTextAlign(event, id) {
 *       value for the CSS font-size property
 *
 */
-function setFontSize(event, id) {
+function setFontSize (event, id) {
 
-    var target = event.target;
-    var currentTarget = event.currentTarget;
-    var radioGroup = currentTarget.querySelectorAll("[role='group']")[0];
-    var value = false;
-    var childElement;
-    var flag;
-    var i;
-    var disable_smaller;
-    var disable_larger;
+  var target = event.target;
+  var currentTarget = event.currentTarget;
+  var radioGroup = currentTarget.querySelectorAll('[role=\'group\']')[0];
+  var value = false;
+  var childElement;
+  var flag;
+  var i;
+  var disable_smaller;
+  var disable_larger;
 
-    value = target.innerHTML; 
+  value = target.innerHTML;
 
-    if (value.toLowerCase() === 'larger') {
+  if (value.toLowerCase() === 'larger') {
 
-        childElement = radioGroup.firstElementChild;
+    childElement = radioGroup.firstElementChild;
 
-        while(childElement) {
-            flag = childElement.getAttribute('aria-checked');
-            childElement = childElement.nextElementSibling;
-            if ( flag === 'true') break;
-        }
-
-        if (childElement) value = childElement.innerHTML;
-        else value = false;
-
-    }
-    else {
-        if (value.toLowerCase() === 'smaller') {
-
-            var childElement = radioGroup.lastElementChild;
-
-            while(childElement) {
-                var flag = childElement.getAttribute('aria-checked');
-                childElement = childElement.previousElementSibling;
-                if ( flag === 'true') break;
-            }
-
-            if (childElement) value = childElement.innerHTML;
-            else value = false;
-        }
+    while (childElement) {
+      flag = childElement.getAttribute('aria-checked');
+      childElement = childElement.nextElementSibling;
+      if (flag === 'true') break;
     }
 
-    console.log("VALUE: " + value)
+    if (childElement) value = childElement.innerHTML;
+    else value = false;
 
-    if (value) { 
-        document.getElementById(id).style.fontSize = value;
+  }
+  else {
+    if (value.toLowerCase() === 'smaller') {
 
-        childElement = radioGroup.firstElementChild;
+      var childElement = radioGroup.lastElementChild;
 
-        while(childElement) {
-            if (childElement.innerHTML === value) childElement.setAttribute('aria-checked', 'true');
-            else childElement.setAttribute('aria-checked', 'false');
-            childElement = childElement.nextElementSibling;
-        }
+      while (childElement) {
+        var flag = childElement.getAttribute('aria-checked');
+        childElement = childElement.previousElementSibling;
+        if (flag === 'true') break;
+      }
 
+      if (childElement) value = childElement.innerHTML;
+      else value = false;
+    }
+  }
 
-        if (value === 'X-Small') disable_smaller = 'true';
-        else disable_smaller = 'false';
+  console.log('VALUE: ' + value);
 
-        if (value === 'X-Large') disable_larger = 'true';
-        else disable_larger = 'false';
+  if (value) {
+    document.getElementById(id).style.fontSize = value;
 
+    childElement = radioGroup.firstElementChild;
 
-        childElement = currentTarget.firstElementChild;
+    while (childElement) {
+      if (childElement.innerHTML === value) childElement.setAttribute('aria-checked', 'true');
+      else childElement.setAttribute('aria-checked', 'false');
+      childElement = childElement.nextElementSibling;
+    }
 
-        while(childElement) {
-            
-            if (childElement.innerHTML === 'Smaller') childElement.setAttribute('aria-disabled', disable_smaller);
+    if (value === 'X-Small') disable_smaller = 'true';
+    else disable_smaller = 'false';
 
-            if (childElement.innerHTML === 'Larger') childElement.setAttribute('aria-disabled', disable_larger);
+    if (value === 'X-Large') disable_larger = 'true';
+    else disable_larger = 'false';
 
+    childElement = currentTarget.firstElementChild;
 
-            childElement = childElement.nextElementSibling;
-        }
-    }    
+    while (childElement) {
 
+      if (childElement.innerHTML === 'Smaller') childElement.setAttribute('aria-disabled', disable_smaller);
 
+      if (childElement.innerHTML === 'Larger') childElement.setAttribute('aria-disabled', disable_larger);
+
+      childElement = childElement.nextElementSibling;
+    }
+  }
 
 };
 
@@ -237,21 +220,21 @@ function setFontSize(event, id) {
 *       value for the CSS color property
 *
 */
-function setColor(event, id, value) {
+function setColor (event, id, value) {
 
-    var currentTarget = event.currentTarget;
+  var currentTarget = event.currentTarget;
 
-    var value = event.target.innerHTML; 
-    
-    if (value) document.getElementById(id).style.color = value;
+  var value = event.target.innerHTML;
 
-    var childElement = currentTarget.firstElementChild;
+  if (value) document.getElementById(id).style.color = value;
 
-    while(childElement) {
-        if (childElement.innerHTML === value) childElement.setAttribute('aria-checked', 'true');
-        else childElement.setAttribute('aria-checked', 'false');
-        childElement = childElement.nextElementSibling;
-    }
+  var childElement = currentTarget.firstElementChild;
+
+  while (childElement) {
+    if (childElement.innerHTML === value) childElement.setAttribute('aria-checked', 'true');
+    else childElement.setAttribute('aria-checked', 'false');
+    childElement = childElement.nextElementSibling;
+  }
 
 };
 
@@ -273,17 +256,18 @@ function setColor(event, id, value) {
 *       id property of the element to apply the styling
 *
 */
-function toggleBold(event, id) {
-    var target = event.currentTarget;
-    var flag = target.getAttribute('aria-checked');
+function toggleBold (event, id) {
+  var target = event.currentTarget;
+  var flag = target.getAttribute('aria-checked');
 
-    if (flag === 'true') { 
-        document.getElementById(id).style.fontWeight = 'normal';
-        target.setAttribute('aria-checked', 'false');
-    } else {
-        document.getElementById(id).style.fontWeight = 'bold';
-        target.setAttribute('aria-checked', 'true');
-    }    
+  if (flag === 'true') {
+    document.getElementById(id).style.fontWeight = 'normal';
+    target.setAttribute('aria-checked', 'false');
+  }
+  else {
+    document.getElementById(id).style.fontWeight = 'bold';
+    target.setAttribute('aria-checked', 'true');
+  }
 };
 
 /*
@@ -303,17 +287,17 @@ function toggleBold(event, id) {
 *
 */
 
-function toggleItalic(event, id) {
-    var target = event.currentTarget;
-    var flag = target.getAttribute('aria-checked');
+function toggleItalic (event, id) {
+  var target = event.currentTarget;
+  var flag = target.getAttribute('aria-checked');
 
-    if (flag === 'true') { 
-        document.getElementById(id).style.fontStyle = 'normal';
-        target.setAttribute('aria-checked', 'false');
-    } else {
-        document.getElementById(id).style.fontStyle = 'italic';
-        target.setAttribute('aria-checked', 'true');
-    }    
+  if (flag === 'true') {
+    document.getElementById(id).style.fontStyle = 'normal';
+    target.setAttribute('aria-checked', 'false');
+  }
+  else {
+    document.getElementById(id).style.fontStyle = 'italic';
+    target.setAttribute('aria-checked', 'true');
+  }
 };
-
 
