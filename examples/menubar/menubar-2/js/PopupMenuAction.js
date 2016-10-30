@@ -45,37 +45,40 @@
 */
 var PopupMenuAction = function (domNode, controllerObj) {
   var elementChildren,
-      msgPrefix = "PopupMenu constructor argument domNode ";
+      msgPrefix = 'PopupMenu constructor argument domNode ';
 
   // Check whether domNode is a DOM element
-  if (!domNode instanceof Element)
-    throw new TypeError(msgPrefix + "is not a DOM Element.");
+  if (!domNode instanceof Element) {
+    throw new TypeError(msgPrefix + 'is not a DOM Element.');
+  }
 
   // Check whether domNode has child elements
-  if (domNode.childElementCount === 0)
-    throw new Error(msgPrefix + "has no element children.")
+  if (domNode.childElementCount === 0) {
+    throw new Error(msgPrefix + 'has no element children.');
+  }
 
   // Check whether domNode descendant elements have A elements
   var childElement = domNode.firstElementChild;
   while (childElement) {
     var menuitem = childElement.firstElementChild;
-    if (menuitem && menuitem === 'A')
+    if (menuitem && menuitem === 'A') {
       throw new Error(msgPrefix +
-        "has descendant elements that are not A elements.");
+        'has descendant elements that are not A elements.');
+    }
     childElement = childElement.nextElementSibling;
   }
 
   this.domNode = domNode;
   this.controller = controllerObj;
 
-  this.menuitems  = [];      // see PopupMenu init method
-  this.firstChars = [];      // see PopupMenu init method
+  this.menuitems = []; // see PopupMenu init method
+  this.firstChars = []; // see PopupMenu init method
 
-  this.firstItem  = null;    // see PopupMenu init method
-  this.lastItem   = null;    // see PopupMenu init method
+  this.firstItem = null; // see PopupMenu init method
+  this.lastItem = null; // see PopupMenu init method
 
-  this.hasFocus   = false;   // see MenuItem handleFocus, handleBlur
-  this.hasHover   = false;   // see PopupMenu handleMouseover, handleMouseout
+  this.hasFocus = false; // see MenuItem handleFocus, handleBlur
+  this.hasHover = false; // see PopupMenu handleMouseover, handleMouseout
 };
 
 /*
@@ -94,7 +97,7 @@ PopupMenuAction.prototype.init = function () {
 
   this.domNode.setAttribute('role', 'menu');
 
-  if (!this.domNode.getAttribute('aria-labelledby') && 
+  if (!this.domNode.getAttribute('aria-labelledby') &&
       !this.domNode.getAttribute('aria-label') &&
       !this.domNode.getAttribute('title')) {
     label = this.controller.domNode.innerHTML;
@@ -102,13 +105,13 @@ PopupMenuAction.prototype.init = function () {
   }
 
   this.domNode.addEventListener('mouseover', this.handleMouseover.bind(this));
-  this.domNode.addEventListener('mouseout',  this.handleMouseout.bind(this));
+  this.domNode.addEventListener('mouseout', this.handleMouseout.bind(this));
 
   // Traverse the element children of domNode: configure each with
   // menuitem role behavior and store reference in menuitems array.
   menuElements = this.domNode.getElementsByTagName('LI');
 
-  for(var i = 0; i < menuElements.length; i++) {
+  for (var i = 0; i < menuElements.length; i++) {
 
     menuElement = menuElements[i];
 
@@ -126,7 +129,7 @@ PopupMenuAction.prototype.init = function () {
   numItems = this.menuitems.length;
   if (numItems > 0) {
     this.firstItem = this.menuitems[0];
-    this.lastItem  = this.menuitems[numItems - 1]
+    this.lastItem = this.menuitems[numItems - 1];
   }
 };
 
@@ -144,11 +147,18 @@ PopupMenuAction.prototype.handleMouseout = function (event) {
 /* FOCUS MANAGEMENT METHODS */
 
 PopupMenuAction.prototype.setFocusToController = function (command) {
-  if (typeof command !== 'string') command = '';
-
-  if (command === 'previous') this.controller.menubar.setFocusToPreviousItem(this.controller);
-  else if (command === 'next') this.controller.menubar.setFocusToNextItem(this.controller);
-  else this.controller.domNode.focus();
+  if (typeof command !== 'string') {
+    command = '';
+  }
+  if (command === 'previous') {
+    this.controller.menubar.setFocusToPreviousItem(this.controller);
+  }
+  else if (command === 'next') {
+    this.controller.menubar.setFocusToNextItem(this.controller);
+  }
+  else {
+    this.controller.domNode.focus();
+  }
 };
 
 PopupMenuAction.prototype.setFocusToFirstItem = function () {
@@ -208,7 +218,9 @@ PopupMenuAction.prototype.setFocusByFirstCharacter = function (currentItem, char
 
 PopupMenuAction.prototype.getIndexFirstChars = function (startIndex, char) {
   for (var i = startIndex; i < this.firstChars.length; i++) {
-    if (char === this.firstChars[i]) return i;
+    if (char === this.firstChars[i]) {
+      return i;
+    }
   }
   return -1;
 };
@@ -216,7 +228,8 @@ PopupMenuAction.prototype.getIndexFirstChars = function (startIndex, char) {
 /* MENU DISPLAY METHODS */
 
 PopupMenuAction.prototype.getPosition = function (element) {
-  var x = 0, y = 0;
+  var x = 0,
+ y = 0;
 
   while (element) {
     x += (element.offsetLeft - element.scrollLeft + element.clientLeft);
@@ -224,19 +237,19 @@ PopupMenuAction.prototype.getPosition = function (element) {
     element = element.offsetParent;
   }
 
-  return { x: x, y: y };
+  return {x: x, y: y};
 };
 
 PopupMenuAction.prototype.open = function () {
   // get position and bounding rectangle of controller object's DOM node
-  var pos  = this.getPosition(this.controller.domNode);
+  var pos = this.getPosition(this.controller.domNode);
   var rect = this.controller.domNode.getBoundingClientRect();
 
   // set CSS properties
   this.domNode.style.display = 'block';
   this.domNode.style.position = 'absolute';
-  this.domNode.style.top  = (pos.y + rect.height) + "px";
-  this.domNode.style.left = pos.x + "px";
+  this.domNode.style.top = (pos.y + rect.height) + 'px';
+  this.domNode.style.left = pos.x + 'px';
 
   // set aria-expanded attribute
   this.controller.domNode.setAttribute('aria-expanded', 'true');

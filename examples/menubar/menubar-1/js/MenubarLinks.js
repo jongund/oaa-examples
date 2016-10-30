@@ -13,8 +13,6 @@
 *   See the License for the specific language governing permissions and
 *   limitations under the License.
 *
-*   File:   Menubar.js
-*
 *   Desc:   Menubar widget that implements ARIA Authoring Practices
 *
 *   Author: Jon Gunderson, Ku Ja Eun and Nicholas Hoyt
@@ -58,14 +56,14 @@ var Menubar = function( domNode ) {
 
   this.domNode = domNode;
 
-  this.menubarItems  = [];   // See Menubar init method
-  this.firstChars = [];      // See Menubar init method
+  this.menubarItems = []; // See Menubar init method
+  this.firstChars = []; // See Menubar init method
 
-  this.firstItem  = null;    // See Menubar init method
-  this.lastItem   = null;    // See Menubar init method
+  this.firstItem = null; // See Menubar init method
+  this.lastItem = null; // See Menubar init method
 
-  this.hasFocus   = false;   // See MenubarItem handleFocus, handleBlur
-  this.hasHover   = false;   // See Menubar handleMouseover, handleMouseout
+  this.hasFocus = false; // See MenubarItem handleFocus, handleBlur
+  this.hasHover = false; // See Menubar handleMouseover, handleMouseout
 };
 
 /*
@@ -103,11 +101,10 @@ Menubar.prototype.init = function() {
   numItems = this.menubarItems.length;
   if ( numItems > 0 ) {
     this.firstItem = this.menubarItems[ 0 ];
-    this.lastItem  = this.menubarItems[ numItems - 1 ];
+    this.lastItem = this.menubarItems[ numItems - 1 ];
   }
   this.firstItem.domNode.tabIndex = 0;
 };
-
 
 /* FOCUS MANAGEMENT METHODS */
 
@@ -177,14 +174,15 @@ Menubar.prototype.getIndexFirstChars = function( startIndex, char ) {
     if ( char === this.firstChars[ i ] ) {
       return i;
     }
-  }  
+  }
   return -1;
 };
 
 /* MENU DISPLAY METHODS */
 
 Menubar.prototype.getPosition = function( element ) {
-  var x = 0, y = 0;
+  var x = 0,
+ y = 0;
 
   while ( element ) {
     x += ( element.offsetLeft - element.scrollLeft + element.clientLeft );

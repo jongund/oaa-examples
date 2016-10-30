@@ -41,7 +41,7 @@ var MenuItem = function( domNode, menuObj ) {
   this.menu = menuObj;
 
   this.keyCode = Object.freeze( {
-    "TAB":  9,
+    "TAB": 9,
     "RETURN": 13,
     "ESC": 27,
     "SPACE": 32,
@@ -63,13 +63,13 @@ MenuItem.prototype.init = function() {
     this.domNode.setAttribute( "role", "menuitem" );
   }
 
-  this.domNode.addEventListener( "keydown",    this.handleKeydown.bind( this ) );
-  this.domNode.addEventListener( "keypress",   this.handleKeypress.bind( this ) );
-  this.domNode.addEventListener( "click",      this.handleClick.bind( this ) );
-  this.domNode.addEventListener( "focus",      this.handleFocus.bind( this ) );
-  this.domNode.addEventListener( "blur",       this.handleBlur.bind( this ) );
-  this.domNode.addEventListener( "mouseover",  this.handleMouseover.bind( this ) );
-  this.domNode.addEventListener( "mouseout",   this.handleMouseout.bind( this ) );
+  this.domNode.addEventListener( "keydown", this.handleKeydown.bind( this ) );
+  this.domNode.addEventListener( "keypress", this.handleKeypress.bind( this ) );
+  this.domNode.addEventListener( "click", this.handleClick.bind( this ) );
+  this.domNode.addEventListener( "focus", this.handleFocus.bind( this ) );
+  this.domNode.addEventListener( "blur", this.handleBlur.bind( this ) );
+  this.domNode.addEventListener( "mouseover", this.handleMouseover.bind( this ) );
+  this.domNode.addEventListener( "mouseout", this.handleMouseout.bind( this ) );
 
 };
 
@@ -77,9 +77,10 @@ MenuItem.prototype.init = function() {
 
 MenuItem.prototype.handleKeydown = function( event ) {
   var tgt = event.currentTarget,
-      flag = false, clickEvent;
+      flag = false,
+ clickEvent;
 
-//  Console.log("[MenuItem][handleKeydown]: " + event.keyCode + " " + this.menu)
+  //  Console.log("[MenuItem][handleKeydown]: " + event.keyCode + " " + this.menu)
 
   switch ( event.keyCode ) {
     case this.keyCode.SPACE:

@@ -28,40 +28,42 @@
 *
 *   @param domNode
 *       The DOM element node that serves as the menubar container. Each
-*       child element of menubarNode that represents a menubaritem must 
+*       child element of menubarNode that represents a menubaritem must
 *       be an A element
 */
 var MenubarAction = function (domNode) {
   var elementChildren,
-      msgPrefix = "Menubar constructor argument menubarNode ";
+      msgPrefix = 'Menubar constructor argument menubarNode ';
 
   // Check whether menubarNode is a DOM element
-  if (!domNode instanceof Element)
-    throw new TypeError(msgPrefix + "is not a DOM Element.");
+  if (!domNode instanceof Element) {
+    throw new TypeError(msgPrefix + 'is not a DOM Element.');
+  }
 
   // Check whether menubarNode has descendant elements
-  if (domNode.childElementCount === 0)
-    throw new Error(msgPrefix + "has no element children.")
-
+  if (domNode.childElementCount === 0) {
+    throw new Error(msgPrefix + 'has no element children.');
+  }
   // Check whether menubarNode has SPAN elements
   e = domNode.firstElementChild;
   while (e) {
     var menubarItem = e.firstElementChild;
-    if (e && menubarItem && menubarItem.tagName !== 'SPAN')
-      throw new Error(msgPrefix + "has child elements are not SPAN elements.");
+    if (e && menubarItem && menubarItem.tagName !== 'SPAN') {
+      throw new Error(msgPrefix + 'has child elements are not SPAN elements.');
+    }
     e = e.nextElementSibling;
   }
 
   this.domNode = domNode;
 
-  this.menubarItems  = [];   // see Menubar init method
-  this.firstChars = [];      // see Menubar init method
+  this.menubarItems = []; // see Menubar init method
+  this.firstChars = []; // see Menubar init method
 
-  this.firstItem  = null;    // see Menubar init method
-  this.lastItem   = null;    // see Menubar init method
+  this.firstItem = null; // see Menubar init method
+  this.lastItem = null; // see Menubar init method
 
-  this.hasFocus   = false;   // see MenubarItem handleFocus, handleBlur
-  this.hasHover   = false;   // see Menubar handleMouseover, handleMouseout
+  this.hasFocus = false; // see MenubarItem handleFocus, handleBlur
+  this.hasHover = false; // see Menubar handleMouseover, handleMouseout
 };
 
 /*
@@ -69,7 +71,7 @@ var MenubarAction = function (domNode) {
 *
 *   @desc
 *       Adds ARIA role to the menubar node
-*       Traverse menubar children for A elements to configure each A element as a ARIA menuitem 
+*       Traverse menubar children for A elements to configure each A element as a ARIA menuitem
 *       and populate menuitems array. Initialize firstItem and lastItem properties.
 */
 MenubarAction.prototype.init = function () {
@@ -99,12 +101,10 @@ MenubarAction.prototype.init = function () {
   numItems = this.menubarItems.length;
   if (numItems > 0) {
     this.firstItem = this.menubarItems[0];
-    this.lastItem  = this.menubarItems[numItems - 1]
+    this.lastItem = this.menubarItems[numItems - 1];
   }
-
   this.firstItem.domNode.tabIndex = 0;
 };
-
 
 /* FOCUS MANAGEMENT METHODS */
 
@@ -173,7 +173,9 @@ MenubarAction.prototype.setFocusByFirstCharacter = function (currentItem, char) 
 
 MenubarAction.prototype.getIndexFirstChars = function (startIndex, char) {
   for (var i = startIndex; i < this.firstChars.length; i++) {
-    if (char === this.firstChars[i]) return i;
+    if (char === this.firstChars[i]) {
+      return i;
+    }
   }
   return -1;
 };
@@ -181,7 +183,8 @@ MenubarAction.prototype.getIndexFirstChars = function (startIndex, char) {
 /* MENU DISPLAY METHODS */
 
 MenubarAction.prototype.getPosition = function (element) {
-  var x = 0, y = 0;
+  var x = 0,
+ y = 0;
 
   while (element) {
     x += (element.offsetLeft - element.scrollLeft + element.clientLeft);
@@ -189,7 +192,7 @@ MenubarAction.prototype.getPosition = function (element) {
     element = element.offsetParent;
   }
 
-  return { x: x, y: y };
+  return {x: x, y: y};
 };
 
 MenubarAction.prototype.open = function () {
@@ -197,5 +200,4 @@ MenubarAction.prototype.open = function () {
 
 MenubarAction.prototype.close = function (force) {
 };
-
 

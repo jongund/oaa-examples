@@ -46,26 +46,26 @@
 */
 var MenubarItemAction = function (domNode, menuObj) {
 
-  this.menubar   = menuObj;
-  this.domNode   = domNode;
+  this.menubar = menuObj;
+  this.domNode = domNode;
   this.popupMenu = false;
 
   this.hasFocus = false;
   this.hasHover = false;
 
   this.keyCode = Object.freeze({
-    'TAB'      :  9,
-    'RETURN'   : 13,
-    'ESC'      : 27,
-    'SPACE'    : 32,
-    'PAGEUP'   : 33,
-    'PAGEDOWN' : 34,
-    'END'      : 35,
-    'HOME'     : 36,
-    'LEFT'     : 37,
-    'UP'       : 38,
-    'RIGHT'    : 39,
-    'DOWN'     : 40
+    'TAB': 9,
+    'RETURN': 13,
+    'ESC': 27,
+    'SPACE': 32,
+    'PAGEUP': 33,
+    'PAGEDOWN': 34,
+    'END': 35,
+    'HOME': 36,
+    'LEFT': 37,
+    'UP': 38,
+    'RIGHT': 39,
+    'DOWN': 40
   });
 };
 
@@ -77,14 +77,13 @@ MenubarItemAction.prototype.init = function () {
   this.domNode.setAttribute('aria-expanded', 'false');
   this.domNode.tabIndex = -1;
 
-
-  this.domNode.addEventListener('keydown',    this.handleKeydown.bind(this) );
-  this.domNode.addEventListener('keypress',   this.handleKeypress.bind(this) );
-  this.domNode.addEventListener('click',      this.handleClick.bind(this) );
-  this.domNode.addEventListener('focus',      this.handleFocus.bind(this) );
-  this.domNode.addEventListener('blur',       this.handleBlur.bind(this) );
-  this.domNode.addEventListener('mouseover',  this.handleMouseover.bind(this) );
-  this.domNode.addEventListener('mouseout',   this.handleMouseout.bind(this) );
+  this.domNode.addEventListener('keydown', this.handleKeydown.bind(this));
+  this.domNode.addEventListener('keypress', this.handleKeypress.bind(this));
+  this.domNode.addEventListener('click', this.handleClick.bind(this));
+  this.domNode.addEventListener('focus', this.handleFocus.bind(this));
+  this.domNode.addEventListener('blur', this.handleBlur.bind(this));
+  this.domNode.addEventListener('mouseover', this.handleMouseover.bind(this));
+  this.domNode.addEventListener('mouseout', this.handleMouseout.bind(this));
 
   // initialize pop up menus
 
@@ -97,10 +96,10 @@ MenubarItemAction.prototype.init = function () {
 
 };
 
-
 MenubarItemAction.prototype.handleKeydown = function (event) {
   var tgt = event.currentTarget,
-      flag = false, clickEvent;
+      flag = false,
+ clickEvent;
 
   switch (event.keyCode) {
     case this.keyCode.SPACE:
@@ -110,19 +109,23 @@ MenubarItemAction.prototype.handleKeydown = function (event) {
       }
       else {
         this.popupMenu.open();
-      }  
+      }
       flag = true;
       break;
 
     case this.keyCode.LEFT:
       this.menubar.setFocusToPreviousItem(this);
-      if (this.popupMenu) this.popupMenu.close();
+      if (this.popupMenu) {
+        this.popupMenu.close();
+      }
       flag = true;
       break;
 
     case this.keyCode.RIGHT:
       this.menubar.setFocusToNextItem(this);
-      if (this.popupMenu) this.popupMenu.close();
+      if (this.popupMenu) {
+        this.popupMenu.close();
+      }
       flag = true;
       break;
 
@@ -138,21 +141,25 @@ MenubarItemAction.prototype.handleKeydown = function (event) {
       if (this.popupMenu) {
         this.popupMenu.open();
         this.popupMenu.setFocusToFirstItem();
-        flag = true;        
+        flag = true;
       }
-      break;      
+      break;
 
     case this.keyCode.HOME:
     case this.keyCode.PAGEUP:
       this.menubar.setFocusToFirstItem();
-      if (this.popupMenu) this.popupMenu.close();
+      if (this.popupMenu) {
+        this.popupMenu.close();
+      }
       flag = true;
       break;
 
     case this.keyCode.END:
     case this.keyCode.PAGEDOWN:
       this.menubar.setFocusToLastItem();
-      if (this.popupMenu) this.popupMenu.close();
+      if (this.popupMenu) {
+        this.popupMenu.close();
+      }
       flag = true;
       break;
 
