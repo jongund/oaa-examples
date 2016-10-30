@@ -45,7 +45,7 @@
 *       The PopupMenu object that is a delegate for the menu DOM element
 *       that contains the menuitem element.
 */
-var MenubarItem = function (domNode, menuObj) {
+var MenubarItem = function( domNode, menuObj ) {
 
   this.menubar = menuObj;
   this.domNode = domNode;
@@ -54,61 +54,60 @@ var MenubarItem = function (domNode, menuObj) {
   this.hasFocus = false;
   this.hasHover = false;
 
-  this.keyCode = Object.freeze({
-    'TAB': 9,
-    'RETURN': 13,
-    'ESC': 27,
-    'SPACE': 32,
-    'PAGEUP': 33,
-    'PAGEDOWN': 34,
-    'END': 35,
-    'HOME': 36,
-    'LEFT': 37,
-    'UP': 38,
-    'RIGHT': 39,
-    'DOWN': 40
-  });
+  this.keyCode = Object.freeze( {
+    "TAB": 9,
+    "RETURN": 13,
+    "ESC": 27,
+    "SPACE": 32,
+    "PAGEUP": 33,
+    "PAGEDOWN": 34,
+    "END": 35,
+    "HOME": 36,
+    "LEFT": 37,
+    "UP": 38,
+    "RIGHT": 39,
+    "DOWN": 40
+  } );
 };
 
-MenubarItem.prototype.init = function () {
+MenubarItem.prototype.init = function() {
   this.domNode.tabIndex = -1;
 
-  this.domNode.setAttribute('role', 'menuitem');
-  this.domNode.setAttribute('aria-haspopup', 'true');
-  this.domNode.setAttribute('aria-expanded', 'false');
+  this.domNode.setAttribute( "role", "menuitem" );
+  this.domNode.setAttribute( "aria-haspopup", "true" );
+  this.domNode.setAttribute( "aria-expanded", "false" );
 
-  this.domNode.addEventListener('keydown', this.handleKeydown.bind(this));
-  this.domNode.addEventListener('keypress', this.handleKeypress.bind(this));
-  this.domNode.addEventListener('click', this.handleClick.bind(this));
-  this.domNode.addEventListener('focus', this.handleFocus.bind(this));
-  this.domNode.addEventListener('blur', this.handleBlur.bind(this));
-  this.domNode.addEventListener('mouseover', this.handleMouseover.bind(this));
-  this.domNode.addEventListener('mouseout', this.handleMouseout.bind(this));
+  this.domNode.addEventListener( "keydown", this.handleKeydown.bind( this ) );
+  this.domNode.addEventListener( "keypress", this.handleKeypress.bind( this ) );
+  this.domNode.addEventListener( "click", this.handleClick.bind( this ) );
+  this.domNode.addEventListener( "focus", this.handleFocus.bind( this ) );
+  this.domNode.addEventListener( "blur", this.handleBlur.bind( this ) );
+  this.domNode.addEventListener( "mouseover", this.handleMouseover.bind( this ) );
+  this.domNode.addEventListener( "mouseout", this.handleMouseout.bind( this ) );
 
-  // initialize pop up menus
+  // Initialize pop up menus
 
   var nextElement = this.domNode.nextElementSibling;
 
-  if (nextElement && nextElement.tagName === 'UL') {
-    this.popupMenu = new PopupMenu(nextElement, this);
+  if ( nextElement && nextElement.tagName === "UL" ) {
+    this.popupMenu = new PopupMenu( nextElement, this );
     this.popupMenu.init();
   }
 
 };
 
-MenubarItem.prototype.handleKeydown = function (event) {
+MenubarItem.prototype.handleKeydown = function( event ) {
   var tgt = event.currentTarget,
       flag = false,
  clickEvent;
 
-  switch (event.keyCode) {
+  switch ( event.keyCode ) {
     case this.keyCode.SPACE:
     case this.keyCode.RETURN:
-      if (this.popupMenu) {
-        if (this.domNode.getAttribute('aria-expanded') == 'true') {
-          this.popupMenu.close(true);
-        }
-        else {
+      if ( this.popupMenu ) {
+        if ( this.domNode.getAttribute( "aria-expanded" ) == "true" ) {
+          this.popupMenu.close( true );
+        } else {
           this.popupMenu.open();
         }
       }
@@ -116,23 +115,23 @@ MenubarItem.prototype.handleKeydown = function (event) {
       break;
 
     case this.keyCode.LEFT:
-      if (this.popupMenu) {
-        this.popupMenu.close(true);
+      if ( this.popupMenu ) {
+        this.popupMenu.close( true );
       }
-      this.menubar.setFocusToPreviousItem(this);
+      this.menubar.setFocusToPreviousItem( this );
       flag = true;
       break;
 
     case this.keyCode.RIGHT:
-      if (this.popupMenu) {
-        this.popupMenu.close(true);
+      if ( this.popupMenu ) {
+        this.popupMenu.close( true );
       }
-      this.menubar.setFocusToNextItem(this);
+      this.menubar.setFocusToNextItem( this );
       flag = true;
       break;
 
     case this.keyCode.UP:
-      if (this.popupMenu) {
+      if ( this.popupMenu ) {
         this.popupMenu.open();
         this.popupMenu.setFocusToLastItem();
         flag = true;
@@ -140,7 +139,7 @@ MenubarItem.prototype.handleKeydown = function (event) {
       break;
 
     case this.keyCode.DOWN:
-      if (this.popupMenu) {
+      if ( this.popupMenu ) {
         this.popupMenu.open();
         this.popupMenu.setFocusToFirstItem();
         flag = true;
@@ -163,41 +162,41 @@ MenubarItem.prototype.handleKeydown = function (event) {
       break;
   }
 
-  if (flag) {
+  if ( flag ) {
     event.stopPropagation();
     event.preventDefault();
   }
 };
 
-MenubarItem.prototype.handleKeypress = function (event) {
-  var char = String.fromCharCode(event.charCode);
+MenubarItem.prototype.handleKeypress = function( event ) {
+  var char = String.fromCharCode( event.charCode );
 
-  function isPrintableCharacter (str) {
-    return str.length === 1 && str.match(/\S/);
+  function isPrintableCharacter ( str ) {
+    return str.length === 1 && str.match( /\S/ );
   }
 
-  if (isPrintableCharacter(char)) {
-    this.menubar.setFocusByFirstCharacter(this, char);
+  if ( isPrintableCharacter( char ) ) {
+    this.menubar.setFocusByFirstCharacter( this, char );
   }
 };
 
-MenubarItem.prototype.handleClick = function (event) {
+MenubarItem.prototype.handleClick = function( event ) {
 };
 
-MenubarItem.prototype.handleFocus = function (event) {
+MenubarItem.prototype.handleFocus = function( event ) {
   this.menubar.hasFocus = true;
 };
 
-MenubarItem.prototype.handleBlur = function (event) {
+MenubarItem.prototype.handleBlur = function( event ) {
   this.menubar.hasFocus = false;
 };
 
-MenubarItem.prototype.handleMouseover = function (event) {
+MenubarItem.prototype.handleMouseover = function( event ) {
   this.hasHover = true;
   this.popupMenu.open();
 };
 
-MenubarItem.prototype.handleMouseout = function (event) {
+MenubarItem.prototype.handleMouseout = function( event ) {
   this.hasHover = false;
-  setTimeout(this.popupMenu.close.bind(this.popupMenu, false), 300);
+  setTimeout( this.popupMenu.close.bind( this.popupMenu, false ), 300 );
 };
