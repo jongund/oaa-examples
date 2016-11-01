@@ -13,7 +13,7 @@
 *   See the License for the specific language governing permissions and
 *   limitations under the License.
 *
-*   File:   MenuItem.js
+*   File:   MenuItemLinks.js
 *
 *   Desc:   Popup Menu Menuitem widget that implements ARIA Authoring Practices
 *
@@ -21,7 +21,7 @@
 */
 
 /*
-*   @constructor MenuItem
+*   @constructor MenuItemLinks
 *
 *   @desc
 *       Wrapper object for a simple menu item in a popup menu
@@ -35,7 +35,7 @@
 *       The object that is a wrapper for the PopupMenu DOM element that
 *       contains the menu item DOM element. See PopupMenu.js
 */
-var MenuItem = function( domNode, menuObj ) {
+var MenuItemLinks = function( domNode, menuObj ) {
 
   this.domNode = domNode;
   this.menu = menuObj;
@@ -56,7 +56,7 @@ var MenuItem = function( domNode, menuObj ) {
   } );
 };
 
-MenuItem.prototype.init = function() {
+MenuItemLinks.prototype.init = function() {
   this.domNode.tabIndex = -1;
 
   if ( !this.domNode.getAttribute( "role" ) ) {
@@ -75,11 +75,11 @@ MenuItem.prototype.init = function() {
 
 /* EVENT HANDLERS */
 
-MenuItem.prototype.handleKeydown = function( event ) {
+MenuItemLinks.prototype.handleKeydown = function( event ) {
   var tgt = event.currentTarget,
       flag = false, clickEvent;
 
-//  Console.log("[MenuItem][handleKeydown]: " + event.keyCode + " " + this.menu)
+//  Console.log("[MenuItemLinks][handleKeydown]: " + event.keyCode + " " + this.menu)
 
   switch ( event.keyCode ) {
     case this.keyCode.SPACE:
@@ -159,7 +159,7 @@ MenuItem.prototype.handleKeydown = function( event ) {
   }
 };
 
-MenuItem.prototype.handleKeypress = function( event ) {
+MenuItemLinks.prototype.handleKeypress = function( event ) {
   var char = String.fromCharCode( event.charCode );
 
   function isPrintableCharacter ( str ) {
@@ -171,27 +171,27 @@ MenuItem.prototype.handleKeypress = function( event ) {
   }
 };
 
-MenuItem.prototype.handleClick = function( event ) {
+MenuItemLinks.prototype.handleClick = function( event ) {
   this.menu.setFocusToController();
   this.menu.close( true );
 };
 
-MenuItem.prototype.handleFocus = function( event ) {
+MenuItemLinks.prototype.handleFocus = function( event ) {
   this.menu.hasFocus = true;
 };
 
-MenuItem.prototype.handleBlur = function( event ) {
+MenuItemLinks.prototype.handleBlur = function( event ) {
   this.menu.hasFocus = false;
   setTimeout( this.menu.close.bind( this.menu, false ), 300 );
 };
 
-MenuItem.prototype.handleMouseover = function( event ) {
+MenuItemLinks.prototype.handleMouseover = function( event ) {
   this.menu.hasHover = true;
   this.menu.open();
 
 };
 
-MenuItem.prototype.handleMouseout = function( event ) {
+MenuItemLinks.prototype.handleMouseout = function( event ) {
   this.menu.hasHover = false;
   setTimeout( this.menu.close.bind( this.menu, false ), 300 );
 };

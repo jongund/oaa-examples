@@ -15,13 +15,13 @@
 *
 *   File:   menubuttonItemAction.js
 *
-*   Desc:   Menubutton Menuitem widget that implements ARIA Authoring Practices
+*   Desc:   Menubutton widget that implements ARIA Authoring Practices
 *
 *   Author: Jon Gunderson, Ku Ja Eun and Nicholas Hoyt
 */
 
 /*
-*   @constructor MenubuttonItem
+*   @constructor MenuButton
 *
 *   @desc
 *       Object that configures menu item elements by setting tabIndex
@@ -40,9 +40,7 @@
 *       The menuObj PopupMenu is responsible for checking that it has
 *       requisite metadata, e.g. role="menuitem".
 *
-*   @param menuObj
-*       The PopupMenu object that is a delegate for the menu DOM element
-*       that contains the menuitem element.
+*
 */
 var Menubutton = function (domNode) {
 

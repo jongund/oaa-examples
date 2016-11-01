@@ -1,4 +1,3 @@
-
 /*
 *   Copyright 2016 University of Illinois
 *
@@ -14,7 +13,7 @@
 *   See the License for the specific language governing permissions and
 *   limitations under the License.
 *
-*   File:   MenuItem.js
+*   File:   RadioButton.js
 *
 *   Desc:   Popup Menu Menuitem widget that implements ARIA Authoring Practices
 *
@@ -22,7 +21,7 @@
 */
 
 /*
-*   @constructor MenuItem
+*   @constructor RadioButton
 *
 *   @desc
 *       Wrapper object for a simple menu item in a popup menu
@@ -34,12 +33,12 @@
 *
 *   @param menuObj
 *       The object that is a wrapper for the PopupMenu DOM element that
-*       contains the menu item DOM element. See PopupMenuAction.js
+*       contains the menu item DOM element. See PopupMenu.js
 */
-var MenuItem = function (domNode, menuObj) {
+var RadioButton= function (domNode, groupObj) {
 
   this.domNode = domNode;
-  this.menu = menuObj;
+  this.radioGroup = groupObj;
 
   this.keyCode = Object.freeze({
     'TAB'      :  9,
@@ -57,12 +56,8 @@ var MenuItem = function (domNode, menuObj) {
   });
 };
 
-MenuItem.prototype.init = function () {
+RadioButton.prototype.init = function () {
   this.domNode.tabIndex = -1;
-
-  if (!this.domNode.getAttribute('role')) {
-    this.domNode.setAttribute('role', 'menuitem');
-  }
 
   this.domNode.addEventListener('keydown',    this.handleKeydown.bind(this) );
   this.domNode.addEventListener('keypress',   this.handleKeypress.bind(this) );
@@ -76,32 +71,16 @@ MenuItem.prototype.init = function () {
 
 /* EVENT HANDLERS */
 
-MenuItem.prototype.handleKeydown = function (event) {
+RadioButton.prototype.handleKeydown = function (event) {
   var tgt = event.currentTarget,
       flag = false, clickEvent;
 
-//  console.log("[MenuItem][handleKeydown]: " + event.keyCode + " " + this.menu)
+//  console.log("[RadioButton][handleKeydown]: " + event.keyCode + " " + this.menu)
 
   switch (event.keyCode) {
     case this.keyCode.SPACE:
     case this.keyCode.RETURN:
-      // Create simulated mouse event to mimic the behavior of ATs
-      // and let the event handler handleClick do the housekeeping.
-      try {
-        clickEvent = new MouseEvent('click', {
-          'view': window,
-          'bubbles': true,
-          'cancelable': true
-        });
-      }
-      catch(err) {
-        if (document.createEvent) {
-          // DOM Level 3 for IE 9+
-          clickEvent = document.createEvent('MouseEvents');
-          clickEvent.initEvent('click', true, true);
-        }
-      }
-      tgt.dispatchEvent(clickEvent);
+      
       flag = true;
       break;
 
@@ -160,7 +139,7 @@ MenuItem.prototype.handleKeydown = function (event) {
   }
 };
 
-MenuItem.prototype.handleKeypress = function (event) {
+RadioButton.prototype.handleKeypress = function (event) {
   var char = String.fromCharCode(event.charCode);
 
   function isPrintableCharacter (str) {
@@ -173,27 +152,27 @@ MenuItem.prototype.handleKeypress = function (event) {
 };
 
 
-MenuItem.prototype.handleClick = function (event) {
+RadioButton.prototype.handleClick = function (event) {
   this.menu.setFocusToController();
   this.menu.close(true);
 };
 
-MenuItem.prototype.handleFocus = function (event) {
+RadioButton.prototype.handleFocus = function (event) {
   this.menu.hasFocus = true;
 };
 
-MenuItem.prototype.handleBlur = function (event) {
+RadioButton.prototype.handleBlur = function (event) {
   this.menu.hasFocus = false;
   setTimeout(this.menu.close.bind(this.menu, false), 300);
 };
 
-MenuItem.prototype.handleMouseover = function (event) {
+RadioButton.prototype.handleMouseover = function (event) {
   this.menu.hasHover = true
   this.menu.open();
 
 };
 
-MenuItem.prototype.handleMouseout = function (event) {
+RadioButton.prototype.handleMouseout = function (event) {
   this.menu.hasHover = false;
   setTimeout(this.menu.close.bind(this.menu, false), 300);
 };

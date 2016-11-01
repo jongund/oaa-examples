@@ -40,9 +40,6 @@
 *       The menuObj PopupMenu is responsible for checking that it has
 *       requisite metadata, e.g. role="menuitem".
 *
-*   @param menuObj
-*       The PopupMenu object that is a delegate for the menu DOM element
-*       that contains the menuitem element.
 */
 var Menubutton = function (domNode) {
 

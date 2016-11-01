@@ -15,7 +15,7 @@
 *
 *   File:   PopupMenuLinks.js
 *
-*   Desc:   Popup menu widget that implements ARIA Authoring Practices
+*   Desc:   Popup menu Links widget that implements ARIA Authoring Practices
 *
 *   Author: Jon Gunderson and Ku Ja Eun
 */
@@ -74,7 +74,7 @@ var PopupMenuLinks = function (domNode, controllerObj) {
   this.firstItem  = null;    // see PopupMenuLinks init method
   this.lastItem   = null;    // see PopupMenuLinks init method
 
-  this.hasFocus   = false;   // see MenuItem handleFocus, handleBlur
+  this.hasFocus   = false;   // see MenuItemLinks handleFocus, handleBlur
   this.hasHover   = false;   // see PopupMenuLinks handleMouseover, handleMouseout
 };
 
@@ -112,7 +112,7 @@ PopupMenuLinks.prototype.init = function () {
     menuElement= childElement.firstElementChild;
 
     if (menuElement && menuElement.tagName === 'A') {
-      menuItem = new MenuItem(menuElement, this);
+      menuItem = new MenuItemLinks(menuElement, this);
       menuItem.init();
       this.menuitems.push(menuItem);
       textContent = menuElement.textContent.trim();
