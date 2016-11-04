@@ -75,7 +75,7 @@ RadioButton.prototype.handleKeydown = function (event) {
   var tgt = event.currentTarget,
       flag = false, clickEvent;
 
-//  console.log("[RadioButton][handleKeydown]: " + event.keyCode + " " + this.menu)
+//  console.log("[RadioButton][handleKeydown]: " + event.keyCode + " " + this.radioGroup)
 
   switch (event.keyCode) {
     case this.keyCode.SPACE:
@@ -85,48 +85,48 @@ RadioButton.prototype.handleKeydown = function (event) {
       break;
 
     case this.keyCode.ESC:
-      this.menu.setFocusToController();
-      this.menu.close(true);
+      this.radioGroup.setFocusToController();
+      this.radioGroup.close(true);
       flag = true;
       break;
 
     case this.keyCode.UP:
-      this.menu.setFocusToPreviousItem(this);
+      this.radioGroup.setFocusToPreviousItem(this);
       flag = true;
       break;
 
     case this.keyCode.DOWN:
-      this.menu.setFocusToNextItem(this);
+      this.radioGroup.setFocusToNextItem(this);
       flag = true;
       break;
 
     case this.keyCode.LEFT:
-      this.menu.setFocusToController('previous');
-      this.menu.close(true);
+      this.radioGroup.setFocusToController('previous');
+      this.radioGroup.close(true);
       flag = true;
       break;
 
     case this.keyCode.RIGHT:
-      this.menu.setFocusToController('next');
-      this.menu.close(true);
+      this.radioGroup.setFocusToController('next');
+      this.radioGroup.close(true);
       flag = true;
       break;
 
     case this.keyCode.HOME:
     case this.keyCode.PAGEUP:
-      this.menu.setFocusToFirstItem();
+      this.radioGroup.setFocusToFirstItem();
       flag = true;
       break;
 
     case this.keyCode.END:
     case this.keyCode.PAGEDOWN:
-      this.menu.setFocusToLastItem();
+      this.radioGroup.setFocusToLastItem();
       flag = true;
       break;
 
     case this.keyCode.TAB:
-      this.menu.setFocusToController();
-      this.menu.close(true);
+      this.radioGroup.setFocusToController();
+      this.radioGroup.close(true);
       break;
 
     default:
@@ -147,32 +147,32 @@ RadioButton.prototype.handleKeypress = function (event) {
   }
 
   if (isPrintableCharacter(char)) {
-    this.menu.setFocusByFirstCharacter(this, char);
+    this.radioGroup.setFocusByFirstCharacter(this, char);
   }
 };
 
 
 RadioButton.prototype.handleClick = function (event) {
-  this.menu.setFocusToController();
-  this.menu.close(true);
+  this.radioGroup.setFocusToController();
+  this.radioGroup.close(true);
 };
 
 RadioButton.prototype.handleFocus = function (event) {
-  this.menu.hasFocus = true;
+  this.radioGroup.hasFocus = true;
 };
 
 RadioButton.prototype.handleBlur = function (event) {
-  this.menu.hasFocus = false;
-  setTimeout(this.menu.close.bind(this.menu, false), 300);
+  this.radioGroup.hasFocus = false;
+  setTimeout(this.radioGroup.close.bind(this.radioGroup, false), 300);
 };
 
 RadioButton.prototype.handleMouseover = function (event) {
-  this.menu.hasHover = true
-  this.menu.open();
+  this.radioGroup.hasHover = true
+  this.radioGroup.open();
 
 };
 
 RadioButton.prototype.handleMouseout = function (event) {
-  this.menu.hasHover = false;
-  setTimeout(this.menu.close.bind(this.menu, false), 300);
+  this.radioGroup.hasHover = false;
+  setTimeout(this.radioGroup.close.bind(this.radioGroup, false), 300);
 };

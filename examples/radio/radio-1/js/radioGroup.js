@@ -83,4 +83,3 @@ RadioGroup.prototype.init = function () {
   }
 
 };
-
