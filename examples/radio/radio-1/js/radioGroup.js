@@ -13,36 +13,17 @@
 *   See the License for the specific language governing permissions and
 *   limitations under the License.
 *
-*   File:   menubuttonItemAction.js
+*   File:   radioGroup.js
 *
-*   Desc:   Menubutton Menuitem widget that implements ARIA Authoring Practices
+*   Desc:   RadioGroup that implements ARIA Authoring Practices
 *
-*   Author: Jon Gunderson, Ku Ja Eun and Nicholas Hoyt
+*   Author: Jon Gunderson, Ku Ja Eun, Nicholas Hoyt, and Brian Loh
 */
 
 /*
-*   @constructor MenubuttonItem
+*   @constructor radioGroup
 *
-*   @desc
-*       Object that configures menu item elements by setting tabIndex
-*       and registering itself to handle pertinent events.
 *
-*       While menuitem elements handle many keydown events, as well as
-*       focus and blur events, they do not maintain any state variables,
-*       delegating those responsibilities to its associated menu object.
-*
-*       Consequently, it is only necessary to create one instance of
-*       MenubuttonItem from within the menu object; its configure method
-*       can then be called on each menuitem element.
-*
-*   @param domNode
-*       The DOM element node that serves as the menu item container.
-*       The menuObj PopupMenu is responsible for checking that it has
-*       requisite metadata, e.g. role="menuitem".
-*
-*   @param menuObj
-*       The PopupMenu object that is a delegate for the menu DOM element
-*       that contains the menuitem element.
 */
 var RadioGroup = function (domNode) {
 
@@ -68,6 +49,9 @@ var RadioGroup = function (domNode) {
 RadioGroup.prototype.init = function () {
 
   // initialize pop up menus
+  if (!this.domNode.getAttribute('role')) {
+    this.domNode.setAttribute('role', 'radiogroup');
+  }
 
   var rbs = this.domNode.querySelectorAll("[role=radio]");
 
@@ -81,5 +65,40 @@ RadioGroup.prototype.init = function () {
     if (!this.firstRadioButton) this.firstRadioButton = rb;
     this.lastRadioButton = rb;
   }
+  this.firstRadioButton.domNode.tabIndex = 0;
+};
 
+RadioGroup.prototype.setChecked  = function(currentItem) {
+  for(var i=0; i < this.radioButtons.length; i++){
+    var rb = this.radioButtons[i];
+    rb.domNode.setAttribute('aria-checked', 'false');
+    rb.domNode.tabIndex = -1;
+  }
+  currentItem.domNode.setAttribute('aria-checked', 'true');
+  currentItem.domNode.tabIndex = 0;
+  currentItem.domNode.focus();
+};
+
+RadioGroup.prototype.setCheckedToPreviousItem = function (currentItem) {
+  var index;
+
+  if (currentItem === this.firstRadioButton) {
+    this.setChecked(this.lastRadioButton);
+  }
+  else {
+    index = this.radioButtons.indexOf(currentItem);
+    this.setChecked(this.radioButtons[index - 1]);
+  }
+};
+
+RadioGroup.prototype.setCheckedToNextItem = function (currentItem) {
+  var index;
+
+   if (currentItem === this.lastRadioButton) {
+    this.setChecked(this.firstRadioButton);
+  }
+  else {
+    index = this.radioButtons.indexOf(currentItem);
+    this.setChecked(this.radioButtons[index + 1]);
+  }
 };

@@ -5,18 +5,22 @@
    margin-bottom: .5em;
    margin-top: .5em;
 }
-[role=radio] {
-   display: block;
-   border: thin transparent solid;
-   margin-left: 18px;
-}  
+
+[role=radio][aria-checked='false']:before{
+   content: url('../images/radio-unchecked.png');
+}
+
+[role=radio][aria-checked='true']:before{
+   content: url('../images/radio-checked.png');
+}
+
 [role=radio]:hover {
    border-color: #777;
 }
 
 [role=radio].focus {
    border-color: black;
-  #codeex{
+   #codeex{
    background-color: #F1F1F1 ;
    padding:10px;
 }

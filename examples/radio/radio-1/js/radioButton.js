@@ -15,25 +15,15 @@
 *
 *   File:   RadioButton.js
 *
-*   Desc:   Popup Menu Menuitem widget that implements ARIA Authoring Practices
+*   Desc:   RadioButton widget that implements ARIA Authoring Practices
 *
-*   Author: Jon Gunderson, Ku Ja Eun and Nicholas Hoyt
+*   Author: Jon Gunderson, Ku Ja Eun, Nicholas Hoyt, and Brian Loh
 */
 
 /*
 *   @constructor RadioButton
 *
-*   @desc
-*       Wrapper object for a simple menu item in a popup menu
-*
-*   @param domNode
-*       The DOM element node that serves as the menu item container.
-*       The menuObj PopupMenu is responsible for checking that it has
-*       requisite metadata, e.g. role="menuitem".
-*
-*   @param menuObj
-*       The object that is a wrapper for the PopupMenu DOM element that
-*       contains the menu item DOM element. See PopupMenu.js
+*   
 */
 var RadioButton= function (domNode, groupObj) {
 
@@ -58,15 +48,13 @@ var RadioButton= function (domNode, groupObj) {
 
 RadioButton.prototype.init = function () {
   this.domNode.tabIndex = -1;
+  this.domNode.setAttribute('aria-checked', 'false');
 
   this.domNode.addEventListener('keydown',    this.handleKeydown.bind(this) );
-  this.domNode.addEventListener('keypress',   this.handleKeypress.bind(this) );
   this.domNode.addEventListener('click',      this.handleClick.bind(this) );
   this.domNode.addEventListener('focus',      this.handleFocus.bind(this) );
   this.domNode.addEventListener('blur',       this.handleBlur.bind(this) );
-  this.domNode.addEventListener('mouseover',  this.handleMouseover.bind(this) );
-  this.domNode.addEventListener('mouseout',   this.handleMouseout.bind(this) );
-
+ 
 };
 
 /* EVENT HANDLERS */
@@ -75,58 +63,33 @@ RadioButton.prototype.handleKeydown = function (event) {
   var tgt = event.currentTarget,
       flag = false, clickEvent;
 
-//  console.log("[RadioButton][handleKeydown]: " + event.keyCode + " " + this.menu)
+//  console.log("[RadioButton][handleKeydown]: " + event.keyCode + " " + this.radioGroup)
 
   switch (event.keyCode) {
     case this.keyCode.SPACE:
     case this.keyCode.RETURN:
-      
-      flag = true;
-      break;
-
-    case this.keyCode.ESC:
-      this.menu.setFocusToController();
-      this.menu.close(true);
+      this.radioGroup.setChecked(this);  
       flag = true;
       break;
 
     case this.keyCode.UP:
-      this.menu.setFocusToPreviousItem(this);
+      this.radioGroup.setCheckedToPreviousItem(this);
       flag = true;
       break;
 
     case this.keyCode.DOWN:
-      this.menu.setFocusToNextItem(this);
+      this.radioGroup.setCheckedToNextItem(this);
       flag = true;
       break;
 
     case this.keyCode.LEFT:
-      this.menu.setFocusToController('previous');
-      this.menu.close(true);
+      this.radioGroup.setCheckedToPreviousItem(this);
       flag = true;
       break;
 
     case this.keyCode.RIGHT:
-      this.menu.setFocusToController('next');
-      this.menu.close(true);
+      this.radioGroup.setCheckedToNextItem(this);
       flag = true;
-      break;
-
-    case this.keyCode.HOME:
-    case this.keyCode.PAGEUP:
-      this.menu.setFocusToFirstItem();
-      flag = true;
-      break;
-
-    case this.keyCode.END:
-    case this.keyCode.PAGEDOWN:
-      this.menu.setFocusToLastItem();
-      flag = true;
-      break;
-
-    case this.keyCode.TAB:
-      this.menu.setFocusToController();
-      this.menu.close(true);
       break;
 
     default:
@@ -139,40 +102,15 @@ RadioButton.prototype.handleKeydown = function (event) {
   }
 };
 
-RadioButton.prototype.handleKeypress = function (event) {
-  var char = String.fromCharCode(event.charCode);
-
-  function isPrintableCharacter (str) {
-    return str.length === 1 && str.match(/\S/);
-  }
-
-  if (isPrintableCharacter(char)) {
-    this.menu.setFocusByFirstCharacter(this, char);
-  }
-};
-
 
 RadioButton.prototype.handleClick = function (event) {
-  this.menu.setFocusToController();
-  this.menu.close(true);
+  this.radioGroup.setChecked(this);
 };
 
 RadioButton.prototype.handleFocus = function (event) {
-  this.menu.hasFocus = true;
+  this.domNode.classList.add('focus');
 };
 
 RadioButton.prototype.handleBlur = function (event) {
-  this.menu.hasFocus = false;
-  setTimeout(this.menu.close.bind(this.menu, false), 300);
-};
-
-RadioButton.prototype.handleMouseover = function (event) {
-  this.menu.hasHover = true
-  this.menu.open();
-
-};
-
-RadioButton.prototype.handleMouseout = function (event) {
-  this.menu.hasHover = false;
-  setTimeout(this.menu.close.bind(this.menu, false), 300);
+  this.domNode.classList.remove('focus');
 };

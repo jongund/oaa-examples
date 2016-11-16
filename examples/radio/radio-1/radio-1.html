@@ -17,13 +17,7 @@
     <main role="main">
       <h1>ARIA <code>radiogroup</code> Example</h1>
       <p> <a href="../../aria-practices.html#h-radiobutton">WAI-ARIA 1.1 : Radio group pattern </a></p>
-      <ul>
-          <li>The <code>radiogroup</code> role defines a container for a set of ARIA radio buttons.</li>
-          <li>The radio button that is currently selected is identified using <code>aria-checked=“true”</code></li>
-          <li>Only one radio button can be selected at a time, all other radio buttons should define <code>aria-checked</code> as “false".</li> 
-          <li>The label for the radio group is defined using <code>aria-labelledby</code> attribute (e.g. “Pizza Crust”)</li>
-          <li>The labels for the radio buttons are defined by the text nodes of each radio button (e.g. “Regular Crust”, “Deep Dish”…)</li>
-      </ul>
+      
       <div id="codeex">
           <div  role="radiogroup" aria-labelledby="gdesc1" id="example">
               <h3 id="gdesc1">Pizza Crust</h3>
@@ -32,7 +26,6 @@
                   aria-checked="false"
                   tabindex="0"
               >
-                <img src="./images/radio-unchecked.png" alt="">
                 Regular crust
              </div>
              
@@ -41,7 +34,6 @@
                   aria-checked="false"
                   tabindex="-1"
               >
-                <img src="./images/radio-unchecked.png" alt="">
                 Deep dish
              </div>
              
@@ -50,7 +42,6 @@
                   aria-checked="false"
                   tabindex="-1"
               >
-                <img src="./images/radio-unchecked.png" alt="">
                 Thin crust
              </div>
          </div>
@@ -61,15 +52,6 @@
         var rg = new RadioGroup(ex);
         rg.init();
       </script>
-      
-      <h2 id="id_a11yfeature">Accessibility Feature</h2>
-             <ul>
-                <li><code>div</code> element with role <code>radio</code> has <code>onkeydown</code> event to support keyboard activation of the radio.</li>
-                <li><code>div</code> element with role <code>radio</code> has <code>tabindex="0"</code> to become part of the tab order of the page.</li>
-                <li><code>img</code> element is used to visually indicate the state of radio (e.g. checked,unchecked) to ensure the visual state will be visible when browsers or operating system use “High Contrast” settings by people with visual impairments. (Note: CSS background image techniques or generated content result in visual state disappearing when browsers or operating systems are configured to display high contrast themes.)</li>
-                <li><code>setRadioButton</code> function uses <code>aria-checked</code> attribute to make sure the information communicated to asssitive technology is the same as the visual state (e.g. <code>img </code>element). </li>
-                <li><code>onfocus</code>  and <code>onblur</code> event handlers on <code>radio</code> support visual focus styling for keyboard only users.</li>
-              </ul>
 
       <h2 id="id_kbd">Keyboard Support</h2>
       <table aria-labelledby="id_kbd"> 
@@ -141,7 +123,8 @@
       
       <ul>
         <li>CSS: <a href="css/radio-1.css" type="tex/css">radio-1.css</a></li>
-        <li>Javascript: <a href="js/radio-1.js" type="text/javascript">radio-1.js</a></li>
+        <li>Javascript: <a href="js/radioButton.js" type="text/javascript">radioButton.js</a>&nbsp
+        <a href="js/radioGroup.js" type="text/javascript">radioGroup.js</a>
       </ul>
       
       <div id="sc1">
